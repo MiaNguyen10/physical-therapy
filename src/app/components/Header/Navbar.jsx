@@ -1,22 +1,11 @@
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
-import PlayLessonIcon from "@mui/icons-material/PlayLesson";
-import {
-  Drawer,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  styled,
-} from "@mui/material";
+import { Button, Drawer, Link, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import * as React from "react";
 import { useState } from "react";
+import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
-import CustomButton from "../../pages/LandingPage/components/CustomButton";
+import NestedListItem from "./NestedListItem";
 
 export const Navbar = () => {
   const [mobileMenu, setMobileMenu] = useState({
@@ -36,37 +25,21 @@ export const Navbar = () => {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 280 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
-        {["Home", "Account", "Exercise"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index === 0 && <HomeIcon />}
-                {index === 1 && <AccountCircleIcon />}
-                {index === 2 && <PlayLessonIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <NestedListItem />
     </Box>
   );
 
-  const NavLink = styled(Link)(({ theme }) => ({
+  const NavLink = styled(Link)({
     fontSize: "18px",
-    color: "#4F5361",
+    color: "#fff",
     fontWeight: "bold",
     cursor: "pointer",
-    "&:hover": {
-      color: "#fff",
-    },
-  }));
+  });
 
   const NavbarLinksBox = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -93,22 +66,27 @@ export const Navbar = () => {
     alignItems: "center",
     justifyContent: "space-between",
     padding: theme.spacing(5),
-    backgroundColor: "#E6F0FF",
+    backgroundColor: "rgb(46, 161, 226)",
+    height: "80px",
     [theme.breakpoints.down("md")]: {
       padding: theme.spacing(2),
     },
   }));
 
+  const NavbarItem = styled(Box)(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "2.5rem",
+    margin: "-60px 0",
+    [theme.breakpoints.down("md")]: {
+      margin: "-20px 0",
+    },
+  }));
+
   return (
     <NavbarContainer>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "2.5rem",
-        }}
-      >
+      <NavbarItem>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <CustomMenuIcon onClick={toggleDrawer("left", true)} />
           <Drawer
@@ -118,27 +96,23 @@ export const Navbar = () => {
           >
             {list("left")}
           </Drawer>
-          <NavLink
-            sx={{ fontSize: "30px" }}
-            underline="none"
-            href={pages.landingPage}
-          >
-            PHYSICAL THERAPY
-          </NavLink>
+          <a href={pages.landingPage}>
+            <img src={logo} alt="Logo" />
+          </a>
         </Box>
 
         <NavbarLinksBox>
-          <NavLink variant="body2" href={pages.landingPage} underline="none">
-            Home
+          <NavLink variant="body2" href={pages.landingPage}>
+            Trang chủ
+          </NavLink>
+          <NavLink variant="body2" href={pages.accountPath}>
+            Danh sách người dùng
           </NavLink>
           <NavLink variant="body2" underline="none">
-            Account
-          </NavLink>
-          <NavLink variant="body2" underline="none">
-            Exercise
+            Danh mục bài tập
           </NavLink>
         </NavbarLinksBox>
-      </Box>
+      </NavbarItem>
 
       <Box
         sx={{
@@ -148,15 +122,22 @@ export const Navbar = () => {
           gap: "1rem",
         }}
       >
-        <NavLink variant="body2" underline="none">
-          Sign In
-        </NavLink>
-        <CustomButton
-          backgroundColor="#0F1B4C"
-          color="#fff"
-          fontSize="20px"
-          buttonText="Register"
-        />
+        <NavLink variant="body2">Đăng nhập</NavLink>
+        <Button
+          sx={{
+            fontSize: "18px",
+            color: "#fff",
+            fontWeight: "bold",
+            cursor: "pointer",
+            backgroundColor: "RGB(0, 110, 170)",
+            "&:hover": {
+              backgroundColor: "rgb(69, 169, 226)",
+            },
+          }}
+          variant="contained"
+        >
+          Đăng ký
+        </Button>
       </Box>
     </NavbarContainer>
   );

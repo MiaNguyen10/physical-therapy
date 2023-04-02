@@ -14,7 +14,7 @@ const Footer = () => {
     display: "flex",
     justifyContent: "space-around",
     gap: theme.spacing(5),
-    backgroundColor: "#E6F0FF",
+    backgroundColor: "rgb(46, 161, 226)",
     padding: 25,
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
@@ -34,7 +34,7 @@ const Footer = () => {
 
   const FooterLink = styled("span")(({ theme }) => ({
     fontSize: "16px",
-    color: "#7A7A7E",
+    color: "#fff",
     fontWeight: "300",
     cursor: "pointer",
     "&:hover": {
@@ -50,7 +50,7 @@ const Footer = () => {
 
   const TypoContact = styled(Typography)({
     fontSize: "16px",
-    color: "#7A7A7E",
+    color: "#fff",
     fontWeight: "500",
     marginLeft: "10px",
   });
@@ -61,7 +61,7 @@ const Footer = () => {
             <Typography
               sx={{
                 fontSize: "20px",
-                color: "#1C1C1D",
+                color: "#fff",
                 fontWeight: "700",
                 mb: 2,
               }}
@@ -78,7 +78,7 @@ const Footer = () => {
             <Typography
               sx={{
                 fontSize: "20px",
-                color: "#1C1C1D",
+                color: "#fff",
                 fontWeight: "700",
                 mb: 2,
               }}
@@ -97,7 +97,7 @@ const Footer = () => {
             <Typography
               sx={{
                 fontSize: "20px",
-                color: "#1C1C1D",
+                color: "#fff",
                 fontWeight: "700",
                 mb: 2,
               }}
@@ -124,7 +124,7 @@ const Footer = () => {
 
             <IconBox>
               <Typography
-                sx={{ fontSize: "15px", color: "#7A7A7E", fontWeight: "300" }}
+                sx={{ fontSize: "15px", color: "#fff", fontWeight: "300" }}
               >
                 Follow us on{" "}
               </Typography>

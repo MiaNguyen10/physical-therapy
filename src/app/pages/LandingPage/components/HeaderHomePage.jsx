@@ -40,7 +40,7 @@ const HeaderHomePage = () => {
                 variant="body2"
                 sx={{ fontSize: "18px", color: "#5A6473", my: 4 }}
               >
-                Vật lý trị liệu (physical therapy) là một trong các phương pháp
+                Vật lý trị liệu (physiotherapy) là một trong các phương pháp
                 chữa bệnh không dùng thuốc, sử dụng các yếu tố vật lý như nhiệt,
                 ánh sáng, điện từ trường, sóng âm, và các tác dụng cơ học như
                 kéo giãn, nén ép, để điều trị giảm đau.
