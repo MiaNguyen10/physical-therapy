@@ -108,6 +108,9 @@ export const Navbar = () => {
           <NavLink variant="body2" href={pages.accountPath}>
             Danh sách người dùng
           </NavLink>
+          <NavLink variant="body2" href={pages.categoryListPath}>
+            Danh mục
+          </NavLink>
           <NavLink variant="body2" underline="none">
             Danh mục bài tập
           </NavLink>

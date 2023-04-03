@@ -23,6 +23,7 @@ import {
 import DatePickerInput from "../../../components/Input/DatePicker";
 import pages from "../../../config/pages";
 import { UGender } from "../Data";
+import dayjs from "dayjs";
 
 const makeStyles = () => ({
   textFieldStyle: {
@@ -101,7 +102,7 @@ const UserForm = ({ userDetail, onFormSubmit, isLoading,  }) => {
       firstName: "",
       lastName: "",
       phone: "",
-      DOB: "",
+      DOB: dayjs(new Date()),
       gender: "",
       email: "",
       password: "",

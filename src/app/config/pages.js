@@ -5,8 +5,11 @@ const pages = {
     therapistListPath: '/account/therapistList',
     memberListPath: '/account/memberList',
     addAccountPath : '/account/add',
-    accountEditPath: '/account/:accountId/edit',
-    accountDetailPath: '/account/:accountId',
+    accountEditPath: '/account/:id/edit',
+    accountDetailPath: '/account/:id',
+    categoryListPath: '/category',
+    addCategoryPath: '/category/add',
+    categoryEditPath: '/category/:id/edit'
 }
 
 export default pages

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import accountData from "./Data";
 import { trim } from "lodash";
-import { Typography, Container, Stack, Box } from "@mui/material";
+import { Typography, Container, Stack, Box, Link } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import pages from "../../config/pages";
@@ -15,8 +15,8 @@ const TherapistList = () => {
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    role: "All",
-    status: "All",
+    role: "Tất cả",
+    status: "Tất cả",
   });
 
   const handlePageChange = (page) => {
@@ -33,11 +33,11 @@ const TherapistList = () => {
 
     if (filters.role === "Admin") {
       role = 1;
-    } else if (filters.role === "Manager") {
+    } else if (filters.role === "Quản lý") {
       role = 2;
-    } else if (filters.role === "Physiotherapist") {
+    } else if (filters.role === "Bác sĩ vật lý trị liệu") {
       role = 3;
-    } else if (filters.role === "Member") {
+    } else if (filters.role === "Người dùng") {
       role = 4;
     }
 
@@ -49,14 +49,15 @@ const TherapistList = () => {
         (user?.firstName + user?.lastName)
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0;
-      const isFoundRole = filters.role === "All" ? true : user.roleId === role;
+      const isFoundRole =
+        filters.role === "Tất cả" ? true : user.roleId === role;
       const isFoundBanded =
-        filters.status === "All" ? true : user.banStatus === banStatus;
+        filters.status === "Tất cả" ? true : user.banStatus === banStatus;
       return isFoundNameOrEmail && isFoundRole && isFoundBanded;
     });
   }, [filters]);
 
-    const columns = [
+  const columns = [
     {
       field: "firstName",
       headerName: "Firstname",
@@ -125,11 +126,11 @@ const TherapistList = () => {
           case 1:
             return <Typography>Admin</Typography>;
           case 2:
-            return <Typography>Manager</Typography>;
+            return <Typography>Quản lý</Typography>;
           case 3:
-            return <Typography>PhysioTherapist</Typography>;
+            return <Typography>Bác sĩ vật lý trị liệu</Typography>;
           case 4:
-            return <Typography>Member</Typography>;
+            return <Typography>Người dùng</Typography>;
           default:
             return null;
         }
@@ -148,13 +149,12 @@ const TherapistList = () => {
       ),
       renderCell: (params) => (
         <>
-          <EditIcon
-            fontSize="small"
-            sx={{ color: "#0C5E96", cursor: "pointer" }}
-            onClick={() => {
-              navigate(`${pages.accountPath}/${params?.value ?? ""}/edit`);
-            }}
-          />
+          <Link href={`${pages.accountPath}/${params.value}/edit`}>
+              <EditIcon
+                fontSize="small"
+                sx={{ color: "#0C5E96", cursor: "pointer" }}
+              />
+            </Link>
           <DeleteIcon
             fontSize="small"
             sx={{ color: "#0C5E96", cursor: "pointer", ml: 2 }}
@@ -167,10 +167,16 @@ const TherapistList = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3" alignItems='center'>DANH SÁCH BÁC SĨ VẬT LÝ TRỊ LIỆU</Typography>
+        <Typography variant="h3" alignItems="center">
+          DANH SÁCH BÁC SĨ VẬT LÝ TRỊ LIỆU
+        </Typography>
         <SearchUserListForm onSearch={(data) => setFilters(data)} />
         <Box>
-          <AddButton desc="Add user" url={`${pages.addAccountPath}`} sx={{mt: -6}}/>
+          <AddButton
+            desc="Thêm người dùng"
+            url={`${pages.addAccountPath}`}
+            sx={{ mt: -6 }}
+          />
           <DataGridTable
             columns={columns}
             rows={rows}

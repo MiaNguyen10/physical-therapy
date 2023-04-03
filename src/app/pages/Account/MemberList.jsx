@@ -1,22 +1,23 @@
-import React, { useState, useMemo } from "react";
-import accountData from "./Data";
-import { trim } from "lodash";
-import { Typography, Container, Stack, Box } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
-import pages from "../../config/pages";
-import DataGridTable from "../../components/DataGrid/DataGridTable";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SearchUserListForm from "./components/SearchUserListForm";
+import EditIcon from "@mui/icons-material/Edit";
+import { Box, Container, Link, Stack, Typography } from "@mui/material";
+import { trim } from "lodash";
+import React, { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AddButton from "../../components/Button/AddButton";
+import DataGridTable from "../../components/DataGrid/DataGridTable";
+import pages from "../../config/pages";
+import accountData from "./Data";
+import SearchUserListForm from "./components/SearchUserListForm";
 
 const MemberList = () => {
   const navigate = useNavigate;
+  const [userId, setUserId] = useState("");
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    role: "All",
-    status: "All",
+    role: "Tất cả",
+    status: "Tất cả",
   });
 
   const handlePageChange = (page) => {
@@ -33,11 +34,11 @@ const MemberList = () => {
 
     if (filters.role === "Admin") {
       role = 1;
-    } else if (filters.role === "Manager") {
+    } else if (filters.role === "Quản lý") {
       role = 2;
-    } else if (filters.role === "Physiotherapist") {
+    } else if (filters.role === "Bác sĩ vật lý trị liệu") {
       role = 3;
-    } else if (filters.role === "Member") {
+    } else if (filters.role === "Người dùng") {
       role = 4;
     }
 
@@ -49,14 +50,15 @@ const MemberList = () => {
         (user?.firstName + user?.lastName)
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0;
-      const isFoundRole = filters.role === "All" ? true : user.roleId === role;
+      const isFoundRole =
+        filters.role === "Tất cả" ? true : user.roleId === role;
       const isFoundBanded =
-        filters.status === "All" ? true : user.banStatus === banStatus;
+        filters.status === "Tất cả" ? true : user.banStatus === banStatus;
       return isFoundNameOrEmail && isFoundRole && isFoundBanded;
     });
   }, [filters]);
 
-    const columns = [
+  const columns = [
     {
       field: "firstName",
       headerName: "Firstname",
@@ -125,11 +127,11 @@ const MemberList = () => {
           case 1:
             return <Typography>Admin</Typography>;
           case 2:
-            return <Typography>Manager</Typography>;
+            return <Typography>Quản lý</Typography>;
           case 3:
-            return <Typography>PhysioTherapist</Typography>;
+            return <Typography>Bác sĩ vật lý trị liệu</Typography>;
           case 4:
-            return <Typography>Member</Typography>;
+            return <Typography>Người dùng</Typography>;
           default:
             return null;
         }
@@ -146,22 +148,22 @@ const MemberList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => (
-        <>
-          <EditIcon
-            fontSize="small"
-            sx={{ color: "#0C5E96", cursor: "pointer" }}
-            onClick={() => {
-              navigate(`${pages.accountPath}/${params?.value ?? ""}/edit`);
-            }}
-          />
-          <DeleteIcon
-            fontSize="small"
-            sx={{ color: "#0C5E96", cursor: "pointer", ml: 2 }}
-            onClick={() => {}}
-          />
-        </>
-      ),
+      renderCell: (params) => {
+        return (
+          <>
+            <Link href={`${pages.accountPath}/${params.value}/edit`}>
+              <EditIcon
+                fontSize="small"
+                sx={{ color: "#0C5E96", cursor: "pointer" }}
+              />
+            </Link>
+            <DeleteIcon
+              fontSize="small"
+              sx={{ color: "#0C5E96", cursor: "pointer" }}
+            />
+          </>
+        );
+      },
     },
   ];
   return (
@@ -170,7 +172,11 @@ const MemberList = () => {
         <Typography variant="h3">DANH SÁCH NGƯỜI DÙNG</Typography>
         <SearchUserListForm onSearch={(data) => setFilters(data)} />
         <Box>
-          <AddButton desc="Add user" url={`${pages.addAccountPath}`} sx={{mt: -6}}/>
+          <AddButton
+            desc="Thêm người dùng"
+            url={`${pages.addAccountPath}`}
+            sx={{ mt: -6 }}
+          />
           <DataGridTable
             columns={columns}
             rows={rows}

@@ -4,6 +4,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Groups2Icon from "@mui/icons-material/Groups2";
 import MedicationIcon from "@mui/icons-material/Medication";
+import CategoryIcon from '@mui/icons-material/Category';
 import {
   List,
   ListItemButton,
@@ -55,6 +56,13 @@ const NestedListItem = () => {
           <ListItemText primary="Người dùng" />
         </ListItemButton>
       </List>
+
+      <ListItemButton onClick={() => navigate(`${pages.categoryListPath}`)}>
+        <ListItemIcon>
+          <CategoryIcon />
+        </ListItemIcon>
+        <ListItemText primary="Danh mục" />
+      </ListItemButton>
       <ListItemButton onClick={() => navigate(`${pages.landingPage}`)}>
         <ListItemIcon>
           <FitnessCenterIcon />

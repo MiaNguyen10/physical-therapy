@@ -29,8 +29,8 @@ const accountData = [
 
 export default accountData
 
-export const URole = ["All", "Admin", "Manager","Physiotherapist", "Member"]
+export const URole = ["Tất cả", "Admin", "Manager","Physiotherapist", "Member"]
 
-export const UStatus = ["All", "Active", "Banded"]
+export const UStatus = ["Tất cả", "Active", "Banded"]
 
 export const UGender = ["Nam","Nữ"]

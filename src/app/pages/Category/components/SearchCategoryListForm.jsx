@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { UStatus } from "../Data";
+import { CStatus } from "../CategoryData";
 
 const makeStyles = () => ({
   textFieldStyle: {
@@ -44,12 +44,11 @@ const makeStyles = () => ({
   },
 });
 
-const SearchUserListForm = ({ onSearch }) => {
+const SearchCategoryListForm = ({ onSearch }) => {
   const styles = makeStyles();
   const { handleSubmit, control } = useForm({
     defaultValues: {
       searchKey: "",
-      role: "Tất cả",
       status: "Tất cả",
     },
   });
@@ -75,7 +74,7 @@ const SearchUserListForm = ({ onSearch }) => {
               ...styles.textFieldStyle,
               width: "380px",
             }}
-            placeholder="Nhập tên hoặc email cần tìm"
+            placeholder="Nhập tên danh mục cần tìm"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -89,26 +88,6 @@ const SearchUserListForm = ({ onSearch }) => {
           />
         )}
       />
-      {/* <Controller
-        control={control}
-        name="role"
-        render={({ field: { onChange, value } }) => (
-          <TextField
-            sx={styles.textFieldStyle}
-            select
-            onChange={onChange}
-            value={value}
-            variant="outlined"
-            label="Role"
-          >
-            {URole.map((role) => (
-              <MenuItem value={role} key={role}>
-                {role}
-              </MenuItem>
-            ))}
-          </TextField>
-        )}
-      /> */}
       <Controller
         control={control}
         name="status"
@@ -125,7 +104,7 @@ const SearchUserListForm = ({ onSearch }) => {
               variant="outlined"
               label="Status"
             >
-              {UStatus.map((status) => (
+              {CStatus.map((status) => (
                 <MenuItem value={status} key={status}>
                   {status}
                 </MenuItem>
@@ -141,4 +120,4 @@ const SearchUserListForm = ({ onSearch }) => {
   );
 };
 
-export default SearchUserListForm;
+export default SearchCategoryListForm;
