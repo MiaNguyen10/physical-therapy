@@ -17,7 +17,7 @@ import { CStatus } from "../CategoryData";
 
 const makeStyles = () => ({
   textFieldStyle: {
-    width: "320px",
+    width: "500px",
     ".MuiOutlinedInput-root": {
       height: 44,
       "& fieldset": {
@@ -58,6 +58,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
 
   const schema = yup.object({
     categoryName: yup.string().required("Vui lòng điền thông tin"),
+    description: yup.string().required("Vui lòng điền thông tin"),
     isDeleted: yup.string().required("Vui lòng chọn trạng thái"),
   });
 
@@ -72,6 +73,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
     resolver: yupResolver(schema),
     defaultValues: {
       categoryName: "",
+      description: "",
       isDeleted: "Đang hoạt động",
     },
   });
@@ -81,57 +83,74 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
   useEffect(() => {
     reset({
       categoryName: categoryDetail?.categoryName,
+      description: categoryDetail?.description,
       isDeleted: categoryDetail?.status ?? getValues("isDeleted"),
     });
   }, [categoryDetail, reset, getValues]);
 
   return (
-    <Container sx={{ width: "70%", display: "flex" }}>
+    <Container sx={{ width: "50%", display: "flex" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />
         </Backdrop>
-        <Stack alignItems="flex-start" pt={6} spacing={5}>
-          <Stack direction="row" spacing={3}>
-            <Controller
-              control={control}
-              name="categoryName"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  sx={styles.textFieldStyle}
-                  value={value}
-                  onChange={onChange}
-                  error={!!formErrors?.lastName}
-                  helperText={formErrors?.lastName?.message}
-                  required
-                  inputProps={{ required: false, maxLength: 255 }}
-                  label="Tên danh mục"
-                  variant="outlined"
-                />
-              )}
-            />
+        <Stack alignItems="flex-start" pt={3} spacing={5}>
+          <Controller
+            control={control}
+            name="categoryName"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.lastName}
+                helperText={formErrors?.lastName?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Tên danh mục"
+                variant="outlined"
+              />
+            )}
+          />
 
-            <Controller
-              control={control}
-              name="isDeleted"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  sx={styles.textFieldStyle}
-                  select
-                  onChange={onChange}
-                  value={value}
-                  variant="outlined"
-                  label="Trạng thái"
-                >
-                  {CStatus.map((status, index) => (
-                    <MenuItem value={index} key={index}>
-                      {status}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              )}
-            />
-          </Stack>
+          <Controller
+            control={control}
+            name="descriptiom"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.lastName}
+                helperText={formErrors?.lastName?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Mô tả"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="isDeleted"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                select
+                onChange={onChange}
+                value={value}
+                variant="outlined"
+                label="Trạng thái"
+              >
+                {CStatus.map((status, index) => (
+                  <MenuItem value={index} key={index}>
+                    {status}
+                  </MenuItem>
+                ))}
+              </TextField>
+            )}
+          />
 
           <Stack
             direction="row"

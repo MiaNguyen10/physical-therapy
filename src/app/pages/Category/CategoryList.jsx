@@ -1,16 +1,31 @@
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, Container, Link, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { trim } from "lodash";
-import React, { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCategories,
+  getStatus,
+  resetStatus,
+} from "../../../cores/reducers/category";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchCategoryListFrom from "../Category/components/SearchCategoryListForm";
-import categotyData from "./CategoryData";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteCategory } from "../../../cores/thunk/category";
 
 const CategotyList = () => {
-  const navigate = useNavigate;
+  const dispatch = useDispatch();
+  const categoryList = useSelector(getCategories);
+  const categoryStatus = useSelector(getStatus);
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
@@ -29,7 +44,7 @@ const CategotyList = () => {
       isDeleted = false;
     }
 
-    return categotyData.filter((category) => {
+    return categoryList.filter((category) => {
       const isFoundNameOrEmail =
         category.categoryName
           .toLowerCase()
@@ -38,13 +53,25 @@ const CategotyList = () => {
         filters.status === "Tất cả" ? true : category.isDeleted === isDeleted;
       return isFoundNameOrEmail && isFoundDeleted;
     });
-  }, [filters]);
+  }, [filters, categoryList]);
 
   const columns = [
     {
       field: "categoryName",
       headerName: "Danh mục",
-      width: 600,
+      width: 300,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+    {
+      field: "description",
+      headerName: "Mô tả",
+      width: 500,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -56,7 +83,7 @@ const CategotyList = () => {
     {
       field: "isDeleted",
       headerName: "Trạng thái hoạt động",
-      width: 400,
+      width: 300,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -88,15 +115,29 @@ const CategotyList = () => {
       renderCell: (params) => (
         <>
           <Link href={`${pages.categoryListPath}/${params.value}/edit`}>
-              <EditIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
-              />
-            </Link>
+            <EditIcon
+              fontSize="small"
+              sx={{ color: "#0C5E96", cursor: "pointer" }}
+            />
+          </Link>
+          <IconButton onClick={() => dispatch(deleteCategory(params.value))}>
+            <DeleteIcon
+              fontSize="small"
+              sx={{ color: "#0C5E96", cursor: "pointer" }}
+            />
+          </IconButton>
         </>
       ),
     },
   ];
+
+  useEffect(() => {
+    if (categoryStatus === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
@@ -114,7 +155,8 @@ const CategotyList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={categotyData?.length ?? 0}
+            rowCount={categoryList?.length ?? 0}
+            isLoading={categoryStatus !== "succeeded"}
             pagination
             paginationMode="client"
           />

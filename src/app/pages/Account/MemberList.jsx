@@ -3,7 +3,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Box, Container, Link, Stack, Typography } from "@mui/material";
 import { trim } from "lodash";
 import React, { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
@@ -11,8 +10,6 @@ import accountData from "./Data";
 import SearchUserListForm from "./components/SearchUserListForm";
 
 const MemberList = () => {
-  const navigate = useNavigate;
-  const [userId, setUserId] = useState("");
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
