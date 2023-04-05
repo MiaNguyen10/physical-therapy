@@ -4,7 +4,6 @@ export const getCategoryList = createAsyncThunk(
   "category/getCategoryList",
   async () => {
     const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/Category`);
-    console.log(response.json())
     return await response.json();
   }
 );
@@ -14,8 +13,12 @@ export const addCategory = createAsyncThunk(
   async (inputCreate) => {
     const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/Category`, {
       method: "POST",
-      headers: {},
-      ...inputCreate,
+      headers: {
+         "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...inputCreate
+      }),
     });
     return await response.json();
   }
@@ -26,8 +29,12 @@ export const editCategory = createAsyncThunk(
   async (inputUpdate) => {
     const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/Category`, {
       method: "PUT",
-      headers: {},
-      ...inputUpdate,
+      headers: {
+         "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...inputUpdate
+      }),
     });
     return await response.json();
   }
@@ -38,8 +45,11 @@ export const getCategoryDetail = createAsyncThunk(
   async (categoryID) => {
     const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/Category/${categoryID}`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+     },
     });
-    return await response.json();
+    return await response.clone().json();
   }
 );
 

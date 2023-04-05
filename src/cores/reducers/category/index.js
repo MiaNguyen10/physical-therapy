@@ -39,7 +39,6 @@ const categorySlice = createSlice({
       })
       .addCase(addCategory.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.categories = action.payload;
       })
       .addCase(addCategory.rejected, (state, action) => {
         state.status = "failed";
@@ -49,8 +48,16 @@ const categorySlice = createSlice({
         state.status = "loading";
       })
       .addCase(editCategory.fulfilled, (state, action) => {
+        const { categoryName, description, categoryID } =
+          action.meta.arg;
+        const existingCategory = state.categories?.find(
+          (category) => category.id === categoryID
+        );
+        if (existingCategory) {
+          existingCategory.categoryName = categoryName
+          existingCategory.description = description
+        };
         state.status = "succeeded";
-        state.categories = action.payload;
       })
       .addCase(editCategory.rejected, (state, action) => {
         state.status = "failed";
@@ -61,7 +68,7 @@ const categorySlice = createSlice({
       })
       .addCase(getCategoryDetail.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.categories = action.payload;
+        state.categoryDetail = action.payload;
       })
       .addCase(getCategoryDetail.rejected, (state, action) => {
         state.status = "failed";
@@ -72,7 +79,6 @@ const categorySlice = createSlice({
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.categories = action.payload;
       })
       .addCase(deleteCategory.rejected, (state, action) => {
         state.status = "failed";
@@ -81,8 +87,9 @@ const categorySlice = createSlice({
   },
 });
 
-export const { resetStatus } = categorySlice.actions
+export const { resetStatus } = categorySlice.actions;
 export default categorySlice.reducer;
 export const getCategories = (state) => state.category.categories;
-export const getCategory = (state) => state;
 export const getStatus = (state) => state.category.status;
+export const selectCategoryById = (state, categoryID) =>
+  state.category.categories?.find((category) => category.categoryID === categoryID)

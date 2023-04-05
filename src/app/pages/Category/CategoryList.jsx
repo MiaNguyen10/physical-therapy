@@ -11,7 +11,7 @@ import {
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
+import category, {
   getCategories,
   getStatus,
   resetStatus,
@@ -24,15 +24,14 @@ import SearchCategoryListFrom from "../Category/components/SearchCategoryListFor
 
 const CategotyList = () => {
   const dispatch = useDispatch();
-  const categoryList = useSelector(getCategories);
+  let categoryList = useSelector(getCategories);
   const categoryStatus = useSelector(getStatus);
   const [page, setPage] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
     status: "Tất cả",
   });
-
-  console.log(categoryList);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -46,15 +45,18 @@ const CategotyList = () => {
       isDeleted = false;
     }
 
-    return categoryList.filter((category) => {
-      const isFoundNameOrEmail =
-        category.categoryName
-          .toLowerCase()
-          .search(trim(filters.searchKey.toLowerCase())) >= 0;
-      const isFoundDeleted =
-        filters.status === "Tất cả" ? true : category.isDeleted === isDeleted;
-      return isFoundNameOrEmail && isFoundDeleted;
-    });
+    return (
+      Array.isArray(categoryList) &&
+      categoryList.filter((category) => {
+        const isFoundNameOrEmail =
+          category.categoryName
+            .toLowerCase()
+            .search(trim(filters.searchKey.toLowerCase())) >= 0;
+        const isFoundDeleted =
+          filters.status === "Tất cả" ? true : category.isDeleted === isDeleted;
+        return isFoundNameOrEmail && isFoundDeleted;
+      })
+    );
   }, [filters, categoryList]);
 
   const columns = [
@@ -114,22 +116,29 @@ const CategotyList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => (
-        <>
-          <Link href={`${pages.categoryListPath}/${params.value}/edit`}>
-            <EditIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
-            />
-          </Link>
-          <IconButton onClick={() => dispatch(deleteCategory(params.value))}>
-            <DeleteIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
-            />
-          </IconButton>
-        </>
-      ),
+      renderCell: (params) => {
+        return (
+          <>
+            <Link href={`${pages.categoryListPath}/${params.value}/edit`}>
+              <EditIcon
+                fontSize="small"
+                sx={{ color: "#0C5E96", cursor: "pointer" }}
+              />
+            </Link>
+            <IconButton
+              onClick={() => {
+                dispatch(deleteCategory(params.value));
+                setRefreshKey(oldKey => oldKey +1)
+              }}
+            >
+              <DeleteIcon
+                fontSize="small"
+                sx={{ color: "#0C5E96", cursor: "pointer" }}
+              />
+            </IconButton>
+          </>
+        );
+      },
     },
   ];
 
@@ -142,8 +151,7 @@ const CategotyList = () => {
 
   useEffect(() => {
     dispatch(getCategoryList());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
@@ -159,6 +167,7 @@ const CategotyList = () => {
           <DataGridTable
             columns={columns}
             rows={rows}
+            getRowId={(row) => row.categoryID}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
@@ -169,6 +178,12 @@ const CategotyList = () => {
           />
         </Box>
       </Stack>
+      {/* <DeleteConfirm
+        open={open}
+        handleClose={handleClose}
+        handleAccept={handleAccept}
+        desc="Bạn có chắc muốn xóa?"
+      /> */}
     </Container>
   );
 };
