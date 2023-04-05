@@ -16,7 +16,7 @@ import {
   getStatus,
   resetStatus,
 } from "../../../cores/reducers/category";
-import { deleteCategory } from "../../../cores/thunk/category";
+import { deleteCategory, getCategoryList } from "../../../cores/thunk/category";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
@@ -32,7 +32,7 @@ const CategotyList = () => {
     status: "Tất cả",
   });
 
-  console.log(categoryList)
+  console.log(categoryList);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -137,6 +137,11 @@ const CategotyList = () => {
     if (categoryStatus === "succeeded") {
       dispatch(resetStatus);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCategoryList());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
