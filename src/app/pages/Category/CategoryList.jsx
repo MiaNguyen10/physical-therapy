@@ -21,6 +21,7 @@ import pages from "../../config/pages";
 import SearchCategoryListFrom from "../Category/components/SearchCategoryListForm";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteCategory } from "../../../cores/thunk/category";
+import categotyData from "./CategoryData";
 
 const CategotyList = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,8 @@ const CategotyList = () => {
     searchKey: "",
     status: "Tất cả",
   });
+
+  console.log(categoryList)
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -44,7 +47,7 @@ const CategotyList = () => {
       isDeleted = false;
     }
 
-    return categoryList.filter((category) => {
+    return categotyData.filter((category) => {
       const isFoundNameOrEmail =
         category.categoryName
           .toLowerCase()
@@ -53,7 +56,7 @@ const CategotyList = () => {
         filters.status === "Tất cả" ? true : category.isDeleted === isDeleted;
       return isFoundNameOrEmail && isFoundDeleted;
     });
-  }, [filters, categoryList]);
+  }, [filters]);
 
   const columns = [
     {
@@ -155,7 +158,7 @@ const CategotyList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={categoryList?.length ?? 0}
+            rowCount={categotyData?.length ?? 0}
             isLoading={categoryStatus !== "succeeded"}
             pagination
             paginationMode="client"
