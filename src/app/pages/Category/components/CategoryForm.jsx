@@ -4,7 +4,6 @@ import {
   Button,
   CircularProgress,
   Container,
-  MenuItem,
   Stack,
   TextField,
 } from "@mui/material";
@@ -13,7 +12,6 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
-import { CStatus } from "../CategoryData";
 
 const makeStyles = () => ({
   textFieldStyle: {
@@ -59,12 +57,11 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
   const schema = yup.object({
     categoryName: yup.string().required("Vui lòng điền thông tin"),
     description: yup.string().required("Vui lòng điền thông tin"),
-    isDeleted: yup.string().required("Vui lòng chọn trạng thái"),
   });
 
   const {
     handleSubmit,
-    formState: { errors: formErrors },
+    formState: { errors: formErrors},
     control,
     reset,
     getValues,
@@ -74,7 +71,6 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
     defaultValues: {
       categoryName: "",
       description: "",
-      isDeleted: "Đang hoạt động",
     },
   });
 
@@ -84,7 +80,6 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
     reset({
       categoryName: categoryDetail?.categoryName,
       description: categoryDetail?.description,
-      isDeleted: categoryDetail?.status ?? getValues("isDeleted"),
     });
   }, [categoryDetail, reset, getValues]);
 
@@ -103,8 +98,8 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                error={!!formErrors?.lastName}
-                helperText={formErrors?.lastName?.message}
+                error={!!formErrors?.categoryName}
+                helperText={formErrors?.categoryName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
                 label="Tên danh mục"
@@ -115,40 +110,19 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
 
           <Controller
             control={control}
-            name="descriptiom"
+            name="description"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                error={!!formErrors?.lastName}
-                helperText={formErrors?.lastName?.message}
+                error={!!formErrors?.description}
+                helperText={formErrors?.description?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
                 label="Mô tả"
                 variant="outlined"
               />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="isDeleted"
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={styles.textFieldStyle}
-                select
-                onChange={onChange}
-                value={value}
-                variant="outlined"
-                label="Trạng thái"
-              >
-                {CStatus.map((status, index) => (
-                  <MenuItem value={index} key={index}>
-                    {status}
-                  </MenuItem>
-                ))}
-              </TextField>
             )}
           />
 

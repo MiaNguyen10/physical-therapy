@@ -1,15 +1,14 @@
 import { Container, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
-  getStatus,
-  resetStatus
+  getStatus
 } from "../../../cores/reducers/category";
 import { addCategory } from "../../../cores/thunk/category";
-import CategoryForm from "./components/CategoryForm";
-import { useNavigate } from "react-router-dom";
-import pages from "../../config/pages";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
+import pages from "../../config/pages";
+import CategoryForm from "./components/CategoryForm";
 
 const AddCategory = () => {
   const dispatch = useDispatch();
@@ -22,13 +21,13 @@ const AddCategory = () => {
     navigate(`${pages.categoryListPath}`)
   }
 
-  const handleFormSubmit = ({ categoryName, description, isDeleted }) => {
+  const handleFormSubmit = ({ categoryName, description }) => {
     try {
       dispatch(
         addCategory({
           categoryName: categoryName,
           description: description,
-          isDeleted: isDeleted,
+          isDeleted: false,
         })
       ).unwrap();
       setOpen(true)
@@ -37,13 +36,6 @@ const AddCategory = () => {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    if (categoryStatus === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
