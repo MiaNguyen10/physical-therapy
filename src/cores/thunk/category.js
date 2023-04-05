@@ -35,8 +35,8 @@ export const editCategory = createAsyncThunk(
 
 export const getCategoryDetail = createAsyncThunk(
   "category/getCategoryDetail",
-  async (id) => {
-    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/Category/${id}`, {
+  async (categoryID) => {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/Category/${categoryID}`, {
       method: "GET",
     });
     return await response.json();
@@ -45,8 +45,8 @@ export const getCategoryDetail = createAsyncThunk(
 
 export const deleteCategory = createAsyncThunk(
   "category/deleteCategory",
-  async (id) => {
-    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/Category/${id}`, {
+  async (categoryID) => {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/Category/${categoryID}`, {
       method: "DELETE",
     });
     return await response.json();

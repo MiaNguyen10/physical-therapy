@@ -104,7 +104,7 @@ const CategotyList = () => {
       },
     },
     {
-      field: "id",
+      field: "categoryID",
       headerName: "Action",
       width: 300,
       headerAlign: "center",

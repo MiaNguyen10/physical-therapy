@@ -13,7 +13,7 @@ import pages from "../../config/pages";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 
 const EditCategory = () => {
-  const { categoryId } = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const categoryStatus = useSelector(getStatus);
   const categoryDetail = useSelector(getCategory);
@@ -25,14 +25,14 @@ const EditCategory = () => {
     navigate(`${pages.categoryListPath}`)
   }
 
-  const handleFormSubmit = ({ id, categoryName, description, isDeleted }) => {
+  const handleFormSubmit = ({ categoryID, categoryName, description }) => {
     try {
       dispatch(
         editCategory({
-          id: id,
+          categoryID: id,
           categoryName: categoryName,
           description: description,
-          isDeleted: isDeleted,
+          isDeleted: false,
         })
       ).unwrap();
       setOpen(true)
@@ -45,11 +45,11 @@ const EditCategory = () => {
     if (categoryStatus === "idle") {
       dispatch(
         getCategoryDetail({
-          id: categoryId ?? "",
+          categoryID: id ?? "",
         })
       );
     }
-  }, [dispatch, categoryStatus, categoryId]);
+  }, [dispatch, categoryStatus, id]);
 
   useEffect(() => {
     if (categoryStatus === "succeeded") {
@@ -64,7 +64,7 @@ const EditCategory = () => {
         <Typography variant="h1">SỬA DANH MỤC</Typography>
         <CategoryForm
           categoryDetail={{
-            id: categoryDetail.id,
+            categoryID: categoryDetail.categoryID,
             categoryName: categoryDetail.categoryName,
             description: categoryDetail.description,
             isDeleted: categoryDetail.isDeleted,
