@@ -1,3 +1,4 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
@@ -15,13 +16,11 @@ import {
   getStatus,
   resetStatus,
 } from "../../../cores/reducers/category";
+import { deleteCategory } from "../../../cores/thunk/category";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchCategoryListFrom from "../Category/components/SearchCategoryListForm";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteCategory } from "../../../cores/thunk/category";
-import categotyData from "./CategoryData";
 
 const CategotyList = () => {
   const dispatch = useDispatch();
@@ -47,7 +46,7 @@ const CategotyList = () => {
       isDeleted = false;
     }
 
-    return categotyData.filter((category) => {
+    return categoryList.filter((category) => {
       const isFoundNameOrEmail =
         category.categoryName
           .toLowerCase()
@@ -56,7 +55,7 @@ const CategotyList = () => {
         filters.status === "Tất cả" ? true : category.isDeleted === isDeleted;
       return isFoundNameOrEmail && isFoundDeleted;
     });
-  }, [filters]);
+  }, [filters, categoryList]);
 
   const columns = [
     {
@@ -86,7 +85,7 @@ const CategotyList = () => {
     {
       field: "isDeleted",
       headerName: "Trạng thái hoạt động",
-      width: 300,
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -158,7 +157,7 @@ const CategotyList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={categotyData?.length ?? 0}
+            rowCount={categoryList?.length ?? 0}
             isLoading={categoryStatus !== "succeeded"}
             pagination
             paginationMode="client"

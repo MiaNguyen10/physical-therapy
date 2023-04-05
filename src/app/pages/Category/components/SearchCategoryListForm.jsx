@@ -96,7 +96,7 @@ const SearchCategoryListForm = ({ onSearch }) => {
             <TextField
               sx={{
                 ...styles.textFieldStyle,
-                width: "140px",
+                width: "200px",
               }}
               select
               onChange={onChange}

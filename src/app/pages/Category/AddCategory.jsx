@@ -51,7 +51,7 @@ const AddCategory = () => {
         <Typography variant="h1">THÊM DANH MỤC</Typography>
         <CategoryForm
           onFormSubmit={handleFormSubmit}
-          isLoading={categoryStatus === 'idle'}
+          isLoading={categoryStatus === 'loading'}
         />
       </Stack>
       <ConfirmDialog open={open} handleClose={handleClose} desc="Thêm danh mục thành công"/>
