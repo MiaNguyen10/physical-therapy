@@ -30,32 +30,26 @@ const CategotyList = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    status: "Tất cả",
+    searchDesc: "",
   });
 
-    
   const handlePageChange = (page) => {
     setPage(page);
   };
 
   const rows = useMemo(() => {
-    let isDeleted;
-    if (filters.status === "Active") {
-      isDeleted = true;
-    } else if (filters.status === "Deleted") {
-      isDeleted = false;
-    }
-
     return (
       Array.isArray(categoryList) &&
       categoryList.filter((category) => {
-        const isFoundNameOrEmail =
+        const isFoundName =
           category.categoryName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundDeleted =
-          filters.status === "Tất cả" ? true : category.isDeleted === isDeleted;
-        return isFoundNameOrEmail && isFoundDeleted;
+        const isFoundDesc =
+          category.description
+            .toLowerCase()
+            .search(trim(filters.searchDesc.toLowerCase())) >= 0;
+        return isFoundName && isFoundDesc;
       })
     );
   }, [filters, categoryList]);
@@ -86,27 +80,6 @@ const CategotyList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "isDeleted",
-      headerName: "Trạng thái hoạt động",
-      width: 200,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => {
-        switch (params?.value) {
-          case true:
-            return <Typography>Đang hoạt động</Typography>;
-          case false:
-            return <Typography>Đã đình chỉ</Typography>;
-          default:
-            return null;
-        }
-      },
-    },
-    {
       field: "categoryID",
       headerName: "Action",
       width: 300,
@@ -129,7 +102,7 @@ const CategotyList = () => {
             <IconButton
               onClick={() => {
                 dispatch(deleteCategory(params.value));
-                setRefreshKey(oldKey => oldKey +1)
+                setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
               <DeleteIcon

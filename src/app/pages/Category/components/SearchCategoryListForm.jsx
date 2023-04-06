@@ -2,13 +2,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
   InputAdornment,
-  MenuItem,
   Stack,
-  TextField,
+  TextField
 } from "@mui/material";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { CStatus } from "../CategoryData";
 
 const makeStyles = () => ({
   textFieldStyle: {
@@ -49,7 +47,7 @@ const SearchCategoryListForm = ({ onSearch }) => {
   const { handleSubmit, control } = useForm({
     defaultValues: {
       searchKey: "",
-      status: "Tất cả",
+      searchDesc: "",
     },
   });
 
@@ -90,30 +88,25 @@ const SearchCategoryListForm = ({ onSearch }) => {
       />
       <Controller
         control={control}
-        name="status"
-        render={({ field: { onChange, value } }) => {
-          return (
-            <TextField
-              sx={{
-                ...styles.textFieldStyle,
-                width: "200px",
-              }}
-              select
-              onChange={onChange}
-              value={value}
-              variant="outlined"
-              label="Status"
-            >
-              {CStatus.map((status) => (
-                <MenuItem value={status} key={status}>
-                  {status}
-                </MenuItem>
-              ))}
-            </TextField>
-          );
-        }}
+        name="searchDesc"
+        render={({ field: { onChange, value } }) => (
+          <TextField
+            sx={{
+              ...styles.textFieldStyle,
+              width: "500px",
+            }}
+            placeholder="Nhập mô tả"
+            value={value}
+            onChange={onChange}
+            variant="outlined"
+          />
+        )}
       />
-      <Button type="submit" variant="outlined" sx={{height: '45px', width: '80px'}}>
+      <Button
+        type="submit"
+        variant="outlined"
+        sx={{ height: "45px", width: "80px" }}
+      >
         Search
       </Button>
     </Stack>

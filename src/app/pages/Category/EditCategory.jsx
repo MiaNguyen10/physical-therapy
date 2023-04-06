@@ -29,11 +29,10 @@ const EditCategory = () => {
   const handleFormSubmit = ({ categoryName, description }) => {
     try {
       dispatch(
-        editCategory({
+        editCategory({  
           categoryID: id,
           categoryName: categoryName,
           description: description,
-          isDeleted: true,
         })
       ).unwrap();
       setOpen(true);
