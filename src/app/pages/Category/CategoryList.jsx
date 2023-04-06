@@ -11,7 +11,7 @@ import {
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import category, {
+import {
   getCategories,
   getStatus,
   resetStatus,
@@ -33,6 +33,7 @@ const CategotyList = () => {
     status: "Tất cả",
   });
 
+    
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -178,12 +179,6 @@ const CategotyList = () => {
           />
         </Box>
       </Stack>
-      {/* <DeleteConfirm
-        open={open}
-        handleClose={handleClose}
-        handleAccept={handleAccept}
-        desc="Bạn có chắc muốn xóa?"
-      /> */}
     </Container>
   );
 };

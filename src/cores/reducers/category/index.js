@@ -2,9 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addCategory,
   deleteCategory,
-  editCategory,
   getCategoryDetail,
-  getCategoryList,
+  getCategoryList
 } from "../../thunk/category";
 
 const initialState = {
@@ -44,31 +43,13 @@ const categorySlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(editCategory.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(editCategory.fulfilled, (state, action) => {
-        const { categoryName, description, categoryID } =
-          action.meta.arg;
-        const existingCategory = state.categories?.find(
-          (category) => category.id === categoryID
-        );
-        if (existingCategory) {
-          existingCategory.categoryName = categoryName
-          existingCategory.description = description
-        };
-        state.status = "succeeded";
-      })
-      .addCase(editCategory.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
       .addCase(getCategoryDetail.pending, (state) => {
         state.status = "loading";
       })
       .addCase(getCategoryDetail.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.categoryDetail = action.payload;
+        state.categoryDetail = action;
+        console.log(action)
       })
       .addCase(getCategoryDetail.rejected, (state, action) => {
         state.status = "failed";
@@ -91,5 +72,3 @@ export const { resetStatus } = categorySlice.actions;
 export default categorySlice.reducer;
 export const getCategories = (state) => state.category.categories;
 export const getStatus = (state) => state.category.status;
-export const selectCategoryById = (state, categoryID) =>
-  state.category.categories?.find((category) => category.categoryID === categoryID)
