@@ -16,6 +16,8 @@ import ExerciseList from "./pages/Exercise/ExerciseList";
 import AddExercise from "./pages/Exercise/AddExercise";
 import EditExercise from "./pages/Exercise/EditExercise";
 import EditExerciseDetail from "./pages/ExerciseDetail/EditExerciseDetail";
+import AddExerciseDetail from "./pages/ExerciseDetail/AddExerciseDetail";
+import ExerciseDetailList from "./pages/ExerciseDetail/ExerciseDetailList";
 
 const Router = () => {
   return (
@@ -37,7 +39,9 @@ const Router = () => {
         <Route path={`/${pages.exerciseListPath}`} element={<ExerciseList />} />
         <Route path={`/${pages.addExercisePath}`} element={<AddExercise />} />
         <Route path={`/${pages.exerciseEditPath}`} element={<EditExercise />} />
-        <Route path={`/${pages.exerciseDetailsEditPath}`} element={<EditExerciseDetail />} />
+        <Route path={`/${pages.addExerciseDetailPath}`} element={<AddExerciseDetail />} />
+        <Route path={`/${pages.exerciseDetailListPath}`} element={<ExerciseDetailList />} />
+        <Route path={`/${pages.exerciseDetailEditPath}`} element={<EditExerciseDetail />} />
       </Route>
     </Routes>
   );

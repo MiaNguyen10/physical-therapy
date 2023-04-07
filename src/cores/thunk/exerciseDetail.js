@@ -22,7 +22,7 @@ export const addExerciseDetail = createAsyncThunk(
   "exerciseDetail/addExerciseDetail",
   async (inputCreate) => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/ExerciseDetail`,
+      `${process.env.REACT_APP_API_ENDPOINT}/ExerciseDetail/Create`,
       {
         method: "POST",
         headers: {

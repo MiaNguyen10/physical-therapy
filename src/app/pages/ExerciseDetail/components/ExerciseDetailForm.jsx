@@ -87,17 +87,16 @@ const ExerciseDetailForm = ({
   exerciseDetailDetail,
   onFormSubmit,
   isLoading,
-  categories,
+  exercises,
 }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
 
   const schema = yup.object({
-    exerciseDetailName: yup.string().required("Vui lòng điền thông tin"),
-    flag: yup.string().required("Vui lòng điền thông tin"),
-    categoryID: yup.string().required("Vui lòng điền thông tin"),
-    exerciseDetailTimePerWeek: yup.string().required("Vui lòng điền thông tin"),
-    status: yup.string().required("Vui lòng điền thông tin"),
+    detailName: yup.string().required("Vui lòng điền thông tin"),
+    exerciseID: yup.string().required("Vui lòng điền thông tin"),
+    set: yup.string().required("Vui lòng điền thông tin"),
+    description: yup.string().required("Vui lòng điền thông tin"),
   });
 
   const {
@@ -110,11 +109,10 @@ const ExerciseDetailForm = ({
     mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
-      exerciseDetailName: "",
-      flag: true,
-      categoryID: "",
-      exerciseDetailTimePerWeek: "",
-      status: true,
+      detailName: "",
+      exerciseID: "",
+      set: "",
+      description: "",
     },
   });
 
@@ -122,11 +120,10 @@ const ExerciseDetailForm = ({
 
   useEffect(() => {
     reset({
-      exerciseDetailName: exerciseDetailDetail?.exerciseDetailName,
-      flag: exerciseDetailDetail?.flag,
-      categoryID: exerciseDetailDetail?.categoryID,
-      exerciseDetailTimePerWeek: exerciseDetailDetail?.exerciseDetailTimePerWeek,
-      status: exerciseDetailDetail?.status,
+      detailName: exerciseDetailDetail?.detailName,
+      exerciseID: exerciseDetailDetail?.exerciseID,
+      set: exerciseDetailDetail?.set,
+      description: exerciseDetailDetail?.description,
     });
   }, [exerciseDetailDetail, reset, getValues]);
 
@@ -139,14 +136,14 @@ const ExerciseDetailForm = ({
         <Stack alignItems="flex-start" pt={3} spacing={5}>
           <Controller
             control={control}
-            name="exerciseDetailName"
+            name="detailName"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                error={!!formErrors?.exerciseDetailName}
-                helperText={formErrors?.exerciseDetailName?.message}
+                error={!!formErrors?.detailName}
+                helperText={formErrors?.detailName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
                 label="Tên bài tập"
@@ -157,17 +154,17 @@ const ExerciseDetailForm = ({
 
           <Controller
             control={control}
-            name="exerciseDetailTimePerWeek"
+            name="set"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                error={!!formErrors?.exerciseDetailTimePerWeek}
-                helperText={formErrors?.exerciseDetailTimePerWeek?.message}
+                error={!!formErrors?.set}
+                helperText={formErrors?.set?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Thời gian tập trong tuần"
+                label="Set"
                 variant="outlined"
               />
             )}
@@ -175,81 +172,47 @@ const ExerciseDetailForm = ({
 
           <Controller
             control={control}
-            name="categoryID"
+            name="description"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.description}
+                helperText={formErrors?.description?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Mô tả"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="exerciseID"
             render={({ field: { onChange, value } }) => (
               <React.Fragment>
                 <label required style={{ fontWeight: "bold", top: -25 }}>
-                  Danh mục
+                  Bài tập
                 </label>
                 <Select
                   sx={styles.selectFieldStyle}
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.flag}
-                  helperText={formErrors?.flag?.message}
+                  error={!!formErrors?.exerciseID}
+                  helperText={formErrors?.exerciseID?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
                   variant="outlined"
-                  label="Danh mục"
+                  label="Bài tập"
                   id="demo-simple-select-label"
                 >
-                  {categories.map(cate => (
-                    <MenuItem value={cate.categoryID}>{cate.categoryName}</MenuItem>
+                  {exercises.map((cate) => (
+                    <MenuItem value={cate.exerciseID}>
+                      {cate.exerciseName}
+                    </MenuItem>
                   ))}
-                </Select>
-              </React.Fragment>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="flag"
-            render={({ field: { onChange, value } }) => (
-              <React.Fragment>
-                <label required style={{ fontWeight: "bold", top: -25 }}>
-                  Gắn cờ
-                </label>
-                <Select
-                  sx={styles.selectFieldStyle}
-                  value={value}
-                  onChange={onChange}
-                  error={!!formErrors?.flag}
-                  helperText={formErrors?.flag?.message}
-                  required
-                  inputProps={{ required: false, maxLength: 255 }}
-                  variant="outlined"
-                  label="Gắn cờ"
-                  id="demo-simple-select-label"
-                >
-                  <MenuItem value={true}>Có</MenuItem>
-                  <MenuItem value={false}>Không</MenuItem>
-                </Select>
-              </React.Fragment>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="status"
-            render={({ field: { onChange, value } }) => (
-              <React.Fragment>
-                <label required style={{ fontWeight: "bold", top: -25 }}>
-                  Trạng thái
-                </label>
-                <Select
-                  sx={styles.selectFieldStyle}
-                  value={value}
-                  onChange={onChange}
-                  error={!!formErrors?.status}
-                  helperText={formErrors?.status?.message}
-                  required
-                  inputProps={{ required: false, maxLength: 255 }}
-                  variant="outlined"
-                  label="Trạng thái"
-                  id="demo-simple-select-label"
-                >
-                  <MenuItem value={true}>Đang hoạt động</MenuItem>
-                  <MenuItem value={false}>Ngừng hoạt động</MenuItem>
                 </Select>
               </React.Fragment>
             )}

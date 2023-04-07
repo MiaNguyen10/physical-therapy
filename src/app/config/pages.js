@@ -13,7 +13,9 @@ const pages = {
     exerciseListPath: '/exercise',
     addExercisePath: '/exercise/add',
     exerciseEditPath: '/exercise/:id/edit',
-    exerciseDetailsEditPath: '/exerciseDetails/:id/edit'
+    exerciseDetailListPath: '/exerciseDetail',
+    addExerciseDetailPath: '/exerciseDetail/add',
+    exerciseDetailEditPath: '/exerciseDetail/:id/edit'
 }
 
 export default pages

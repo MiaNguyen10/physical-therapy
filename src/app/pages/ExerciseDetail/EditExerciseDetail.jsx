@@ -11,8 +11,8 @@ import { editExerciseDetail, getExerciseDetailList } from "../../../cores/thunk/
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import ExerciseDetailForm from "./components/ExerciseDetailForm";
-import { getCategoryList } from "../../../cores/thunk/category";
-import { getCategories } from "../../../cores/reducers/category";
+import { getExerciseList } from "../../../cores/thunk/exercise";
+import { getExercises } from "../../../cores/reducers/exercise";
 
 const EditExerciseDetail = () => {
   const { id } = useParams();
@@ -21,7 +21,7 @@ const EditExerciseDetail = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const exerciseDetailList = useSelector(getExerciseDetails);
-  let categories = useSelector(getCategories);
+  let exercises = useSelector(getExercises);
   const exerciseDetailDetail =
     Array.isArray(exerciseDetailList) &&
     exerciseDetailList.find((exerciseDetail) => exerciseDetail.exerciseDetailID === id);
@@ -32,21 +32,19 @@ const EditExerciseDetail = () => {
   };
 
   const handleFormSubmit = ({
-    exerciseDetailName,
-    categoryID,
-    exerciseDetailTimePerWeek,
-    status,
-    flag,
+    detailName,
+    exerciseID,
+    set,
+    description,
   }) => {
     try {
       dispatch(
         editExerciseDetail({
           exerciseDetailID: id,
-          exerciseDetailName: exerciseDetailName,
-          flag: JSON.parse([flag]),
-          categoryID: categoryID,
-          exerciseDetailTimePerWeek: exerciseDetailTimePerWeek,
-          status: JSON.parse([status]),
+          detailName: detailName,
+          description: description,
+          exerciseID: exerciseID,
+          set: set,
         })
       ).unwrap();
       setOpen(true);
@@ -67,22 +65,21 @@ const EditExerciseDetail = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getCategoryList());
+    dispatch(getExerciseList());
   }, [dispatch]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">CHI TIẾT BÀI TẬP</Typography>
+        <Typography variant="h1">SỬA CHI TIẾT BÀI TẬP</Typography>
         <ExerciseDetailForm
           exerciseDetailDetail={{
-            exerciseDetailName: exerciseDetailDetail?.exerciseDetailName,
-            categoryID: exerciseDetailDetail?.categoryID,
-            exerciseDetailTimePerWeek: exerciseDetailDetail?.exerciseDetailTimePerWeek,
-            flag: exerciseDetailDetail?.flag,
-            status: exerciseDetailDetail?.status,
+            detailName: exerciseDetailDetail?.detailName,
+            exerciseID: exerciseDetailDetail?.exerciseID,
+            set: exerciseDetailDetail?.set,
+            description: exerciseDetailDetail?.description,
           }}
-          categories={categories}
+          exercises={exercises}
           onFormSubmit={handleFormSubmit}
           isLoading={exerciseDetailStatus === "loading"}
         />
@@ -90,7 +87,7 @@ const EditExerciseDetail = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Cập nhật bài tập thành công"
+        desc="Cập nhật chi tiết bài tập thành công"
       />
     </Container>
   );
