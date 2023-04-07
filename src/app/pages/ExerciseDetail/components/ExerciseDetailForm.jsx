@@ -83,8 +83,8 @@ const makeStyles = () => ({
   },
 });
 
-const ExerciseForm = ({
-  exerciseDetail,
+const ExerciseDetailForm = ({
+  exerciseDetailDetail,
   onFormSubmit,
   isLoading,
   categories,
@@ -93,9 +93,10 @@ const ExerciseForm = ({
   const navigate = useNavigate();
 
   const schema = yup.object({
-    exerciseName: yup.string().required("Vui lòng điền thông tin"),
+    exerciseDetailName: yup.string().required("Vui lòng điền thông tin"),
+    flag: yup.string().required("Vui lòng điền thông tin"),
     categoryID: yup.string().required("Vui lòng điền thông tin"),
-    exerciseTimePerWeek: yup.string().required("Vui lòng điền thông tin"),
+    exerciseDetailTimePerWeek: yup.string().required("Vui lòng điền thông tin"),
     status: yup.string().required("Vui lòng điền thông tin"),
   });
 
@@ -109,10 +110,10 @@ const ExerciseForm = ({
     mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
-      exerciseName: "",
-      categoryID: "",
-      exerciseTimePerWeek: "",
+      exerciseDetailName: "",
       flag: true,
+      categoryID: "",
+      exerciseDetailTimePerWeek: "",
       status: true,
     },
   });
@@ -121,13 +122,13 @@ const ExerciseForm = ({
 
   useEffect(() => {
     reset({
-      exerciseName: exerciseDetail?.exerciseName,
-      categoryID: exerciseDetail?.categoryID,
-      exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeek,
-      status: exerciseDetail?.status,
-      flag: exerciseDetail?.flag,
+      exerciseDetailName: exerciseDetailDetail?.exerciseDetailName,
+      flag: exerciseDetailDetail?.flag,
+      categoryID: exerciseDetailDetail?.categoryID,
+      exerciseDetailTimePerWeek: exerciseDetailDetail?.exerciseDetailTimePerWeek,
+      status: exerciseDetailDetail?.status,
     });
-  }, [exerciseDetail, reset, getValues]);
+  }, [exerciseDetailDetail, reset, getValues]);
 
   return (
     <Container sx={{ width: "50%", display: "flex" }}>
@@ -138,14 +139,14 @@ const ExerciseForm = ({
         <Stack alignItems="flex-start" pt={3} spacing={5}>
           <Controller
             control={control}
-            name="exerciseName"
+            name="exerciseDetailName"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                error={!!formErrors?.exerciseName}
-                helperText={formErrors?.exerciseName?.message}
+                error={!!formErrors?.exerciseDetailName}
+                helperText={formErrors?.exerciseDetailName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
                 label="Tên bài tập"
@@ -156,14 +157,14 @@ const ExerciseForm = ({
 
           <Controller
             control={control}
-            name="exerciseTimePerWeek"
+            name="exerciseDetailTimePerWeek"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                error={!!formErrors?.exerciseTimePerWeek}
-                helperText={formErrors?.exerciseTimePerWeek?.message}
+                error={!!formErrors?.exerciseDetailTimePerWeek}
+                helperText={formErrors?.exerciseDetailTimePerWeek?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
                 label="Thời gian tập trong tuần"
@@ -184,19 +185,44 @@ const ExerciseForm = ({
                   sx={styles.selectFieldStyle}
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.categoryID}
-                  helperText={formErrors?.categoryID?.message}
+                  error={!!formErrors?.flag}
+                  helperText={formErrors?.flag?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
                   variant="outlined"
                   label="Danh mục"
                   id="demo-simple-select-label"
                 >
-                  {categories.map((cate) => (
-                    <MenuItem value={cate.categoryID}>
-                      {cate.categoryName}
-                    </MenuItem>
+                  {categories.map(cate => (
+                    <MenuItem value={cate.categoryID}>{cate.categoryName}</MenuItem>
                   ))}
+                </Select>
+              </React.Fragment>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="flag"
+            render={({ field: { onChange, value } }) => (
+              <React.Fragment>
+                <label required style={{ fontWeight: "bold", top: -25 }}>
+                  Gắn cờ
+                </label>
+                <Select
+                  sx={styles.selectFieldStyle}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.flag}
+                  helperText={formErrors?.flag?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  variant="outlined"
+                  label="Gắn cờ"
+                  id="demo-simple-select-label"
+                >
+                  <MenuItem value={true}>Có</MenuItem>
+                  <MenuItem value={false}>Không</MenuItem>
                 </Select>
               </React.Fragment>
             )}
@@ -237,7 +263,7 @@ const ExerciseForm = ({
           >
             <Button
               variant="outlined"
-              onClick={() => navigate(pages.exerciseListPath)}
+              onClick={() => navigate(pages.exerciseDetailListPath)}
               disabled={isLoading}
             >
               Hủy bỏ
@@ -252,4 +278,4 @@ const ExerciseForm = ({
   );
 };
 
-export default ExerciseForm;
+export default ExerciseDetailForm;

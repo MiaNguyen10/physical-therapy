@@ -30,9 +30,9 @@ const AddExercise = () => {
       dispatch(
         addExercise({
           exerciseName: exerciseName,
-          flag: JSON.parse([flag]),
           categoryID: categoryID,
           exerciseTimePerWeek: exerciseTimePerWeek,
+          flag: true,
           status: JSON.parse([status]),
           isDeleted: false,
         })

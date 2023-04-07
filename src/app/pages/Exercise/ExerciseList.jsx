@@ -1,5 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import UpdateIcon from '@mui/icons-material/Update';
 import {
   Box,
   Container,
@@ -58,7 +59,7 @@ const ExerciseList = () => {
     {
       field: "exerciseName",
       headerName: "Bài tập",
-      width: 300,
+      width: 350,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -70,7 +71,7 @@ const ExerciseList = () => {
     {
       field: "categoryID",
       headerName: "Danh mục",
-      width: 200,
+      width: 350,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -82,7 +83,7 @@ const ExerciseList = () => {
     {
       field: "exerciseTimePerWeek",
       headerName: "Thời gian / Tuần",
-      width: 200,
+      width: 150,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -90,18 +91,6 @@ const ExerciseList = () => {
         <Typography>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "flag",
-      headerName: "Gắn cờ",
-      width: 100,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ? "Có" : "Không"}</Typography>,
     },
     {
       field: "status",
@@ -131,6 +120,12 @@ const ExerciseList = () => {
           <>
             <Link href={`${pages.exerciseListPath}/${params.value}/edit`}>
               <EditIcon
+                fontSize="small"
+                sx={{ color: "#0C5E96", cursor: "pointer" }}
+              />
+            </Link>
+            <Link href={`${pages.exerciseListPath}/${params.value}/edit`}>
+              <UpdateIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />

@@ -3,49 +3,49 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  getExercises,
+  getExerciseDetails,
   getStatus,
   resetStatus,
-} from "../../../cores/reducers/exercise";
-import { editExercise, getExerciseList } from "../../../cores/thunk/exercise";
+} from "../../../cores/reducers/exerciseDetail";
+import { editExerciseDetail, getExerciseDetailList } from "../../../cores/thunk/exerciseDetail";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
-import ExerciseForm from "./components/ExerciseForm";
+import ExerciseDetailForm from "./components/ExerciseDetailForm";
 import { getCategoryList } from "../../../cores/thunk/category";
 import { getCategories } from "../../../cores/reducers/category";
 
-const EditExercise = () => {
+const EditExerciseDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const exerciseStatus = useSelector(getStatus);
+  const exerciseDetailStatus = useSelector(getStatus);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const exerciseList = useSelector(getExercises);
+  const exerciseDetailList = useSelector(getExerciseDetails);
   let categories = useSelector(getCategories);
-  const exerciseDetail =
-    Array.isArray(exerciseList) &&
-    exerciseList.find((exercise) => exercise.exerciseID === id);
+  const exerciseDetailDetail =
+    Array.isArray(exerciseDetailList) &&
+    exerciseDetailList.find((exerciseDetail) => exerciseDetail.exerciseDetailID === id);
 
   const handleClose = () => {
     setOpen(false);
-    navigate(`${pages.exerciseListPath}`);
+    navigate(`${pages.exerciseDetailListPath}`);
   };
 
   const handleFormSubmit = ({
-    exerciseName,
+    exerciseDetailName,
     categoryID,
-    exerciseTimePerWeek,
+    exerciseDetailTimePerWeek,
     status,
     flag,
   }) => {
     try {
       dispatch(
-        editExercise({
-          exerciseID: id,
-          exerciseName: exerciseName,
-          flag: flag,
+        editExerciseDetail({
+          exerciseDetailID: id,
+          exerciseDetailName: exerciseDetailName,
+          flag: JSON.parse([flag]),
           categoryID: categoryID,
-          exerciseTimePerWeek: exerciseTimePerWeek,
+          exerciseDetailTimePerWeek: exerciseDetailTimePerWeek,
           status: JSON.parse([status]),
         })
       ).unwrap();
@@ -56,14 +56,14 @@ const EditExercise = () => {
   };
 
   useEffect(() => {
-    if (exerciseStatus === "succeeded") {
+    if (exerciseDetailStatus === "succeeded") {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseList());
+    dispatch(getExerciseDetailList());
   }, [dispatch]);
 
   useEffect(() => {
@@ -73,18 +73,18 @@ const EditExercise = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">SỬA BÀI TẬP</Typography>
-        <ExerciseForm
-          exerciseDetail={{
-            exerciseName: exerciseDetail?.exerciseName,
-            categoryID: exerciseDetail?.categoryID,
-            exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeek,
-            flag: exerciseDetail?.flag,
-            status: exerciseDetail?.status,
+        <Typography variant="h1">CHI TIẾT BÀI TẬP</Typography>
+        <ExerciseDetailForm
+          exerciseDetailDetail={{
+            exerciseDetailName: exerciseDetailDetail?.exerciseDetailName,
+            categoryID: exerciseDetailDetail?.categoryID,
+            exerciseDetailTimePerWeek: exerciseDetailDetail?.exerciseDetailTimePerWeek,
+            flag: exerciseDetailDetail?.flag,
+            status: exerciseDetailDetail?.status,
           }}
           categories={categories}
           onFormSubmit={handleFormSubmit}
-          isLoading={exerciseStatus === "loading"}
+          isLoading={exerciseDetailStatus === "loading"}
         />
       </Stack>
       <ConfirmDialog
@@ -96,4 +96,4 @@ const EditExercise = () => {
   );
 };
 
-export default EditExercise;
+export default EditExerciseDetail;
