@@ -8,12 +8,14 @@ import {
   Stack,
   TextField,
   MenuItem,
+  Box,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
+import ReactPlayer from "react-player";
 
 const makeStyles = () => ({
   textFieldStyle: {
@@ -83,20 +85,20 @@ const makeStyles = () => ({
   },
 });
 
-const ExerciseDetailForm = ({
-  exerciseDetailDetail,
+const ExerciseResourceForm = ({
+  exerciseResourceDetail,
   onFormSubmit,
   isLoading,
-  exercises,
+  exerciseDetails,
 }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
 
   const schema = yup.object({
-    detailName: yup.string().required("Vui lòng điền thông tin"),
-    exerciseID: yup.string().required("Vui lòng điền thông tin"),
-    set: yup.string().required("Vui lòng điền thông tin"),
-    description: yup.string().required("Vui lòng điền thông tin"),
+    resourceName: yup.string().required("Vui lòng điền thông tin"),
+    exerciseDetailID: yup.string().required("Vui lòng điền thông tin"),
+    imageURL: yup.string().required("Vui lòng điền thông tin"),
+    videoURL: yup.string().required("Vui lòng điền thông tin"),
   });
 
   const {
@@ -109,10 +111,10 @@ const ExerciseDetailForm = ({
     mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
-      detailName: "",
-      exerciseID: "",
-      set: "",
-      description: "",
+      resourceName: "",
+      exerciseDetailID: "",
+      imageURL: "",
+      videoURL: "",
     },
   });
 
@@ -120,12 +122,12 @@ const ExerciseDetailForm = ({
 
   useEffect(() => {
     reset({
-      detailName: exerciseDetailDetail?.detailName,
-      exerciseID: exerciseDetailDetail?.exerciseID,
-      set: exerciseDetailDetail?.set,
-      description: exerciseDetailDetail?.description,
+      resourceName: exerciseResourceDetail?.resourceName,
+      exerciseDetailID: exerciseResourceDetail?.exerciseDetailID,
+      imageURL: exerciseResourceDetail?.imageURL,
+      videoURL: exerciseResourceDetail?.videoURL,
     });
-  }, [exerciseDetailDetail, reset, getValues]);
+  }, [exerciseResourceDetail, reset, getValues]);
 
   return (
     <Container sx={{ width: "50%", display: "flex" }}>
@@ -136,17 +138,17 @@ const ExerciseDetailForm = ({
         <Stack alignItems="flex-start" pt={3} spacing={5}>
           <Controller
             control={control}
-            name="detailName"
+            name="resourceName"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                error={!!formErrors?.detailName}
-                helperText={formErrors?.detailName?.message}
+                error={!!formErrors?.resourceName}
+                helperText={formErrors?.resourceName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Tên chi tiết của bài tập"
+                label="Tên tài nguyên của bài tập"
                 variant="outlined"
               />
             )}
@@ -154,63 +156,69 @@ const ExerciseDetailForm = ({
 
           <Controller
             control={control}
-            name="set"
+            name="imageURL"
             render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={styles.textFieldStyle}
-                value={value}
-                onChange={onChange}
-                error={!!formErrors?.set}
-                helperText={formErrors?.set?.message}
-                required
-                inputProps={{ required: false, maxLength: 255 }}
-                label="Set"
-                variant="outlined"
-              />
+              <React.Fragment>
+                <TextField
+                  sx={styles.textFieldStyle}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.imageURL}
+                  helperText={formErrors?.imageURL?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  label="Hình ảnh"
+                  variant="outlined"
+                />
+                <Box component='img' src={value} />
+              </React.Fragment>
             )}
           />
 
           <Controller
             control={control}
-            name="description"
+            name="videoURL"
             render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={styles.textFieldStyle}
-                value={value}
-                onChange={onChange}
-                error={!!formErrors?.description}
-                helperText={formErrors?.description?.message}
-                required
-                inputProps={{ required: false, maxLength: 255 }}
-                label="Mô tả"
-                variant="outlined"
-              />
+              <React.Fragment>
+                <TextField
+                  sx={styles.textFieldStyle}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.videoURL}
+                  helperText={formErrors?.videoURL?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  label="Video"
+                  variant="outlined"
+                />
+                <ReactPlayer url={value} controls={true} />
+              </React.Fragment>
             )}
           />
 
           <Controller
             control={control}
-            name="exerciseID"
+            name="exerciseDetailID"
             render={({ field: { onChange, value } }) => (
               <React.Fragment>
                 <label required style={{ fontWeight: "bold", top: -25 }}>
-                  Bài tập
+                  Chi Tiết Bài tập
                 </label>
                 <Select
                   sx={styles.selectFieldStyle}
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.exerciseID}
-                  helperText={formErrors?.exerciseID?.message}
+                  error={!!formErrors?.exerciseDetailID}
+                  helperText={formErrors?.exerciseDetailID?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
                   variant="outlined"
-                  label="Bài tập"
+                  label="Chi Tiết Bài tập"
                   id="demo-simple-select-label"
                 >
-                  {exercises.map((cate) => (
-                    <MenuItem value={cate.exerciseID}>
-                      {cate.exerciseName}
+                  {exerciseDetails.map((cate) => (
+                    <MenuItem value={cate.exerciseDetailID}>
+                      {cate.detailName}
                     </MenuItem>
                   ))}
                 </Select>
@@ -226,7 +234,7 @@ const ExerciseDetailForm = ({
           >
             <Button
               variant="outlined"
-              onClick={() => navigate(pages.exerciseDetailListPath)}
+              onClick={() => navigate(pages.exerciseResourceListPath)}
               disabled={isLoading}
             >
               Hủy bỏ
@@ -241,4 +249,4 @@ const ExerciseDetailForm = ({
   );
 };
 
-export default ExerciseDetailForm;
+export default ExerciseResourceForm;

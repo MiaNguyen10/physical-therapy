@@ -127,6 +127,9 @@ export const Navbar = () => {
           <NavLink variant="body2" href={pages.exerciseDetailListPath}>
             Chi tiết bài tập
           </NavLink>
+          <NavLink variant="body2" href={pages.exerciseResourceListPath}>
+            Tài nguyên bài tập
+          </NavLink>
         </NavbarLinksBox>
       </NavbarItem>
 
