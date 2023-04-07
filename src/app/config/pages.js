@@ -9,7 +9,13 @@ const pages = {
     accountDetailPath: '/account/:id',
     categoryListPath: '/category',
     addCategoryPath: '/category/add',
-    categoryEditPath: '/category/:id/edit'
+    categoryEditPath: '/category/:id/edit',
+    exerciseListPath: '/exercise',
+    addExercisePath: '/exercise/add',
+    exerciseEditPath: '/exercise/:id/edit',
+    exerciseDetailListPath: '/exerciseDetail',
+    addExerciseDetailPath: '/exerciseDetail/add',
+    exerciseDetailEditPath: '/exerciseDetail/:id/edit'
 }
 
 export default pages
