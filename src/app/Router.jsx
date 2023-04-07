@@ -12,6 +12,9 @@ import TherapistList from "./pages/Account/TherapistList";
 import CategotyList from "./pages/Category/CategoryList";
 import AddCategory from "./pages/Category/AddCategory";
 import EditCategory from "./pages/Category/EditCategory";
+import ExerciseList from "./pages/Exercise/ExerciseList";
+import AddExercise from "./pages/Exercise/AddExercise";
+import EditExercise from "./pages/Exercise/EditExercise";
 
 const Router = () => {
   return (
@@ -30,6 +33,9 @@ const Router = () => {
         <Route path={`/${pages.categoryListPath}`} element={<CategotyList />} />
         <Route path={`/${pages.addCategoryPath}`} element={<AddCategory />} />
         <Route path={`/${pages.categoryEditPath}`} element={<EditCategory />} />
+        <Route path={`/${pages.exerciseListPath}`} element={<ExerciseList />} />
+        <Route path={`/${pages.addExercisePath}`} element={<AddExercise />} />
+        <Route path={`/${pages.exerciseEditPath}`} element={<EditExercise />} />
       </Route>
     </Routes>
   );
