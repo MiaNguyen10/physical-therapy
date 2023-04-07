@@ -42,12 +42,12 @@ const makeStyles = () => ({
   },
 });
 
-const SearchCategoryListForm = ({ onSearch }) => {
+const SearchExerciseDetailListForm = ({ onSearch }) => {
   const styles = makeStyles();
   const { handleSubmit, control } = useForm({
     defaultValues: {
       searchKey: "",
-      searchDesc: "",
+      searchCate: "",
     },
   });
 
@@ -72,7 +72,7 @@ const SearchCategoryListForm = ({ onSearch }) => {
               ...styles.textFieldStyle,
               width: "380px",
             }}
-            placeholder="Nhập tên danh mục cần tìm"
+            placeholder="Nhập tên bài tập cần tìm"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -88,14 +88,14 @@ const SearchCategoryListForm = ({ onSearch }) => {
       />
       <Controller
         control={control}
-        name="searchDesc"
+        name="searchCate"
         render={({ field: { onChange, value } }) => (
           <TextField
             sx={{
               ...styles.textFieldStyle,
               width: "500px",
             }}
-            placeholder="Nhập mô tả"
+            placeholder="Nhập danh mục"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -113,4 +113,4 @@ const SearchCategoryListForm = ({ onSearch }) => {
   );
 };
 
-export default SearchCategoryListForm;
+export default SearchExerciseDetailListForm;
