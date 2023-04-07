@@ -166,7 +166,7 @@ const ExerciseResourceList = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH SÁCH CHI TIẾT BÀI TẬP</Typography>
+        <Typography variant="h3">DANH SÁCH TÀI NGUYÊN BÀI TẬP</Typography>
         <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} />
         <Box>
           <AddButton

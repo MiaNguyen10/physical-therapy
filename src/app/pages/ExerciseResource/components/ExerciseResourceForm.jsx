@@ -8,12 +8,14 @@ import {
   Stack,
   TextField,
   MenuItem,
+  Box,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
+import ReactPlayer from "react-player";
 
 const makeStyles = () => ({
   textFieldStyle: {
@@ -156,17 +158,20 @@ const ExerciseResourceForm = ({
             control={control}
             name="imageURL"
             render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={styles.textFieldStyle}
-                value={value}
-                onChange={onChange}
-                error={!!formErrors?.imageURL}
-                helperText={formErrors?.imageURL?.message}
-                required
-                inputProps={{ required: false, maxLength: 255 }}
-                label="Hình ảnh"
-                variant="outlined"
-              />
+              <React.Fragment>
+                <TextField
+                  sx={styles.textFieldStyle}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.imageURL}
+                  helperText={formErrors?.imageURL?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  label="Hình ảnh"
+                  variant="outlined"
+                />
+                <Box component='img' src={value} />
+              </React.Fragment>
             )}
           />
 
@@ -174,17 +179,20 @@ const ExerciseResourceForm = ({
             control={control}
             name="videoURL"
             render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={styles.textFieldStyle}
-                value={value}
-                onChange={onChange}
-                error={!!formErrors?.videoURL}
-                helperText={formErrors?.videoURL?.message}
-                required
-                inputProps={{ required: false, maxLength: 255 }}
-                label="Video"
-                variant="outlined"
-              />
+              <React.Fragment>
+                <TextField
+                  sx={styles.textFieldStyle}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.videoURL}
+                  helperText={formErrors?.videoURL?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  label="Video"
+                  variant="outlined"
+                />
+                <ReactPlayer url={value} controls={true} />
+              </React.Fragment>
             )}
           />
 
