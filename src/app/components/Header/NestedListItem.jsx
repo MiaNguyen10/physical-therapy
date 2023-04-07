@@ -4,7 +4,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Groups2Icon from "@mui/icons-material/Groups2";
 import MedicationIcon from "@mui/icons-material/Medication";
-import CategoryIcon from '@mui/icons-material/Category';
+import CategoryIcon from "@mui/icons-material/Category";
 import {
   List,
   ListItemButton,
@@ -13,9 +13,10 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import pages from "../../config/pages";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 const NestedListItem = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <List
       sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper" }}
@@ -35,21 +36,32 @@ const NestedListItem = () => {
         <ListItemText primary="Danh sách người dùng" />
       </ListItemButton>
       <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 8 }} onClick={() => navigate(`${pages.managerListPath}`)}>
-          <ListItemIcon>
-            <ManageAccountsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Quản lý" />
-        </ListItemButton>
+        <RestrictedPermission permission={["Bearer"]}>
+          <ListItemButton
+            sx={{ pl: 8 }}
+            onClick={() => navigate(`${pages.managerListPath}`)}
+          >
+            <ListItemIcon>
+              <ManageAccountsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Quản lý" />
+          </ListItemButton>
+        </RestrictedPermission>
 
-        <ListItemButton sx={{ pl: 8 }} onClick={() => navigate(`${pages.therapistListPath}`)}>
+        <ListItemButton
+          sx={{ pl: 8 }}
+          onClick={() => navigate(`${pages.therapistListPath}`)}
+        >
           <ListItemIcon>
             <MedicationIcon />
           </ListItemIcon>
           <ListItemText primary="Bác sĩ vật lý trị liệu" />
         </ListItemButton>
 
-        <ListItemButton sx={{ pl: 8 }} onClick={() => navigate(`${pages.memberListPath}`)}>
+        <ListItemButton
+          sx={{ pl: 8 }}
+          onClick={() => navigate(`${pages.memberListPath}`)}
+        >
           <ListItemIcon>
             <Groups2Icon />
           </ListItemIcon>

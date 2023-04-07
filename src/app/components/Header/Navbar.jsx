@@ -6,11 +6,16 @@ import { useState } from "react";
 import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
+import { useDispatch } from "react-redux";
+import { logout } from "cores/reducers/authentication";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const [mobileMenu, setMobileMenu] = useState({
     left: false,
   });
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -84,6 +89,11 @@ export const Navbar = () => {
     },
   }));
 
+  const handleLogout = () => {
+    dispatch(logout)
+    navigate(`${pages.loginPath}`)
+  }
+
   return (
     <NavbarContainer>
       <NavbarItem>
@@ -128,7 +138,7 @@ export const Navbar = () => {
           gap: "1rem",
         }}
       >
-        <NavLink variant="body2">Đăng nhập</NavLink>
+        {/* <NavLink variant="body2">Đăng nhập</NavLink> */}
         <Button
           sx={{
             fontSize: "18px",
@@ -141,8 +151,9 @@ export const Navbar = () => {
             },
           }}
           variant="contained"
+          onClick={handleLogout}
         >
-          Đăng ký
+          Đăng xuất
         </Button>
       </Box>
     </NavbarContainer>
