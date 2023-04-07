@@ -25,11 +25,12 @@ const DataGridTable = ({
     onRowSelectable,
     hideFooter = false,
     paginationMode =  'server',
+    width = '1350px'
 })=> (
     <DataGrid
         sx={{
             height: '660px',
-            width: '1350px',
+            width: width,
             '.MuiButtonBase-root': {
                 '&.Mui-checked': {
                     color: '#0C5E96',

@@ -58,7 +58,7 @@ const CategotyList = () => {
     {
       field: "categoryName",
       headerName: "Danh mục",
-      width: 300,
+      width: 400,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -82,7 +82,7 @@ const CategotyList = () => {
     {
       field: "categoryID",
       headerName: "Action",
-      width: 300,
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -139,6 +139,7 @@ const CategotyList = () => {
             sx={{ mt: -6 }}
           />
           <DataGridTable
+            width="1200px"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.categoryID}

@@ -156,14 +156,12 @@ const TherapistList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            <RestrictedPermission permission={["Bearer"]}>
               <IconButton>
                 <DeleteIcon
                   fontSize="small"
                   sx={{ color: "#0C5E96", cursor: "pointer" }}
                 />
               </IconButton>
-            </RestrictedPermission>
         </>
       ),
     },

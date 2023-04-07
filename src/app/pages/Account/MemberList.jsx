@@ -162,7 +162,7 @@ const MemberList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            <RestrictedPermission permission={["Bearer"]}>
+            <RestrictedPermission permission={["admin"]}>
               <IconButton>
                 <DeleteIcon
                   fontSize="small"

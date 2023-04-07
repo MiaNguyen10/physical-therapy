@@ -36,9 +36,10 @@ const Router = () => {
         <Route path={`/${pages.landingPage}`} element={<LandingPage />} />
         <Route path={`/${pages.accountPath}`} element={<TypeOfAccount />} />
         <Route path={`/${pages.memberListPath}`} element={<MemberList />} />
-        <Route element={<RestrictedPermission permission={["Bearer"]} />}>
-          <Route path={`/${pages.managerListPath}`} element={<ManagerList />} />
-        </Route>
+        {/* <Route element={<RestrictedPermission permission={["Bearer"]} />}>
+         
+        </Route> */}
+        <Route path={`/${pages.managerListPath}`} element={<ManagerList />} />
         <Route
           path={`/${pages.therapistListPath}`}
           element={<TherapistList />}
