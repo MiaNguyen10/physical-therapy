@@ -1,5 +1,6 @@
 const pages = {
-    landingPage: '/',
+    landingPage: '/',   
+    loginPath: '/login',
     accountPath: '/account',
     managerListPath: '/account/managerList',
     therapistListPath: '/account/therapistList',

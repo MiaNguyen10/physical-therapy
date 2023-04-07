@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import accountData from "./Data";
 import { trim } from "lodash";
-import { Typography, Container, Stack, Box, Link } from "@mui/material";
+import { Typography, Container, Stack, Box, Link, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import pages from "../../config/pages";
@@ -9,6 +9,7 @@ import DataGridTable from "../../components/DataGrid/DataGridTable";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchUserListForm from "./components/SearchUserListForm";
 import AddButton from "../../components/Button/AddButton";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 const ManagerList = () => {
   const navigate = useNavigate;
@@ -154,11 +155,14 @@ const ManagerList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-          <DeleteIcon
-            fontSize="small"
-            sx={{ color: "#0C5E96", cursor: "pointer", ml: 2 }}
-            onClick={() => {}}
-          />
+            <RestrictedPermission permission={["Bearer"]}>
+              <IconButton>
+                <DeleteIcon
+                  fontSize="small"
+                  sx={{ color: "#0C5E96", cursor: "pointer" }}
+                />
+              </IconButton>
+            </RestrictedPermission>
         </>
       ),
     },

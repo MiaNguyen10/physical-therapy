@@ -1,6 +1,13 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, Container, Link, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { trim } from "lodash";
 import React, { useMemo, useState } from "react";
 import AddButton from "../../components/Button/AddButton";
@@ -8,6 +15,7 @@ import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import accountData from "./Data";
 import SearchUserListForm from "./components/SearchUserListForm";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 const MemberList = () => {
   const [page, setPage] = useState(0);
@@ -154,10 +162,14 @@ const MemberList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            <DeleteIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
-            />
+            <RestrictedPermission permission={["Bearer"]}>
+              <IconButton>
+                <DeleteIcon
+                  fontSize="small"
+                  sx={{ color: "#0C5E96", cursor: "pointer" }}
+                />
+              </IconButton>
+            </RestrictedPermission>
           </>
         );
       },
@@ -169,11 +181,14 @@ const MemberList = () => {
         <Typography variant="h3">DANH SÁCH NGƯỜI DÙNG</Typography>
         <SearchUserListForm onSearch={(data) => setFilters(data)} />
         <Box>
-          <AddButton
-            desc="Thêm người dùng"
-            url={`${pages.addAccountPath}`}
-            sx={{ mt: -6 }}
-          />
+          <RestrictedPermission permission={["Bearer"]}>
+            <AddButton
+              desc="Thêm người dùng"
+              url={`${pages.addAccountPath}`}
+              sx={{ mt: -6 }}
+            />
+          </RestrictedPermission>
+
           <DataGridTable
             columns={columns}
             rows={rows}
