@@ -13,7 +13,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCategories,
-  getStatus,
+  getStatusCategory,
   resetStatus,
 } from "../../../cores/reducers/category";
 import { deleteCategory, getCategoryList } from "../../../cores/thunk/category";
@@ -25,7 +25,7 @@ import SearchCategoryListFrom from "../Category/components/SearchCategoryListFor
 const CategotyList = () => {
   const dispatch = useDispatch();
   let categoryList = useSelector(getCategories);
-  const categoryStatus = useSelector(getStatus);
+  const categoryStatus = useSelector(getStatusCategory);
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({

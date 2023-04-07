@@ -1,21 +1,20 @@
 import { Container, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getStatus } from "../../../cores/reducers/exercise";
+import { getCategories } from "../../../cores/reducers/category";
+import { getStatusExercises } from "../../../cores/reducers/exercise";
+import { getCategoryList } from "../../../cores/thunk/category";
 import { addExercise } from "../../../cores/thunk/exercise";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import ExerciseForm from "./components/ExerciseForm";
-import { getCategories } from "../../../cores/reducers/category";
-import { useEffect } from "react";
-import { getCategoryList } from "../../../cores/thunk/category";
 
 const AddExercise = () => {
   const dispatch = useDispatch();
   let categories = useSelector(getCategories)
 
-  const exerciseStatus = useSelector(getStatus);
+  const exerciseStatus = useSelector(getStatusExercises);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -25,7 +24,7 @@ const AddExercise = () => {
   };
   
 
-  const handleFormSubmit = ({ exerciseName, exerciseTimePerWeek, categoryID, status, flag}) => {
+  const handleFormSubmit = ({ exerciseName, exerciseTimePerWeek, categoryID}) => {
     try {
       dispatch(
         addExercise({
@@ -33,7 +32,7 @@ const AddExercise = () => {
           categoryID: categoryID,
           exerciseTimePerWeek: exerciseTimePerWeek,
           flag: true,
-          status: JSON.parse([status]),
+          status: true,
           isDeleted: false,
         })
       ).unwrap();

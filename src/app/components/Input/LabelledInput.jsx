@@ -9,7 +9,7 @@ export const StyleInput = styled(TextField)(() => ({
     fontSize: 16,
     width: 500,
     padding: 0,
-    height: 44,
+    height: 50,
     paddingLeft: 20,
   },
   "& .MuiSelect-select": {

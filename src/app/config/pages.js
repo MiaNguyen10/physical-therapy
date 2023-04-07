@@ -14,7 +14,7 @@ const pages = {
     exerciseListPath: '/exercise',
     addExercisePath: '/exercise/add',
     exerciseEditPath: '/exercise/:id/edit',
-    exerciseDetailListPath: '/exerciseDetail',
+    exerciseDetailListPath: 'exercise/:id/exerciseDetail',
     addExerciseDetailPath: '/exerciseDetail/add',
     exerciseDetailEditPath: '/exerciseDetail/:id/edit'
 }

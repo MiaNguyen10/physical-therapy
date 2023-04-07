@@ -49,7 +49,6 @@ const exerciseSlice = createSlice({
       .addCase(getExerciseDetail.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.exerciseDetail = action;
-        console.log(action)
       })
       .addCase(getExerciseDetail.rejected, (state, action) => {
         state.status = "failed";
@@ -71,4 +70,4 @@ const exerciseSlice = createSlice({
 export const { resetStatus } = exerciseSlice.actions;
 export default exerciseSlice.reducer;
 export const getExercises = (state) => state.exercise.exercises;
-export const getStatus = (state) => state.exercise.status;
+export const getStatusExercises = (state) => state.exercise.status;

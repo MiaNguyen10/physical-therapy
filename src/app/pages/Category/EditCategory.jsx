@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getCategories,
-  getStatus,
+  getStatusCategory,
   resetStatus
 } from "../../../cores/reducers/category";
 import { editCategory, getCategoryList } from "../../../cores/thunk/category";
@@ -15,11 +15,13 @@ import CategoryForm from "./components/CategoryForm";
 const EditCategory = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const categoryStatus = useSelector(getStatus);
+  const categoryStatus = useSelector(getStatusCategory);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const categoryList = useSelector(getCategories)
-  const categoryDetail = Array.isArray(categoryList) && categoryList.find(category => category.categoryID === id)
+  const categoryList = useSelector(getCategories);
+  const categoryDetail =
+    Array.isArray(categoryList) &&
+    categoryList.find((category) => category.categoryID === id);
 
   const handleClose = () => {
     setOpen(false);
@@ -29,7 +31,7 @@ const EditCategory = () => {
   const handleFormSubmit = ({ categoryName, description }) => {
     try {
       dispatch(
-        editCategory({  
+        editCategory({
           categoryID: id,
           categoryName: categoryName,
           description: description,
@@ -48,7 +50,6 @@ const EditCategory = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
   useEffect(() => {
     dispatch(getCategoryList());
   }, [dispatch]);

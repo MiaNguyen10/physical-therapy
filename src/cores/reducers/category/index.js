@@ -71,4 +71,4 @@ const categorySlice = createSlice({
 export const { resetStatus } = categorySlice.actions;
 export default categorySlice.reducer;
 export const getCategories = (state) => state.category.categories;
-export const getStatus = (state) => state.category.status;
+export const getStatusCategory = (state) => state.category.status;

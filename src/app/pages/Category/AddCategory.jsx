@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
-  getStatus
+  getStatusCategory
 } from "../../../cores/reducers/category";
 import { addCategory } from "../../../cores/thunk/category";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
@@ -12,7 +12,7 @@ import CategoryForm from "./components/CategoryForm";
 
 const AddCategory = () => {
   const dispatch = useDispatch();
-  const categoryStatus = useSelector(getStatus);
+  const categoryStatus = useSelector(getStatusCategory);
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
 

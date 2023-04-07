@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import UpdateIcon from '@mui/icons-material/Update';
+import UpdateIcon from "@mui/icons-material/Update";
 import {
   Box,
   Container,
@@ -9,12 +9,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import {
+  getCategories,
+  getStatusCategory,
+} from "cores/reducers/category";
+import { getCategoryList } from "cores/thunk/category";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getExercises,
-  getStatus,
+  getStatusExercises,
   resetStatus,
 } from "../../../cores/reducers/exercise";
 import { deleteExercise, getExerciseList } from "../../../cores/thunk/exercise";
@@ -26,7 +31,10 @@ import SearchExerciseListFrom from "../Exercise/components/SearchExerciseListFor
 const ExerciseList = () => {
   const dispatch = useDispatch();
   let exerciseList = useSelector(getExercises);
-  const exerciseStatus = useSelector(getStatus);
+  const exerciseStatus = useSelector(getStatusExercises);
+  let categoryList = useSelector(getCategories);
+  const categoryStatus = useSelector(getStatusCategory);
+
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
@@ -37,6 +45,17 @@ const ExerciseList = () => {
   const handlePageChange = (page) => {
     setPage(page);
   };
+
+  useEffect(() => {
+    if (categoryStatus === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCategoryList());
+  }, [dispatch]);
 
   const rows = useMemo(() => {
     return (
@@ -59,7 +78,7 @@ const ExerciseList = () => {
     {
       field: "exerciseName",
       headerName: "Bài tập",
-      width: 350,
+      width: 550,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -78,23 +97,18 @@ const ExerciseList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+      renderCell: (params) => (
+        <Typography>
+          {Array.isArray(categoryList) &&
+            categoryList
+              .filter((category) => category.categoryID === params.value)
+              .map((x) => x.categoryName)}
+        </Typography>
+      ),
     },
     {
       field: "exerciseTimePerWeek",
       headerName: "Thời gian / Tuần",
-      width: 150,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "status",
-      headerName: "Trạng thái",
       width: 200,
       headerAlign: "center",
       align: "center",
@@ -102,12 +116,12 @@ const ExerciseList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ? "Đang hoạt động" : "Ngừng hoạt động"}</Typography>,
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
       field: "exerciseID",
       headerName: "Action",
-      width: 300,
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -124,7 +138,9 @@ const ExerciseList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            <Link href={`${pages.exerciseDetailsEditPath}/${params.value}/edit`}>
+            <Link
+              href={`${pages.exerciseListPath}/${params.value}/exerciseDetail`}
+            >
               <UpdateIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
