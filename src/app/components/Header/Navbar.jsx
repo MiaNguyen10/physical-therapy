@@ -130,6 +130,9 @@ export const Navbar = () => {
           <NavLink variant="body2" href={pages.exerciseResourceListPath}>
             Tài nguyên bài tập
           </NavLink>
+          <NavLink variant="body2" href={pages.slotListPath}>
+            Slot
+          </NavLink>
           <NavLink variant="body2" href={pages.schedulePath}>
             Lịch
           </NavLink>

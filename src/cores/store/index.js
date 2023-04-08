@@ -4,6 +4,7 @@ import authReducer from "../reducers/authentication/index";
 import exerciseReducer from "../reducers/exercise/index";
 import exerciseDetailReducer from "../reducers/exerciseDetail/index";
 import exerciseResourceReducer from "../reducers/exerciseResource/index";
+import slotReducer from "../reducers/slot/index";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     exercise: exerciseReducer,
     exerciseDetail: exerciseDetailReducer,
     exerciseResource: exerciseResourceReducer,
+    slot: slotReducer,
   },
 });

@@ -20,7 +20,10 @@ const pages = {
     exerciseResourceListPath: '/exerciseResource',
     addExerciseResourcePath: '/exerciseResource/add',
     exerciseResourceEditPath: '/exerciseResource/:id/edit',
-    schedulePath: '/schedulePath'
+    schedulePath: '/schedulePath',
+    slotListPath: '/slot',
+    addSlotPath: '/slot/add',
+    slotEditPath: '/slot/:id/edit',
 }
 
 export default pages

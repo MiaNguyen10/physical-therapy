@@ -24,6 +24,9 @@ import EditExerciseResource from "./pages/ExerciseResource/EditExerciseResource"
 import AddExerciseResource from "./pages/ExerciseResource/AddExerciseResource";
 import ExerciseResourceList from "./pages/ExerciseResource/ExerciseResourceList";
 import Demo from "./pages/Schedule/demo";
+import AddSlot from "./pages/Slot/AddSlot";
+import SlotList from "./pages/Slot/SlotList";
+import EditSlot from "./pages/Slot/EditSlot";
 
 
 const Router = () => {
@@ -60,6 +63,9 @@ const Router = () => {
         <Route path={`/${pages.exerciseResourceListPath}`} element={<ExerciseResourceList />} />
         <Route path={`/${pages.exerciseResourceEditPath}`} element={<EditExerciseResource />} />
         <Route path={`/${pages.schedulePath}`} element={<Demo />} />
+        <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
+        <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
+        <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
       </Route>
     </Routes>
   );
