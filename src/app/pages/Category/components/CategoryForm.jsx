@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
 
-const makeStyles = () => ({
+export const makeStyles = () => ({
   textFieldStyle: {
     width: "500px",
     ".MuiOutlinedInput-root": {

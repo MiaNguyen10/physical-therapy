@@ -14,9 +14,10 @@ const pages = {
     exerciseListPath: '/exercise',
     addExercisePath: '/exercise/add',
     exerciseEditPath: '/exercise/:id/edit',
-    exerciseDetailListPath: 'exercise/:id/exerciseDetail',
-    addExerciseDetailPath: '/exerciseDetail/add',
-    exerciseDetailEditPath: '/exerciseDetail/:id/edit',
+
+    exerciseDetailPath: '/exercise/:id/exerciseDetail',
+    exerciseDetailEditPath: '/exercise/:id/editExerciseDetail',
+    exerciseDetailAddPath: '/exercise/:id/addExerciseDetail',
     exerciseResourceListPath: '/exerciseResource',
     addExerciseResourcePath: '/exerciseResource/add',
     exerciseResourceEditPath: '/exerciseResource/:id/edit',

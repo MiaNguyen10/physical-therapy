@@ -2,14 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addExerciseDetail,
   deleteExerciseDetail,
-  getExerciseDetailDetail,
-  getExerciseDetailList
+  getExerciseDetailById,
 } from "../../thunk/exerciseDetail";
 
 const initialState = {
   status: "idle",
   error: "",
-  exerciseDetails: [],
+  exerciseDetail: {},
 };
 
 const exerciseDetailSlice = createSlice({
@@ -22,17 +21,6 @@ const exerciseDetailSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getExerciseDetailList.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getExerciseDetailList.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.exerciseDetails = action.payload;
-      })
-      .addCase(getExerciseDetailList.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
       .addCase(addExerciseDetail.pending, (state) => {
         state.status = "loading";
       })
@@ -43,15 +31,14 @@ const exerciseDetailSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(getExerciseDetailDetail.pending, (state) => {
+      .addCase(getExerciseDetailById.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getExerciseDetailDetail.fulfilled, (state, action) => {
+      .addCase(getExerciseDetailById.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.exerciseDetailDetail = action;
-        console.log(action)
+        state.exerciseDetail = action.payload;
       })
-      .addCase(getExerciseDetailDetail.rejected, (state, action) => {
+      .addCase(getExerciseDetailById.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
@@ -70,5 +57,5 @@ const exerciseDetailSlice = createSlice({
 
 export const { resetStatus } = exerciseDetailSlice.actions;
 export default exerciseDetailSlice.reducer;
-export const getExerciseDetails = (state) => state.exerciseDetail.exerciseDetails;
+export const getExerciseDetails = (state) => state.exerciseDetail.exerciseDetail;
 export const getStatus = (state) => state.exerciseDetail.status;
