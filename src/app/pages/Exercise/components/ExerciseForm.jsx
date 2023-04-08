@@ -8,7 +8,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -139,6 +139,7 @@ const ExerciseForm = ({
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
+                type="number"
                 error={!!formErrors?.exerciseTimePerWeek}
                 helperText={formErrors?.exerciseTimePerWeek?.message}
                 required

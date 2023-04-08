@@ -58,8 +58,8 @@ export const editExerciseDetail = createAsyncThunk(
   }
 );
 
-export const getExerciseDetailDetail = createAsyncThunk(
-  "exerciseDetail/getExerciseDetailDetail",
+export const getExerciseDetailById = createAsyncThunk(
+  "exerciseDetail/getExerciseDetailById",
   async (id) => {
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/ExerciseDetail/${id}`,

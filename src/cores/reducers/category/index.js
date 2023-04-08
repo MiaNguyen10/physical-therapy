@@ -49,7 +49,6 @@ const categorySlice = createSlice({
       .addCase(getCategoryDetail.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.categoryDetail = action;
-        console.log(action)
       })
       .addCase(getCategoryDetail.rejected, (state, action) => {
         state.status = "failed";
