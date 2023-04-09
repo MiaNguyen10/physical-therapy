@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getStatusUsers } from "../../../cores/reducers/user";
-import { addUser } from "../../../cores/thunk/user";
+import { addPhysiotherapist } from "../../../cores/thunk/user";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import UserForm from "./components/UserForm";
 
-const AddUser = () => {
+const AddPhysiotherapist = () => {
   const dispatch = useDispatch();
 
   const userStatus = useSelector(getStatusUsers);
@@ -34,7 +34,7 @@ const AddUser = () => {
   }) => {
     try {
       dispatch(
-        addUser({
+        addPhysiotherapist({
           email: email,
           userName: userName,
           phoneNumber: phoneNumber,
@@ -59,7 +59,7 @@ const AddUser = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">THÊM NGƯỜI DÙNG</Typography>
+        <Typography variant="h1">THÊM NHÀ VẬT LÝ TRỊ LIỆU</Typography>
         <UserForm
           onFormSubmit={handleFormSubmit}
           isLoading={userStatus === "loading"}
@@ -68,10 +68,10 @@ const AddUser = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Tạo tài khoản người dùng thành công"
+        desc="Tạo tài khoản nhà vật lý trị liệu thành công"
       />
     </Container>
   );
 };
 
-export default AddUser;
+export default AddPhysiotherapist;

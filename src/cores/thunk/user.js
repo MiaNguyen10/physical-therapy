@@ -22,7 +22,27 @@ export const addUser = createAsyncThunk(
   "user/addUser",
   async (inputCreate) => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/User`,
+      `${process.env.REACT_APP_API_ENDPOINT}/User/Register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        body: JSON.stringify({
+          ...inputCreate,
+        }),
+      }
+    );
+    return await response.json();
+  }
+);
+
+export const addPhysiotherapist = createAsyncThunk(
+  "user/addUser",
+  async (inputCreate) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/User/Register-Physiotherapist`,
       {
         method: "POST",
         headers: {

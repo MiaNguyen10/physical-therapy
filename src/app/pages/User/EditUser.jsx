@@ -34,7 +34,7 @@ const EditUser = () => {
   const handleFormSubmit = ({
     email,
     phoneNumber,
-    userTimePerWeek,
+    password,
     status,
     flag,
   }) => {
@@ -45,7 +45,7 @@ const EditUser = () => {
           email: email,
           flag: flag,
           phoneNumber: phoneNumber,
-          userTimePerWeek: userTimePerWeek,
+          password: password,
           status: JSON.parse([status]),
         })
       ).unwrap();
@@ -78,7 +78,7 @@ const EditUser = () => {
           userDetail={{
             email: userDetail?.email,
             phoneNumber: userDetail?.phoneNumber,
-            userTimePerWeek: userDetail?.userTimePerWeek,
+            password: userDetail?.password,
             flag: userDetail?.flag,
             status: userDetail?.status,
           }}

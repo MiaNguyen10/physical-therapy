@@ -27,6 +27,7 @@ const pages = {
     slotEditPath: '/slot/:id/edit',
     userListPath: '/user',
     addUserPath: '/user/add',
+    addPhysiotherapistPath: '/physiotherapist/add',
     userEditPath: '/user/:id/edit',
 }
 

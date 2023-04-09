@@ -26,9 +26,9 @@ import AddSlot from "./pages/Slot/AddSlot";
 import SlotList from "./pages/Slot/SlotList";
 import EditSlot from "./pages/Slot/EditSlot";
 import AddUser from "./pages/User/AddUser";
+import AddPhysiotherapist from "./pages/User/AddPhysiotherapist";
 import UserList from "./pages/User/UserList";
 import EditUser from "./pages/User/EditUser";
-
 
 const Router = () => {
   return (
@@ -61,18 +61,38 @@ const Router = () => {
         <Route path={`/${pages.addExercisePath}`} element={<AddExercise />} />
         <Route path={`/${pages.exerciseEditPath}`} element={<EditExercise />} />
         {/* Detail */}
-        <Route path={`/${pages.exerciseDetailPath}`} element={<ExerciseDetail />} />
-        <Route path={`/${pages.exerciseDetailAddPath}`} element={<AddExerciseDetail />} />
+        <Route
+          path={`/${pages.exerciseDetailPath}`}
+          element={<ExerciseDetail />}
+        />
+        <Route
+          path={`/${pages.exerciseDetailAddPath}`}
+          element={<AddExerciseDetail />}
+        />
         {/* Resource */}
-        <Route path={`/${pages.addExerciseResourcePath}`} element={<AddExerciseResource />} />
-        <Route path={`/${pages.exerciseResourceListPath}`} element={<ExerciseResourceList />} />
-        <Route path={`/${pages.exerciseResourceEditPath}`} element={<EditExerciseResource />} />
+        <Route
+          path={`/${pages.addExerciseResourcePath}`}
+          element={<AddExerciseResource />}
+        />
+        <Route
+          path={`/${pages.exerciseResourceListPath}`}
+          element={<ExerciseResourceList />}
+        />
+        <Route
+          path={`/${pages.exerciseResourceEditPath}`}
+          element={<EditExerciseResource />}
+        />
         <Route path={`/${pages.schedulePath}`} element={<Demo />} />
         <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
         <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
         <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
         <Route path={`/${pages.userListPath}`} element={<UserList />} />
         <Route path={`/${pages.addUserPath}`} element={<AddUser />} />
+
+        <Route
+          path={`/${pages.addPhysiotherapistPath}`}
+          element={<AddPhysiotherapist />}
+        />
         <Route path={`/${pages.slotEditPath}`} element={<EditUser />} />
       </Route>
     </Routes>

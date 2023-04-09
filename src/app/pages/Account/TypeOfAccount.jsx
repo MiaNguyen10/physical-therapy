@@ -48,14 +48,14 @@ const TypeOfAccount = () => {
 
         <ButtonStyle
           variant="text"
-          onClick={() => navigate(`${pages.therapistListPath}`)}
+          onClick={() => navigate(`${pages.addPhysiotherapistPath}`)}
         >
           Nhà vật lý trị liệu
         </ButtonStyle>
 
         <ButtonStyle
           variant="text"
-          onClick={() => navigate(`${pages.memberListPath}`)}
+          onClick={() => navigate(`${pages.addUserPath}`)}
         >
           Người dùng
         </ButtonStyle>
