@@ -91,6 +91,7 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout)
+    localStorage.removeItem("authentication")
     navigate(`${pages.loginPath}`)
   }
 

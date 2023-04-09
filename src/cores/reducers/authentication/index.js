@@ -11,21 +11,23 @@ const initialState = {
 };
 
 const defautAuthState = {
-  access_token: '',
-  token_type: '',
-  status: 'idle',
-  errorCode: '',
-  firstName: '',
-  lastName: '',
-  phoneNumber: '',
-  username: '',
+  access_token: "",
+  token_type: "",
+  status: "idle",
+  errorCode: "",
+  firstName: "",
+  lastName: "",
+  phoneNumber: "",
+  username: "",
   expires_in: 0,
-  userID: '',
-}
+  userID: "",
+};
+
+const preloadState = JSON.parse(localStorage.getItem("authentication"));
 
 export const authenSlice = createSlice({
   name: "äuthentication",
-  initialState: initialState,
+  initialState: preloadState ?? initialState,
   reducers: {
     logout(state) {
       state.access_token = initialState.sessionId;
@@ -42,6 +44,8 @@ export const authenSlice = createSlice({
         state.access_token = action.payload.result.access_token;
         state.token_type = action.payload.result.token_type;
         state.firstName = action.payload.result.firstName;
+
+        localStorage.setItem("authentication", JSON.stringify(state));
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
@@ -59,7 +63,7 @@ export const selectState = (state) => {
     return defautAuthState;
   }
 
-  const tokenData = tokenDecoder(state.auth.access_token)
+  const tokenData = tokenDecoder(state.auth.access_token);
 
   return {
     ...state.auth,
