@@ -18,3 +18,13 @@ export const login = createAsyncThunk(
     return await response.json();
   }
 );
+
+export const getRole = createAsyncThunk(
+  "äuthentication/getRole",
+  async (id) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/User/getUserRole/${id}`
+    );
+    return await response.json();
+  }
+);

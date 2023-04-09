@@ -21,6 +21,7 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchCategoryListFrom from "../Category/components/SearchCategoryListForm";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 const CategotyList = () => {
   const dispatch = useDispatch();
@@ -133,11 +134,13 @@ const CategotyList = () => {
         <Typography variant="h3">DANH MỤC</Typography>
         <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
         <Box>
-          <AddButton
-            desc="Thêm danh mục"
-            url={`${pages.addCategoryPath}`}
-            sx={{ mt: -6 }}
-          />
+          <RestrictedPermission permission={"Manager"}>
+            <AddButton
+              desc="Thêm danh mục"
+              url={`${pages.addCategoryPath}`}
+              sx={{ mt: -6 }}
+            />
+          </RestrictedPermission>
           <DataGridTable
             width="1200px"
             columns={columns}
