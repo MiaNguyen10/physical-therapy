@@ -57,7 +57,9 @@ export const authenSlice = createSlice({
       })
       .addCase(getRole.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.role = action.payload;
+        state.role = action.payload.name;
+
+        localStorage.setItem("role", JSON.stringify(state.role));
       })
       .addCase(getRole.rejected, (state, action) => {
         state.status = "failed";
@@ -69,7 +71,7 @@ export const authenSlice = createSlice({
 export const { logout } = authenSlice.actions;
 export default authenSlice.reducer;
 
-export const selectSession = (state) => state.auth.access_token;
+export const selectToken = (state) => state.auth.access_token;
 export const selectState = (state) => {
   if (!state.auth.access_token) {
     return defautAuthState;
