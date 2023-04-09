@@ -9,27 +9,29 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { getCategories, getStatusCategory } from "cores/reducers/category";
+import { getCategoryList } from "cores/thunk/category";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getExerciseResources,
-  getStatus,
+  getUsers,
+  getStatusUsers,
   resetStatus,
-} from "../../../cores/reducers/exerciseResource";
-import {
-  deleteExerciseResource,
-  getExerciseResourceList,
-} from "../../../cores/thunk/exerciseResource";
+} from "../../../cores/reducers/user";
+import { deleteUser, getUserList } from "../../../cores/thunk/user";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
-import SearchExerciseResourceListFrom from "./components/SearchExerciseResourceListForm";
+import SearchUserListFrom from "./components/SearchUserListForm";
 
-const ExerciseResourceList = () => {
+const UserList = () => {
   const dispatch = useDispatch();
-  let exerciseResourceList = useSelector(getExerciseResources);
-  const exerciseResourceStatus = useSelector(getStatus);
+  let userList = useSelector(getUsers);
+  const userStatus = useSelector(getStatusUsers);
+  let categoryList = useSelector(getCategories);
+  const categoryStatus = useSelector(getStatusCategory);
+
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
@@ -41,28 +43,65 @@ const ExerciseResourceList = () => {
     setPage(page);
   };
 
+  useEffect(() => {
+    if (categoryStatus === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCategoryList());
+  }, [dispatch]);
+
   const rows = useMemo(() => {
     return (
-      Array.isArray(exerciseResourceList) &&
-      exerciseResourceList.filter((exerciseResource) => {
+      Array.isArray(userList) &&
+      userList.filter((user) => {
         const isFoundName =
-          exerciseResource.resourceName
+          user.email
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
         const isFoundCate =
-          exerciseResource.exerciseDetailID
+          user.phoneNumber
             .toLowerCase()
             .search(trim(filters.searchCate.toLowerCase())) >= 0;
         return isFoundName && isFoundCate;
       })
     );
-  }, [filters, exerciseResourceList]);
+  }, [filters, userList]);
 
   const columns = [
     {
-      field: "resourceName",
-      headerName: "Tài nguyên Bài tập",
-      width: 300,
+      field: "lastName",
+      headerName: "Họ",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+
+    {
+      field: "firstName",
+      headerName: "Tên",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+
+    {
+      field: "email",
+      headerName: "Email",
+      width: 350,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -72,9 +111,9 @@ const ExerciseResourceList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "exerciseDetailID",
-      headerName: "Chi tiết Bài tập",
-      width: 300,
+      field: "phoneNumber",
+      headerName: "SĐT",
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -84,33 +123,21 @@ const ExerciseResourceList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "imageURL",
-      headerName: "Hình ảnh",
-      width: 300,
+      field: "banStatus",
+      headerName: "Tình trạng",
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+      renderCell: (params) => <Typography>{params?.value ? "Bị cấm" : "Đang hoạt động"}</Typography>,
     },
     {
-      field: "videoURL",
-      headerName: "Video",
-      width: 500,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "exerciseResourceID",
+      field: "id",
       headerName: "Action",
-      width: 100,
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -121,23 +148,21 @@ const ExerciseResourceList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link href={`${pages.exerciseResourceListPath}/${params.value}/edit`}>
+            <Link href={`${pages.userListPath}/${params.value}/edit`}>
               <EditIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            {/* <Link
-              href={`${pages.exerciseResourceDetailsEditPath}/${params.value}/edit`}
-            >
+            {/* <Link href={`${pages.userListPath}/${params.value}/userDetail`}>
               <UpdateIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
-            </Link> */}
+            </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteExerciseResource(params.value));
+                dispatch(deleteUser(params.value));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -145,7 +170,7 @@ const ExerciseResourceList = () => {
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
-            </IconButton>
+            </IconButton> */}
           </>
         );
       },
@@ -153,36 +178,36 @@ const ExerciseResourceList = () => {
   ];
 
   useEffect(() => {
-    if (exerciseResourceStatus === "succeeded") {
+    if (userStatus === "succeeded") {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseResourceList());
+    dispatch(getUserList());
   }, [dispatch, refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH SÁCH TÀI NGUYÊN BÀI TẬP</Typography>
-        <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} />
+        <Typography variant="h3">DANH SÁCH NGƯỜI DÙNG</Typography>
+        <SearchUserListFrom onSearch={(data) => setFilters(data)} />
         <Box>
-          <AddButton
-            desc="Thêm bài tập"
-            url={`${pages.addExerciseResourcePath}`}
+          {/* <AddButton
+            desc="Thêm người dùng"
+            url={`${pages.addUserPath}`}
             sx={{ mt: -6 }}
-          />
+          /> */}
           <DataGridTable
             columns={columns}
             rows={rows}
-            getRowId={(row) => row.exerciseResourceID}
+            getRowId={(row) => row.id}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={exerciseResourceList?.length ?? 0}
-            isLoading={exerciseResourceStatus !== "succeeded"}
+            rowCount={userList?.length ?? 0}
+            isLoading={userStatus !== "succeeded"}
             pagination
             paginationMode="client"
           />
@@ -192,4 +217,4 @@ const ExerciseResourceList = () => {
   );
 };
 
-export default ExerciseResourceList;
+export default UserList;

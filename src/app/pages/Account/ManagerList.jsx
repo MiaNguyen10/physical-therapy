@@ -36,7 +36,7 @@ const ManagerList = () => {
       role = 1;
     } else if (filters.role === "Quản lý") {
       role = 2;
-    } else if (filters.role === "Bác sĩ vật lý trị liệu") {
+    } else if (filters.role === "Nhà vật lý trị liệu") {
       role = 3;
     } else if (filters.role === "Người dùng") {
       role = 4;

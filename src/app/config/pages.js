@@ -20,7 +20,15 @@ const pages = {
     exerciseDetailAddPath: '/exercise/:id/addExerciseDetail',
     exerciseResourceListPath: '/exerciseResource',
     addExerciseResourcePath: '/exerciseResource/add',
-    exerciseResourceEditPath: '/exerciseResource/:id/edit'
+    exerciseResourceEditPath: '/exerciseResource/:id/edit',
+    schedulePath: '/schedulePath',
+    slotListPath: '/slot',
+    addSlotPath: '/slot/add',
+    slotEditPath: '/slot/:id/edit',
+    userListPath: '/user',
+    addUserPath: '/user/add',
+    addPhysiotherapistPath: '/physiotherapist/add',
+    userEditPath: '/user/:id/edit',
 }
 
 export default pages

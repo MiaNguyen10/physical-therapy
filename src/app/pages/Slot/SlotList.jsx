@@ -9,27 +9,29 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { getCategories, getStatusCategory } from "cores/reducers/category";
+import { getCategoryList } from "cores/thunk/category";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getExerciseResources,
-  getStatus,
+  getSlots,
+  getStatusSlots,
   resetStatus,
-} from "../../../cores/reducers/exerciseResource";
-import {
-  deleteExerciseResource,
-  getExerciseResourceList,
-} from "../../../cores/thunk/exerciseResource";
+} from "../../../cores/reducers/slot";
+import { deleteSlot, getSlotList } from "../../../cores/thunk/slot";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
-import SearchExerciseResourceListFrom from "./components/SearchExerciseResourceListForm";
+import SearchSlotListFrom from "../Slot/components/SearchSlotListForm";
 
-const ExerciseResourceList = () => {
+const SlotList = () => {
   const dispatch = useDispatch();
-  let exerciseResourceList = useSelector(getExerciseResources);
-  const exerciseResourceStatus = useSelector(getStatus);
+  let slotList = useSelector(getSlots);
+  const slotStatus = useSelector(getStatusSlots);
+  let categoryList = useSelector(getCategories);
+  const categoryStatus = useSelector(getStatusCategory);
+
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
@@ -41,27 +43,98 @@ const ExerciseResourceList = () => {
     setPage(page);
   };
 
+  useEffect(() => {
+    if (categoryStatus === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCategoryList());
+  }, [dispatch]);
+
   const rows = useMemo(() => {
     return (
-      Array.isArray(exerciseResourceList) &&
-      exerciseResourceList.filter((exerciseResource) => {
+      Array.isArray(slotList) &&
+      slotList.filter((slot) => {
         const isFoundName =
-          exerciseResource.resourceName
+          slot.slotName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
         const isFoundCate =
-          exerciseResource.exerciseDetailID
+          slot.description
             .toLowerCase()
             .search(trim(filters.searchCate.toLowerCase())) >= 0;
         return isFoundName && isFoundCate;
       })
     );
-  }, [filters, exerciseResourceList]);
+  }, [filters, slotList]);
 
   const columns = [
     {
-      field: "resourceName",
-      headerName: "Tài nguyên Bài tập",
+      field: "slotName",
+      headerName: "Tên",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+    {
+      field: "timeStart",
+      headerName: "Bắt đầu",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+    {
+      field: "timeEnd",
+      headerName: "Kết thúc",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+    {
+      field: "price",
+      headerName: "Giá tiền",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+    {
+      field: "available",
+      headerName: "Trạng thái",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ? 'Còn trống' : 'Đã đầy'}</Typography>,
+    },
+    {
+      field: "description",
+      headerName: "Loại slot",
       width: 300,
       headerAlign: "center",
       align: "center",
@@ -71,46 +144,11 @@ const ExerciseResourceList = () => {
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
+
     {
-      field: "exerciseDetailID",
-      headerName: "Chi tiết Bài tập",
-      width: 300,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "imageURL",
-      headerName: "Hình ảnh",
-      width: 300,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "videoURL",
-      headerName: "Video",
-      width: 500,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "exerciseResourceID",
+      field: "slotID",
       headerName: "Action",
-      width: 100,
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -121,23 +159,15 @@ const ExerciseResourceList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link href={`${pages.exerciseResourceListPath}/${params.value}/edit`}>
+            <Link href={`${pages.slotListPath}/${params.value}/edit`}>
               <EditIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            {/* <Link
-              href={`${pages.exerciseResourceDetailsEditPath}/${params.value}/edit`}
-            >
-              <UpdateIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
-              />
-            </Link> */}
             <IconButton
               onClick={() => {
-                dispatch(deleteExerciseResource(params.value));
+                dispatch(deleteSlot(params.value));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -153,36 +183,36 @@ const ExerciseResourceList = () => {
   ];
 
   useEffect(() => {
-    if (exerciseResourceStatus === "succeeded") {
+    if (slotStatus === "succeeded") {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseResourceList());
+    dispatch(getSlotList());
   }, [dispatch, refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH SÁCH TÀI NGUYÊN BÀI TẬP</Typography>
-        <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} />
+        <Typography variant="h3">DANH SÁCH SLOT</Typography>
+        <SearchSlotListFrom onSearch={(data) => setFilters(data)} />
         <Box>
           <AddButton
-            desc="Thêm bài tập"
-            url={`${pages.addExerciseResourcePath}`}
+            desc="Thêm slot"
+            url={`${pages.addSlotPath}`}
             sx={{ mt: -6 }}
           />
           <DataGridTable
             columns={columns}
             rows={rows}
-            getRowId={(row) => row.exerciseResourceID}
+            getRowId={(row) => row.slotID}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={exerciseResourceList?.length ?? 0}
-            isLoading={exerciseResourceStatus !== "succeeded"}
+            rowCount={slotList?.length ?? 0}
+            isLoading={slotStatus !== "succeeded"}
             pagination
             paginationMode="client"
           />
@@ -192,4 +222,4 @@ const ExerciseResourceList = () => {
   );
 };
 
-export default ExerciseResourceList;
+export default SlotList;

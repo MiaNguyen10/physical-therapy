@@ -21,6 +21,14 @@ import EditExerciseResource from "./pages/ExerciseResource/EditExerciseResource"
 import ExerciseResourceList from "./pages/ExerciseResource/ExerciseResourceList";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Login from "./pages/Login";
+import Demo from "./pages/Schedule/demo";
+import AddSlot from "./pages/Slot/AddSlot";
+import SlotList from "./pages/Slot/SlotList";
+import EditSlot from "./pages/Slot/EditSlot";
+import AddUser from "./pages/User/AddUser";
+import AddPhysiotherapist from "./pages/User/AddPhysiotherapist";
+import UserList from "./pages/User/UserList";
+import EditUser from "./pages/User/EditUser";
 import ProtectedRoutes from "./middlewares/ProtectedRoutes";
 
 const Router = () => {
@@ -177,6 +185,18 @@ const Router = () => {
             </ProtectedRoutes>
           }
         />
+        <Route path={`/${pages.schedulePath}`} element={<Demo />} />
+        <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
+        <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
+        <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
+        <Route path={`/${pages.userListPath}`} element={<UserList />} />
+        <Route path={`/${pages.addUserPath}`} element={<AddUser />} />
+
+        <Route
+          path={`/${pages.addPhysiotherapistPath}`}
+          element={<AddPhysiotherapist />}
+        />
+        <Route path={`/${pages.slotEditPath}`} element={<EditUser />} />
       </Route>
     </Routes>
   );

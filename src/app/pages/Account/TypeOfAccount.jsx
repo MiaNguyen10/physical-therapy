@@ -41,21 +41,21 @@ const TypeOfAccount = () => {
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "60px" }}>
         <ButtonStyle
           variant="text"
-          onClick={() => navigate(`${pages.managerListPath}`)}
+          onClick={() => navigate(`${pages.userListPath}`)}
         >
           Quản lý
         </ButtonStyle>
 
         <ButtonStyle
           variant="text"
-          onClick={() => navigate(`${pages.therapistListPath}`)}
+          onClick={() => navigate(`${pages.addPhysiotherapistPath}`)}
         >
-          Bác sĩ vật lý trị liệu
+          Nhà vật lý trị liệu
         </ButtonStyle>
 
         <ButtonStyle
           variant="text"
-          onClick={() => navigate(`${pages.memberListPath}`)}
+          onClick={() => navigate(`${pages.addUserPath}`)}
         >
           Người dùng
         </ButtonStyle>
