@@ -8,7 +8,7 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { selectSession } from "cores/reducers/authentication";
+import { selectToken } from "cores/reducers/authentication";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,7 @@ const Login = () => {
   const state = useLocation().state;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const currentSession = useSelector(selectSession);
+  const currentSession = useSelector(selectToken);
   const [eMessage, setEMessage] = useState("")
   
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import pages from "./config/pages";
@@ -23,167 +23,67 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import Login from "./pages/Login";
 import Demo from "./pages/Schedule/demo";
 import AddSlot from "./pages/Slot/AddSlot";
-import SlotList from "./pages/Slot/SlotList";
 import EditSlot from "./pages/Slot/EditSlot";
-import AddUser from "./pages/User/AddUser";
+import SlotList from "./pages/Slot/SlotList";
 import AddPhysiotherapist from "./pages/User/AddPhysiotherapist";
-import UserList from "./pages/User/UserList";
+import AddUser from "./pages/User/AddUser";
 import EditUser from "./pages/User/EditUser";
-import ProtectedRoutes from "./middlewares/ProtectedRoutes";
+import UserList from "./pages/User/UserList";
+import { useDispatch, useSelector } from "react-redux";
+import { selectState } from "cores/reducers/authentication";
+import { getRole } from "cores/thunk/auth";
 
 const Router = () => {
+  const currentState = useSelector(selectState);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getRole(currentState.UserId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
       <Route element={<Layout />}>
-        <Route
-          path={`/${pages.landingPage}`}
-          element={
-            <ProtectedRoutes>
-              <LandingPage />
-            </ProtectedRoutes>
-          }
-        />
+        <Route path={`/${pages.landingPage}`} element={<LandingPage />} />
         {/* Account */}
-        <Route
-          path={`/${pages.accountPath}`}
-          element={
-            <ProtectedRoutes>
-              <TypeOfAccount />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path={`/${pages.memberListPath}`}
-          element={
-            <ProtectedRoutes>
-              <MemberList />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path={`/${pages.managerListPath}`}
-          element={
-            <ProtectedRoutes>
-              <ManagerList />
-            </ProtectedRoutes>
-          }
-        />
+        <Route path={`/${pages.accountPath}`} element={<TypeOfAccount />} />
+        <Route path={`/${pages.memberListPath}`} element={<MemberList />} />
+        <Route path={`/${pages.managerListPath}`} element={<ManagerList />} />
         <Route
           path={`/${pages.therapistListPath}`}
-          element={
-            <ProtectedRoutes>
-              <TherapistList />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path={`/${pages.addAccountPath}`}
-          element={
-            <ProtectedRoutes>
-              <AddAccount />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path={`/${pages.accountEditPath}`}
-          element={
-            <ProtectedRoutes>
-              <EditAccount />
-            </ProtectedRoutes>
-          }
-        />
+          element={<TherapistList />}
+        ></Route>
+        <Route path={`/${pages.addAccountPath}`} element={<AddAccount />} />
+        <Route path={`/${pages.accountEditPath}`} element={<EditAccount />} />
         {/* Category */}
-        <Route
-          path={`/${pages.categoryListPath}`}
-          element={
-            <ProtectedRoutes>
-              <CategotyList />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path={`/${pages.addCategoryPath}`}
-          element={
-            <ProtectedRoutes>
-              <AddCategory />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path={`/${pages.categoryEditPath}`}
-          element={
-            <ProtectedRoutes>
-              <EditCategory />
-            </ProtectedRoutes>
-          }
-        />
+        <Route path={`/${pages.categoryListPath}`} element={<CategotyList />} />
+        <Route path={`/${pages.addCategoryPath}`} element={<AddCategory />} />
+        <Route path={`/${pages.categoryEditPath}`} element={<EditCategory />} />
         {/* Exercise */}
-        <Route
-          path={`/${pages.exerciseListPath}`}
-          element={
-            <ProtectedRoutes>
-              <ExerciseList />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path={`/${pages.addExercisePath}`}
-          element={
-            <ProtectedRoutes>
-              <AddExercise />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path={`/${pages.exerciseEditPath}`}
-          element={
-            <ProtectedRoutes>
-              <EditExercise />
-            </ProtectedRoutes>
-          }
-        />
+        <Route path={`/${pages.exerciseListPath}`} element={<ExerciseList />} />
+        <Route path={`/${pages.addExercisePath}`} element={<AddExercise />} />
+        <Route path={`/${pages.exerciseEditPath}`} element={<EditExercise />} />
         {/* Detail */}
         <Route
           path={`/${pages.exerciseDetailPath}`}
-          element={
-            <ProtectedRoutes>
-              <ExerciseDetail />
-            </ProtectedRoutes>
-          }
+          element={<ExerciseDetail />}
         />
         <Route
           path={`/${pages.exerciseDetailAddPath}`}
-          element={
-            <ProtectedRoutes>
-              <AddExerciseDetail />
-            </ProtectedRoutes>
-          }
+          element={<AddExerciseDetail />}
         />
         {/* Resource */}
         <Route
           path={`/${pages.addExerciseResourcePath}`}
-          element={
-            <ProtectedRoutes>
-              <AddExerciseResource />
-            </ProtectedRoutes>
-          }
+          element={<AddExerciseResource />}
         />
         <Route
           path={`/${pages.exerciseResourceListPath}`}
-          element={
-            <ProtectedRoutes>
-              <ExerciseResourceList />
-            </ProtectedRoutes>
-          }
+          element={<ExerciseResourceList />}
         />
         <Route
           path={`/${pages.exerciseResourceEditPath}`}
-          element={
-            <ProtectedRoutes>
-              <EditExerciseResource />
-            </ProtectedRoutes>
-          }
+          element={<EditExerciseResource />}
         />
         <Route path={`/${pages.schedulePath}`} element={<Demo />} />
         <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
