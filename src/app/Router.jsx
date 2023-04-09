@@ -21,45 +21,162 @@ import EditExerciseResource from "./pages/ExerciseResource/EditExerciseResource"
 import ExerciseResourceList from "./pages/ExerciseResource/ExerciseResourceList";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Login from "./pages/Login";
-
+import ProtectedRoutes from "./middlewares/ProtectedRoutes";
 
 const Router = () => {
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
-      {/* <Route element={<ProtectedRoutes />}>
-        
-      </Route> */}
       <Route element={<Layout />}>
-        <Route path={`/${pages.landingPage}`} element={<LandingPage />} />
+        <Route
+          path={`/${pages.landingPage}`}
+          element={
+            <ProtectedRoutes>
+              <LandingPage />
+            </ProtectedRoutes>
+          }
+        />
         {/* Account */}
-        <Route path={`/${pages.accountPath}`} element={<TypeOfAccount />} />
-        <Route path={`/${pages.memberListPath}`} element={<MemberList />} />
-        {/* <Route element={<RestrictedPermission permission={["Bearer"]} />}>
-         
-        </Route> */}
-        <Route path={`/${pages.managerListPath}`} element={<ManagerList />} />
+        <Route
+          path={`/${pages.accountPath}`}
+          element={
+            <ProtectedRoutes>
+              <TypeOfAccount />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.memberListPath}`}
+          element={
+            <ProtectedRoutes>
+              <MemberList />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.managerListPath}`}
+          element={
+            <ProtectedRoutes>
+              <ManagerList />
+            </ProtectedRoutes>
+          }
+        />
         <Route
           path={`/${pages.therapistListPath}`}
-          element={<TherapistList />}
+          element={
+            <ProtectedRoutes>
+              <TherapistList />
+            </ProtectedRoutes>
+          }
         />
-        <Route path={`/${pages.addAccountPath}`} element={<AddAccount />} />
-        <Route path={`/${pages.accountEditPath}`} element={<EditAccount />} />
+        <Route
+          path={`/${pages.addAccountPath}`}
+          element={
+            <ProtectedRoutes>
+              <AddAccount />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.accountEditPath}`}
+          element={
+            <ProtectedRoutes>
+              <EditAccount />
+            </ProtectedRoutes>
+          }
+        />
         {/* Category */}
-        <Route path={`/${pages.categoryListPath}`} element={<CategotyList />} />
-        <Route path={`/${pages.addCategoryPath}`} element={<AddCategory />} />
-        <Route path={`/${pages.categoryEditPath}`} element={<EditCategory />} />
+        <Route
+          path={`/${pages.categoryListPath}`}
+          element={
+            <ProtectedRoutes>
+              <CategotyList />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.addCategoryPath}`}
+          element={
+            <ProtectedRoutes>
+              <AddCategory />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.categoryEditPath}`}
+          element={
+            <ProtectedRoutes>
+              <EditCategory />
+            </ProtectedRoutes>
+          }
+        />
         {/* Exercise */}
-        <Route path={`/${pages.exerciseListPath}`} element={<ExerciseList />} />
-        <Route path={`/${pages.addExercisePath}`} element={<AddExercise />} />
-        <Route path={`/${pages.exerciseEditPath}`} element={<EditExercise />} />
+        <Route
+          path={`/${pages.exerciseListPath}`}
+          element={
+            <ProtectedRoutes>
+              <ExerciseList />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.addExercisePath}`}
+          element={
+            <ProtectedRoutes>
+              <AddExercise />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.exerciseEditPath}`}
+          element={
+            <ProtectedRoutes>
+              <EditExercise />
+            </ProtectedRoutes>
+          }
+        />
         {/* Detail */}
-        <Route path={`/${pages.exerciseDetailPath}`} element={<ExerciseDetail />} />
-        <Route path={`/${pages.exerciseDetailAddPath}`} element={<AddExerciseDetail />} />
+        <Route
+          path={`/${pages.exerciseDetailPath}`}
+          element={
+            <ProtectedRoutes>
+              <ExerciseDetail />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.exerciseDetailAddPath}`}
+          element={
+            <ProtectedRoutes>
+              <AddExerciseDetail />
+            </ProtectedRoutes>
+          }
+        />
         {/* Resource */}
-        <Route path={`/${pages.addExerciseResourcePath}`} element={<AddExerciseResource />} />
-        <Route path={`/${pages.exerciseResourceListPath}`} element={<ExerciseResourceList />} />
-        <Route path={`/${pages.exerciseResourceEditPath}`} element={<EditExerciseResource />} />
+        <Route
+          path={`/${pages.addExerciseResourcePath}`}
+          element={
+            <ProtectedRoutes>
+              <AddExerciseResource />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.exerciseResourceListPath}`}
+          element={
+            <ProtectedRoutes>
+              <ExerciseResourceList />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={`/${pages.exerciseResourceEditPath}`}
+          element={
+            <ProtectedRoutes>
+              <EditExerciseResource />
+            </ProtectedRoutes>
+          }
+        />
       </Route>
     </Routes>
   );

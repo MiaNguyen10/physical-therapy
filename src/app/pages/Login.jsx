@@ -24,7 +24,8 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentSession = useSelector(selectSession);
-  const [error, setError] = useState(false);
+  const [eMessage, setEMessage] = useState("")
+  
 
   const {
     register,
@@ -40,7 +41,7 @@ const Login = () => {
         state && state.from.pathname ? state.from.pathname : pages.landingPage;
       navigate(destination, { replace: true });
     } catch (e) {
-      e && setError(true);
+      setEMessage(e.message)
     }
   };
 
@@ -116,7 +117,7 @@ const Login = () => {
                 // },
               }}
             />
-            {error && <Typography sx={{color: 'red', fontStyle: 'italic', fontSize:'14px'}}>Mật khẩu hoặc SĐT của bạn bị sai. Vui lòng nhập lại </Typography>}
+            <Typography sx={{color: 'red', fontStyle: 'italic', fontSize:'14px'}}>{eMessage} </Typography>
             <Button
               type="submit"
               fullWidth
