@@ -169,11 +169,6 @@ const ExerciseResourceList = () => {
         <Typography variant="h3">DANH SÁCH TÀI NGUYÊN BÀI TẬP</Typography>
         <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} />
         <Box>
-          <AddButton
-            desc="Thêm bài tập"
-            url={`${pages.addExerciseResourcePath}`}
-            sx={{ mt: -6 }}
-          />
           <DataGridTable
             columns={columns}
             rows={rows}

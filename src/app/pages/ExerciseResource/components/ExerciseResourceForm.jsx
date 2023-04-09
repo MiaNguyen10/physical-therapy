@@ -1,102 +1,32 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Backdrop,
+  Box,
   Button,
   CircularProgress,
   Container,
-  Select,
   Stack,
   TextField,
-  MenuItem,
-  Box,
 } from "@mui/material";
+import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import ReactPlayer from "react-player";
+import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
-import ReactPlayer from "react-player";
-
-const makeStyles = () => ({
-  textFieldStyle: {
-    width: "500px",
-    ".MuiOutlinedInput-root": {
-      height: 44,
-      "& fieldset": {
-        borderColor: "",
-      },
-    },
-    ".MuiInputBase-root": {
-      marginTop: 0,
-    },
-    ".MuiSelect-root": {
-      marginTop: 0,
-    },
-    ".MuiInputLabel-root": {
-      zIndex: 0,
-      top: "-25px",
-      fontSize: "16px",
-      fontWeight: 700,
-      color: "#333333",
-      WebkitTransform: "none",
-      span: {
-        color: "#D93A39",
-      },
-      "&.Mui-focused": {
-        color: "#333333",
-      },
-      "&.Mui-error": {
-        color: "#333333",
-      },
-    },
-    ".MuiOutlinedInput-notchedOutline": {
-      legend: {
-        maxWidth: 0,
-      },
-    },
-  },
-  selectFieldStyle: {
-    width: "500px",
-    margin: "0",
-    ".MuiOutlinedInput-root": {
-      height: 44,
-      "& fieldset": {
-        borderColor: "",
-      },
-    },
-    fontSize: "16px",
-    fontWeight: 700,
-    color: "#333333",
-    WebkitTransform: "none",
-    span: {
-      color: "#D93A39",
-    },
-    "&.Mui-focused": {
-      color: "#333333",
-    },
-    "&.Mui-error": {
-      color: "#333333",
-    },
-    ".MuiOutlinedInput-notchedOutline": {
-      legend: {
-        maxWidth: 0,
-      },
-    },
-  },
-});
 
 const ExerciseResourceForm = ({
   exerciseResourceDetail,
   onFormSubmit,
   isLoading,
-  exerciseDetails,
 }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
+  const {id} = useParams()
 
   const schema = yup.object({
     resourceName: yup.string().required("Vui lòng điền thông tin"),
-    exerciseDetailID: yup.string().required("Vui lòng điền thông tin"),
     imageURL: yup.string().required("Vui lòng điền thông tin"),
     videoURL: yup.string().required("Vui lòng điền thông tin"),
   });
@@ -106,13 +36,11 @@ const ExerciseResourceForm = ({
     formState: { errors: formErrors },
     control,
     reset,
-    getValues,
   } = useForm({
     mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
       resourceName: "",
-      exerciseDetailID: "",
       imageURL: "",
       videoURL: "",
     },
@@ -123,11 +51,10 @@ const ExerciseResourceForm = ({
   useEffect(() => {
     reset({
       resourceName: exerciseResourceDetail?.resourceName,
-      exerciseDetailID: exerciseResourceDetail?.exerciseDetailID,
       imageURL: exerciseResourceDetail?.imageURL,
       videoURL: exerciseResourceDetail?.videoURL,
     });
-  }, [exerciseResourceDetail, reset, getValues]);
+  }, [exerciseResourceDetail, reset]);
 
   return (
     <Container sx={{ width: "50%", display: "flex" }}>
@@ -170,7 +97,7 @@ const ExerciseResourceForm = ({
                   label="Hình ảnh"
                   variant="outlined"
                 />
-                <Box component='img' src={value} />
+                <Box component="img" src={value} />
               </React.Fragment>
             )}
           />
@@ -196,45 +123,15 @@ const ExerciseResourceForm = ({
             )}
           />
 
-          <Controller
-            control={control}
-            name="exerciseDetailID"
-            render={({ field: { onChange, value } }) => (
-              <React.Fragment>
-                <label required style={{ fontWeight: "bold", top: -25 }}>
-                  Chi Tiết Bài tập
-                </label>
-                <Select
-                  sx={styles.selectFieldStyle}
-                  value={value}
-                  onChange={onChange}
-                  error={!!formErrors?.exerciseDetailID}
-                  helperText={formErrors?.exerciseDetailID?.message}
-                  required
-                  inputProps={{ required: false, maxLength: 255 }}
-                  variant="outlined"
-                  label="Chi Tiết Bài tập"
-                  id="demo-simple-select-label"
-                >
-                  {exerciseDetails.map((cate) => (
-                    <MenuItem value={cate.exerciseDetailID}>
-                      {cate.detailName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </React.Fragment>
-            )}
-          />
-
           <Stack
             direction="row"
-            justifyContent="flex-end"
+            justifyContent="center"
             spacing={2}
             sx={{ width: "100%" }}
           >
             <Button
               variant="outlined"
-              onClick={() => navigate(pages.exerciseResourceListPath)}
+              onClick={() => navigate(`/exercise/${id}/exerciseDetail`)}
               disabled={isLoading}
             >
               Hủy bỏ

@@ -9,10 +9,12 @@ import { addExercise } from "../../../cores/thunk/exercise";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import ExerciseForm from "./components/ExerciseForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const AddExercise = () => {
   const dispatch = useDispatch();
-  let categories = useSelector(getCategories)
+  let categories = useSelector(getCategories);
+  const token = useSelector(selectToken);
 
   const exerciseStatus = useSelector(getStatusExercises);
   const [open, setOpen] = useState(false);
@@ -22,9 +24,12 @@ const AddExercise = () => {
     setOpen(false);
     navigate(`${pages.exerciseListPath}`);
   };
-  
 
-  const handleFormSubmit = ({ exerciseName, exerciseTimePerWeek, categoryID}) => {
+  const handleFormSubmit = ({
+    exerciseName,
+    exerciseTimePerWeek,
+    categoryID,
+  }) => {
     try {
       dispatch(
         addExercise({
@@ -45,7 +50,8 @@ const AddExercise = () => {
 
   useEffect(() => {
     dispatch(getCategoryList());
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>

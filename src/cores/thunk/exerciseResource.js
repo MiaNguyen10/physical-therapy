@@ -18,6 +18,21 @@ export const getExerciseResourceList = createAsyncThunk(
   }
 );
 
+export const getExerciseResource = createAsyncThunk(
+  "exerciseResource/getExerciseResource",
+  async (id) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/ExerciseResource/GetByExerciseDetailId/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      }
+    );
+    return await response.json();
+  }
+);
+
 export const addExerciseResource = createAsyncThunk(
   "exerciseResource/addExerciseResource",
   async (inputCreate) => {

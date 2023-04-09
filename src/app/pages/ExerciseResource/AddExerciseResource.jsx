@@ -50,7 +50,7 @@ const AddExerciseResource = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">THÊM TÀI NGUYÊN BÀI TẬP</Typography>
+        <Typography variant="h3">THÊM TÀI NGUYÊN BÀI TẬP</Typography>
         <ExerciseResourceForm
           onFormSubmit={handleFormSubmit}
           isLoading={exerciseResourceStatus === "loading"}
@@ -60,7 +60,7 @@ const AddExerciseResource = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Thêm chi tiết bài tập thành công"
+        desc="Thêm tài nguyên bài tập thành công"
       />
     </Container>
   );

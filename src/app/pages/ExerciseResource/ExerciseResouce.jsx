@@ -4,25 +4,30 @@ import pages from "app/config/pages";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getStatus, resetStatus } from "../../../cores/reducers/exerciseDetail";
 import {
   deleteExerciseDetail,
   editExerciseDetail,
   getExerciseDetailById,
 } from "../../../cores/thunk/exerciseDetail";
-import ExerciseDetailForm from "./components/ExerciseDetailForm";
+import ExerciseResourceForm from "./components/ExerciseResourceForm";
+import {
+  getStatus,
+  resetStatus,
+  retreiveExerciseResource,
+} from "cores/reducers/exerciseResource";
+import {
+  deleteExerciseResource,
+  getExerciseResource,
+} from "cores/thunk/exerciseResource";
 
-const ExerciseDetail = () => {
-  const { id } = useParams();
+const ExerciseResource = () => {
+  const { id, idDetail } = useParams();
   const dispatch = useDispatch();
-  let exerciseDetail = useSelector(
-    (state) => state.exerciseDetail.exerciseDetail
-  );
-  const exerciseDetailStatus = useSelector(getStatus);
+  let exerciseResource = useSelector(retreiveExerciseResource);
+  const resourceStatus = useSelector(getStatus);
   const [open, setOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -31,10 +36,10 @@ const ExerciseDetail = () => {
     try {
       dispatch(
         editExerciseDetail({
-          exerciseDetailID: exerciseDetail.exerciseDetailID,
+          exerciseDetailID: exerciseResource.exerciseDetailID,
           detailName: detailName,
           description: description,
-          exerciseID: exerciseDetail.exerciseID,
+          exerciseID: exerciseResource.exerciseID,
           set: set,
         })
       ).unwrap();
@@ -46,76 +51,68 @@ const ExerciseDetail = () => {
   };
 
   useEffect(() => {
-    if (exerciseDetailStatus === "succeeded") {
+    if (resourceStatus === "succeeded") {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseDetailById(id));
-  }, [dispatch, id, refreshKey]);
+    dispatch(getExerciseResource(idDetail));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">CHI TIẾT BÀI TẬP</Typography>
-        {!Object.keys(exerciseDetail).length ? (
+        <Typography variant="h3">TÀI NGUYÊN BÀI TẬP</Typography>
+        {!Object.keys(exerciseResource).length ? (
           <>
             <Button
               variant="text"
               onClick={() =>
-                navigate(`${pages.exerciseListPath}/${id}/addExerciseDetail`)
+                navigate(`/exercise/${id}/exerciseDetail/${idDetail}/addExerciseResource`)
               }
             >
-              Thêm chi tiết bài tập
+              Thêm tài nguyên bài tập
             </Button>
           </>
         ) : (
-          <ExerciseDetailForm
-            exerciseDetail={{
-              detailName: exerciseDetail?.detailName,
-              set: exerciseDetail?.set,
-              description: exerciseDetail?.description,
+          <ExerciseResourceForm
+            exerciseResourceDetail={{
+              resourceName: exerciseResource?.resourceName,
+              imageURL: exerciseResource?.imageURL,
+              videoURL: exerciseResource?.videoURL,
             }}
             onFormSubmit={handleEditFormSubmit}
-            isLoading={exerciseDetailStatus === "loading"}
+            isLoading={resourceStatus === "loading"}
           />
         )}
-
         <Stack
           direction="row"
           justifyContent="center"
           alignItems="center"
-          spacing={18}
+          spacing={10}
         >
           <Button
             variant="outlined"
-            onClick={() => navigate(pages.exerciseListPath)}
+            onClick={() => {
+              navigate(`/exercise/${id}/exerciseDetail`);
+            }}
           >
-            Quay về danh sách bài tập
+            Quay về chi tiết bài tập
           </Button>
-          {!Object.keys(exerciseDetail).length ? (
+          {!Object.keys(exerciseResource).length ? (
             ""
           ) : (
             <>
               <Button
                 variant="contained"
-                onClick={() =>
-                  navigate(
-                    `/exercise/${id}/exerciseDetail/${exerciseDetail.exerciseDetailID}/exerciseResource`
-                  )
-                }
-              >
-                Xem tài nguyên
-              </Button>
-              <Button
-                variant="contained"
                 onClick={() => {
                   dispatch(
-                    deleteExerciseDetail(exerciseDetail.exerciseDetailID)
+                    deleteExerciseResource(exerciseResource.exerciseResourceID)
                   );
-                  navigate(pages.exerciseListPath);
+                  navigate(`/exercise/${id}/exerciseDetail`);
                 }}
               >
                 Xóa chi tiết
@@ -133,4 +130,4 @@ const ExerciseDetail = () => {
   );
 };
 
-export default ExerciseDetail;
+export default ExerciseResource;

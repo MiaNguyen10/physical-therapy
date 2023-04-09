@@ -32,6 +32,7 @@ import UserList from "./pages/User/UserList";
 import { useDispatch, useSelector } from "react-redux";
 import { selectState } from "cores/reducers/authentication";
 import { getRole } from "cores/thunk/auth";
+import ExerciseResource from "./pages/ExerciseResource/ExerciseResouce";
 
 const Router = () => {
   const currentState = useSelector(selectState);
@@ -80,6 +81,10 @@ const Router = () => {
         <Route
           path={`/${pages.exerciseResourceListPath}`}
           element={<ExerciseResourceList />}
+        />
+        <Route
+          path={`/${pages.exerciseResourcePath}`}
+          element={<ExerciseResource />}
         />
         <Route
           path={`/${pages.exerciseResourceEditPath}`}

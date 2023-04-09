@@ -27,6 +27,7 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchExerciseListFrom from "../Exercise/components/SearchExerciseListForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const ExerciseList = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const ExerciseList = () => {
   const exerciseStatus = useSelector(getStatusExercises);
   let categoryList = useSelector(getCategories);
   const categoryStatus = useSelector(getStatusCategory);
+  const token = useSelector(selectToken)
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -148,7 +150,7 @@ const ExerciseList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteExercise(params.value));
+                dispatch(deleteExercise(params.value, token));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -171,8 +173,9 @@ const ExerciseList = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseList());
-  }, [dispatch, refreshKey]);
+    dispatch(getExerciseList(token));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
