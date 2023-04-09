@@ -127,14 +127,14 @@ const ExerciseResourceList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            <Link
+            {/* <Link
               href={`${pages.exerciseResourceDetailsEditPath}/${params.value}/edit`}
             >
               <UpdateIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
-            </Link>
+            </Link> */}
             <IconButton
               onClick={() => {
                 dispatch(deleteExerciseResource(params.value));
