@@ -170,7 +170,7 @@ const ExerciseResourceList = () => {
         <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} />
         <Box>
           <AddButton
-            desc="Thêm bài tập"
+            desc="Thêm tài nguyên bài tập"
             url={`${pages.addExerciseResourcePath}`}
             sx={{ mt: -6 }}
           />
