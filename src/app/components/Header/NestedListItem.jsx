@@ -39,7 +39,7 @@ const NestedListItem = () => {
         <RestrictedPermission permission={["Bearer"]}>
           <ListItemButton
             sx={{ pl: 8 }}
-            onClick={() => navigate(`${pages.managerListPath}`)}
+            onClick={() => navigate(`${pages.userListPath}`)}
           >
             <ListItemIcon>
               <ManageAccountsIcon />
@@ -55,7 +55,7 @@ const NestedListItem = () => {
           <ListItemIcon>
             <MedicationIcon />
           </ListItemIcon>
-          <ListItemText primary="Bác sĩ vật lý trị liệu" />
+          <ListItemText primary="Nhà vật lý trị liệu" />
         </ListItemButton>
 
         <ListItemButton

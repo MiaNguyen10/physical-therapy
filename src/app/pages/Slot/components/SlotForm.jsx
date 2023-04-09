@@ -7,7 +7,9 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { DateTimePicker } from "@mui/x-date-pickers";
+import { DateTimePicker } from "@mui/lab";
+import { LocalizationProvider } from "@mui/lab";
+import DateFnsAdapter from "@mui/lab/AdapterDateFns";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -55,7 +57,7 @@ const makeStyles = () => ({
   },
 });
 
-const SlotForm = ({ slotDetail, onFormSubmit, isLoading, categories }) => {
+const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
 
@@ -65,7 +67,6 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading, categories }) => {
     timeStart: yup.string().required("Vui lòng điền thông tin"),
     timeEnd: yup.string().required("Vui lòng điền thông tin"),
     price: yup.string().required("Vui lòng điền thông tin"),
-    available: yup.string().required("Vui lòng điền thông tin"),
   });
 
   const {
@@ -96,12 +97,14 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading, categories }) => {
     reset({
       slotName: slotDetail?.slotName,
       description: slotDetail?.description,
-      available: slotDetail?.available,
       price: slotDetail?.price,
       timeStart: slotDetail?.timeStart,
       timeEnd: slotDetail?.timeEnd,
+      available: slotDetail?.available,
     });
-  }, [slotDetail, reset, getValues, categories]);
+  }, [slotDetail, reset, getValues]);
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
     <Container sx={{ width: "50%", display: "flex" }}>
@@ -164,44 +167,76 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading, categories }) => {
             )}
           />
 
-          <Controller
+          {/* <Controller
             control={control}
             name="timeStart"
             render={({ field: { onChange, value } }) => (
-              <React.Fragment>
-                <label required style={{ fontWeight: "bold", top: -25 }}>
-                  Thời gian bắt đầu
-                </label>
+              <LocalizationProvider dateAdapter={DateFnsAdapter}>
                 <DateTimePicker
+                  label="Select Date and Time"
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.timeStart}
-                  helperText={formErrors?.timeStart?.message}
-                  required
-                  label="Thời gian bắt đầu"
-                  inputVariant="outlined"
+                  ampm={false}
+                  renderInput={(params) => <TextField {...params} />}
                 />
-              </React.Fragment>
+              </LocalizationProvider>
             )}
           />
+
           <Controller
             control={control}
             name="timeEnd"
             render={({ field: { onChange, value } }) => (
-              <React.Fragment>
-                <label required style={{ fontWeight: "bold", top: -25 }}>
-                  Thời gian kết thúc
-                </label>
+              <LocalizationProvider dateAdapter={DateFnsAdapter}>
                 <DateTimePicker
-                  value={value}
-                  onChange={onChange}
-                  error={!!formErrors?.timeEnd}
-                  helperText={formErrors?.timeEnd?.message}
-                  required
-                  label="Thời gian kết thúc"
-                  inputVariant="outlined"
+                  label="Select Date and Time"
+                  value={selectedDate}
+                  minDateTime={new Date("2023-04-01T00:00")}
+                  maxDateTime={new Date("2023-04-30T23:59")}
+                  ampm={false}
+                  showTodayButton
+                  onChange={(newValue) => {
+                    setSelectedDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
                 />
-              </React.Fragment>
+              </LocalizationProvider>
+            )}
+          /> */}
+
+          <Controller
+            control={control}
+            name="timeStart"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.timeStart}
+                helperText={formErrors?.timeStart?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Thời gian bắt đầu"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="timeEnd"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.timeEnd}
+                helperText={formErrors?.timeEnd?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Thời gian kết thúc"
+                variant="outlined"
+              />
             )}
           />
 

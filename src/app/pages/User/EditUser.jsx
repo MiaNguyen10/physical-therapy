@@ -4,47 +4,49 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCategories } from "../../../cores/reducers/category";
 import {
-  getSlots,
-  getStatusSlots,
-  resetStatus,
-} from "../../../cores/reducers/slot";
+  getUsers,
+  getStatusUsers,
+  resetStatus
+} from "../../../cores/reducers/user";
 import { getCategoryList } from "../../../cores/thunk/category";
-import { editSlot, getSlotList } from "../../../cores/thunk/slot";
+import { editUser, getUserList } from "../../../cores/thunk/user";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
-import SlotForm from "./components/SlotForm";
+import UserForm from "./components/UserForm";
 
-const EditSlot = () => {
+const EditUser = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const slotStatus = useSelector(getStatusSlots);
+  const userStatus = useSelector(getStatusUsers);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const slotList = useSelector(getSlots);
+  const userList = useSelector(getUsers);
   let categories = useSelector(getCategories);
-  const slotDetail =
-    Array.isArray(slotList) && slotList.find((slot) => slot.slotID === id);
+  const userDetail =
+    Array.isArray(userList) &&
+    userList.find((user) => user.userID === id);
 
   const handleClose = () => {
     setOpen(false);
-    navigate(`${pages.slotListPath}`);
+    navigate(`${pages.userListPath}`);
   };
 
   const handleFormSubmit = ({
-    slotName,
-    description,
-    timeStart,
-    timeEnd,
-    price,
+    email,
+    phoneNumber,
+    userTimePerWeek,
+    status,
+    flag,
   }) => {
     try {
       dispatch(
-        editSlot({
-          slotName: slotName,
-          description: description,
-          timeStart: timeStart,
-          timeEnd: timeEnd,
-          price: price,
+        editUser({
+          userID: id,
+          email: email,
+          flag: flag,
+          phoneNumber: phoneNumber,
+          userTimePerWeek: userTimePerWeek,
+          status: JSON.parse([status]),
         })
       ).unwrap();
       setOpen(true);
@@ -54,14 +56,14 @@ const EditSlot = () => {
   };
 
   useEffect(() => {
-    if (slotStatus === "succeeded") {
+    if (userStatus === "succeeded") {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    dispatch(getSlotList());
+    dispatch(getUserList());
   }, [dispatch]);
 
   useEffect(() => {
@@ -71,27 +73,27 @@ const EditSlot = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">SỬA BÀI TẬP</Typography>
-        <SlotForm
-          slotDetail={{
-            slotName: slotDetail?.slotName,
-            description: slotDetail?.description,
-            timeStart: slotDetail?.timeStart,
-            timeEnd: slotDetail?.timeEnd,
-            price: slotDetail?.price,
+        <Typography variant="h1">SỬA NGƯỜI DÙNG</Typography>
+        <UserForm
+          userDetail={{
+            email: userDetail?.email,
+            phoneNumber: userDetail?.phoneNumber,
+            userTimePerWeek: userDetail?.userTimePerWeek,
+            flag: userDetail?.flag,
+            status: userDetail?.status,
           }}
           categories={categories}
           onFormSubmit={handleFormSubmit}
-          isLoading={slotStatus === "loading"}
+          isLoading={userStatus === "loading"}
         />
       </Stack>
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Cập nhật slot thành công"
+        desc="Cập nhật người dùng thành công"
       />
     </Container>
   );
 };
 
-export default EditSlot;
+export default EditUser;

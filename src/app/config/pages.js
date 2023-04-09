@@ -25,6 +25,9 @@ const pages = {
     slotListPath: '/slot',
     addSlotPath: '/slot/add',
     slotEditPath: '/slot/:id/edit',
+    userListPath: '/user',
+    addUserPath: '/user/add',
+    userEditPath: '/user/:id/edit',
 }
 
 export default pages

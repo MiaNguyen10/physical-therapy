@@ -41,7 +41,7 @@ const TypeOfAccount = () => {
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "60px" }}>
         <ButtonStyle
           variant="text"
-          onClick={() => navigate(`${pages.managerListPath}`)}
+          onClick={() => navigate(`${pages.userListPath}`)}
         >
           Quản lý
         </ButtonStyle>
@@ -50,7 +50,7 @@ const TypeOfAccount = () => {
           variant="text"
           onClick={() => navigate(`${pages.therapistListPath}`)}
         >
-          Bác sĩ vật lý trị liệu
+          Nhà vật lý trị liệu
         </ButtonStyle>
 
         <ButtonStyle

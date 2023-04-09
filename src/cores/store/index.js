@@ -5,6 +5,7 @@ import exerciseReducer from "../reducers/exercise/index";
 import exerciseDetailReducer from "../reducers/exerciseDetail/index";
 import exerciseResourceReducer from "../reducers/exerciseResource/index";
 import slotReducer from "../reducers/slot/index";
+import userReducer from "../reducers/user/index";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     exerciseDetail: exerciseDetailReducer,
     exerciseResource: exerciseResourceReducer,
     slot: slotReducer,
+    user: userReducer,
   },
 });
