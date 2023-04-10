@@ -1,16 +1,13 @@
 import React, { useContext } from 'react'
-import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 
 import AccessDenied from 'app/pages/AccessDenied'
-import { selectState } from 'cores/reducers/authentication'
 import PermissionContext from './PermissionContext'
 
 const RestrictedPermission = ({ permission, children }) => {
   const { isAllowedTo } = useContext(PermissionContext)
-  const currentState = useSelector(selectState)
-
-  if (isAllowedTo(currentState.token_type, permission)) {
+  const role = JSON.parse(localStorage.getItem("role"))
+  if (isAllowedTo(role, permission)) {
     if (children) {
       return <>{children}</>
     }

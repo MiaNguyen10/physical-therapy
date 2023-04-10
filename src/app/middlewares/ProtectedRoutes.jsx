@@ -1,9 +1,9 @@
 import pages from 'app/config/pages'
 import { selectState } from 'cores/reducers/authentication'
 import { useSelector } from 'react-redux'
-import { Navigate, Outlet, useLocation } from 'react-router'
+import { Navigate, useLocation } from 'react-router'
 
-const ProtectedRoutes = () => {
+const ProtectedRoutes = ({children}) => {
   const currentState = useSelector(selectState)
   const location = useLocation()
 
@@ -11,7 +11,7 @@ const ProtectedRoutes = () => {
     return <Navigate to={`${pages.loginPath}`} state={{ from: location }} replace />
   } 
 
-  return <Outlet />
+  return {children}
 }
 
 export default ProtectedRoutes

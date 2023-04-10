@@ -10,10 +10,12 @@ import ExerciseResourceForm from "./components/ExerciseResourceForm";
 import { getExerciseDetails } from "../../../cores/reducers/exerciseDetail";
 import { useEffect } from "react";
 import { getExerciseDetailList } from "../../../cores/thunk/exerciseDetail";
+import { selectToken } from "cores/reducers/authentication";
 
 const AddExerciseResource = () => {
   const dispatch = useDispatch();
   let exerciseDetails = useSelector(getExerciseDetails)
+  const token = useSelector(selectToken);
 
   const exerciseResourceStatus = useSelector(getStatus);
   const [open, setOpen] = useState(false);
@@ -27,14 +29,15 @@ const AddExerciseResource = () => {
 
   const handleFormSubmit = ({ resourceName, imageURL, exerciseDetailID, videoURL}) => {
     try {
+      const exerciseResource = {
+        resourceName: resourceName,
+        exerciseDetailID: exerciseDetailID,
+        imageURL: imageURL,
+        videoURL: videoURL,
+        isDeleted: false,
+      }
       dispatch(
-        addExerciseResource({
-          resourceName: resourceName,
-          exerciseDetailID: exerciseDetailID,
-          imageURL: imageURL,
-          videoURL: videoURL,
-          isDeleted: false,
-        })
+        addExerciseResource({ exerciseResource, token })
       ).unwrap();
       setOpen(true);
     } catch (err) {
@@ -50,7 +53,7 @@ const AddExerciseResource = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">THÊM TÀI NGUYÊN BÀI TẬP</Typography>
+        <Typography variant="h3">THÊM TÀI NGUYÊN BÀI TẬP</Typography>
         <ExerciseResourceForm
           onFormSubmit={handleFormSubmit}
           isLoading={exerciseResourceStatus === "loading"}
@@ -60,7 +63,7 @@ const AddExerciseResource = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Thêm chi tiết bài tập thành công"
+        desc="Thêm tài nguyên bài tập thành công"
       />
     </Container>
   );

@@ -9,10 +9,12 @@ import { addSlot } from "../../../cores/thunk/slot";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import SlotForm from "./components/SlotForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const AddSlot = () => {
   const dispatch = useDispatch();
   let categories = useSelector(getCategories);
+  const token = useSelector(selectToken)
 
   const slotStatus = useSelector(getStatusSlots);
   const [open, setOpen] = useState(false);
@@ -24,17 +26,18 @@ const AddSlot = () => {
   };
 
   const handleFormSubmit = ({ slotName, timeStart, timeEnd, price, description }) => {
+    const slot = {
+      slotName: slotName,
+      description: description,
+      timeStart: timeStart,
+      timeEnd: timeEnd,
+      price: price,
+      available: true,
+      isDeleted: false
+    }
     try {
       dispatch(
-        addSlot({
-          slotName: slotName,
-          description: description,
-          timeStart: timeStart,
-          timeEnd: timeEnd,
-          price: price,
-          available: true,
-          isDeleted: false
-        })
+        addSlot({ slot, token })
       ).unwrap();
       setOpen(true);
     } catch (err) {

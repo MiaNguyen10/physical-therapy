@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import pages from "./config/pages";
@@ -23,33 +23,37 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import Login from "./pages/Login";
 import Demo from "./pages/Schedule/demo";
 import AddSlot from "./pages/Slot/AddSlot";
-import SlotList from "./pages/Slot/SlotList";
 import EditSlot from "./pages/Slot/EditSlot";
+import SlotList from "./pages/Slot/SlotList";
+import AddPhysiotherapist from "./pages/User/AddPhysiotherapist";
 import AddUser from "./pages/User/AddUser";
-import UserList from "./pages/User/UserList";
 import EditUser from "./pages/User/EditUser";
-
+import UserList from "./pages/User/UserList";
+import { useDispatch, useSelector } from "react-redux";
+import { selectState } from "cores/reducers/authentication";
+import { getRole } from "cores/thunk/auth";
+import ExerciseResource from "./pages/ExerciseResource/ExerciseResouce";
 
 const Router = () => {
+  const currentState = useSelector(selectState);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getRole(currentState.UserId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
-      {/* <Route element={<ProtectedRoutes />}>
-        
-      </Route> */}
       <Route element={<Layout />}>
         <Route path={`/${pages.landingPage}`} element={<LandingPage />} />
         {/* Account */}
         <Route path={`/${pages.accountPath}`} element={<TypeOfAccount />} />
         <Route path={`/${pages.memberListPath}`} element={<MemberList />} />
-        {/* <Route element={<RestrictedPermission permission={["Bearer"]} />}>
-         
-        </Route> */}
         <Route path={`/${pages.managerListPath}`} element={<ManagerList />} />
         <Route
           path={`/${pages.therapistListPath}`}
           element={<TherapistList />}
-        />
+        ></Route>
         <Route path={`/${pages.addAccountPath}`} element={<AddAccount />} />
         <Route path={`/${pages.accountEditPath}`} element={<EditAccount />} />
         {/* Category */}
@@ -61,18 +65,42 @@ const Router = () => {
         <Route path={`/${pages.addExercisePath}`} element={<AddExercise />} />
         <Route path={`/${pages.exerciseEditPath}`} element={<EditExercise />} />
         {/* Detail */}
-        <Route path={`/${pages.exerciseDetailPath}`} element={<ExerciseDetail />} />
-        <Route path={`/${pages.exerciseDetailAddPath}`} element={<AddExerciseDetail />} />
+        <Route
+          path={`/${pages.exerciseDetailPath}`}
+          element={<ExerciseDetail />}
+        />
+        <Route
+          path={`/${pages.exerciseDetailAddPath}`}
+          element={<AddExerciseDetail />}
+        />
         {/* Resource */}
-        <Route path={`/${pages.addExerciseResourcePath}`} element={<AddExerciseResource />} />
-        <Route path={`/${pages.exerciseResourceListPath}`} element={<ExerciseResourceList />} />
-        <Route path={`/${pages.exerciseResourceEditPath}`} element={<EditExerciseResource />} />
+        <Route
+          path={`/${pages.addExerciseResourcePath}`}
+          element={<AddExerciseResource />}
+        />
+        <Route
+          path={`/${pages.exerciseResourceListPath}`}
+          element={<ExerciseResourceList />}
+        />
+        <Route
+          path={`/${pages.exerciseResourcePath}`}
+          element={<ExerciseResource />}
+        />
+        <Route
+          path={`/${pages.exerciseResourceEditPath}`}
+          element={<EditExerciseResource />}
+        />
         <Route path={`/${pages.schedulePath}`} element={<Demo />} />
         <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
         <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
         <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
         <Route path={`/${pages.userListPath}`} element={<UserList />} />
         <Route path={`/${pages.addUserPath}`} element={<AddUser />} />
+
+        <Route
+          path={`/${pages.addPhysiotherapistPath}`}
+          element={<AddPhysiotherapist />}
+        />
         <Route path={`/${pages.slotEditPath}`} element={<EditUser />} />
       </Route>
     </Routes>

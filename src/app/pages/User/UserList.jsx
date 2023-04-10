@@ -24,12 +24,13 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchUserListFrom from "./components/SearchUserListForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const UserList = () => {
   const dispatch = useDispatch();
   let userList = useSelector(getUsers);
   const userStatus = useSelector(getStatusUsers);
-  let categoryList = useSelector(getCategories);
+  const token = useSelector(selectToken);
   const categoryStatus = useSelector(getStatusCategory);
 
   const [page, setPage] = useState(0);
@@ -132,7 +133,9 @@ const UserList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ? "Bị cấm" : "Đang hoạt động"}</Typography>,
+      renderCell: (params) => (
+        <Typography>{params?.value ? "Bị cấm" : "Đang hoạt động"}</Typography>
+      ),
     },
     {
       field: "id",
@@ -162,7 +165,7 @@ const UserList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteUser(params.value));
+                dispatch(deleteUser({ userID : params.value, token }));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >

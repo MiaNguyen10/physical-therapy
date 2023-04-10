@@ -14,12 +14,14 @@ const pages = {
     exerciseListPath: '/exercise',
     addExercisePath: '/exercise/add',
     exerciseEditPath: '/exercise/:id/edit',
-
     exerciseDetailPath: '/exercise/:id/exerciseDetail',
-    exerciseDetailEditPath: '/exercise/:id/editExerciseDetail',
     exerciseDetailAddPath: '/exercise/:id/addExerciseDetail',
+
     exerciseResourceListPath: '/exerciseResource',
-    addExerciseResourcePath: '/exerciseResource/add',
+
+    exerciseResourcePath: '/exercise/:id/exerciseDetail/:idDetail/exerciseResource',
+    addExerciseResourcePath: '/exercise/:id/exerciseDetail/:idDetail/addExerciseResource',
+    
     exerciseResourceEditPath: '/exerciseResource/:id/edit',
     schedulePath: '/schedulePath',
     slotListPath: '/slot',
@@ -27,6 +29,7 @@ const pages = {
     slotEditPath: '/slot/:id/edit',
     userListPath: '/user',
     addUserPath: '/user/add',
+    addPhysiotherapistPath: '/physiotherapist/add',
     userEditPath: '/user/:id/edit',
 }
 

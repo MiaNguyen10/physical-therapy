@@ -8,7 +8,7 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { selectSession } from "cores/reducers/authentication";
+import { selectToken } from "cores/reducers/authentication";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,8 +23,9 @@ const Login = () => {
   const state = useLocation().state;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const currentSession = useSelector(selectSession);
-  const [error, setError] = useState(false);
+  const currentSession = useSelector(selectToken);
+  const [eMessage, setEMessage] = useState("")
+  
 
   const {
     register,
@@ -40,7 +41,7 @@ const Login = () => {
         state && state.from.pathname ? state.from.pathname : pages.landingPage;
       navigate(destination, { replace: true });
     } catch (e) {
-      e && setError(true);
+      setEMessage(e.message)
     }
   };
 
@@ -116,7 +117,7 @@ const Login = () => {
                 // },
               }}
             />
-            {error && <Typography sx={{color: 'red', fontStyle: 'italic', fontSize:'14px'}}>Mật khẩu hoặc SĐT của bạn bị sai. Vui lòng nhập lại </Typography>}
+            <Typography sx={{color: 'red', fontStyle: 'italic', fontSize:'14px'}}>{eMessage} </Typography>
             <Button
               type="submit"
               fullWidth

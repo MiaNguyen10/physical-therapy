@@ -7,14 +7,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { DateTimePicker } from "@mui/lab";
-import { LocalizationProvider } from "@mui/lab";
-import DateFnsAdapter from "@mui/lab/AdapterDateFns";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
+import DateTimePickerInput from "app/components/Input/DateTimePicker";
 
 const ITEM_HEIGHT = 30;
 const ITEM_PADDING_TOP = 5;
@@ -171,43 +169,6 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
             control={control}
             name="timeStart"
             render={({ field: { onChange, value } }) => (
-              <LocalizationProvider dateAdapter={DateFnsAdapter}>
-                <DateTimePicker
-                  label="Select Date and Time"
-                  value={value}
-                  onChange={onChange}
-                  ampm={false}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="timeEnd"
-            render={({ field: { onChange, value } }) => (
-              <LocalizationProvider dateAdapter={DateFnsAdapter}>
-                <DateTimePicker
-                  label="Select Date and Time"
-                  value={selectedDate}
-                  minDateTime={new Date("2023-04-01T00:00")}
-                  maxDateTime={new Date("2023-04-30T23:59")}
-                  ampm={false}
-                  showTodayButton
-                  onChange={(newValue) => {
-                    setSelectedDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            )}
-          /> */}
-
-          <Controller
-            control={control}
-            name="timeStart"
-            render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
@@ -238,8 +199,43 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
                 variant="outlined"
               />
             )}
+          /> */}
+
+          <Controller
+            name="timeStart"
+            control={control}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <React.Fragment>
+                <label required style={{ fontWeight: "bold", top: -25 }}>
+                  Thời gian bắt đầu
+                </label>
+                <DateTimePickerInput
+                  value={value ?? ""}
+                  onChange={onChange}
+                  sx={styles.textFieldStyle}
+                  error={error}
+                />
+              </React.Fragment>
+            )}
           />
 
+          <Controller
+            name="timeEnd"
+            control={control}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <React.Fragment>
+                <label required style={{ fontWeight: "bold", top: -25 }}>
+                  Thời gian kết thúc
+                </label>
+                <DateTimePickerInput
+                  value={value ?? ""}
+                  onChange={onChange}
+                  sx={styles.textFieldStyle}
+                  error={error}
+                />
+              </React.Fragment>
+            )}
+          />
           <Stack
             direction="row"
             justifyContent="flex-end"

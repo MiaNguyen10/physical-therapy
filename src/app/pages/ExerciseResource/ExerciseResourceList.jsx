@@ -25,10 +25,12 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchExerciseResourceListFrom from "./components/SearchExerciseResourceListForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const ExerciseResourceList = () => {
   const dispatch = useDispatch();
   let exerciseResourceList = useSelector(getExerciseResources);
+  const token = useSelector(selectToken)
   const exerciseResourceStatus = useSelector(getStatus);
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -127,17 +129,17 @@ const ExerciseResourceList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            <Link
+            {/* <Link
               href={`${pages.exerciseResourceDetailsEditPath}/${params.value}/edit`}
             >
               <UpdateIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
-            </Link>
+            </Link> */}
             <IconButton
               onClick={() => {
-                dispatch(deleteExerciseResource(params.value));
+                dispatch(deleteExerciseResource({ exerciseResourceID: params.value, token }));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -160,7 +162,7 @@ const ExerciseResourceList = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseResourceList());
+    dispatch(getExerciseResourceList(token));
   }, [dispatch, refreshKey]);
 
   return (

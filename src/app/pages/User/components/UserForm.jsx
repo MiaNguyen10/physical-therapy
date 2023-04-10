@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Backdrop,
+  Box,
   Button,
   CircularProgress,
   Container,
@@ -55,19 +56,20 @@ const makeStyles = () => ({
   },
 });
 
-const UserForm = ({
-  userDetail,
-  onFormSubmit,
-  isLoading,
-  categories,
-}) => {
+const UserForm = ({ userDetail, onFormSubmit, isLoading, categories }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
 
   const schema = yup.object({
     email: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup.string().required("Vui lòng điền thông tin"),
-    userTimePerWeek: yup.string().required("Vui lòng điền thông tin"),
+    password: yup.string().required("Vui lòng điền thông tin"),
+    userName: yup.string().required("Vui lòng điền thông tin"),
+
+    address: yup.string().required("Vui lòng điền thông tin"),
+    firstName: yup.string().required("Vui lòng điền thông tin"),
+    lastName: yup.string().required("Vui lòng điền thông tin"),
+    dob: yup.string().required("Vui lòng điền thông tin"),
   });
 
   const {
@@ -81,10 +83,18 @@ const UserForm = ({
     resolver: yupResolver(schema),
     defaultValues: {
       email: "",
+      userName: "",
       phoneNumber: "",
-      userTimePerWeek: "",
-      flag: true,
-      status: true,
+      password: "",
+      address: "",
+      firstName: "",
+      lastName: "",
+      image:
+        "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+      dob: "",
+      gender: true,
+      bookingStatus: true,
+      banStatus: false,
     },
   });
 
@@ -96,13 +106,15 @@ const UserForm = ({
   useEffect(() => {
     reset({
       email: userDetail?.email,
+      password: userDetail?.password,
       phoneNumber: userDetail?.phoneNumber,
-      // categories
-      //   .filter((category) => category.phoneNumber === userDetail.phoneNumber)
-      //   .map((x) => x.categoryName)
-      userTimePerWeek: userDetail?.userTimePerWeek,
-      status: userDetail?.status,
-      flag: userDetail?.flag,
+      firstName: userDetail?.firstName,
+      lastName: userDetail?.lastName,
+      address: userDetail?.address,
+      userName: userDetail?.userName,
+      image: userDetail?.image,
+      dob: userDetail?.dob,
+      gender: userDetail?.gender,
     });
   }, [userDetail, reset, getValues, categories]);
 
@@ -115,14 +127,14 @@ const UserForm = ({
         <Stack alignItems="flex-start" pt={3} spacing={5}>
           <Controller
             control={control}
-            name="email"
+            name="userName"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                error={!!formErrors?.email}
-                helperText={formErrors?.email?.message}
+                error={!!formErrors?.userName}
+                helperText={formErrors?.userName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
                 label="Tên người dùng"
@@ -133,18 +145,17 @@ const UserForm = ({
 
           <Controller
             control={control}
-            name="userTimePerWeek"
+            name="password"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                type="number"
-                error={!!formErrors?.userTimePerWeek}
-                helperText={formErrors?.userTimePerWeek?.message}
+                error={!!formErrors?.password}
+                helperText={formErrors?.password?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Thời gian tập trong tuần"
+                label="Mật khẩu"
                 variant="outlined"
               />
             )}
@@ -153,7 +164,136 @@ const UserForm = ({
           <Controller
             control={control}
             name="phoneNumber"
-            // eslint-disable-next-line no-empty-pattern
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.phoneNumber}
+                helperText={formErrors?.phoneNumber?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Số điện thoại"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="lastName"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.lastName}
+                helperText={formErrors?.lastName?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Họ"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="firstName"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.firstName}
+                helperText={formErrors?.firstName?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Tên"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="address"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.address}
+                helperText={formErrors?.address?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Địa chỉ"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.email}
+                helperText={formErrors?.email?.message}
+                required
+                inputProps={{ required: false, maxLength: 255 }}
+                label="Email"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="image"
+            render={({ field: { onChange, value } }) => (
+              <React.Fragment>
+                <TextField
+                  sx={styles.textFieldStyle}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.image}
+                  helperText={formErrors?.image?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  label="Ảnh"
+                  variant="outlined"
+                />
+                <Box component="img" src={value} />
+              </React.Fragment>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="dob"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.dob}
+                helperText={formErrors?.dob?.message}
+                required
+                inputProps={{ required: false }}
+                type="date"
+                label="Ngày sinh"
+                variant="outlined"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="gender"
             render={({ field: { onChange, value } }) => (
               <TextField
                 sx={styles.textFieldStyle}
@@ -161,7 +301,7 @@ const UserForm = ({
                 onChange={onChange}
                 value={value}
                 variant="outlined"
-                label="Danh mục"
+                label="Giới tính"
                 SelectProps={{
                   MenuProps: {
                     PaperProps: {
@@ -176,11 +316,8 @@ const UserForm = ({
                   },
                 }}
               >
-                {categories.map((cate) => (
-                    <MenuItem value={cate.phoneNumber} key={cate.phoneNumber}>
-                      {cate.categoryName}
-                    </MenuItem>
-                  ))}
+                <MenuItem value={true}>Nam</MenuItem>
+                <MenuItem value={false}>Nữ</MenuItem>
               </TextField>
             )}
           />
@@ -193,7 +330,7 @@ const UserForm = ({
           >
             <Button
               variant="outlined"
-              onClick={() => navigate(pages.userListPath)}
+              onClick={() => navigate(pages.accountPath)}
               disabled={isLoading}
             >
               Hủy bỏ

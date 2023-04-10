@@ -2,6 +2,7 @@ import { Button, Container, Stack, styled } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import pages from "../../config/pages";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 const ButtonStyle = styled(Button)({
   alignItems: "center",
@@ -9,7 +10,7 @@ const ButtonStyle = styled(Button)({
   backgroundColor: "#0276FF",
   borderRadius: "8px",
   borderStyle: "none",
-  fontWeight:'bold',
+  fontWeight: "bold",
   boShadow: "rgba(255, 255, 255, 0.26) 0 1px 2px inset",
   boxSizing: "border-box",
   color: "#fff",
@@ -39,26 +40,29 @@ const TypeOfAccount = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "60px" }}>
-        <ButtonStyle
-          variant="text"
-          onClick={() => navigate(`${pages.userListPath}`)}
-        >
-          Quản lý
-        </ButtonStyle>
+        {/* <RestrictedPermission permission="Admin">
+          <ButtonStyle
+            variant="text"
+            onClick={() => navigate(`${pages.userListPath}`)}
+          >
+            Quản lý tài khoản
+          </ButtonStyle>
+        </RestrictedPermission> */}
+        <RestrictedPermission permission="Manager">
+          <ButtonStyle
+            variant="text"
+            onClick={() => navigate(`${pages.addPhysiotherapistPath}`)}
+          >
+            Nhà vật lý trị liệu
+          </ButtonStyle>
 
-        <ButtonStyle
-          variant="text"
-          onClick={() => navigate(`${pages.therapistListPath}`)}
-        >
-          Nhà vật lý trị liệu
-        </ButtonStyle>
-
-        <ButtonStyle
-          variant="text"
-          onClick={() => navigate(`${pages.memberListPath}`)}
-        >
-          Người dùng
-        </ButtonStyle>
+          <ButtonStyle
+            variant="text"
+            onClick={() => navigate(`${pages.addUserPath}`)}
+          >
+            Người dùng
+          </ButtonStyle>
+        </RestrictedPermission>
       </Stack>
     </Container>
   );

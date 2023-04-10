@@ -24,6 +24,7 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchSlotListFrom from "../Slot/components/SearchSlotListForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const SlotList = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const SlotList = () => {
   const slotStatus = useSelector(getStatusSlots);
   let categoryList = useSelector(getCategories);
   const categoryStatus = useSelector(getStatusCategory);
+  const token = useSelector(selectToken)
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -167,7 +169,7 @@ const SlotList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteSlot(params.value));
+                dispatch(deleteSlot({id: params.value, token}));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -190,7 +192,7 @@ const SlotList = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getSlotList());
+    dispatch(getSlotList(token));
   }, [dispatch, refreshKey]);
 
   return (
