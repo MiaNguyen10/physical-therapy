@@ -1,16 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const jwtToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJkNDI1ZGY2Yi1kMTdhLTRlZjAtOWIwNS05ZmQ5NTdmNTk5YjQiLCJFbWFpbCI6Im5ndXllbmhhdGhpZW4yNTEyQGdtYWlsLmNvbSIsIkZ1bGxOYW1lIjoiVGhpw6puIiwiVXNlck5hbWUiOiJhZG1pbjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIlBob25lTnVtYmVyIjoiMDk0MTg2NjAyNCIsImV4cCI6MTY4MTA3MTA1MiwiaXNzIjoiTmhhdF9Mb25nIiwiYXVkIjoiTmhhdF9Mb25nIn0.yCbn5z2vttxScmg6juHTS_TJ5X3ZC2UjCyX6oo5K03w"; // Replace with your actual JWT token
-
 export const getUserList = createAsyncThunk(
   "user/getUserList",
-  async () => {
+  async (token) => {
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User`,
       {
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -20,17 +17,18 @@ export const getUserList = createAsyncThunk(
 
 export const addUser = createAsyncThunk(
   "user/addUser",
-  async (inputCreate) => {
+  async (data) => {
+    const { user, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User/Register`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...inputCreate,
+          ...user,
         }),
       }
     );
@@ -40,17 +38,18 @@ export const addUser = createAsyncThunk(
 
 export const addPhysiotherapist = createAsyncThunk(
   "user/addUser",
-  async (inputCreate) => {
+  async (data) => {
+    const { physiotherapist, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User/Register-Physiotherapist`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...inputCreate,
+          ...physiotherapist,
         }),
       }
     );
@@ -60,17 +59,18 @@ export const addPhysiotherapist = createAsyncThunk(
 
 export const editUser = createAsyncThunk(
   "user/editUser",
-  async (inputUpdate) => {
+  async (data) => {
+    const { user, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...inputUpdate,
+          ...user,
         }),
       }
     );
@@ -80,12 +80,13 @@ export const editUser = createAsyncThunk(
 
 export const getUserDetail = createAsyncThunk(
   "user/getUserDetail",
-  async (id) => {
+  async (data) => {
+    const { id, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User/${id}`,
       {
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -95,13 +96,14 @@ export const getUserDetail = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   "user/deleteUser",
-  async (userID) => {
+  async (data) => {
+    const { userID, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User/${userID}`,
       {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );

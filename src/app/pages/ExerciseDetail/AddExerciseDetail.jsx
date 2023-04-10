@@ -7,11 +7,13 @@ import { addExerciseDetail } from "../../../cores/thunk/exerciseDetail";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import ExerciseDetailForm from "./components/ExerciseDetailForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const AddExerciseDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const exerciseDetailStatus = useSelector(getStatus);
+  const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -22,15 +24,16 @@ const AddExerciseDetail = () => {
   
 
   const handleFormSubmit = ({ detailName, set, description }) => {
-    try {
-      dispatch(
-        addExerciseDetail({
-          exerciseID: id,
+    const excerciseDetail = {
+      exerciseID: id,
           detailName: detailName,
           description: description,
           set: set,
           isDeleted: false,
-        })
+    }
+    try {
+      dispatch(
+        addExerciseDetail({ excerciseDetail, token })
       ).unwrap();
       setOpen(true);
     } catch (err) {

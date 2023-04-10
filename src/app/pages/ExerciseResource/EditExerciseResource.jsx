@@ -13,11 +13,13 @@ import pages from "../../config/pages";
 import ExerciseResourceForm from "./components/ExerciseResourceForm";
 import { getExerciseDetailList } from "../../../cores/thunk/exerciseDetail";
 import { getExerciseDetails } from "../../../cores/reducers/exerciseDetail";
+import { selectToken } from "cores/reducers/authentication";
 
 const EditExerciseResource = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const exerciseResourceStatus = useSelector(getStatus);
+  const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const exerciseResourceList = useSelector(getExerciseResources);
@@ -37,15 +39,16 @@ const EditExerciseResource = () => {
     imageURL,
     videoURL,
   }) => {
+    const exerciseResource = {
+      exerciseResourceID: id,
+      resourceName: resourceName,
+      videoURL: videoURL,
+      exerciseDetailID: exerciseDetailID,
+      imageURL: imageURL,
+    }
     try {
       dispatch(
-        editExerciseResource({
-          exerciseResourceID: id,
-          resourceName: resourceName,
-          videoURL: videoURL,
-          exerciseDetailID: exerciseDetailID,
-          imageURL: imageURL,
-        })
+        editExerciseResource({ exerciseResource, token})
       ).unwrap();
       setOpen(true);
     } catch (err) {
@@ -65,7 +68,7 @@ const EditExerciseResource = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getExerciseDetailList());
+    dispatch(getExerciseDetailList(token));
   }, [dispatch]);
 
   return (

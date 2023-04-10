@@ -150,7 +150,7 @@ const ExerciseList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteExercise(params.value, token));
+                dispatch(deleteExercise({ excerciseID : params.value, token }));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >

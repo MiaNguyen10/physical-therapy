@@ -9,13 +9,14 @@ import NestedListItem from "./NestedListItem";
 import { useDispatch } from "react-redux";
 import { logout } from "cores/reducers/authentication";
 import { useNavigate } from "react-router-dom";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 export const Navbar = () => {
   const [mobileMenu, setMobileMenu] = useState({
     left: false,
   });
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -90,11 +91,11 @@ export const Navbar = () => {
   }));
 
   const handleLogout = () => {
-    dispatch(logout)
-    localStorage.removeItem("authentication")
-    localStorage.removeItem("role")
-    navigate(`${pages.loginPath}`)
-  }
+    dispatch(logout);
+    localStorage.removeItem("authentication");
+    localStorage.removeItem("role");
+    navigate(`${pages.loginPath}`);
+  };
 
   return (
     <NavbarContainer>
@@ -117,24 +118,33 @@ export const Navbar = () => {
           <NavLink variant="body2" href={pages.landingPage}>
             Trang chủ
           </NavLink>
-          <NavLink variant="body2" href={pages.accountPath}>
-            Danh sách người dùng
-          </NavLink>
-          <NavLink variant="body2" href={pages.categoryListPath}>
-            Danh mục
-          </NavLink>
-          <NavLink variant="body2" href={pages.exerciseListPath}>
-            Danh sách bài tập
-          </NavLink>
-          <NavLink variant="body2" href={pages.exerciseResourceListPath}>
-            Tài nguyên bài tập
-          </NavLink>
-          <NavLink variant="body2" href={pages.slotListPath}>
-            Slot
-          </NavLink>
-          <NavLink variant="body2" href={pages.schedulePath}>
-            Lịch
-          </NavLink>
+
+          <RestrictedPermission permission="Admin">
+            <NavLink variant="body2" href={pages.userListPath}>
+              Quản lý người dùng
+            </NavLink>
+
+            <NavLink variant="body2" href={pages.categoryListPath}>
+              Danh mục
+            </NavLink>
+            <NavLink variant="body2" href={pages.exerciseListPath}>
+              Danh sách bài tập
+            </NavLink>
+            <NavLink variant="body2" href={pages.exerciseResourceListPath}>
+              Tài nguyên bài tập
+            </NavLink>
+          </RestrictedPermission>
+          <RestrictedPermission permission="Manager">
+            <NavLink variant="body2" href={pages.accountPath}>
+              Quản lý người dùng
+            </NavLink>
+            <NavLink variant="body2" href={pages.slotListPath}>
+              Slot
+            </NavLink>
+            <NavLink variant="body2" href={pages.schedulePath}>
+              Lịch
+            </NavLink>{" "}
+          </RestrictedPermission>
         </NavbarLinksBox>
       </NavbarItem>
 

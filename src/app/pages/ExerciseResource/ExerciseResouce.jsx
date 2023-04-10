@@ -19,12 +19,14 @@ import {
   deleteExerciseResource,
   getExerciseResource,
 } from "cores/thunk/exerciseResource";
+import { selectToken } from "cores/reducers/authentication";
 
 const ExerciseResource = () => {
   const { id, idDetail } = useParams();
   const dispatch = useDispatch();
   let exerciseResource = useSelector(retreiveExerciseResource);
   const resourceStatus = useSelector(getStatus);
+  const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
@@ -33,15 +35,16 @@ const ExerciseResource = () => {
   };
 
   const handleEditFormSubmit = ({ detailName, set, description }) => {
+    const excerciseDetail = {
+      exerciseDetailID: exerciseResource.exerciseDetailID,
+      detailName: detailName,
+      description: description,
+      exerciseID: exerciseResource.exerciseID,
+      set: set,
+    }
     try {
       dispatch(
-        editExerciseDetail({
-          exerciseDetailID: exerciseResource.exerciseDetailID,
-          detailName: detailName,
-          description: description,
-          exerciseID: exerciseResource.exerciseID,
-          set: set,
-        })
+        editExerciseDetail({ excerciseDetail, token })
       ).unwrap();
       setOpen(true);
       setRefreshKey((oldKey) => oldKey + 1);
@@ -58,7 +61,7 @@ const ExerciseResource = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseResource(idDetail));
+    dispatch(getExerciseResource({id: idDetail, token}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
@@ -110,7 +113,7 @@ const ExerciseResource = () => {
                 variant="contained"
                 onClick={() => {
                   dispatch(
-                    deleteExerciseResource(exerciseResource.exerciseResourceID)
+                    deleteExerciseResource({exerciseResourceID: exerciseResource.exerciseResourceID, token})
                   );
                   navigate(`/exercise/${id}/exerciseDetail`);
                 }}

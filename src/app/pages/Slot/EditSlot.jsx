@@ -13,11 +13,13 @@ import { editSlot, getSlotList } from "../../../cores/thunk/slot";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import SlotForm from "./components/SlotForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const EditSlot = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const slotStatus = useSelector(getStatusSlots);
+  const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const slotList = useSelector(getSlots);
@@ -37,16 +39,15 @@ const EditSlot = () => {
     timeEnd,
     price,
   }) => {
+    const slot = {
+      slotName: slotName,
+      description: description,
+      timeStart: timeStart,
+      timeEnd: timeEnd,
+      price: price,
+    };
     try {
-      dispatch(
-        editSlot({
-          slotName: slotName,
-          description: description,
-          timeStart: timeStart,
-          timeEnd: timeEnd,
-          price: price,
-        })
-      ).unwrap();
+      dispatch(editSlot({ slot, token })).unwrap();
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty

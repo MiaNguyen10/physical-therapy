@@ -11,6 +11,7 @@ import {
   getExerciseDetailById,
 } from "../../../cores/thunk/exerciseDetail";
 import ExerciseDetailForm from "./components/ExerciseDetailForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const ExerciseDetail = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const ExerciseDetail = () => {
     (state) => state.exerciseDetail.exerciseDetail
   );
   const exerciseDetailStatus = useSelector(getStatus);
+  const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
@@ -53,7 +55,7 @@ const ExerciseDetail = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseDetailById(id));
+    dispatch(getExerciseDetailById({id, token}));
   }, [dispatch, id, refreshKey]);
 
   return (
@@ -113,7 +115,7 @@ const ExerciseDetail = () => {
                 variant="contained"
                 onClick={() => {
                   dispatch(
-                    deleteExerciseDetail(exerciseDetail.exerciseDetailID)
+                    deleteExerciseDetail({exerciseDetailID: exerciseDetail.exerciseDetailID, token})
                   );
                   navigate(pages.exerciseListPath);
                 }}
