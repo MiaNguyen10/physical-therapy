@@ -6,13 +6,14 @@ import { getCategories } from "../../../cores/reducers/category";
 import {
   getUsers,
   getStatusUsers,
-  resetStatus
+  resetStatus,
 } from "../../../cores/reducers/user";
 import { getCategoryList } from "../../../cores/thunk/category";
 import { editUser, getUserList } from "../../../cores/thunk/user";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import UserForm from "./components/UserForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const EditUser = () => {
   const { id } = useParams();
@@ -21,34 +22,27 @@ const EditUser = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const userList = useSelector(getUsers);
+  const token = useSelector(selectToken);
   let categories = useSelector(getCategories);
   const userDetail =
-    Array.isArray(userList) &&
-    userList.find((user) => user.userID === id);
+    Array.isArray(userList) && userList.find((user) => user.userID === id);
 
   const handleClose = () => {
     setOpen(false);
     navigate(`${pages.userListPath}`);
   };
 
-  const handleFormSubmit = ({
-    email,
-    phoneNumber,
-    password,
-    status,
-    flag,
-  }) => {
+  const handleFormSubmit = ({ email, phoneNumber, password, status, flag }) => {
+    const user = {
+      userID: id,
+      email: email,
+      flag: flag,
+      phoneNumber: phoneNumber,
+      password: password,
+      status: JSON.parse([status]),
+    };
     try {
-      dispatch(
-        editUser({
-          userID: id,
-          email: email,
-          flag: flag,
-          phoneNumber: phoneNumber,
-          password: password,
-          status: JSON.parse([status]),
-        })
-      ).unwrap();
+      dispatch(editUser({user, token})).unwrap();
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty

@@ -27,7 +27,7 @@ const defautAuthState = {
 const preloadState = JSON.parse(localStorage.getItem("authentication"));
 
 export const authenSlice = createSlice({
-  name: "äuthentication",
+  name: "authentication",
   initialState: preloadState ?? initialState,
   reducers: {
     logout(state) {

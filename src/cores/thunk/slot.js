@@ -1,16 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const jwtToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJkNDI1ZGY2Yi1kMTdhLTRlZjAtOWIwNS05ZmQ5NTdmNTk5YjQiLCJFbWFpbCI6Im5ndXllbmhhdGhpZW4yNTEyQGdtYWlsLmNvbSIsIkZ1bGxOYW1lIjoiVGhpw6puIiwiVXNlck5hbWUiOiJhZG1pbjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIlBob25lTnVtYmVyIjoiMDk0MTg2NjAyNCIsImV4cCI6MTY4MTA3MTA1MiwiaXNzIjoiTmhhdF9Mb25nIiwiYXVkIjoiTmhhdF9Mb25nIn0.yCbn5z2vttxScmg6juHTS_TJ5X3ZC2UjCyX6oo5K03w"; // Replace with your actual JWT token
-
 export const getSlotList = createAsyncThunk(
   "slot/getSlotList",
-  async () => {
+  async (token) => {
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/Slot`,
       {
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -20,17 +17,18 @@ export const getSlotList = createAsyncThunk(
 
 export const addSlot = createAsyncThunk(
   "slot/addSlot",
-  async (inputCreate) => {
+  async (data) => {
+    const { slot, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/Slot/Create`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...inputCreate,
+          ...slot,
         }),
       }
     );
@@ -40,17 +38,18 @@ export const addSlot = createAsyncThunk(
 
 export const editSlot = createAsyncThunk(
   "slot/editSlot",
-  async (inputUpdate) => {
+  async (data) => {
+    const { slot, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/Slot`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...inputUpdate,
+          ...slot,
         }),
       }
     );
@@ -60,12 +59,13 @@ export const editSlot = createAsyncThunk(
 
 export const getSlotDetail = createAsyncThunk(
   "slot/getSlotDetail",
-  async (id) => {
+  async (data) => {
+    const { id, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/Slot/${id}`,
       {
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -75,13 +75,14 @@ export const getSlotDetail = createAsyncThunk(
 
 export const deleteSlot = createAsyncThunk(
   "slot/deleteSlot",
-  async (slotID) => {
+  async (data) => {
+    const { id, token } = data
     const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/Slot/${slotID}`,
+      `${process.env.REACT_APP_API_ENDPOINT}/Slot/${id}`,
       {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );

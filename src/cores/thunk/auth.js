@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const login = createAsyncThunk(
-  "äuthentication/login",
+  "authentication/login",
   async (inputLogin) => {
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User/Login`,
@@ -20,7 +20,7 @@ export const login = createAsyncThunk(
 );
 
 export const getRole = createAsyncThunk(
-  "äuthentication/getRole",
+  "uthentication/getRole",
   async (id) => {
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User/getUserRole/${id}`

@@ -7,10 +7,11 @@ import { addPhysiotherapist } from "../../../cores/thunk/user";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import UserForm from "./components/UserForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const AddPhysiotherapist = () => {
   const dispatch = useDispatch();
-
+  const token = useSelector(selectToken)
   const userStatus = useSelector(getStatusUsers);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -32,23 +33,22 @@ const AddPhysiotherapist = () => {
     dob,
     gender,
   }) => {
+    const physiotherapist = {
+      email: email,
+      userName: userName,
+      phoneNumber: phoneNumber,
+      password: password,
+      address: address,
+      firstName: firstName,
+      lastName: lastName,
+      image: image,
+      dob: dob,
+      gender: gender,
+      bookingStatus: true,
+      banStatus: false,
+    };
     try {
-      dispatch(
-        addPhysiotherapist({
-          email: email,
-          userName: userName,
-          phoneNumber: phoneNumber,
-          password: password,
-          address: address,
-          firstName: firstName,
-          lastName: lastName,
-          image: image,
-          dob: dob,
-          gender: gender,
-          bookingStatus: true,
-          banStatus: false,
-        })
-      ).unwrap();
+      dispatch(addPhysiotherapist({ physiotherapist, token })).unwrap();
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty

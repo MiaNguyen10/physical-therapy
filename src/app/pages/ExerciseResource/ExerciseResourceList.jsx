@@ -25,10 +25,12 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchExerciseResourceListFrom from "./components/SearchExerciseResourceListForm";
+import { selectToken } from "cores/reducers/authentication";
 
 const ExerciseResourceList = () => {
   const dispatch = useDispatch();
   let exerciseResourceList = useSelector(getExerciseResources);
+  const token = useSelector(selectToken)
   const exerciseResourceStatus = useSelector(getStatus);
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -137,7 +139,7 @@ const ExerciseResourceList = () => {
             </Link> */}
             <IconButton
               onClick={() => {
-                dispatch(deleteExerciseResource(params.value));
+                dispatch(deleteExerciseResource({ exerciseResourceID: params.value, token }));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -160,7 +162,7 @@ const ExerciseResourceList = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseResourceList());
+    dispatch(getExerciseResourceList(token));
   }, [dispatch, refreshKey]);
 
   return (
@@ -169,6 +171,11 @@ const ExerciseResourceList = () => {
         <Typography variant="h3">DANH SÁCH TÀI NGUYÊN BÀI TẬP</Typography>
         <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} />
         <Box>
+          <AddButton
+            desc="Thêm tài nguyên bài tập"
+            url={`${pages.addExerciseResourcePath}`}
+            sx={{ mt: -6 }}
+          />
           <DataGridTable
             columns={columns}
             rows={rows}

@@ -14,8 +14,7 @@ import { selectToken } from "cores/reducers/authentication";
 const AddExercise = () => {
   const dispatch = useDispatch();
   let categories = useSelector(getCategories);
-  const token = useSelector(selectToken);
-
+  const token = useSelector(selectToken)
   const exerciseStatus = useSelector(getStatusExercises);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -30,16 +29,17 @@ const AddExercise = () => {
     exerciseTimePerWeek,
     categoryID,
   }) => {
+    const excercise = {
+      exerciseName: exerciseName,
+      categoryID: categoryID,
+      exerciseTimePerWeek: exerciseTimePerWeek,
+      flag: true,
+      status: true,
+      isDeleted: false,
+    }
     try {
       dispatch(
-        addExercise({
-          exerciseName: exerciseName,
-          categoryID: categoryID,
-          exerciseTimePerWeek: exerciseTimePerWeek,
-          flag: true,
-          status: true,
-          isDeleted: false,
-        })
+        addExercise({excercise, token})
       ).unwrap();
       setOpen(true);
     } catch (err) {
@@ -47,12 +47,13 @@ const AddExercise = () => {
       console.log(err);
     }
   };
+  
 
   useEffect(() => {
     dispatch(getCategoryList());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
