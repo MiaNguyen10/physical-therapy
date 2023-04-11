@@ -1,15 +1,6 @@
 import { Button, Container, Stack, Typography } from "@mui/material";
 import ConfirmDialog from "app/components/Dialog/ConfirmDialog";
-import pages from "app/config/pages";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  deleteExerciseDetail,
-  editExerciseDetail,
-  getExerciseDetailById,
-} from "../../../cores/thunk/exerciseDetail";
-import ExerciseResourceForm from "./components/ExerciseResourceForm";
+import { selectToken } from "cores/reducers/authentication";
 import {
   getStatus,
   resetStatus,
@@ -19,7 +10,13 @@ import {
   deleteExerciseResource,
   getExerciseResource,
 } from "cores/thunk/exerciseResource";
-import { selectToken } from "cores/reducers/authentication";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  editExerciseDetail
+} from "../../../cores/thunk/exerciseDetail";
+import ExerciseResourceForm from "./components/ExerciseResourceForm";
 
 const ExerciseResource = () => {
   const { id, idDetail } = useParams();
@@ -41,11 +38,9 @@ const ExerciseResource = () => {
       description: description,
       exerciseID: exerciseResource.exerciseID,
       set: set,
-    }
+    };
     try {
-      dispatch(
-        editExerciseDetail({ excerciseDetail, token })
-      ).unwrap();
+      dispatch(editExerciseDetail({ excerciseDetail, token })).unwrap();
       setOpen(true);
       setRefreshKey((oldKey) => oldKey + 1);
     } catch (err) {
@@ -61,7 +56,7 @@ const ExerciseResource = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseResource({id: idDetail, token}));
+    dispatch(getExerciseResource({ id: idDetail, token }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
@@ -74,7 +69,9 @@ const ExerciseResource = () => {
             <Button
               variant="text"
               onClick={() =>
-                navigate(`/exercise/${id}/exerciseDetail/${idDetail}/addExerciseResource`)
+                navigate(
+                  `/exercise/${id}/exerciseDetail/${idDetail}/addExerciseResource`
+                )
               }
             >
               Thêm tài nguyên bài tập
@@ -112,8 +109,19 @@ const ExerciseResource = () => {
               <Button
                 variant="contained"
                 onClick={() => {
+                  navigate(`/exercise/${id}/exerciseDetail/${idDetail}/editExerciseResource`);
+                }}
+              >
+                Sửa tài nguyên
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
                   dispatch(
-                    deleteExerciseResource({exerciseResourceID: exerciseResource.exerciseResourceID, token})
+                    deleteExerciseResource({
+                      exerciseResourceID: exerciseResource.exerciseResourceID,
+                      token,
+                    })
                   );
                   navigate(`/exercise/${id}/exerciseDetail`);
                 }}

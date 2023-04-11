@@ -30,22 +30,25 @@ import AddUser from "./pages/User/AddUser";
 import EditUser from "./pages/User/EditUser";
 import UserList from "./pages/User/UserList";
 import { useDispatch, useSelector } from "react-redux";
-import { selectState } from "cores/reducers/authentication";
+import { selectState, selectToken } from "cores/reducers/authentication";
 import { getRole } from "cores/thunk/auth";
 import ExerciseResource from "./pages/ExerciseResource/ExerciseResouce";
 
 const Router = () => {
+  const token = useSelector(selectToken);
   const currentState = useSelector(selectState);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getRole(currentState.UserId));
+    if (token) {
+      dispatch(getRole(currentState.UserId));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
       <Route element={<Layout />}>
-        <Route path={`/${pages.landingPage}`} element={<LandingPage />} />
+        <Route index path={`/${pages.landingPage}`} element={<LandingPage />} />
         {/* Account */}
         <Route path={`/${pages.accountPath}`} element={<TypeOfAccount />} />
         <Route path={`/${pages.memberListPath}`} element={<MemberList />} />

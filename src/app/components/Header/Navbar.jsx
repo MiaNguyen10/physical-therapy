@@ -1,13 +1,13 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { Button, Drawer, Link, styled } from "@mui/material";
+import { Button, Drawer, Link, Stack, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import * as React from "react";
 import { useState } from "react";
 import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
-import { useDispatch } from "react-redux";
-import { logout } from "cores/reducers/authentication";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectToken } from "cores/reducers/authentication";
 import { useNavigate } from "react-router-dom";
 import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
@@ -17,6 +17,7 @@ export const Navbar = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useSelector(selectToken);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -98,6 +99,8 @@ export const Navbar = () => {
   };
 
   return (
+    <>
+    {token ? (
     <NavbarContainer>
       <NavbarItem>
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -156,7 +159,6 @@ export const Navbar = () => {
           gap: "1rem",
         }}
       >
-        {/* <NavLink variant="body2">Đăng nhập</NavLink> */}
         <Button
           sx={{
             fontSize: "18px",
@@ -174,8 +176,19 @@ export const Navbar = () => {
           Đăng xuất
         </Button>
       </Box>
-    </NavbarContainer>
+    </NavbarContainer> ) : (
+      <NavbarContainer>
+        <a href={pages.landingPage}>
+          <img src={logo} alt="Logo" />
+        </a>
+        <NavLink variant="body2" href={pages.loginPath}>
+          Đăng nhập
+        </NavLink>
+      </NavbarContainer>
+    )}
+    </>
   );
+  
 };
 
 export default Navbar;

@@ -1,7 +1,7 @@
 import { Container, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getStatus } from "../../../cores/reducers/exerciseResource";
 import { addExerciseResource } from "../../../cores/thunk/exerciseResource";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
@@ -13,6 +13,7 @@ import { getExerciseDetailList } from "../../../cores/thunk/exerciseDetail";
 import { selectToken } from "cores/reducers/authentication";
 
 const AddExerciseResource = () => {
+  const {id,idDetail} = useParams();
   const dispatch = useDispatch();
   let exerciseDetails = useSelector(getExerciseDetails)
   const token = useSelector(selectToken);
@@ -23,19 +24,20 @@ const AddExerciseResource = () => {
 
   const handleClose = () => {
     setOpen(false);
-    navigate(`${pages.exerciseResourceListPath}`);
+    navigate(`/exercise/${id}/exerciseDetail/${idDetail}/exerciseResource`);
   };
   
 
-  const handleFormSubmit = ({ resourceName, imageURL, exerciseDetailID, videoURL}) => {
+  const handleFormSubmit = ({ resourceName, imageURL, videoURL}) => {
     try {
       const exerciseResource = {
         resourceName: resourceName,
-        exerciseDetailID: exerciseDetailID,
+        exerciseDetailID: idDetail,
         imageURL: imageURL,
         videoURL: videoURL,
         isDeleted: false,
       }
+      console.log(exerciseResource )
       dispatch(
         addExerciseResource({ exerciseResource, token })
       ).unwrap();

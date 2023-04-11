@@ -21,6 +21,7 @@ const pages = {
 
     exerciseResourcePath: '/exercise/:id/exerciseDetail/:idDetail/exerciseResource',
     addExerciseResourcePath: '/exercise/:id/exerciseDetail/:idDetail/addExerciseResource',
+    editExerciseResourcePath: '/exercise/:id/exerciseDetail/:idDetail/editExerciseResource',
     
     exerciseResourceEditPath: '/exerciseResource/:id/edit',
     schedulePath: '/schedulePath',

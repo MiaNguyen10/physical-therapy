@@ -126,7 +126,8 @@ const CategotyList = () => {
 
   useEffect(() => {
     dispatch(getCategoryList());
-  }, [dispatch, refreshKey]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
@@ -134,6 +135,7 @@ const CategotyList = () => {
         <Typography variant="h3">DANH MỤC</Typography>
         <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
         <Box>
+          {/* Manager  */}
           <RestrictedPermission permission={"Manager"}>
             <AddButton
               desc="Thêm danh mục"

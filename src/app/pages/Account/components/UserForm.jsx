@@ -85,7 +85,7 @@ const UserForm = ({ userDetail, onFormSubmit, isLoading,  }) => {
         passwordRegExp,
         "Mật khẩu phải nhiều hơn 6 kí tự, có 1 ký tự đặc biệt, 1 chữ số, 1 chữ hoa và 1 chữ thường"
       ),
-    image: yup.string().required("Vui lòng đính kèm ảnh"),
+    image: yup.object().required("Vui lòng đính kèm ảnh"),
   });
 
   const {
