@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getStatus } from "../../../cores/reducers/exerciseDetail";
 import { addExerciseDetail } from "../../../cores/thunk/exerciseDetail";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
-import pages from "../../config/pages";
 import ExerciseDetailForm from "./components/ExerciseDetailForm";
 import { selectToken } from "cores/reducers/authentication";
 
@@ -19,22 +18,19 @@ const AddExerciseDetail = () => {
 
   const handleClose = () => {
     setOpen(false);
-    navigate(`${pages.exerciseListPath}/${id}/exerciseDetail`);
+    navigate(`/exercise/${id}/exerciseDetailList`);
   };
-  
 
   const handleFormSubmit = ({ detailName, set, description }) => {
     const excerciseDetail = {
       exerciseID: id,
-          detailName: detailName,
-          description: description,
-          set: set,
-          isDeleted: false,
-    }
+      detailName: detailName,
+      description: description,
+      set: set,
+      isDeleted: false,
+    };
     try {
-      dispatch(
-        addExerciseDetail({ excerciseDetail, token })
-      ).unwrap();
+      dispatch(addExerciseDetail({ excerciseDetail, token })).unwrap();
       setOpen(true);
     } catch (err) {
       console.log(err);

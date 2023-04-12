@@ -1,4 +1,7 @@
+import { selectState, selectToken } from "cores/reducers/authentication";
+import { getRole } from "cores/thunk/auth";
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import pages from "./config/pages";
@@ -15,7 +18,8 @@ import AddExercise from "./pages/Exercise/AddExercise";
 import EditExercise from "./pages/Exercise/EditExercise";
 import ExerciseList from "./pages/Exercise/ExerciseList";
 import AddExerciseDetail from "./pages/ExerciseDetail/AddExerciseDetail";
-import ExerciseDetail from "./pages/ExerciseDetail/ExerciseDetail";
+import EditExerciseDetail from "./pages/ExerciseDetail/EditExerciseDetail";
+import ExerciseDetailList from "./pages/ExerciseDetail/ExerciseDetailList";
 import AddExerciseResource from "./pages/ExerciseResource/AddExerciseResource";
 import EditExerciseResource from "./pages/ExerciseResource/EditExerciseResource";
 import ExerciseResourceList from "./pages/ExerciseResource/ExerciseResourceList";
@@ -29,10 +33,6 @@ import AddPhysiotherapist from "./pages/User/AddPhysiotherapist";
 import AddUser from "./pages/User/AddUser";
 import EditUser from "./pages/User/EditUser";
 import UserList from "./pages/User/UserList";
-import { useDispatch, useSelector } from "react-redux";
-import { selectState, selectToken } from "cores/reducers/authentication";
-import { getRole } from "cores/thunk/auth";
-import ExerciseResource from "./pages/ExerciseResource/ExerciseResouce";
 
 const Router = () => {
   const token = useSelector(selectToken);
@@ -69,8 +69,12 @@ const Router = () => {
         <Route path={`/${pages.exerciseEditPath}`} element={<EditExercise />} />
         {/* Detail */}
         <Route
-          path={`/${pages.exerciseDetailPath}`}
-          element={<ExerciseDetail />}
+          path={`/${pages.exerciseDetailListPath}`}
+          element={<ExerciseDetailList />}
+        />
+        <Route
+          path={`/${pages.exerciseDetailEditPath}`}
+          element={<EditExerciseDetail />}
         />
         <Route
           path={`/${pages.exerciseDetailAddPath}`}
@@ -86,13 +90,10 @@ const Router = () => {
           element={<ExerciseResourceList />}
         />
         <Route
-          path={`/${pages.exerciseResourcePath}`}
-          element={<ExerciseResource />}
-        />
-        <Route
-          path={`/${pages.exerciseResourceEditPath}`}
+          path={`/${pages.editExerciseResourcePath}`}
           element={<EditExerciseResource />}
         />
+        {/* Schedule */}
         <Route path={`/${pages.schedulePath}`} element={<Demo />} />
         <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
         <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />

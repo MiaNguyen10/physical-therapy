@@ -3,12 +3,14 @@ import {
   addExerciseDetail,
   deleteExerciseDetail,
   getExerciseDetailById,
+  getExerciseDetailListByID,
 } from "../../thunk/exerciseDetail";
 
 const initialState = {
   status: "idle",
   error: "",
   exerciseDetail: {},
+  exerciseDetailList: [],
 };
 
 const exerciseDetailSlice = createSlice({
@@ -28,6 +30,17 @@ const exerciseDetailSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(addExerciseDetail.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(getExerciseDetailListByID.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getExerciseDetailListByID.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.exerciseDetailList = action.payload;
+      })
+      .addCase(getExerciseDetailListByID.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
@@ -57,5 +70,7 @@ const exerciseDetailSlice = createSlice({
 
 export const { resetStatus } = exerciseDetailSlice.actions;
 export default exerciseDetailSlice.reducer;
-export const getExerciseDetails = (state) => state.exerciseDetail.exerciseDetail;
+export const getExerciseDetailsList = (state) =>
+  state.exerciseDetail.exerciseDetailList;
+export const getEDetailById = (state) => state.exerciseDetail.exerciseDetail;
 export const getStatus = (state) => state.exerciseDetail.status;

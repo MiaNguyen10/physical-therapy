@@ -1,6 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import UpdateIcon from "@mui/icons-material/Update";
 import {
   Box,
   Container,
@@ -9,9 +8,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { trim } from "lodash";
-import React, { useEffect, useMemo, useState } from "react";
+import { selectToken } from "cores/reducers/authentication";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   getExerciseResources,
   getStatus,
@@ -24,58 +24,24 @@ import {
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
-import SearchExerciseResourceListFrom from "./components/SearchExerciseResourceListForm";
-import { selectToken } from "cores/reducers/authentication";
 
 const ExerciseResourceList = () => {
+  const {id, idDetail} = useParams()
   const dispatch = useDispatch();
   let exerciseResourceList = useSelector(getExerciseResources);
-  const token = useSelector(selectToken)
+  const token = useSelector(selectToken);
   const exerciseResourceStatus = useSelector(getStatus);
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [filters, setFilters] = useState({
-    searchKey: "",
-    searchCate: "",
-  });
 
   const handlePageChange = (page) => {
     setPage(page);
   };
 
-  const rows = useMemo(() => {
-    return (
-      Array.isArray(exerciseResourceList) &&
-      exerciseResourceList.filter((exerciseResource) => {
-        const isFoundName =
-          exerciseResource.resourceName
-            .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundCate =
-          exerciseResource.exerciseDetailID
-            .toLowerCase()
-            .search(trim(filters.searchCate.toLowerCase())) >= 0;
-        return isFoundName && isFoundCate;
-      })
-    );
-  }, [filters, exerciseResourceList]);
-
   const columns = [
     {
       field: "resourceName",
       headerName: "Tài nguyên Bài tập",
-      width: 300,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "exerciseDetailID",
-      headerName: "Chi tiết Bài tập",
       width: 300,
       headerAlign: "center",
       align: "center",
@@ -123,23 +89,22 @@ const ExerciseResourceList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link href={`${pages.exerciseResourceListPath}/${params.value}/edit`}>
+            <Link
+              href={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${params?.value}/edit`}
+            >
               <EditIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            {/* <Link
-              href={`${pages.exerciseResourceDetailsEditPath}/${params.value}/edit`}
-            >
-              <UpdateIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
-              />
-            </Link> */}
             <IconButton
               onClick={() => {
-                dispatch(deleteExerciseResource({ exerciseResourceID: params.value, token }));
+                dispatch(
+                  deleteExerciseResource({
+                    exerciseResourceID: params.value,
+                    token,
+                  })
+                );
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -162,23 +127,24 @@ const ExerciseResourceList = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseResourceList(token));
-  }, [dispatch, refreshKey]);
+    dispatch(getExerciseResourceList({idDetail: idDetail, token}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3">DANH SÁCH TÀI NGUYÊN BÀI TẬP</Typography>
-        <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} />
+        {/* <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} /> */}
         <Box>
           <AddButton
             desc="Thêm tài nguyên bài tập"
-            url={`${pages.addExerciseResourcePath}`}
+            url={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`}
             sx={{ mt: -6 }}
           />
           <DataGridTable
             columns={columns}
-            rows={rows}
+            rows={exerciseResourceList}
             getRowId={(row) => row.exerciseResourceID}
             rowHeight={70}
             page={page}

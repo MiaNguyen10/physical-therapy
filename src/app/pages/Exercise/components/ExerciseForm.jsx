@@ -97,9 +97,6 @@ const ExerciseForm = ({
     reset({
       exerciseName: exerciseDetail?.exerciseName,
       categoryID: exerciseDetail?.categoryID,
-      // categories
-      //   .filter((category) => category.categoryID === exerciseDetail.categoryID)
-      //   .map((x) => x.categoryName)
       exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeek,
       status: exerciseDetail?.status,
       flag: exerciseDetail?.flag,

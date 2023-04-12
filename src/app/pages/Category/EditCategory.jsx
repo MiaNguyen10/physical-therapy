@@ -3,11 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  getCategories,
+  getCategory,
   getStatusCategory,
-  resetStatus
+  resetStatus,
 } from "../../../cores/reducers/category";
-import { editCategory, getCategoryList } from "../../../cores/thunk/category";
+import {
+  editCategory,
+  getCategoryDetail
+} from "../../../cores/thunk/category";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import CategoryForm from "./components/CategoryForm";
@@ -18,11 +21,7 @@ const EditCategory = () => {
   const categoryStatus = useSelector(getStatusCategory);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const categoryList = useSelector(getCategories);
-  const categoryDetail =
-    Array.isArray(categoryList) &&
-    categoryList.find((category) => category.categoryID === id);
-
+  const categoryDetail = useSelector(getCategory);
   const handleClose = () => {
     setOpen(false);
     navigate(`${pages.categoryListPath}`);
@@ -51,8 +50,9 @@ const EditCategory = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getCategoryList());
-  }, [dispatch]);
+    dispatch(getCategoryDetail(id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>

@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addExerciseResource,
   deleteExerciseResource,
-  getExerciseResource,
   getExerciseResourceDetail,
   getExerciseResourceList
 } from "../../thunk/exerciseResource";
@@ -35,17 +34,6 @@ const exerciseResourceSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(getExerciseResource.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getExerciseResource.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.exerciseResource = action.payload;
-      })
-      .addCase(getExerciseResource.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
       .addCase(addExerciseResource.pending, (state) => {
         state.status = "loading";
       })
@@ -61,8 +49,7 @@ const exerciseResourceSlice = createSlice({
       })
       .addCase(getExerciseResourceDetail.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.exerciseResourceDetail = action;
-        console.log(action)
+        state.exerciseResourceDetail = action.payload;
       })
       .addCase(getExerciseResourceDetail.rejected, (state, action) => {
         state.status = "failed";
@@ -84,5 +71,5 @@ const exerciseResourceSlice = createSlice({
 export const { resetStatus } = exerciseResourceSlice.actions;
 export default exerciseResourceSlice.reducer;
 export const getExerciseResources = (state) => state.exerciseResource.exerciseResources;
-export const retreiveExerciseResource = (state) => state.exerciseResource.exerciseResource;
+export const getExerciseResource = (state) => state.exerciseResource.exerciseResourceDetail;
 export const getStatus = (state) => state.exerciseResource.status;

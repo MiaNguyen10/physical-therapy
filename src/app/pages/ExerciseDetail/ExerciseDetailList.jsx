@@ -9,90 +9,67 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { selectToken } from "cores/reducers/authentication";
 import {
-  getCategories,
-  getStatusCategory,
-} from "cores/reducers/category";
-import { getCategoryList } from "cores/thunk/category";
+  getExerciseDetailsList,
+  getStatus,
+  resetStatus,
+} from "cores/reducers/exerciseDetail";
+import { deleteExerciseDetail, getExerciseDetailListByID } from "cores/thunk/exerciseDetail";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getExercises,
-  getStatusExercises,
-  resetStatus,
-} from "../../../cores/reducers/exercise";
-import { deleteExercise, getExerciseList } from "../../../cores/thunk/exercise";
+import { useParams } from "react-router-dom";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
-import pages from "../../config/pages";
-import SearchExerciseListFrom from "../Exercise/components/SearchExerciseListForm";
-import { selectToken } from "cores/reducers/authentication";
 
-const ExerciseList = () => {
+const ExerciseDetailList = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
-  let exerciseList = useSelector(getExercises);
-  const exerciseStatus = useSelector(getStatusExercises);
-  let categoryList = useSelector(getCategories);
-  const categoryStatus = useSelector(getStatusCategory);
-  const token = useSelector(selectToken)
+  let exerciseDetailList = useSelector(getExerciseDetailsList);
+  const status = useSelector(getStatus);
+  const token = useSelector(selectToken);
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    searchCate: "",
+    searchDesc: "",
   });
 
+  console.log(exerciseDetailList)
+  
   const handlePageChange = (page) => {
     setPage(page);
   };
 
   useEffect(() => {
-    if (categoryStatus === "succeeded") {
-      dispatch(resetStatus);
-    }
+    dispatch(getExerciseDetailListByID({ id: id, token }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    dispatch(getCategoryList());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshKey]);
 
   const rows = useMemo(() => {
     return (
-      Array.isArray(exerciseList) &&
-      exerciseList.filter((exercise) => {
+      Array.isArray(exerciseDetailList) &&
+      exerciseDetailList.filter((exerciseDetail) => {
         const isFoundName =
-          exercise.exerciseName
+          exerciseDetail.detailName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
         const isFoundCate =
-          exercise.categoryID
+          exerciseDetail.description
             .toLowerCase()
-            .search(trim(filters.searchCate.toLowerCase())) >= 0;
+            .search(trim(filters.searchDesc.toLowerCase())) >= 0;
         return isFoundName && isFoundCate;
       })
     );
-  }, [filters, exerciseList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   const columns = [
     {
-      field: "exerciseName",
-      headerName: "Bài tập",
-      width: 550,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "categoryID",
-      headerName: "Danh mục",
+      field: "detailName",
+      headerName: "Tên chi tiết của bài tập",
       width: 350,
       headerAlign: "center",
       align: "center",
@@ -100,19 +77,12 @@ const ExerciseList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => (
-        <Typography>
-          {Array.isArray(categoryList) &&
-            categoryList
-              .filter((category) => category.categoryID === params.value)
-              .map((x) => x.categoryName)}
-        </Typography>
-      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "exerciseTimePerWeek",
-      headerName: "Thời gian / Tuần",
-      width: 200,
+      field: "set",
+      headerName: "SET",
+      width: 350,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -122,7 +92,19 @@ const ExerciseList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "exerciseID",
+      field: "description",
+      headerName: "Mô tả",
+      width: 400,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+    {
+      field: "exerciseDetailID",
       headerName: "Action",
       width: 200,
       headerAlign: "center",
@@ -135,14 +117,14 @@ const ExerciseList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link href={`${pages.exerciseListPath}/${params?.value}/edit`}>
+            <Link href={`/exercise/${id}/exerciseDetailList/${params?.value}/edit`}>
               <EditIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
             <Link
-              href={`/exercise/${params?.value}/exerciseDetailList`}
+              href={`/exercise/${id}/exerciseDetailList/${params?.value}/exerciseResource`}
             >
               <UpdateIcon
                 fontSize="small"
@@ -151,7 +133,9 @@ const ExerciseList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteExercise({ excerciseID : params?.value, token }));
+                dispatch(
+                    deleteExerciseDetail({exerciseDetailID: params?.value, token})
+                  );
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -167,37 +151,32 @@ const ExerciseList = () => {
   ];
 
   useEffect(() => {
-    if (exerciseStatus === "succeeded") {
+    if (status === "succeeded") {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    dispatch(getExerciseList(token));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH SÁCH BÀI TẬP</Typography>
-        <SearchExerciseListFrom onSearch={(data) => setFilters(data)} />
+        <Typography variant="h3">DANH SÁCH CHI TIẾT BÀI TẬP</Typography>
+        {/* <SearchExerciseListFrom onSearch={(data) => setFilters(data)} /> */}
         <Box>
           <AddButton
-            desc="Thêm bài tập"
-            url={`${pages.addExercisePath}`}
+            desc="Thêm chi tiết bài tập"
+            url={`/exercise/${id}/exerciseDetailList/add`}
             sx={{ mt: -6 }}
           />
           <DataGridTable
             columns={columns}
-            rows={rows}
-            getRowId={(row) => row.exerciseID}
+            rows={exerciseDetailList}
+            getRowId={(row) => row.exerciseDetailID}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={exerciseList?.length ?? 0}
-            isLoading={exerciseStatus !== "succeeded"}
+            rowCount={exerciseDetailList?.length ?? 0}
+            isLoading={status !== "succeeded"}
             pagination
             paginationMode="client"
           />
@@ -207,4 +186,4 @@ const ExerciseList = () => {
   );
 };
 
-export default ExerciseList;
+export default ExerciseDetailList;

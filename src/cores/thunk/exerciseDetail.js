@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const getExerciseDetailList = createAsyncThunk(
+export const getExerciseDetailListByID = createAsyncThunk(
   "exerciseDetail/getExerciseDetailList",
-  async (token) => {
+  async (data) => {
+    const { id, token } = data
     const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/ExerciseDetail`,
+      `${process.env.REACT_APP_API_ENDPOINT}/ExerciseDetail/GetByExerciseID/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

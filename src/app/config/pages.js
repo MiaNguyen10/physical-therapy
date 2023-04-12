@@ -8,22 +8,23 @@ const pages = {
     addAccountPath : '/account/add',
     accountEditPath: '/account/:id/edit',
     accountDetailPath: '/account/:id',
+
     categoryListPath: '/category',
     addCategoryPath: '/category/add',
     categoryEditPath: '/category/:id/edit',
+
     exerciseListPath: '/exercise',
     addExercisePath: '/exercise/add',
     exerciseEditPath: '/exercise/:id/edit',
-    exerciseDetailPath: '/exercise/:id/exerciseDetail',
-    exerciseDetailAddPath: '/exercise/:id/addExerciseDetail',
 
-    exerciseResourceListPath: '/exerciseResource',
+    exerciseDetailListPath: '/exercise/:id/exerciseDetailList',
+    exerciseDetailEditPath: '/exercise/:id/exerciseDetailList/:idDetail/edit',
+    exerciseDetailAddPath: '/exercise/:id/exerciseDetailList/add',
 
-    exerciseResourcePath: '/exercise/:id/exerciseDetail/:idDetail/exerciseResource',
-    addExerciseResourcePath: '/exercise/:id/exerciseDetail/:idDetail/addExerciseResource',
-    editExerciseResourcePath: '/exercise/:id/exerciseDetail/:idDetail/editExerciseResource',
-    
-    exerciseResourceEditPath: '/exerciseResource/:id/edit',
+    exerciseResourceListPath: '/exercise/:id/exerciseDetailList/:idDetail/exerciseResource',
+    addExerciseResourcePath: '/exercise/:id/exerciseDetailList/:idDetail/exerciseResource/add',
+    editExerciseResourcePath: '/exercise/:id/exerciseDetailList/:idDetail/exerciseResource/:idResource/edit',
+
     schedulePath: '/schedulePath',
     slotListPath: '/slot',
     addSlotPath: '/slot/add',

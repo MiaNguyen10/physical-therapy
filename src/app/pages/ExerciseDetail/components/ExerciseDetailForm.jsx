@@ -10,6 +10,7 @@ import {
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 
 const makeStylesDesc = () => ({
@@ -52,6 +53,8 @@ const makeStylesDesc = () => ({
 const ExerciseDetailForm = ({ exerciseDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const styleDesc = makeStylesDesc();
+  const navigate = useNavigate()
+  const {id} = useParams()
   const schema = yup.object({
     detailName: yup.string().required("Vui lòng điền thông tin"),
     set: yup.string().required("Vui lòng điền thông tin"),
@@ -154,11 +157,7 @@ const ExerciseDetailForm = ({ exerciseDetail, onFormSubmit, isLoading }) => {
               variant="outlined"
               disabled={isLoading}
               onClick={() =>
-                reset({
-                  detailName: exerciseDetail?.detailName,
-                  set: exerciseDetail?.set,
-                  description: exerciseDetail?.description,
-                })
+                navigate(`/exercise/${id}/exerciseDetailList`)
               }
             >
               Hủy bỏ

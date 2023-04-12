@@ -3,13 +3,14 @@ import {
   addCategory,
   deleteCategory,
   getCategoryDetail,
-  getCategoryList
+  getCategoryList,
 } from "../../thunk/category";
 
 const initialState = {
   status: "idle",
   error: "",
   categories: [],
+  categoryDetail: {},
 };
 
 const categorySlice = createSlice({
@@ -48,7 +49,7 @@ const categorySlice = createSlice({
       })
       .addCase(getCategoryDetail.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.categoryDetail = action;
+        state.categoryDetail = action.payload;
       })
       .addCase(getCategoryDetail.rejected, (state, action) => {
         state.status = "failed";
@@ -70,4 +71,5 @@ const categorySlice = createSlice({
 export const { resetStatus } = categorySlice.actions;
 export default categorySlice.reducer;
 export const getCategories = (state) => state.category.categories;
+export const getCategory = (state) => state.category.categoryDetail;
 export const getStatusCategory = (state) => state.category.status;

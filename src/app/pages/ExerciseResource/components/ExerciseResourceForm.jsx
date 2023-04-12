@@ -3,11 +3,11 @@ import {
   Backdrop,
   Box,
   Button,
-  CardMedia,
   CircularProgress,
   Container,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React, { useEffect } from "react";
@@ -22,12 +22,12 @@ const ExerciseResourceForm = ({
 }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
-  const { id } = useParams();
-
+  const { id, idDetail } = useParams();
+  const inputRef = React.useRef();
   const schema = yup.object({
     resourceName: yup.string().required("Vui lòng điền thông tin"),
-    imageURL: yup.object().required("Vui lòng đính kèm ảnh"),
-    videoURL: yup.object().required("Vui lòng đính kèm video"),
+    imageURL: yup.string().required("Vui lòng đính kèm ảnh"),
+    videoURL: yup.string().required("Vui lòng đính kèm video"),
   });
 
   const {
@@ -36,7 +36,6 @@ const ExerciseResourceForm = ({
     control,
     reset,
     watch,
-    register,
   } = useForm({
     mode: "all",
     resolver: yupResolver(schema),
@@ -93,9 +92,10 @@ const ExerciseResourceForm = ({
               }}
               alt="User image"
               src={watch("imageURL")}
+              ref={inputRef}
             />
           ) : null}
-          {/* <Controller
+          <Controller
             control={control}
             name="imageURL"
             render={({ field: { onChange } }) => (
@@ -103,27 +103,27 @@ const ExerciseResourceForm = ({
                 <Button variant="outlined" color="primary" component="label">
                   Add image
                   <input
-                    onChange={(e) => onChange(e.target.files)}
+                    onChange={async (event) => {
+                      const { files } = event.target;
+                      if (files?.[0]) {
+                        const imageUrl = URL.createObjectURL(files[0]);
+                        onChange(imageUrl);
+                      }
+                    }}
                     type="file"
                     accept="image/*"
                     hidden
-                    required
+                    ref={inputRef}
                   />
                 </Button>
               </>
             )}
-          /> */}
-          <Button variant="outlined" color="primary" component="label">
-            Add image
-            <input
-              name="imageURL"
-              type="file"
-              accept="image/*"
-              hidden
-              required
-              {...register("imageURL", { required: true })}
-            />
-          </Button>
+          />
+          {formErrors?.imageURL && (
+            <Typography variant="body2" sx={{ color: "#d32f2f" }}>
+              {formErrors.imageURL?.message}
+            </Typography>
+          )}
 
           {watch("videoURL") ? (
             <video
@@ -133,7 +133,7 @@ const ExerciseResourceForm = ({
               src={watch("videoURL")}
             />
           ) : null}
-          {/* <Controller
+          <Controller
             control={control}
             name="videoURL"
             render={({ field: { onChange } }) => (
@@ -145,32 +145,22 @@ const ExerciseResourceForm = ({
                       const { files } = event.target;
                       if (files?.[0]) {
                         const videoUrl = URL.createObjectURL(files[0]);
-                        const videoUrlPath = files[0].name;
-                        onChange({
-                          path: videoUrlPath,
-                          url: videoUrl,
-                        });
+                        onChange(videoUrl);
                       }
                     }}
                     type="file"
                     accept="video/*"
                     hidden
-                    required
                   />
                 </Button>
               </>
             )}
-          /> */}
-          <Button variant="outlined" color="primary" component="label">
-            Add video
-            <input
-              name="videoURL"
-              type="file"
-              accept="video/*"
-              hidden
-              {...register("videoURL", { required: true })}
-            />
-          </Button>
+          />
+          {formErrors?.videoURL && (
+            <Typography variant="body2" sx={{ color: "#d32f2f" }}>
+              {formErrors.videoURL?.message}
+            </Typography>
+          )}
 
           <Stack
             direction="row"
@@ -180,7 +170,11 @@ const ExerciseResourceForm = ({
           >
             <Button
               variant="outlined"
-              onClick={() => navigate(`/exercise/${id}/exerciseDetail`)}
+              onClick={() =>
+                navigate(
+                  `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`
+                )
+              }
               disabled={isLoading}
             >
               Hủy bỏ
