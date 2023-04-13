@@ -9,8 +9,10 @@ import {
   Typography,
 } from '@mui/material'
 import { selectToken } from 'cores/reducers/authentication'
-import { getCategories, getStatusCategory } from 'cores/reducers/category'
+import { getStatusCategory } from 'cores/reducers/category'
 import { getCategoryList } from 'cores/thunk/category'
+import dayjs from 'dayjs'
+import 'dayjs/locale/th'
 import { trim } from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,20 +26,20 @@ import AddButton from '../../components/Button/AddButton'
 import DataGridTable from '../../components/DataGrid/DataGridTable'
 import pages from '../../config/pages'
 import SearchSlotListFrom from '../Slot/components/SearchSlotListForm'
+dayjs.locale('th')
 
 const SlotList = () => {
   const dispatch = useDispatch()
   let slotList = useSelector(getSlots)
   const slotStatus = useSelector(getStatusSlots)
-  let categoryList = useSelector(getCategories)
   const categoryStatus = useSelector(getStatusCategory)
   const token = useSelector(selectToken)
+  console.log(slotList)
 
   const [page, setPage] = useState(0)
   const [refreshKey, setRefreshKey] = useState(0)
   const [filters, setFilters] = useState({
     searchKey: '',
-    searchCate: '',
   })
 
   const handlePageChange = (page) => {
@@ -71,8 +73,78 @@ const SlotList = () => {
   const columns = [
     {
       field: 'slotName',
-      headerName: 'Tên Slot',
-      width: 300,
+      headerName: 'Tên',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? '-'}</Typography>,
+    },
+    {
+      field: 'timeStart',
+      headerName: 'Bắt đầu',
+      width: 200,
+      headerAlign: 'center',
+      align: 'center',
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => (
+        <Typography>
+          {dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? '-'}
+        </Typography>
+      ),
+    },
+    {
+      field: 'timeEnd',
+      headerName: 'Kết thúc',
+      width: 200,
+      headerAlign: 'center',
+      align: 'center',
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => (
+        <Typography>
+          {dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? '-'}
+        </Typography>
+      ),
+    },
+    {
+      field: 'price',
+      headerName: 'Giá tiền',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? '-'}</Typography>,
+    },
+    {
+      field: 'available',
+      headerName: 'Trạng thái',
+      width: 200,
+      headerAlign: 'center',
+      align: 'center',
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => (
+        <Typography>{params?.value ? 'Còn trống' : 'Đã đầy'}</Typography>
+      ),
+    },
+    {
+      field: 'description',
+      headerName: 'Loại slot',
+      width: 200,
       headerAlign: 'center',
       align: 'center',
       disableColumnMenu: true,
@@ -165,7 +237,8 @@ const SlotList = () => {
 
   useEffect(() => {
     dispatch(getSlotList(token))
-  }, [dispatch, refreshKey])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey])
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
