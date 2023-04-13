@@ -1,49 +1,49 @@
-import { selectState, selectToken } from "cores/reducers/authentication";
-import { getRole } from "cores/thunk/auth";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
-import Layout from "./components/Layout";
-import pages from "./config/pages";
-import AddAccount from "./pages/Account/AddAccount";
-import EditAccount from "./pages/Account/EditAccount";
-import ManagerList from "./pages/Account/ManagerList";
-import MemberList from "./pages/Account/MemberList";
-import TherapistList from "./pages/Account/TherapistList";
-import TypeOfAccount from "./pages/Account/TypeOfAccount";
-import AddCategory from "./pages/Category/AddCategory";
-import CategotyList from "./pages/Category/CategoryList";
-import EditCategory from "./pages/Category/EditCategory";
-import AddExercise from "./pages/Exercise/AddExercise";
-import EditExercise from "./pages/Exercise/EditExercise";
-import ExerciseList from "./pages/Exercise/ExerciseList";
-import AddExerciseDetail from "./pages/ExerciseDetail/AddExerciseDetail";
-import EditExerciseDetail from "./pages/ExerciseDetail/EditExerciseDetail";
-import ExerciseDetailList from "./pages/ExerciseDetail/ExerciseDetailList";
-import AddExerciseResource from "./pages/ExerciseResource/AddExerciseResource";
-import EditExerciseResource from "./pages/ExerciseResource/EditExerciseResource";
-import ExerciseResourceList from "./pages/ExerciseResource/ExerciseResourceList";
-import LandingPage from "./pages/LandingPage/LandingPage";
-import Login from "./pages/Login";
-import Demo from "./pages/Schedule/demo";
-import AddSlot from "./pages/Slot/AddSlot";
-import EditSlot from "./pages/Slot/EditSlot";
-import SlotList from "./pages/Slot/SlotList";
-import AddPhysiotherapist from "./pages/User/AddPhysiotherapist";
-import AddUser from "./pages/User/AddUser";
-import EditUser from "./pages/User/EditUser";
-import UserList from "./pages/User/UserList";
+import { selectState, selectToken } from 'cores/reducers/authentication'
+import { getRole } from 'cores/thunk/auth'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './components/Layout'
+import pages from './config/pages'
+import AddAccount from './pages/Account/AddAccount'
+import EditAccount from './pages/Account/EditAccount'
+import ManagerList from './pages/Account/ManagerList'
+import MemberList from './pages/Account/MemberList'
+import TherapistList from './pages/Account/TherapistList'
+import TypeOfAccount from './pages/Account/TypeOfAccount'
+import AddCategory from './pages/Category/AddCategory'
+import CategotyList from './pages/Category/CategoryList'
+import EditCategory from './pages/Category/EditCategory'
+import AddExercise from './pages/Exercise/AddExercise'
+import EditExercise from './pages/Exercise/EditExercise'
+import ExerciseList from './pages/Exercise/ExerciseList'
+import AddExerciseDetail from './pages/ExerciseDetail/AddExerciseDetail'
+import EditExerciseDetail from './pages/ExerciseDetail/EditExerciseDetail'
+import ExerciseDetailList from './pages/ExerciseDetail/ExerciseDetailList'
+import AddExerciseResource from './pages/ExerciseResource/AddExerciseResource'
+import EditExerciseResource from './pages/ExerciseResource/EditExerciseResource'
+import ExerciseResourceList from './pages/ExerciseResource/ExerciseResourceList'
+import LandingPage from './pages/LandingPage/LandingPage'
+import Login from './pages/Login'
+import Schedule from './pages/Schedule'
+import AddSlot from './pages/Slot/AddSlot'
+import EditSlot from './pages/Slot/EditSlot'
+import SlotList from './pages/Slot/SlotList'
+import AddPhysiotherapist from './pages/User/AddPhysiotherapist'
+import AddUser from './pages/User/AddUser'
+import EditUser from './pages/User/EditUser'
+import UserList from './pages/User/UserList'
 
 const Router = () => {
-  const token = useSelector(selectToken);
-  const currentState = useSelector(selectState);
-  const dispatch = useDispatch();
+  const token = useSelector(selectToken)
+  const currentState = useSelector(selectState)
+  const dispatch = useDispatch()
   useEffect(() => {
     if (token) {
-      dispatch(getRole(currentState.UserId));
+      dispatch(getRole(currentState.UserId))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
@@ -94,7 +94,7 @@ const Router = () => {
           element={<EditExerciseResource />}
         />
         {/* Schedule */}
-        <Route path={`/${pages.schedulePath}`} element={<Demo />} />
+        <Route path={`/${pages.schedulePath}`} element={<Schedule />} />
         <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
         <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
         <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
@@ -108,7 +108,7 @@ const Router = () => {
         <Route path={`/${pages.slotEditPath}`} element={<EditUser />} />
       </Route>
     </Routes>
-  );
-};
+  )
+}
 
-export default Router;
+export default Router
