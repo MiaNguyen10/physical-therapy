@@ -11,8 +11,8 @@ import {
 import { selectToken } from "cores/reducers/authentication";
 import { getStatusCategory } from "cores/reducers/category";
 import { getCategoryList } from "cores/thunk/category";
-import dayjs from 'dayjs'
-import 'dayjs/locale/th'
+import dayjs from "dayjs";
+import "dayjs/locale/th";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,8 +33,8 @@ const SlotList = () => {
   let slotList = useSelector(getSlots);
   const slotStatus = useSelector(getStatusSlots);
   const categoryStatus = useSelector(getStatusCategory);
-  const token = useSelector(selectToken)
-  console.log(slotList)
+  const token = useSelector(selectToken);
+  console.log(slotList);
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -74,7 +74,7 @@ const SlotList = () => {
     {
       field: "slotName",
       headerName: "Tên",
-      width: 150,
+      width: 350,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -93,7 +93,11 @@ const SlotList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{ dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? "-"}</Typography>,
+      renderCell: (params) => (
+        <Typography>
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm:ss") ?? "-"}
+        </Typography>
+      ),
     },
     {
       field: "timeEnd",
@@ -105,19 +109,11 @@ const SlotList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? "-"}</Typography>,
-    },
-    {
-      field: "price",
-      headerName: "Giá tiền",
-      width: 150,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+      renderCell: (params) => (
+        <Typography>
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm:ss") ?? "-"}
+        </Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
       field: "available",
@@ -129,21 +125,10 @@ const SlotList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ? 'Còn trống' : 'Đã đầy'}</Typography>,
-    },
-    {
-      field: "description",
-      headerName: "Loại slot",
-      width: 200,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+      renderCell: (params) => (
+        <Typography>{params?.value ? "Còn trống" : "Đã đầy"}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
-
     {
       field: "slotID",
       headerName: "Action",
@@ -166,7 +151,7 @@ const SlotList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteSlot({id: params.value, token}));
+                dispatch(deleteSlot({ id: params.value, token }));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -190,7 +175,7 @@ const SlotList = () => {
 
   useEffect(() => {
     dispatch(getSlotList(token));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
   return (
@@ -205,6 +190,7 @@ const SlotList = () => {
             sx={{ mt: -6 }}
           />
           <DataGridTable
+            width="1200px"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.slotID}

@@ -2,6 +2,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
+  Button,
   Container,
   IconButton,
   Link,
@@ -11,7 +12,7 @@ import {
 import { selectToken } from "cores/reducers/authentication";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getExerciseResources,
   getStatus,
@@ -23,11 +24,11 @@ import {
 } from "../../../cores/thunk/exerciseResource";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
-import pages from "../../config/pages";
 
 const ExerciseResourceList = () => {
-  const {id, idDetail} = useParams()
+  const { id, idDetail } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   let exerciseResourceList = useSelector(getExerciseResources);
   const token = useSelector(selectToken);
   const exerciseResourceStatus = useSelector(getStatus);
@@ -127,7 +128,7 @@ const ExerciseResourceList = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseResourceList({idDetail: idDetail, token}));
+    dispatch(getExerciseResourceList({ idDetail: idDetail, token }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
@@ -137,11 +138,27 @@ const ExerciseResourceList = () => {
         <Typography variant="h3">DANH SÁCH TÀI NGUYÊN BÀI TẬP</Typography>
         {/* <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} /> */}
         <Box>
-          <AddButton
-            desc="Thêm tài nguyên bài tập"
-            url={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`}
-            sx={{ mt: -6 }}
-          />
+          <Stack
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+            spacing={2}
+            sx={{ float: "right", mb: 3 }}
+          >
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => navigate(`/exercise/${id}/exerciseDetailList`)}
+            >
+              Quay về chi tiết
+            </Button>
+            <AddButton
+              desc="Thêm tài nguyên bài tập"
+              url={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`}
+              sx={{ mt: -6 }}
+            />
+          </Stack>
+
           <DataGridTable
             columns={columns}
             rows={exerciseResourceList}
