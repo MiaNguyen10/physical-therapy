@@ -1,6 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import UpdateIcon from "@mui/icons-material/Update";
 import {
   Box,
   Container,
@@ -9,8 +8,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { getCategories, getStatusCategory } from "cores/reducers/category";
+import { selectToken } from "cores/reducers/authentication";
+import { getStatusCategory } from "cores/reducers/category";
 import { getCategoryList } from "cores/thunk/category";
+import dayjs from 'dayjs'
+import 'dayjs/locale/th'
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,21 +26,20 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchSlotListFrom from "../Slot/components/SearchSlotListForm";
-import { selectToken } from "cores/reducers/authentication";
+dayjs.locale("th");
 
 const SlotList = () => {
   const dispatch = useDispatch();
   let slotList = useSelector(getSlots);
   const slotStatus = useSelector(getStatusSlots);
-  let categoryList = useSelector(getCategories);
   const categoryStatus = useSelector(getStatusCategory);
   const token = useSelector(selectToken)
+  console.log(slotList)
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    searchCate: "",
   });
 
   const handlePageChange = (page) => {
@@ -64,11 +65,7 @@ const SlotList = () => {
           slot.slotName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundCate =
-          slot.description
-            .toLowerCase()
-            .search(trim(filters.searchCate.toLowerCase())) >= 0;
-        return isFoundName && isFoundCate;
+        return isFoundName;
       })
     );
   }, [filters, slotList]);
@@ -96,7 +93,7 @@ const SlotList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+      renderCell: (params) => <Typography>{ dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? "-"}</Typography>,
     },
     {
       field: "timeEnd",
@@ -108,7 +105,7 @@ const SlotList = () => {
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+      renderCell: (params) => <Typography>{dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? "-"}</Typography>,
     },
     {
       field: "price",
@@ -137,7 +134,7 @@ const SlotList = () => {
     {
       field: "description",
       headerName: "Loại slot",
-      width: 300,
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -193,7 +190,8 @@ const SlotList = () => {
 
   useEffect(() => {
     dispatch(getSlotList(token));
-  }, [dispatch, refreshKey]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>

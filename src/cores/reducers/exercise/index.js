@@ -18,7 +18,7 @@ const exerciseSlice = createSlice({
   initialState,
   reducers: {
     resetStatus(state) {
-      state.status = "idel";
+      state.status = "idle";
     },
   },
   extraReducers: (builder) => {

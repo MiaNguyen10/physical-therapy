@@ -6,6 +6,7 @@ import exerciseDetailReducer from "../reducers/exerciseDetail/index";
 import exerciseResourceReducer from "../reducers/exerciseResource/index";
 import slotReducer from "../reducers/slot/index";
 import userReducer from "../reducers/user/index";
+import physiotherapistReducer from "cores/reducers/physiotherapist/index";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     exerciseResource: exerciseResourceReducer,
     slot: slotReducer,
     user: userReducer,
+    physiotherapist: physiotherapistReducer,
   },
 });
