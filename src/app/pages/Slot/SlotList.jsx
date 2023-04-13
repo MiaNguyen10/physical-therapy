@@ -130,44 +130,6 @@ const SlotList = () => {
       ),
     },
     {
-      field: 'timeStart',
-      headerName: 'Thời gian bắt đầu',
-      width: 250,
-      headerAlign: 'center',
-      align: 'center',
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? '-'}</Typography>,
-    },
-    {
-      field: 'timeEnd',
-      headerName: 'Thời gian kết thúc',
-      width: 250,
-      headerAlign: 'center',
-      align: 'center',
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? '-'}</Typography>,
-    },
-    {
-      field: 'available',
-      headerName: 'Trạng thái',
-      width: 200,
-      headerAlign: 'center',
-      align: 'center',
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => (
-        <Typography>{params?.value ? 'Còn trống' : 'Đã đầy'}</Typography>
-      ),
-    },
-    {
       field: 'slotID',
       headerName: 'Action',
       width: 200,

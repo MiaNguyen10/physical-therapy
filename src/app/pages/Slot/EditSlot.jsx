@@ -32,11 +32,13 @@ const EditSlot = () => {
     navigate(`${pages.slotListPath}`)
   }
 
-  const handleFormSubmit = ({ slotName, timeStart, timeEnd }) => {
+  const handleFormSubmit = ({ slotName, timeStart, timeEnd, available }) => {
     const slot = {
+      slotID: id,
       slotName: slotName,
       timeStart: new Date(timeStart),
       timeEnd: new Date(timeEnd),
+      available,
     }
     try {
       dispatch(editSlot({ slot, token })).unwrap()
@@ -70,6 +72,7 @@ const EditSlot = () => {
             slotName: slotDetail?.slotName,
             timeStart: slotDetail?.timeStart,
             timeEnd: slotDetail?.timeEnd,
+            available: slotDetail?.available,
           }}
           categories={categories}
           onFormSubmit={handleFormSubmit}
