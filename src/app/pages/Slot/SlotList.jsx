@@ -74,7 +74,7 @@ const SlotList = () => {
     {
       field: 'slotName',
       headerName: 'Tên',
-      width: 150,
+      width: 350,
       headerAlign: 'center',
       align: 'center',
       disableColumnMenu: true,
@@ -116,18 +116,6 @@ const SlotList = () => {
       ),
     },
     {
-      field: 'price',
-      headerName: 'Giá tiền',
-      width: 150,
-      headerAlign: 'center',
-      align: 'center',
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? '-'}</Typography>,
-    },
-    {
       field: 'available',
       headerName: 'Trạng thái',
       width: 200,
@@ -140,18 +128,6 @@ const SlotList = () => {
       renderCell: (params) => (
         <Typography>{params?.value ? 'Còn trống' : 'Đã đầy'}</Typography>
       ),
-    },
-    {
-      field: 'description',
-      headerName: 'Loại slot',
-      width: 200,
-      headerAlign: 'center',
-      align: 'center',
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? '-'}</Typography>,
     },
     {
       field: 'timeStart',
@@ -252,6 +228,7 @@ const SlotList = () => {
             sx={{ mt: -6 }}
           />
           <DataGridTable
+            width="1200px"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.slotID}

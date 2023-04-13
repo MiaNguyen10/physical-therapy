@@ -7,12 +7,10 @@ import {
   IconButton,
   Link,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import {
-  getCategories,
-  getStatusCategory,
-} from "cores/reducers/category";
+import { getCategories, getStatusCategory } from "cores/reducers/category";
 import { getCategoryList } from "cores/thunk/category";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
@@ -35,7 +33,7 @@ const ExerciseList = () => {
   const exerciseStatus = useSelector(getStatusExercises);
   let categoryList = useSelector(getCategories);
   const categoryStatus = useSelector(getStatusCategory);
-  const token = useSelector(selectToken)
+  const token = useSelector(selectToken);
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -57,7 +55,7 @@ const ExerciseList = () => {
 
   useEffect(() => {
     dispatch(getCategoryList());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const rows = useMemo(() => {
@@ -92,7 +90,7 @@ const ExerciseList = () => {
     },
     {
       field: "categoryID",
-      headerName: "Danh mục",
+      headerName: "Tình trạng",
       width: 350,
       headerAlign: "center",
       align: "center",
@@ -141,17 +139,17 @@ const ExerciseList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            <Link
-              href={`/exercise/${params?.value}/exerciseDetailList`}
-            >
-              <UpdateIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
-              />
+            <Link href={`/exercise/${params?.value}/exerciseDetailList`}>
+              <Tooltip title="Chi tiết bài tập">
+                <UpdateIcon
+                  fontSize="small"
+                  sx={{ color: "#0C5E96", cursor: "pointer" }}
+                />
+              </Tooltip>
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteExercise({ excerciseID : params?.value, token }));
+                dispatch(deleteExercise({ excerciseID: params?.value, token }));
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -175,7 +173,7 @@ const ExerciseList = () => {
 
   useEffect(() => {
     dispatch(getExerciseList(token));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
   return (

@@ -58,7 +58,7 @@ const CategotyList = () => {
   const columns = [
     {
       field: "categoryName",
-      headerName: "Danh mục",
+      headerName: "Tình trạng",
       width: 400,
       headerAlign: "center",
       align: "center",
@@ -136,7 +136,7 @@ const CategotyList = () => {
         <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
         <Box>
           {/* Manager  */}
-          <RestrictedPermission permission={"Manager"}>
+          <RestrictedPermission permission={"Admin"}>
             <AddButton
               desc="Thêm danh mục"
               url={`${pages.addCategoryPath}`}

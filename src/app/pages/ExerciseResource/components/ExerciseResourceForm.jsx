@@ -6,12 +6,12 @@ import {
   CircularProgress,
   Container,
   Stack,
-  TextField,
-  Typography,
+  TextField
 } from "@mui/material";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import ReactPlayer from "react-player";
 import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 
@@ -56,6 +56,7 @@ const ExerciseResourceForm = ({
     });
   }, [exerciseResourceDetail, reset]);
 
+  console.log(watch("videoURL"));
   return (
     <Container sx={{ width: "50%", display: "flex" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,7 +75,7 @@ const ExerciseResourceForm = ({
                 error={!!formErrors?.resourceName}
                 helperText={formErrors?.resourceName?.message}
                 required
-                inputProps={{ required: false, maxLength: 255 }}
+                inputProps={{ required: true }}
                 label="Tên tài nguyên của bài tập"
                 variant="outlined"
               />
@@ -85,10 +86,10 @@ const ExerciseResourceForm = ({
             <Box
               component="img"
               sx={{
-                height: 233,
-                width: 350,
-                maxHeight: { xs: 233, md: 167 },
-                maxWidth: { xs: 350, md: 250 },
+                height: 300,
+                width: "100%",
+                maxHeight: { xs: 300, md: 167 },
+                maxWidth: { xs: "100%", md: 250 },
               }}
               alt="User image"
               src={watch("imageURL")}
@@ -96,6 +97,23 @@ const ExerciseResourceForm = ({
             />
           ) : null}
           <Controller
+            control={control}
+            name="imageURL"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.imageURL}
+                helperText={formErrors?.imageURL?.message}
+                required
+                inputProps={{ required: true }}
+                label="Hình ảnh"
+                variant="outlined"
+              />
+            )}
+          />
+          {/* <Controller
             control={control}
             name="imageURL"
             render={({ field: { onChange } }) => (
@@ -118,22 +136,40 @@ const ExerciseResourceForm = ({
                 </Button>
               </>
             )}
-          />
+          /> 
           {formErrors?.imageURL && (
             <Typography variant="body2" sx={{ color: "#d32f2f" }}>
               {formErrors.imageURL?.message}
             </Typography>
-          )}
+          )}*/}
 
           {watch("videoURL") ? (
-            <video
-              width="100%"
-              height="300px"
-              controls
-              src={watch("videoURL")}
-            />
+            // <video
+            //   width="100%"
+            //   height="300px"
+            //   controls
+            //   src={watch("videoURL")}
+            // />
+            <ReactPlayer url={watch("videoURL")} controls width="100%" height="400px" />
           ) : null}
           <Controller
+            control={control}
+            name="videoURL"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.videoURL}
+                helperText={formErrors?.videoURL?.message}
+                required
+                inputProps={{ required: true }}
+                label="Video"
+                variant="outlined"
+              />
+            )}
+          />
+          {/* <Controller
             control={control}
             name="videoURL"
             render={({ field: { onChange } }) => (
@@ -155,12 +191,12 @@ const ExerciseResourceForm = ({
                 </Button>
               </>
             )}
-          />
+          /> 
           {formErrors?.videoURL && (
             <Typography variant="body2" sx={{ color: "#d32f2f" }}>
               {formErrors.videoURL?.message}
             </Typography>
-          )}
+          )}*/}
 
           <Stack
             direction="row"

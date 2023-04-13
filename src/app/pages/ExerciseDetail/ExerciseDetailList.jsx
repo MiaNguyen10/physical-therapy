@@ -3,10 +3,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import UpdateIcon from "@mui/icons-material/Update";
 import {
   Box,
+  Button,
   Container,
   IconButton,
   Link,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { selectToken } from "cores/reducers/authentication";
@@ -15,11 +17,14 @@ import {
   getStatus,
   resetStatus,
 } from "cores/reducers/exerciseDetail";
-import { deleteExerciseDetail, getExerciseDetailListByID } from "cores/thunk/exerciseDetail";
+import {
+  deleteExerciseDetail,
+  getExerciseDetailListByID,
+} from "cores/thunk/exerciseDetail";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 
@@ -29,6 +34,7 @@ const ExerciseDetailList = () => {
   let exerciseDetailList = useSelector(getExerciseDetailsList);
   const status = useSelector(getStatus);
   const token = useSelector(selectToken);
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -37,8 +43,8 @@ const ExerciseDetailList = () => {
     searchDesc: "",
   });
 
-  console.log(exerciseDetailList)
-  
+  console.log(exerciseDetailList);
+
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -117,7 +123,9 @@ const ExerciseDetailList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link href={`/exercise/${id}/exerciseDetailList/${params?.value}/edit`}>
+            <Link
+              href={`/exercise/${id}/exerciseDetailList/${params?.value}/edit`}
+            >
               <EditIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
@@ -126,16 +134,21 @@ const ExerciseDetailList = () => {
             <Link
               href={`/exercise/${id}/exerciseDetailList/${params?.value}/exerciseResource`}
             >
-              <UpdateIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
-              />
+              <Tooltip title="Chi tiết tài nguyên">
+                <UpdateIcon
+                  fontSize="small"
+                  sx={{ color: "#0C5E96", cursor: "pointer" }}
+                />
+              </Tooltip>
             </Link>
             <IconButton
               onClick={() => {
                 dispatch(
-                    deleteExerciseDetail({exerciseDetailID: params?.value, token})
-                  );
+                  deleteExerciseDetail({
+                    exerciseDetailID: params?.value,
+                    token,
+                  })
+                );
                 setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
@@ -163,11 +176,26 @@ const ExerciseDetailList = () => {
         <Typography variant="h3">DANH SÁCH CHI TIẾT BÀI TẬP</Typography>
         {/* <SearchExerciseListFrom onSearch={(data) => setFilters(data)} /> */}
         <Box>
-          <AddButton
-            desc="Thêm chi tiết bài tập"
-            url={`/exercise/${id}/exerciseDetailList/add`}
-            sx={{ mt: -6 }}
-          />
+          <Stack
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+            spacing={2}
+            sx={{ float: "right", mb: 3 }}
+          >
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => navigate(`/exercise`)}
+            >
+              Quay về chi tiết
+            </Button>
+            <AddButton
+              desc="Thêm chi tiết bài tập"
+              url={`/exercise/${id}/exerciseDetailList/add`}
+              sx={{ mt: -6 }}
+            />
+          </Stack>
           <DataGridTable
             columns={columns}
             rows={exerciseDetailList}

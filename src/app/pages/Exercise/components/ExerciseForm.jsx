@@ -158,7 +158,7 @@ const ExerciseForm = ({
                 onChange={onChange}
                 value={value}
                 variant="outlined"
-                label="Danh mục"
+                label="Tình trạng"
                 SelectProps={{
                   MenuProps: {
                     PaperProps: {
