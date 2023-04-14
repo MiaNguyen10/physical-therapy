@@ -1,59 +1,54 @@
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  Button,
-  InputAdornment,
-  Stack,
-  TextField
-} from "@mui/material";
-import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import SearchIcon from '@mui/icons-material/Search'
+import { Button, InputAdornment, Stack, TextField } from '@mui/material'
+import React from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
 const makeStyles = () => ({
   textFieldStyle: {
-    width: "320px",
-    ".MuiOutlinedInput-root": {
+    width: '320px',
+    '.MuiOutlinedInput-root': {
       height: 44,
     },
-    ".MuiSelect-select": {
+    '.MuiSelect-select': {
       marginTop: 1,
     },
-    ".MuiInputLabel-root": {
+    '.MuiInputLabel-root': {
       zIndex: 0,
-      top: "-25px",
-      fontSize: "16px",
+      top: '-25px',
+      fontSize: '16px',
       fontWeight: 700,
-      color: "#333333",
-      WebkitTransform: "none",
+      color: '#333333',
+      WebkitTransform: 'none',
       span: {
-        color: "#D93A39",
+        color: '#D93A39',
       },
-      "&.Mui-focused": {
-        color: "#333333",
+      '&.Mui-focused': {
+        color: '#333333',
       },
-      "&.Mui-error": {
-        color: "#333333",
+      '&.Mui-error': {
+        color: '#333333',
       },
     },
-    ".MuiOutlinedInput-notchedOutline": {
+    '.MuiOutlinedInput-notchedOutline': {
       legend: {
         maxWidth: 0,
       },
     },
   },
-});
+})
 
 const SearchSlotListForm = ({ onSearch }) => {
-  const styles = makeStyles();
+  const styles = makeStyles()
   const { handleSubmit, control } = useForm({
     defaultValues: {
-      searchKey: "",
-      searchCate: "",
+      searchKey: '',
+      searchCate: '',
     },
-  });
+  })
 
   const onSubmit = (data) => {
-    onSearch(data);
-  };
+    onSearch(data)
+  }
 
   return (
     <Stack
@@ -70,7 +65,7 @@ const SearchSlotListForm = ({ onSearch }) => {
           <TextField
             sx={{
               ...styles.textFieldStyle,
-              width: "380px",
+              width: '380px',
             }}
             placeholder="Nhập tên slot cần tìm"
             value={value}
@@ -93,7 +88,7 @@ const SearchSlotListForm = ({ onSearch }) => {
           <TextField
             sx={{
               ...styles.textFieldStyle,
-              width: "500px",
+              width: '500px',
             }}
             placeholder="Nhập mô tả cần tìm"
             value={value}
@@ -105,12 +100,12 @@ const SearchSlotListForm = ({ onSearch }) => {
       <Button
         type="submit"
         variant="outlined"
-        sx={{ height: "45px", width: "80px" }}
+        sx={{ height: '45px', width: '80px' }}
       >
         Tìm
       </Button>
     </Stack>
-  );
-};
+  )
+}
 
-export default SearchSlotListForm;
+export default SearchSlotListForm
