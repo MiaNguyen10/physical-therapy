@@ -39,7 +39,7 @@ export default function Appointment(model) {
   return (
     <div className="showtime-preview">
       <div>
-        <strong>{targetedAppointmentData.slot}</strong>{" "}
+        <strong>{targetedAppointmentData.text}</strong>{" "}
       </div>
       <div>
         Bác sĩ trị liệu:{" "}

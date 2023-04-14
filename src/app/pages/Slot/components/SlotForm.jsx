@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Backdrop,
   Button,
@@ -6,64 +6,61 @@ import {
   Container,
   Stack,
   TextField,
-} from '@mui/material'
-import DateTimePickerInput from 'app/components/Input/DateTimePicker'
-import React, { useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import * as yup from 'yup'
-import pages from '../../../config/pages'
-
-const ITEM_HEIGHT = 30
-const ITEM_PADDING_TOP = 5
-const ITEM_DISPLAY_ON_SELECT = 4
+} from "@mui/material";
+import DateTimePickerInput from "app/components/Input/DateTimePicker";
+import dayjs from "dayjs";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import pages from "../../../config/pages";
 
 const makeStyles = () => ({
   textFieldStyle: {
-    width: '520px',
-    '.MuiOutlinedInput-root': {
+    width: "520px",
+    ".MuiOutlinedInput-root": {
       height: 50,
-      '& fieldset': {
-        borderColor: '',
+      "& fieldset": {
+        borderColor: "",
       },
     },
-    '.MuiSelect-select': {
+    ".MuiSelect-select": {
       marginTop: 1,
     },
-    '.MuiInputLabel-root': {
+    ".MuiInputLabel-root": {
       zIndex: 0,
-      top: '-25px',
-      fontSize: '16px',
+      top: "-25px",
+      fontSize: "16px",
       fontWeight: 700,
-      color: '#333333',
-      WebkitTransform: 'none',
+      color: "#333333",
+      WebkitTransform: "none",
       span: {
-        color: '#D93A39',
+        color: "#D93A39",
       },
-      '&.Mui-focused': {
-        color: '#333333',
+      "&.Mui-focused": {
+        color: "#333333",
       },
-      '&.Mui-error': {
-        color: '#333333',
+      "&.Mui-error": {
+        color: "#333333",
       },
     },
-    '.MuiOutlinedInput-notchedOutline': {
+    ".MuiOutlinedInput-notchedOutline": {
       legend: {
         maxWidth: 0,
       },
     },
   },
-})
+});
 
 const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
-  const styles = makeStyles()
-  const navigate = useNavigate()
+  const styles = makeStyles();
+  const navigate = useNavigate();
 
   const schema = yup.object({
-    slotName: yup.string().required('Vui lòng điền thông tin'),
-    timeStart: yup.string().required('Vui lòng điền thông tin'),
-    timeEnd: yup.string().required('Vui lòng điền thông tin'),
-  })
+    slotName: yup.string().required("Vui lòng điền thông tin"),
+    timeStart: yup.string().required("Vui lòng điền thông tin"),
+    timeEnd: yup.string().required("Vui lòng điền thông tin"),
+  });
 
   const {
     handleSubmit,
@@ -72,20 +69,20 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
     reset,
     getValues,
   } = useForm({
-    mode: 'all',
+    mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
-      slotName: '',
-      timeStart: '',
-      timeEnd: '',
+      slotName: "",
+      timeStart: dayjs(new Date()),
+      timeEnd: dayjs(new Date()),
       available: true,
     },
-  })
+  });
 
   const onSubmit = (data) => {
-    console.log(data)
-    onFormSubmit(data)
-  }
+    console.log(data);
+    onFormSubmit(data);
+  };
 
   useEffect(() => {
     reset({
@@ -93,13 +90,11 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
       timeStart: slotDetail?.timeStart,
       timeEnd: slotDetail?.timeEnd,
       available: slotDetail?.available,
-    })
-  }, [slotDetail, reset, getValues])
-
-  const [selectedDate, setSelectedDate] = useState(new Date())
+    });
+  }, [slotDetail, reset, getValues]);
 
   return (
-    <Container sx={{ width: '50%', display: 'flex' }}>
+    <Container sx={{ width: "50%", display: "flex" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />
@@ -128,11 +123,11 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <React.Fragment>
-                <label required style={{ fontWeight: 'bold', top: -25 }}>
+                <label required style={{ fontWeight: "bold", top: -25 }}>
                   Thời gian bắt đầu
                 </label>
                 <DateTimePickerInput
-                  value={value ?? ''}
+                  value={value ?? ""}
                   onChange={onChange}
                   sx={styles.textFieldStyle}
                   error={error}
@@ -146,11 +141,11 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <React.Fragment>
-                <label required style={{ fontWeight: 'bold', top: -25 }}>
+                <label required style={{ fontWeight: "bold", top: -25 }}>
                   Thời gian kết thúc
                 </label>
                 <DateTimePickerInput
-                  value={value ?? ''}
+                  value={value ?? ""}
                   onChange={onChange}
                   sx={styles.textFieldStyle}
                   error={error}
@@ -162,7 +157,7 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
             direction="row"
             justifyContent="flex-end"
             spacing={2}
-            sx={{ width: '100%' }}
+            sx={{ width: "100%" }}
           >
             <Button
               variant="outlined"
@@ -178,7 +173,7 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         </Stack>
       </form>
     </Container>
-  )
-}
+  );
+};
 
-export default SlotForm
+export default SlotForm;
