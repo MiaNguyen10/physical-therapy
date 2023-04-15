@@ -8,6 +8,7 @@ import slotReducer from "../reducers/slot/index";
 import userReducer from "../reducers/user/index";
 import physiotherapistReducer from "cores/reducers/physiotherapist/index";
 import typeOfSlotReducer from "cores/reducers/typeOfSlot/index"
+import scheduleReducer from "cores/reducers/schedule/index"
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     user: userReducer,
     physiotherapist: physiotherapistReducer,
     typeOfSlot: typeOfSlotReducer,
+    schedule: scheduleReducer,
   },
 });

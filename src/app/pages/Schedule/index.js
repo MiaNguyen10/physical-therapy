@@ -17,6 +17,7 @@ import Appointment from "./Appointment";
 import { getList, getStatus } from "cores/reducers/typeOfSlot";
 import resetStatusTypeOfSlot from "cores/reducers/typeOfSlot/index";
 import { getTypeOfSlotList } from "cores/thunk/typeOfSlot";
+import { deleteSchedule, editSchedule } from "cores/thunk/schedule";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth();
@@ -61,6 +62,9 @@ const Schedule = () => {
   const config = useRef({
     allowAdding: false,
     allowDragging: false,
+    allowResizing: false,
+    allowDeleting: true,
+    allowUpdating: true,
   });
 
   useEffect(() => {
@@ -80,6 +84,8 @@ const Schedule = () => {
           startDate: new Date(`${formatDate}T${formatTimeStart}`),
           endDate: new Date(`${formatDate}T${formatTimeEnd}`),
           typeOfSlotID: schedule.typeOfSlotID,
+          scheduleID: schedule.scheduleID,
+          slotID: schedule.slotID,
         };
         formatData.push(formatSchedule);
       });
@@ -93,12 +99,6 @@ const Schedule = () => {
       .toArray()[0];
   }
 
-  function getTypeOfSlotById(typeOfSlotID) {
-    return Query(listTypeOfSlot)
-      .filter(["typeOfSlotID", typeOfSlotID])
-      .toArray()[0];
-  }
-
   const onAppointmentFormOpening = (e) => {
     const { form } = e;
     let slotName = e.appointmentData.text;
@@ -107,7 +107,6 @@ const Schedule = () => {
     let endDate = e.appointmentData.endDate;
     let physiotherapist =
       getTherapistById(e.appointmentData?.physiotherapistID) || {};
-    
 
     form.option("items", [
       {
@@ -119,7 +118,7 @@ const Schedule = () => {
         editorOptions: {
           value: slotName,
           readOnly: true,
-        },  
+        },
       },
       {
         label: {
@@ -180,6 +179,26 @@ const Schedule = () => {
     ]);
   };
 
+  const onAppointmentUpdated = (e) => {
+    const input = {
+      scheduleID: e.appointmentData.scheduleID,
+      slotID: e.appointmentData.slotID,
+      physiotherapistID: e.appointmentData.physiotherapistID,
+      typeOfSlotID: e.appointmentData.typeOfSlotID,
+      description: e.appointmentData.description,
+      physioBookingStatus: true,
+    };
+    try {
+      dispatch(editSchedule({ input, token })).unwrap();
+    } catch (err) {
+      // eslint-disable-next-line no-empty
+    }
+  };
+
+  const onAppointmentDeleted = (e) => {
+    dispatch(deleteSchedule({ id: e.appointmentData.scheduleID, token }));
+  };
+
   return (
     <React.Fragment>
       <Scheduler
@@ -196,12 +215,11 @@ const Schedule = () => {
         onAppointmentFormOpening={onAppointmentFormOpening}
         appointmentComponent={Appointment}
         recurrenceEditMode="occurrence"
+        onAppointmentUpdated={onAppointmentUpdated}
+        onAppointmentDeleted={onAppointmentDeleted}
       >
         <Editing allowAdding={false} />
-        <Resource
-          dataSource={listTypeOfSlot}
-          fieldExpr="typeOfSlotID"
-        />
+        <Resource dataSource={listTypeOfSlot} fieldExpr="typeOfSlotID" />
       </Scheduler>
     </React.Fragment>
   );
