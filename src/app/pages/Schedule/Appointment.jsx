@@ -43,7 +43,7 @@ export default function Appointment(model) {
       </div>
       <div>
         Bác sĩ trị liệu:{" "}
-        {`${physiotherapist.user.firstName} ${physiotherapist.user.lastName}`}
+        {`${physiotherapist.user.firstName} ${physiotherapist.user?.lastName}`}
       </div>
       <div>
         {formatDate(targetedAppointmentData.displayStartDate, "shortTime")}

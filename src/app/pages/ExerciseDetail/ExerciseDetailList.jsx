@@ -188,7 +188,7 @@ const ExerciseDetailList = () => {
               color="primary"
               onClick={() => navigate(`/exercise`)}
             >
-              Quay về chi tiết
+              Quay về bài tập
             </Button>
             <AddButton
               desc="Thêm chi tiết bài tập"
