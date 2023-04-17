@@ -102,7 +102,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.categoryName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Tên danh mục"
+                label="Tên tình trạng"
                 variant="outlined"
               />
             )}

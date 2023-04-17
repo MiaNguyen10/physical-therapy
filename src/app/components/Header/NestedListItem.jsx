@@ -1,19 +1,18 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CategoryIcon from "@mui/icons-material/Category";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import HomeIcon from "@mui/icons-material/Home";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import Groups2Icon from "@mui/icons-material/Groups2";
-import MedicationIcon from "@mui/icons-material/Medication";
-import CategoryIcon from "@mui/icons-material/Category";
 import {
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 import { useNavigate } from "react-router-dom";
 import pages from "../../config/pages";
-import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 const NestedListItem = () => {
   const navigate = useNavigate();
@@ -28,59 +27,43 @@ const NestedListItem = () => {
         </ListItemIcon>
         <ListItemText primary="Trang chủ" />
       </ListItemButton>
-
-      <ListItemButton onClick={() => navigate(`${pages.accountPath}`)}>
-        <ListItemIcon>
-          <AccountCircleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Danh sách người dùng" />
-      </ListItemButton>
-      <List component="div" disablePadding>
-        <RestrictedPermission permission={["Bearer"]}>
-          <ListItemButton
-            sx={{ pl: 8 }}
-            onClick={() => navigate(`${pages.userListPath}`)}
-          >
-            <ListItemIcon>
-              <ManageAccountsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Quản lý" />
-          </ListItemButton>
-        </RestrictedPermission>
-
-        <ListItemButton
-          sx={{ pl: 8 }}
-          onClick={() => navigate(`${pages.therapistListPath}`)}
-        >
+      <RestrictedPermission permission="Admin">
+        <ListItemButton onClick={() => navigate(`${pages.categoryListPath}`)}>
           <ListItemIcon>
-            <MedicationIcon />
+            <CategoryIcon />
           </ListItemIcon>
-          <ListItemText primary="Nhà vật lý trị liệu" />
+          <ListItemText primary="Tình trạng" />
+        </ListItemButton>
+        <ListItemButton onClick={() => navigate(`${pages.exerciseListPath}`)}>
+          <ListItemIcon>
+            <FitnessCenterIcon />
+          </ListItemIcon>
+          <ListItemText primary="Danh sách bài tập" />
+        </ListItemButton>{" "}
+      </RestrictedPermission>
+
+      <RestrictedPermission permission="Manager">
+        <ListItemButton onClick={() => navigate(`${pages.accountPath}`)}>
+          <ListItemIcon>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Quản lý người dùng" />
         </ListItemButton>
 
-        <ListItemButton
-          sx={{ pl: 8 }}
-          onClick={() => navigate(`${pages.memberListPath}`)}
-        >
+        <ListItemButton onClick={() => navigate(`${pages.slotListPath}`)}>
           <ListItemIcon>
-            <Groups2Icon />
+            <EditCalendarIcon />
           </ListItemIcon>
-          <ListItemText primary="Người dùng" />
+          <ListItemText primary="SLOT" />
         </ListItemButton>
-      </List>
 
-      <ListItemButton onClick={() => navigate(`${pages.categoryListPath}`)}>
-        <ListItemIcon>
-          <CategoryIcon />
-        </ListItemIcon>
-        <ListItemText primary="Danh mục" />
-      </ListItemButton>
-      <ListItemButton onClick={() => navigate(`${pages.landingPage}`)}>
-        <ListItemIcon>
-          <FitnessCenterIcon />
-        </ListItemIcon>
-        <ListItemText primary="Danh mục bài tập" />
-      </ListItemButton>
+        <ListItemButton onClick={() => navigate(`${pages.schedulePath}`)}>
+          <ListItemIcon>
+            <CalendarMonthIcon />
+          </ListItemIcon>
+          <ListItemText primary="Lịch" />
+        </ListItemButton>
+      </RestrictedPermission>
     </List>
   );
 };

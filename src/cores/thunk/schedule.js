@@ -1,9 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+export const getScheduleList = createAsyncThunk(
+  "schedule/getScheduleList",
+  async (token) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/Schedule`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return await response.json();
+  }
+);
+
 export const editSchedule = createAsyncThunk(
   "schedule/editSchedule",
   async (data) => {
-    const { input, token } = data
+    const { input, token } = data;
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/Schedule`,
       {
@@ -24,7 +39,7 @@ export const editSchedule = createAsyncThunk(
 export const deleteSchedule = createAsyncThunk(
   "schedule/deleteSchedule",
   async (data) => {
-    const { id, token } = data
+    const { id, token } = data;
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/Schedule/${id}`,
       {
@@ -35,5 +50,21 @@ export const deleteSchedule = createAsyncThunk(
       }
     );
     return await response.json();
+  }
+);
+
+export const getScheduleBySlotID = createAsyncThunk(
+  "schedule/getScheduleBySlotID",
+  async (data) => {
+    const { slotID, token } = data;
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/Schedule/getBySlotID/${slotID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return await response.json()
   }
 );

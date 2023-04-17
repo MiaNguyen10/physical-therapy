@@ -1,13 +1,13 @@
 const pages = {
     landingPage: '/',   
     loginPath: '/login',
-    accountPath: '/account',
-    managerListPath: '/account/managerList',
-    therapistListPath: '/account/therapistList',
-    memberListPath: '/account/memberList',
-    addAccountPath : '/account/add',
-    accountEditPath: '/account/:id/edit',
-    accountDetailPath: '/account/:id',
+
+    therapistListPath: '/account/therapist',
+    therapistEditPath: '/account/therapist/:userId/edit',
+
+    userListPath: '/user',
+    userEditPath: '/user/:id/edit',
+    addUserPath : '/user/add',
 
     categoryListPath: '/category',
     addCategoryPath: '/category/add',
@@ -26,13 +26,13 @@ const pages = {
     editExerciseResourcePath: '/exercise/:id/exerciseDetailList/:idDetail/exerciseResource/:idResource/edit',
 
     schedulePath: '/schedulePath',
+    scheduleBySlotID: '/slot/:id/schedule',
+    
     slotListPath: '/slot',
     addSlotPath: '/slot/add',
     slotEditPath: '/slot/:id/edit',
-    userListPath: '/user',
-    addUserPath: '/user/add',
+
     addPhysiotherapistPath: '/physiotherapist/add',
-    userEditPath: '/user/:id/edit',
 }
 
 export default pages

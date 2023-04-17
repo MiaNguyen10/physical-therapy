@@ -72,7 +72,7 @@ const SearchCategoryListForm = ({ onSearch }) => {
               ...styles.textFieldStyle,
               width: "380px",
             }}
-            placeholder="Nhập tên danh mục cần tìm"
+            placeholder="Nhập tên tình trạng cần tìm"
             value={value}
             onChange={onChange}
             variant="outlined"

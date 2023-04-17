@@ -1,15 +1,16 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { Button, Drawer, Link, Stack, styled } from "@mui/material";
+import { Button, Drawer, Link, styled } from "@mui/material";
 import Box from "@mui/material/Box";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
+import { logout, selectToken } from "cores/reducers/authentication";
 import * as React from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectToken } from "cores/reducers/authentication";
-import { useNavigate } from "react-router-dom";
-import { RestrictedPermission } from "app/middlewares/PermissionProvider";
+
 
 export const Navbar = () => {
   const [mobileMenu, setMobileMenu] = useState({
@@ -100,95 +101,88 @@ export const Navbar = () => {
 
   return (
     <>
-    {token ? (
-    <NavbarContainer>
-      <NavbarItem>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <CustomMenuIcon onClick={toggleDrawer("left", true)} />
-          <Drawer
-            anchor="left"
-            open={mobileMenu["left"]}
-            onClose={toggleDrawer("left", false)}
+      {token ? (
+        <NavbarContainer>
+          <NavbarItem>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <CustomMenuIcon onClick={toggleDrawer("left", true)} />
+              <Drawer
+                anchor="left"
+                open={mobileMenu["left"]}
+                onClose={toggleDrawer("left", false)}
+              >
+                {list("left")}
+              </Drawer>
+              <a href={pages.landingPage}>
+                <img src={logo} alt="Logo" />
+              </a>
+            </Box>
+
+            <NavbarLinksBox>
+              <NavLink variant="body2" href={pages.landingPage}>
+                Trang chủ
+              </NavLink>
+              <RestrictedPermission permission="Admin">
+                <NavLink variant="body2" href={pages.categoryListPath}>
+                  Tình trạng
+                </NavLink>
+                <NavLink variant="body2" href={pages.exerciseListPath}>
+                  Danh sách bài tập
+                </NavLink>
+              </RestrictedPermission>
+              {/* Manager */}
+              <RestrictedPermission permission="Manager">
+                <NavLink variant="body2" href={pages.userListPath}>
+                  Quản lý người dùng
+                </NavLink>
+                <NavLink variant="body2" href={pages.slotListPath}>
+                  Slot
+                </NavLink>
+                <NavLink variant="body2" href={pages.schedulePath}>
+                  Lịch
+                </NavLink>{" "}
+              </RestrictedPermission>
+            </NavbarLinksBox>
+          </NavbarItem>
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "1rem",
+            }}
           >
-            {list("left")}
-          </Drawer>
+            <Button
+              sx={{
+                fontSize: "18px",
+                color: "#fff",
+                fontWeight: "bold",
+                cursor: "pointer",
+                backgroundColor: "RGB(0, 110, 170)",
+                "&:hover": {
+                  backgroundColor: "rgb(69, 169, 226)",
+                },
+              }}
+              variant="contained"
+              onClick={handleLogout}
+            >
+              Đăng xuất
+            </Button>
+          </Box>
+        </NavbarContainer>
+      ) : (
+        <NavbarContainer>
           <a href={pages.landingPage}>
             <img src={logo} alt="Logo" />
           </a>
-        </Box>
-
-        <NavbarLinksBox>
-          <NavLink variant="body2" href={pages.landingPage}>
-            Trang chủ
+          <NavLink variant="body2" href={pages.loginPath}>
+            Đăng nhập
           </NavLink>
-
-          <RestrictedPermission permission="Admin">
-            <NavLink variant="body2" href={pages.userListPath}>
-              Quản lý người dùng
-            </NavLink>
-
-            <NavLink variant="body2" href={pages.categoryListPath}>
-              Danh mục
-            </NavLink>
-            <NavLink variant="body2" href={pages.exerciseListPath}>
-              Danh sách bài tập
-            </NavLink>
-            <NavLink variant="body2" href={pages.exerciseResourceListPath}>
-              Tài nguyên bài tập
-            </NavLink>
-          </RestrictedPermission>
-          <RestrictedPermission permission="Manager">
-            <NavLink variant="body2" href={pages.accountPath}>
-              Quản lý người dùng
-            </NavLink>
-            <NavLink variant="body2" href={pages.slotListPath}>
-              Slot
-            </NavLink>
-            <NavLink variant="body2" href={pages.schedulePath}>
-              Lịch
-            </NavLink>{" "}
-          </RestrictedPermission>
-        </NavbarLinksBox>
-      </NavbarItem>
-
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "1rem",
-        }}
-      >
-        <Button
-          sx={{
-            fontSize: "18px",
-            color: "#fff",
-            fontWeight: "bold",
-            cursor: "pointer",
-            backgroundColor: "RGB(0, 110, 170)",
-            "&:hover": {
-              backgroundColor: "rgb(69, 169, 226)",
-            },
-          }}
-          variant="contained"
-          onClick={handleLogout}
-        >
-          Đăng xuất
-        </Button>
-      </Box>
-    </NavbarContainer> ) : (
-      <NavbarContainer>
-        <a href={pages.landingPage}>
-          <img src={logo} alt="Logo" />
-        </a>
-        <NavLink variant="body2" href={pages.loginPath}>
-          Đăng nhập
-        </NavLink>
-      </NavbarContainer>
-    )}
+        </NavbarContainer>
+      )}
     </>
   );
-  
 };
 
 export default Navbar;

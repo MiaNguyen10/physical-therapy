@@ -6,50 +6,18 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { UStatus } from "../Data";
 
-const makeStyles = () => ({
-  textFieldStyle: {
-    width: "320px",
-    ".MuiOutlinedInput-root": {
-      height: 44,
-    },
-    ".MuiSelect-select": {
-      marginTop: 1,
-    },
-    ".MuiInputLabel-root": {
-      zIndex: 0,
-      top: "-25px",
-      fontSize: "16px",
-      fontWeight: 700,
-      color: "#333333",
-      WebkitTransform: "none",
-      span: {
-        color: "#D93A39",
-      },
-      "&.Mui-focused": {
-        color: "#333333",
-      },
-      "&.Mui-error": {
-        color: "#333333",
-      },
-    },
-    ".MuiOutlinedInput-notchedOutline": {
-      legend: {
-        maxWidth: 0,
-      },
-    },
-  },
-});
+export const UStatus = ["Tất cả", "Hoạt động", "Không hoạt động"];
 
 const SearchUserListForm = ({ onSearch }) => {
   const styles = makeStyles();
   const { handleSubmit, control } = useForm({
     defaultValues: {
       searchKey: "",
-      role: "Tất cả",
+      searchAddress: "",
       status: "Tất cả",
     },
   });
@@ -89,26 +57,19 @@ const SearchUserListForm = ({ onSearch }) => {
           />
         )}
       />
-      {/* <Controller
+      <Controller
         control={control}
-        name="role"
+        name="searchAddress"
         render={({ field: { onChange, value } }) => (
           <TextField
             sx={styles.textFieldStyle}
-            select
-            onChange={onChange}
+            placeholder="Nhập số điện thoại"
             value={value}
+            onChange={onChange}
             variant="outlined"
-            label="Role"
-          >
-            {URole.map((role) => (
-              <MenuItem value={role} key={role}>
-                {role}
-              </MenuItem>
-            ))}
-          </TextField>
+          />
         )}
-      /> */}
+      />
       <Controller
         control={control}
         name="status"
@@ -134,7 +95,11 @@ const SearchUserListForm = ({ onSearch }) => {
           );
         }}
       />
-      <Button type="submit" variant="outlined" sx={{height: '45px', width: '80px'}}>
+      <Button
+        type="submit"
+        variant="outlined"
+        sx={{ height: "45px", width: "80px" }}
+      >
         Search
       </Button>
     </Stack>
