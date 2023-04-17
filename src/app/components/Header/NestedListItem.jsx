@@ -1,7 +1,7 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CategoryIcon from "@mui/icons-material/Category";
-import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import EventIcon from '@mui/icons-material/Event';
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import HomeIcon from "@mui/icons-material/Home";
 import {
@@ -52,7 +52,7 @@ const NestedListItem = () => {
 
         <ListItemButton onClick={() => navigate(`${pages.slotListPath}`)}>
           <ListItemIcon>
-            <EditCalendarIcon />
+            <EventIcon />
           </ListItemIcon>
           <ListItemText primary="SLOT" />
         </ListItemButton>
