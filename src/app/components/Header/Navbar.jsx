@@ -130,8 +130,8 @@ export const Navbar = () => {
                   Danh sách bài tập
                 </NavLink>
               </RestrictedPermission>
-              {/* Manager */}
-              <RestrictedPermission permission="Manager">
+              {/* Staff */}
+              <RestrictedPermission permission="Staff">
                 <NavLink variant="body2" href={pages.userListPath}>
                   Quản lý người dùng
                 </NavLink>

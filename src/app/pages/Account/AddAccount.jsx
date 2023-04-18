@@ -5,7 +5,7 @@ import { selectToken } from "cores/reducers/authentication";
 import { getUserStatus } from "cores/reducers/user";
 import {
   addAdmin,
-  addManager,
+  addStaff,
   addPhysiotherapist,
   addUser,
 } from "cores/thunk/user";
@@ -56,7 +56,7 @@ const AddAccount = () => {
       if (role === "Admin") {
         dispatch(addAdmin({ user, token })).unwrap();
       } else if (role === "Quản lý") {
-        dispatch(addManager({ user, token })).unwrap();
+        dispatch(addStaff({ user, token })).unwrap();
       } else if (role === "Nhà vật lý trị liệu") {
         dispatch(addPhysiotherapist({ user, token })).unwrap();
       } else {

@@ -135,8 +135,8 @@ const CategotyList = () => {
         <Typography variant="h3">TÌNH TRẠNG</Typography>
         <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
         <Box>
-          {/* Manager  */}
-          <RestrictedPermission permission={"Manager"}>
+          {/* Staff  */}
+          <RestrictedPermission permission={"Staff"}>
             <AddButton
               desc="Thêm tình trạng"
               url={`${pages.addCategoryPath}`}
