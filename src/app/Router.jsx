@@ -37,7 +37,7 @@ const Router = () => {
       dispatch(getRole(currentState.UserId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentState.UserId]);
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />

@@ -42,7 +42,7 @@ const NestedListItem = () => {
         </ListItemButton>{" "}
       </RestrictedPermission>
 
-      <RestrictedPermission permission="Manager">
+      <RestrictedPermission permission="Staff">
         <ListItemButton onClick={() => navigate(`${pages.accountPath}`)}>
           <ListItemIcon>
             <AccountCircleIcon />

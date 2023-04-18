@@ -78,12 +78,12 @@ export const addPhysiotherapist = createAsyncThunk(
   }
 );
 
-export const addManager = createAsyncThunk(
-  "user/addManager",
+export const addStaff = createAsyncThunk(
+  "user/addStaff",
   async (data) => {
     const { user, token } = data
     const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/User/Register-Manager`,
+      `${process.env.REACT_APP_API_ENDPOINT}/User/Register-Staff`,
       {
         method: "POST",
         headers: {
