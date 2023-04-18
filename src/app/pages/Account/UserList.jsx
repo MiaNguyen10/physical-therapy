@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { selectToken } from "cores/reducers/authentication";
+import { selectState, selectToken } from "cores/reducers/authentication";
 import { getUserStatus, getUsers, resetStatus } from "cores/reducers/user";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
@@ -27,10 +27,12 @@ const UserList = () => {
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    searchAddress: "",
+    searchPhone: "",
     status: "Tất cả",
+    role: "Tất cả",
   });
   const [refreshKey, setRefreshKey] = useState(0);
+  const auth = useSelector(selectState);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -48,15 +50,31 @@ const UserList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const userListForStaff = userList.filter(
+    (user) =>
+      user?.role?.name === "Physiotherapist" || user?.role?.name === "Member"
+  );
+  const listOfUser = auth.role === "Admin" ? userList : userListForStaff;
+
   const rows = useMemo(() => {
-    let banStatus;
+    let banStatus, role;
     if (filters.status === "Hoạt động") {
       banStatus = false;
     } else if (filters.status === "Không hoạt động") {
       banStatus = true;
     }
 
-    return userList.filter((user) => {
+    if (filters.role === "Admin") {
+      role = "Admin";
+    } else if (filters.role === "Staff") {
+      role = "Staff";
+    } else if (filters.role === "Nhà vật lý trị liệu") {
+      role = "Physiotherapist";
+    } else {
+      role = "Member";
+    }
+
+    return listOfUser.filter((user) => {
       const isFoundNameOrEmail =
         user?.email
           .toLowerCase()
@@ -65,12 +83,14 @@ const UserList = () => {
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0;
       const isFoundPhoneNumb =
-        user?.address
-          .toLowerCase()
-          .search(trim(filters.searchAddress.toLowerCase())) >= 0;
+        user?.phoneNumber.search(trim(filters.searchPhone)) >= 0;
+      const isFoundRole =
+        filters.role === "Tất cả" ? true : user?.role?.name === role;
       const isFoundBanded =
-        filters.status === "Tất cả" ? true : user.banStatus === banStatus;
-      return isFoundNameOrEmail && isFoundPhoneNumb && isFoundBanded;
+        filters.status === "Tất cả" ? true : user?.banStatus === banStatus;
+      return (
+        isFoundNameOrEmail && isFoundPhoneNumb && isFoundRole && isFoundBanded
+      );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, userList]);
@@ -104,7 +124,7 @@ const UserList = () => {
     {
       field: "email",
       headerName: "Email",
-      width: 300,
+      width: 250,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -116,9 +136,9 @@ const UserList = () => {
       },
     },
     {
-      field: "address",
-      headerName: "Địa chỉ nhà",
-      width: 300,
+      field: "phoneNumber",
+      headerName: "Số điện thoại",
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -128,6 +148,27 @@ const UserList = () => {
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
+      },
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      sortable: false,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => {
+        if (params?.value?.name === "Physiotherapist") {
+          return <Typography>Nhà vật lý trị liệu</Typography>;
+        }else if(params?.value?.name === "Member"){
+          return <Typography>Người dùng</Typography>;
+        }else{
+          return <Typography>{params?.value?.name ?? "-"}</Typography>;
+        }
       },
     },
     {
@@ -202,7 +243,7 @@ const UserList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={userList?.length ?? 0}
+            rowCount={rows?.length ?? 0}
             isLoading={status !== "succeeded"}
             pagination
             paginationMode="client"

@@ -1,6 +1,6 @@
 import { selectState, selectToken } from "cores/reducers/authentication";
 import { getRole } from "cores/thunk/auth";
-import React, { useEffect } from "react";
+import { default as React, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";

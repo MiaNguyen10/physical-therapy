@@ -8,7 +8,6 @@ import { selectState } from 'cores/reducers/authentication'
 
 const RestrictedPermission = ({ permission, children }) => {
   const { isAllowedTo } = useContext(PermissionContext)
-  // const role = JSON.parse(localStorage.getItem("role"))
   const auth = useSelector(selectState)
 
   if (isAllowedTo(auth.role, permission)) {

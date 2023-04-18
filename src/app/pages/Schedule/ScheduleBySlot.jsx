@@ -75,26 +75,27 @@ const ScheduleBySlot = () => {
   useEffect(() => {
     const formatData = [];
     schedules.forEach((schedule) => {
-      const formatDate = moment(schedule.day).format("YYYY-MM-DD");
-      const formatTimeStart = moment(schedule.slot.timeStart).format(
-        "HH:mm:ss"
-      );
-      const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
-      const formatSchedule = {
-        text: schedule.slot.slotName,
-        description: schedule.description,
-        physiotherapistDetail: schedule.physiotherapistDetail,
-        startDate: new Date(`${formatDate}T${formatTimeStart}`),
-        endDate: new Date(`${formatDate}T${formatTimeEnd}`),
-        typeOfSlotID: schedule.typeOfSlotID,
-        scheduleID: schedule.scheduleID,
-        slotID: schedule.slotID,
-      };
+      const formatDateStart = moment(schedule.slot.timeStart).format("YYYY-MM-DD");
+        const formatDateEnd = moment(schedule.slot.timeEnd).format("YYYY-MM-DD");
+        const formatTimeStart = moment(schedule.slot.timeStart).format(
+          "HH:mm:ss"
+        );
+        const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
+        const formatSchedule = {
+          text: schedule.slot.slotName,
+          description: schedule.description,
+          physiotherapistDetail: schedule.physiotherapistDetail,
+          startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
+          endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
+          typeOfSlotID: schedule.typeOfSlotID,
+          scheduleID: schedule.scheduleID,
+          slotID: schedule.slotID,
+        };
       formatData.push(formatSchedule);
     });
     setAppointmentList(formatData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [schedules]);
 
   const onAppointmentFormOpening = (e) => {
     const { form } = e;
@@ -167,17 +168,6 @@ const ScheduleBySlot = () => {
         },
         editorType: "dxSelectBox",
         dataField: "typeOfSlotID",
-        editorOptions: {
-          items: listTypeOfSlot,
-          displayExpr: "typeName",
-          valueExpr: "typeOfSlotID",
-        },
-      },
-      {
-        label: {
-          text: "Xem feedback",
-        },
-        editorType: "dxButton",
         editorOptions: {
           items: listTypeOfSlot,
           displayExpr: "typeName",

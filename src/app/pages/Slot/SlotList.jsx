@@ -35,7 +35,6 @@ const SlotList = () => {
   const slotStatus = useSelector(getStatusSlots);
   const categoryStatus = useSelector(getStatusCategory);
   const token = useSelector(selectToken);
-  console.log(slotList);
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -204,7 +203,7 @@ const SlotList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={slotList?.length ?? 0}
+            rowCount={rows?.length ?? 0}
             isLoading={slotStatus !== "succeeded"}
             pagination
             paginationMode="client"

@@ -52,7 +52,8 @@ const Schedule = () => {
       const schedules = res.data;
       const formatData = [];
       schedules.forEach((schedule) => {
-        const formatDate = moment(schedule.day).format("YYYY-MM-DD");
+        const formatDateStart = moment(schedule.slot.timeStart).format("YYYY-MM-DD");
+        const formatDateEnd = moment(schedule.slot.timeEnd).format("YYYY-MM-DD");
         const formatTimeStart = moment(schedule.slot.timeStart).format(
           "HH:mm:ss"
         );
@@ -61,8 +62,8 @@ const Schedule = () => {
           text: schedule.slot.slotName,
           description: schedule.description,
           physiotherapistDetail: schedule.physiotherapistDetail,
-          startDate: new Date(`${formatDate}T${formatTimeStart}`),
-          endDate: new Date(`${formatDate}T${formatTimeEnd}`),
+          startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
+          endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
           typeOfSlotID: schedule.typeOfSlotID,
           scheduleID: schedule.scheduleID,
           slotID: schedule.slotID,

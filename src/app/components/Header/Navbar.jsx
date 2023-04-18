@@ -11,7 +11,6 @@ import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
 
-
 export const Navbar = () => {
   const [mobileMenu, setMobileMenu] = useState({
     left: false,
@@ -123,6 +122,9 @@ export const Navbar = () => {
                 Trang chủ
               </NavLink>
               <RestrictedPermission permission="Admin">
+                <NavLink variant="body2" href={pages.userListPath}>
+                  Quản lý người dùng
+                </NavLink>
                 <NavLink variant="body2" href={pages.categoryListPath}>
                   Tình trạng
                 </NavLink>

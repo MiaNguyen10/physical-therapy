@@ -258,6 +258,15 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
             spacing={2}
             sx={{ width: "100%" }}
           >
+            {userDetail?.role?.name === "Physiotherapist" ? (
+              <Button
+                variant="outlined"
+                onClick={() => navigate(pages.userListPath)}
+                disabled={isLoading}
+              >
+                Xem chi tiết
+              </Button>
+            ) : null}
             <Button
               variant="outlined"
               onClick={() => navigate(pages.userListPath)}

@@ -209,7 +209,7 @@ const ExerciseDetailList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={exerciseDetailList?.length ?? 0}
+            rowCount={rows?.length ?? 0}
             isLoading={status !== "succeeded"}
             pagination
             paginationMode="client"

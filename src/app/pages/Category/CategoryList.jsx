@@ -151,7 +151,7 @@ const CategotyList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={categoryList?.length ?? 0}
+            rowCount={rows?.length ?? 0}
             isLoading={categoryStatus !== "succeeded"}
             pagination
             paginationMode="client"

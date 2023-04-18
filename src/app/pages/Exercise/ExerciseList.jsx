@@ -194,7 +194,7 @@ const ExerciseList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={exerciseList?.length ?? 0}
+            rowCount={rows?.length ?? 0}
             isLoading={exerciseStatus !== "succeeded"}
             pagination
             paginationMode="client"
