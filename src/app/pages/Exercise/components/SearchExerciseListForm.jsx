@@ -95,7 +95,7 @@ const SearchExerciseListForm = ({ onSearch }) => {
               ...styles.textFieldStyle,
               width: "500px",
             }}
-            placeholder="Nhập danh mục"
+            placeholder="Nhập tình trạng"
             value={value}
             onChange={onChange}
             variant="outlined"

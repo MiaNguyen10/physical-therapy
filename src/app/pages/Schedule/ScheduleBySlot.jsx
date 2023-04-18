@@ -2,14 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 
 import Scheduler, { Editing, Resource } from "devextreme-react/scheduler";
 
-import axios from "axios";
 import { selectToken } from "cores/reducers/authentication";
+import {
+  getSchedule,
+  getScheduleStatus,
+  resetScheduleStatus,
+} from "cores/reducers/schedule";
 import { getList, getStatus } from "cores/reducers/typeOfSlot";
 import resetStatusTypeOfSlot from "cores/reducers/typeOfSlot/index";
-import { deleteSchedule, editSchedule } from "cores/thunk/schedule";
+import {
+  deleteSchedule,
+  editSchedule,
+  getScheduleBySlotID,
+} from "cores/thunk/schedule";
 import { getTypeOfSlotList } from "cores/thunk/typeOfSlot";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import Appointment from "./Appointment";
 
 const currentYear = new Date().getFullYear();
@@ -20,11 +29,15 @@ const currentDate = new Date(currentYear, currentMonth, currentDay);
 
 const views = ["day", "week", "workWeek", "month"];
 
-const Schedule = () => {
+const ScheduleBySlot = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const listTypeOfSlot = useSelector(getList);
   const status = useSelector(getStatus);
+
+  const schedules = useSelector(getSchedule);
+  const scheduleStatus = useSelector(getScheduleStatus);
 
   useEffect(() => {
     dispatch(getTypeOfSlotList(token));
@@ -34,6 +47,18 @@ const Schedule = () => {
   useEffect(() => {
     if (status === "succeeded") {
       dispatch(resetStatusTypeOfSlot);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    dispatch(getScheduleBySlotID({ slotID: id, token }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (scheduleStatus === "succeeded") {
+      dispatch(resetScheduleStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -48,29 +73,27 @@ const Schedule = () => {
   });
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_ENDPOINT}/schedule`).then((res) => {
-      const schedules = res.data;
-      const formatData = [];
-      schedules.forEach((schedule) => {
-        const formatDate = moment(schedule.day).format("YYYY-MM-DD");
-        const formatTimeStart = moment(schedule.slot.timeStart).format(
-          "HH:mm:ss"
-        );
-        const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
-        const formatSchedule = {
-          text: schedule.slot.slotName,
-          description: schedule.description,
-          physiotherapistDetail: schedule.physiotherapistDetail,
-          startDate: new Date(`${formatDate}T${formatTimeStart}`),
-          endDate: new Date(`${formatDate}T${formatTimeEnd}`),
-          typeOfSlotID: schedule.typeOfSlotID,
-          scheduleID: schedule.scheduleID,
-          slotID: schedule.slotID,
-        };
-        formatData.push(formatSchedule);
-      });
-      setAppointmentList(formatData);
+    const formatData = [];
+    schedules.forEach((schedule) => {
+      const formatDate = moment(schedule.day).format("YYYY-MM-DD");
+      const formatTimeStart = moment(schedule.slot.timeStart).format(
+        "HH:mm:ss"
+      );
+      const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
+      const formatSchedule = {
+        text: schedule.slot.slotName,
+        description: schedule.description,
+        physiotherapistDetail: schedule.physiotherapistDetail,
+        startDate: new Date(`${formatDate}T${formatTimeStart}`),
+        endDate: new Date(`${formatDate}T${formatTimeEnd}`),
+        typeOfSlotID: schedule.typeOfSlotID,
+        scheduleID: schedule.scheduleID,
+        slotID: schedule.slotID,
+      };
+      formatData.push(formatSchedule);
     });
+    setAppointmentList(formatData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onAppointmentFormOpening = (e) => {
@@ -210,4 +233,4 @@ const Schedule = () => {
   );
 };
 
-export default Schedule;
+export default ScheduleBySlot;

@@ -40,13 +40,13 @@ const AddCategory = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">THÊM DANH MỤC</Typography>
+        <Typography variant="h1">THÊM TÌNH TRẠNG</Typography>
         <CategoryForm
           onFormSubmit={handleFormSubmit}
           isLoading={categoryStatus === 'loading'}
         />
       </Stack>
-      <ConfirmDialog open={open} handleClose={handleClose} desc="Thêm danh mục thành công"/>
+      <ConfirmDialog open={open} handleClose={handleClose} desc="Thêm tình trạng thành công"/>
     </Container>
   );
 };

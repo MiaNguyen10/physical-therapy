@@ -132,13 +132,13 @@ const CategotyList = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH MỤC</Typography>
+        <Typography variant="h3">TÌNH TRẠNG</Typography>
         <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
         <Box>
           {/* Manager  */}
-          <RestrictedPermission permission={"Admin"}>
+          <RestrictedPermission permission={"Manager"}>
             <AddButton
-              desc="Thêm danh mục"
+              desc="Thêm tình trạng"
               url={`${pages.addCategoryPath}`}
               sx={{ mt: -6 }}
             />
