@@ -56,7 +56,6 @@ const ExerciseResourceForm = ({
     });
   }, [exerciseResourceDetail, reset]);
 
-  console.log(watch("videoURL"));
   return (
     <Container sx={{ width: "50%", display: "flex" }}>
       <form onSubmit={handleSubmit(onSubmit)}>

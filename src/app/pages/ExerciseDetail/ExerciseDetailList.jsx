@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
+import SearchExerciseListDetailForm from "./components/SearchExerciseDetailForm";
 
 const ExerciseDetailList = () => {
   const { id } = useParams();
@@ -40,6 +41,7 @@ const ExerciseDetailList = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
+    searchSet: "",
     searchDesc: "",
   });
 
@@ -62,15 +64,19 @@ const ExerciseDetailList = () => {
           exerciseDetail.detailName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundCate =
+        const isFoundSet =
+          exerciseDetail.set
+            .toLowerCase()
+            .search(trim(filters.searchSet.toLowerCase())) >= 0;
+        const isFoundDesc =
           exerciseDetail.description
             .toLowerCase()
             .search(trim(filters.searchDesc.toLowerCase())) >= 0;
-        return isFoundName && isFoundCate;
+        return isFoundName && isFoundDesc && isFoundSet;
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters]);
+  }, [filters, exerciseDetailList]);
 
   const columns = [
     {
@@ -174,7 +180,7 @@ const ExerciseDetailList = () => {
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3">DANH SÁCH CHI TIẾT BÀI TẬP</Typography>
-        {/* <SearchExerciseListFrom onSearch={(data) => setFilters(data)} /> */}
+        <SearchExerciseListDetailForm onSearch={(data) => setFilters(data)} />
         <Box>
           <Stack
             direction="row"
@@ -198,7 +204,7 @@ const ExerciseDetailList = () => {
           </Stack>
           <DataGridTable
             columns={columns}
-            rows={exerciseDetailList}
+            rows={rows}
             getRowId={(row) => row.exerciseDetailID}
             rowHeight={70}
             page={page}

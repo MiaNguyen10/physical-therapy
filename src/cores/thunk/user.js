@@ -36,10 +36,31 @@ export const addUser = createAsyncThunk(
   }
 );
 
-export const addPhysiotherapist = createAsyncThunk(
-  "user/addUser",
+export const addAdmin = createAsyncThunk(
+  "user/addAdmin",
   async (data) => {
-    const { physiotherapist, token } = data
+    const { user, token } = data
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/User/Register-admin`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...user,
+        }),
+      }
+    );
+    return await response.json();
+  }
+);
+
+export const addPhysiotherapist = createAsyncThunk(
+  "user/addPhysiotherapist",
+  async (data) => {
+    const { user, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/User/Register-Physiotherapist`,
       {
@@ -49,7 +70,28 @@ export const addPhysiotherapist = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...physiotherapist,
+          ...user,
+        }),
+      }
+    );
+    return await response.json();
+  }
+);
+
+export const addManager = createAsyncThunk(
+  "user/addManager",
+  async (data) => {
+    const { user, token } = data
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/User/Register-Manager`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...user,
         }),
       }
     );
@@ -83,7 +125,7 @@ export const getUserDetail = createAsyncThunk(
   async (data) => {
     const { id, token } = data
     const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/User/${id}`,
+      `${process.env.REACT_APP_API_ENDPOINT}/User/getById/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -94,14 +136,13 @@ export const getUserDetail = createAsyncThunk(
   }
 );
 
-export const deleteUser = createAsyncThunk(
+export const banUser = createAsyncThunk(
   "user/deleteUser",
   async (data) => {
     const { userID, token } = data
     const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/User/${userID}`,
+      `${process.env.REACT_APP_API_ENDPOINT}/User/BanUser/${userID}`,
       {
-        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },

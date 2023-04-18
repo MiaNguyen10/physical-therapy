@@ -1,48 +1,62 @@
-import React, { useState, useMemo } from "react";
-import accountData from "./Data";
-import { trim } from "lodash";
-import { Typography, Container, Stack, Box, Link, IconButton } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
-import pages from "../../config/pages";
-import DataGridTable from "../../components/DataGrid/DataGridTable";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SearchUserListForm from "./components/SearchUserListForm";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Box,
+  Container,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { selectToken } from "cores/reducers/authentication";
+import { getUserStatus, getUsers, resetStatus } from "cores/reducers/user";
+import { trim } from "lodash";
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { banUser, getUserList } from "../../../cores/thunk/user";
 import AddButton from "../../components/Button/AddButton";
-import { RestrictedPermission } from "app/middlewares/PermissionProvider";
+import DataGridTable from "../../components/DataGrid/DataGridTable";
+import pages from "../../config/pages";
+import SearchUserListForm from "./components/SearchUserListForm";
 
-const TherapistList = () => {
-  const navigate = useNavigate;
+const UserList = () => {
+  const dispatch = useDispatch();
+  const userList = useSelector(getUsers);
+  const status = useSelector(getUserStatus);
+  const token = useSelector(selectToken);
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    role: "Tất cả",
+    searchAddress: "",
     status: "Tất cả",
   });
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handlePageChange = (page) => {
     setPage(page);
   };
 
+  useEffect(() => {
+    dispatch(getUserList(token));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey]);
+
+  useEffect(() => {
+    if (status === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const rows = useMemo(() => {
-    let banStatus, role;
-    if (filters.status === "Active") {
-      banStatus = true;
-    } else if (filters.status === "Banded") {
+    let banStatus;
+    if (filters.status === "Hoạt động") {
       banStatus = false;
+    } else if (filters.status === "Không hoạt động") {
+      banStatus = true;
     }
 
-    if (filters.role === "Admin") {
-      role = 1;
-    } else if (filters.role === "Quản lý") {
-      role = 2;
-    } else if (filters.role === "Bác sĩ vật lý trị liệu") {
-      role = 3;
-    } else if (filters.role === "Người dùng") {
-      role = 4;
-    }
-
-    return accountData.filter((user) => {
+    return userList.filter((user) => {
       const isFoundNameOrEmail =
         user?.email
           .toLowerCase()
@@ -50,18 +64,21 @@ const TherapistList = () => {
         (user?.firstName + user?.lastName)
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0;
-      const isFoundRole =
-        filters.role === "Tất cả" ? true : user.roleId === role;
+      const isFoundPhoneNumb =
+        user?.address
+          .toLowerCase()
+          .search(trim(filters.searchAddress.toLowerCase())) >= 0;
       const isFoundBanded =
         filters.status === "Tất cả" ? true : user.banStatus === banStatus;
-      return isFoundNameOrEmail && isFoundRole && isFoundBanded;
+      return isFoundNameOrEmail && isFoundPhoneNumb && isFoundBanded;
     });
-  }, [filters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, userList]);
 
   const columns = [
     {
-      field: "firstName",
-      headerName: "Firstname",
+      field: "lastName",
+      headerName: "Họ",
       width: 200,
       headerAlign: "center",
       align: "center",
@@ -72,8 +89,8 @@ const TherapistList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "lastName",
-      headerName: "Lastname",
+      field: "firstName",
+      headerName: "Tên",
       width: 200,
       headerAlign: "center",
       align: "center",
@@ -83,6 +100,7 @@ const TherapistList = () => {
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
+
     {
       field: "email",
       headerName: "Email",
@@ -98,9 +116,9 @@ const TherapistList = () => {
       },
     },
     {
-      field: "phone",
-      headerName: "Phone",
-      width: 250,
+      field: "address",
+      headerName: "Địa chỉ nhà",
+      width: 300,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -113,9 +131,9 @@ const TherapistList = () => {
       },
     },
     {
-      field: "roleId",
-      headerName: "Role",
-      width: 200,
+      field: "banStatus",
+      headerName: "Trạng thái",
+      width: 150,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -123,18 +141,11 @@ const TherapistList = () => {
         <Typography>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
-        switch (params?.value) {
-          case 1:
-            return <Typography>Admin</Typography>;
-          case 2:
-            return <Typography>Quản lý</Typography>;
-          case 3:
-            return <Typography>Bác sĩ vật lý trị liệu</Typography>;
-          case 4:
-            return <Typography>Người dùng</Typography>;
-          default:
-            return null;
-        }
+        return (
+          <Typography>
+            {params?.value === true ? "Không hoạt động" : "Hoạt động"}
+          </Typography>
+        );
       },
     },
     {
@@ -150,18 +161,23 @@ const TherapistList = () => {
       ),
       renderCell: (params) => (
         <>
-          <Link href={`${pages.accountPath}/${params.value}/edit`}>
-              <EditIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
-              />
-            </Link>
-              <IconButton>
-                <DeleteIcon
-                  fontSize="small"
-                  sx={{ color: "#0C5E96", cursor: "pointer" }}
-                />
-              </IconButton>
+          <Link href={`/user/${params?.value}/edit`}>
+            <EditIcon
+              fontSize="small"
+              sx={{ color: "#0C5E96", cursor: "pointer" }}
+            />
+          </Link>
+          <IconButton
+            onClick={() => {
+              dispatch(banUser({ userID: params?.value, token }));
+              setRefreshKey((oldKey) => oldKey + 1);
+            }}
+          >
+            <DeleteIcon
+              fontSize="small"
+              sx={{ color: "#0C5E96", cursor: "pointer" }}
+            />
+          </IconButton>
         </>
       ),
     },
@@ -170,22 +186,24 @@ const TherapistList = () => {
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3" alignItems="center">
-          DANH SÁCH BÁC SĨ VẬT LÝ TRỊ LIỆU
+          DANH SÁCH NHÀ VẬT LÝ TRỊ LIỆU
         </Typography>
         <SearchUserListForm onSearch={(data) => setFilters(data)} />
         <Box>
           <AddButton
             desc="Thêm người dùng"
-            url={`${pages.addAccountPath}`}
+            url={`${pages.addUserPath}`}
             sx={{ mt: -6 }}
           />
           <DataGridTable
             columns={columns}
             rows={rows}
+            getRowId={(row) => row.id}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={accountData?.length ?? 0}
+            rowCount={userList?.length ?? 0}
+            isLoading={status !== "succeeded"}
             pagination
             paginationMode="client"
           />
@@ -195,4 +213,4 @@ const TherapistList = () => {
   );
 };
 
-export default TherapistList;
+export default UserList;

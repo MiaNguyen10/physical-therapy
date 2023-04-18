@@ -1,10 +1,5 @@
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Button,
-  InputAdornment,
-  Stack,
-  TextField
-} from "@mui/material";
+import { Button, InputAdornment, Stack, TextField } from "@mui/material";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -42,12 +37,13 @@ const makeStyles = () => ({
   },
 });
 
-const SearchUserListForm = ({ onSearch }) => {
+const SearchExerciseListDetailForm = ({ onSearch }) => {
   const styles = makeStyles();
   const { handleSubmit, control } = useForm({
     defaultValues: {
       searchKey: "",
-      searchCate: "",
+      searchSet: "",
+      searchDesc: "",
     },
   });
 
@@ -72,7 +68,7 @@ const SearchUserListForm = ({ onSearch }) => {
               ...styles.textFieldStyle,
               width: "380px",
             }}
-            placeholder="Nhập email dùng cần tìm"
+            placeholder="Nhập chi tiết bài tập"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -86,16 +82,33 @@ const SearchUserListForm = ({ onSearch }) => {
           />
         )}
       />
+
       <Controller
         control={control}
-        name="searchCate"
+        name="searchDesc"
         render={({ field: { onChange, value } }) => (
           <TextField
             sx={{
               ...styles.textFieldStyle,
-              width: "500px",
+              width: "400px",
             }}
-            placeholder="Nhập số điện thoại cần tìm"
+            placeholder="Nhập mô tả"
+            value={value}
+            onChange={onChange}
+            variant="outlined"
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="searchSet"
+        render={({ field: { onChange, value } }) => (
+          <TextField
+            sx={{
+              ...styles.textFieldStyle,
+              width: "120px",
+            }}
+            placeholder="Nhập set"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -113,4 +126,4 @@ const SearchUserListForm = ({ onSearch }) => {
   );
 };
 
-export default SearchUserListForm;
+export default SearchExerciseListDetailForm;

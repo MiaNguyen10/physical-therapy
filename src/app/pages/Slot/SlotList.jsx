@@ -1,5 +1,5 @@
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
   Container,
@@ -7,55 +7,56 @@ import {
   Link,
   Stack,
   Typography,
-} from '@mui/material'
-import { selectToken } from 'cores/reducers/authentication'
-import { getStatusCategory } from 'cores/reducers/category'
-import { getCategoryList } from 'cores/thunk/category'
-import dayjs from 'dayjs'
-import 'dayjs/locale/th'
-import { trim } from 'lodash'
-import React, { useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+} from "@mui/material";
+import { selectToken } from "cores/reducers/authentication";
+import { getStatusCategory } from "cores/reducers/category";
+import { getCategoryList } from "cores/thunk/category";
+import dayjs from "dayjs";
+import "dayjs/locale/th";
+import { trim } from "lodash";
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getSlots,
   getStatusSlots,
   resetStatus,
-} from '../../../cores/reducers/slot'
-import { deleteSlot, getSlotList } from '../../../cores/thunk/slot'
-import AddButton from '../../components/Button/AddButton'
-import DataGridTable from '../../components/DataGrid/DataGridTable'
-import pages from '../../config/pages'
-import SearchSlotListFrom from '../Slot/components/SearchSlotListForm'
-dayjs.locale('th')
+} from "../../../cores/reducers/slot";
+import { deleteSlot, getSlotList } from "../../../cores/thunk/slot";
+import AddButton from "../../components/Button/AddButton";
+import DataGridTable from "../../components/DataGrid/DataGridTable";
+import pages from "../../config/pages";
+import SearchSlotListFrom from "../Slot/components/SearchSlotListForm";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+dayjs.locale("th");
 
 const SlotList = () => {
-  const dispatch = useDispatch()
-  let slotList = useSelector(getSlots)
-  const slotStatus = useSelector(getStatusSlots)
-  const categoryStatus = useSelector(getStatusCategory)
-  const token = useSelector(selectToken)
-  console.log(slotList)
+  const dispatch = useDispatch();
+  let slotList = useSelector(getSlots);
+  const slotStatus = useSelector(getStatusSlots);
+  const categoryStatus = useSelector(getStatusCategory);
+  const token = useSelector(selectToken);
+  console.log(slotList);
 
-  const [page, setPage] = useState(0)
-  const [refreshKey, setRefreshKey] = useState(0)
+  const [page, setPage] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
-    searchKey: '',
-  })
+    searchKey: "",
+  });
 
   const handlePageChange = (page) => {
-    setPage(page)
-  }
+    setPage(page);
+  };
 
   useEffect(() => {
-    if (categoryStatus === 'succeeded') {
-      dispatch(resetStatus)
+    if (categoryStatus === "succeeded") {
+      dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
-    dispatch(getCategoryList())
-  }, [dispatch])
+    dispatch(getCategoryList());
+  }, [dispatch]);
 
   const rows = useMemo(() => {
     return (
@@ -64,77 +65,77 @@ const SlotList = () => {
         const isFoundName =
           slot.slotName
             .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0
-        return isFoundName
+            .search(trim(filters.searchKey.toLowerCase())) >= 0;
+        return isFoundName;
       })
-    )
-  }, [filters, slotList])
+    );
+  }, [filters, slotList]);
 
   const columns = [
     {
-      field: 'slotName',
-      headerName: 'Tên',
+      field: "slotName",
+      headerName: "Tên",
       width: 350,
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ?? '-'}</Typography>,
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: 'timeStart',
-      headerName: 'Bắt đầu',
+      field: "timeStart",
+      headerName: "Bắt đầu",
       width: 200,
-      headerAlign: 'center',
-      align: 'center',
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => (
-        <Typography>
-          {dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? '-'}
-        </Typography>
-      ),
-    },
-    {
-      field: 'timeEnd',
-      headerName: 'Kết thúc',
-      width: 200,
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>
-          {dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? '-'}
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm:ss") ?? "-"}
         </Typography>
       ),
     },
     {
-      field: 'available',
-      headerName: 'Trạng thái',
+      field: "timeEnd",
+      headerName: "Kết thúc",
       width: 200,
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
         <Typography>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
-        <Typography>{params?.value ? 'Còn trống' : 'Đã đầy'}</Typography>
+        <Typography>
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm:ss") ?? "-"}
+        </Typography>
       ),
     },
     {
-      field: 'slotID',
-      headerName: 'Action',
+      field: "available",
+      headerName: "Trạng thái",
       width: 200,
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography>{params.colDef.headerName}</Typography>
+      ),
+      renderCell: (params) => (
+        <Typography>{params?.value ? "Còn trống" : "Đã đầy"}</Typography>
+      ),
+    },
+    {
+      field: "slotID",
+      headerName: "Action",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
@@ -146,41 +147,47 @@ const SlotList = () => {
             <Link href={`${pages.slotListPath}/${params.value}/edit`}>
               <EditIcon
                 fontSize="small"
-                sx={{ color: '#0C5E96', cursor: 'pointer' }}
+                sx={{ color: "#0C5E96", cursor: "pointer" }}
+              />
+            </Link>
+            <Link href={`/slot/${params.value}/schedule`}>
+              <CalendarMonthIcon
+                fontSize="small"
+                sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteSlot({ id: params.value, token }))
-                setRefreshKey((oldKey) => oldKey + 1)
+                dispatch(deleteSlot({ id: params.value, token }));
+                setRefreshKey((oldKey) => oldKey + 1);
               }}
             >
               <DeleteIcon
                 fontSize="small"
-                sx={{ color: '#0C5E96', cursor: 'pointer' }}
+                sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </IconButton>
           </>
-        )
+        );
       },
     },
-  ]
+  ];
 
   useEffect(() => {
-    if (slotStatus === 'succeeded') {
-      dispatch(resetStatus)
+    if (slotStatus === "succeeded") {
+      dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
-    dispatch(getSlotList(token))
+    dispatch(getSlotList(token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey])
+  }, [refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Stack alignItems="center" spacing={8} sx={{ marginTop: '38px' }}>
+      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3">DANH SÁCH SLOT</Typography>
         <SearchSlotListFrom onSearch={(data) => setFilters(data)} />
         <Box>
@@ -198,14 +205,14 @@ const SlotList = () => {
             page={page}
             onPageChange={handlePageChange}
             rowCount={slotList?.length ?? 0}
-            isLoading={slotStatus !== 'succeeded'}
+            isLoading={slotStatus !== "succeeded"}
             pagination
             paginationMode="client"
           />
         </Box>
       </Stack>
     </Container>
-  )
-}
+  );
+};
 
-export default SlotList
+export default SlotList;

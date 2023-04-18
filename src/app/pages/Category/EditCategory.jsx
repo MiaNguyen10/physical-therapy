@@ -54,10 +54,11 @@ const EditCategory = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">SỬA DANH MỤC</Typography>
+        <Typography variant="h1">SỬA TÌNH TRẠNG</Typography>
         <CategoryForm
           categoryDetail={{
             categoryName: categoryDetail?.categoryName,
@@ -70,7 +71,7 @@ const EditCategory = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Cập nhật danh mục thành công"
+        desc="Cập nhật tình trạng thành công"
       />
     </Container>
   );

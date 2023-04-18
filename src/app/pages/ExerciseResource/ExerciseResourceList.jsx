@@ -1,13 +1,14 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
   Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
   Container,
-  IconButton,
-  Link,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
 import { selectToken } from "cores/reducers/authentication";
 import React, { useEffect, useState } from "react";
@@ -23,7 +24,6 @@ import {
   getExerciseResourceList,
 } from "../../../cores/thunk/exerciseResource";
 import AddButton from "../../components/Button/AddButton";
-import DataGridTable from "../../components/DataGrid/DataGridTable";
 
 const ExerciseResourceList = () => {
   const { id, idDetail } = useParams();
@@ -32,10 +32,10 @@ const ExerciseResourceList = () => {
   let exerciseResourceList = useSelector(getExerciseResources);
   const token = useSelector(selectToken);
   const exerciseResourceStatus = useSelector(getStatus);
-  const [page, setPage] = useState(0);
+  //const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const handlePageChange = (page) => {
+  /*const handlePageChange = (page) => {
     setPage(page);
   };
 
@@ -118,7 +118,7 @@ const ExerciseResourceList = () => {
         );
       },
     },
-  ];
+  ]; */
 
   useEffect(() => {
     if (exerciseResourceStatus === "succeeded") {
@@ -134,32 +134,117 @@ const ExerciseResourceList = () => {
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH SÁCH TÀI NGUYÊN BÀI TẬP</Typography>
-        {/* <SearchExerciseResourceListFrom onSearch={(data) => setFilters(data)} /> */}
-        <Box>
-          <Stack
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-            spacing={2}
-            sx={{ float: "right", mb: 3 }}
-          >
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => navigate(`/exercise/${id}/exerciseDetailList`)}
-            >
-              Quay về chi tiết
-            </Button>
-            <AddButton
-              desc="Thêm tài nguyên bài tập"
-              url={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`}
-              sx={{ mt: -6 }}
-            />
-          </Stack>
+      <Typography variant="h3" textAlign="center" sx={{ m: 5 }}>
+        DANH SÁCH TÀI NGUYÊN BÀI TẬP
+      </Typography>
 
-          <DataGridTable
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="flex-end"
+        spacing={2}
+        sx={{ float: "right" }}
+      >
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => navigate(`/exercise/${id}/exerciseDetailList`)}
+        >
+          Quay về chi tiết
+        </Button>
+        <AddButton
+          desc="Thêm tài nguyên bài tập"
+          url={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`}
+          sx={{ mt: -6 }}
+        />
+      </Stack>
+      <Box>
+        <Stack
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
+          sx={{ float: "left", mt: 8 }}
+        >
+          {exerciseResourceList
+            ? exerciseResourceList.map((exerciseResource) => (
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        height: 300,
+                        width: "100%",
+                        maxHeight: { xs: 300, md: 167 },
+                        maxWidth: { xs: "100%", md: 250 },
+                      }}
+                      alt="User image"
+                      src={exerciseResource.imageURL}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {exerciseResource.resourceName}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    {/* <Link
+                      href={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${exerciseResource.exerciseResourceID}/edit`}
+                    >
+                      <EditIcon
+                        fontSize="small"
+                        sx={{ color: "#0C5E96", cursor: "pointer" }}
+                      />
+                    </Link> */}
+                    <Button
+                      size="small"
+                      onClick={() =>
+                        navigate(
+                          `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${exerciseResource.exerciseResourceID}/edit`
+                        )
+                      }
+                    >
+                      Sửa
+                    </Button>
+                    <Button
+                      size="small"
+                      onClick={() => {
+                        dispatch(
+                          deleteExerciseResource({
+                            exerciseResourceID:
+                              exerciseResource.exerciseResourceID,
+                            token,
+                          })
+                        );
+                        setRefreshKey((oldKey) => oldKey + 1);
+                      }}
+                    >
+                      Xóa
+                    </Button>
+                    {/* <IconButton
+                      onClick={() => {
+                        dispatch(
+                          deleteExerciseResource({
+                            exerciseResourceID:
+                              exerciseResource.exerciseResourceID,
+                            token,
+                          })
+                        );
+                        setRefreshKey((oldKey) => oldKey + 1);
+                      }}
+                    >
+                      <DeleteIcon
+                        fontSize="small"
+                        sx={{ color: "#0C5E96", cursor: "pointer" }}
+                      />
+                    </IconButton> */}
+                  </CardActions>
+                </Card>
+              ))
+            : null}
+        </Stack>
+
+        {/* <DataGridTable
             columns={columns}
             rows={exerciseResourceList}
             getRowId={(row) => row.exerciseResourceID}
@@ -170,9 +255,8 @@ const ExerciseResourceList = () => {
             isLoading={exerciseResourceStatus !== "succeeded"}
             pagination
             paginationMode="client"
-          />
-        </Box>
-      </Stack>
+          /> */}
+      </Box>
     </Container>
   );
 };
