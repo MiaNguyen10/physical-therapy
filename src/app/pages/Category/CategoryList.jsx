@@ -149,14 +149,11 @@ const CategotyList = () => {
         <Typography variant="h3">TÌNH TRẠNG</Typography>
         <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
         <Box>
-          {/* Staff  */}
-          <RestrictedPermission permission={"Staff"}>
-            <AddButton
-              desc="Thêm tình trạng"
-              url={`${pages.addCategoryPath}`}
-              sx={{ mt: -6 }}
-            />
-          </RestrictedPermission>
+          <AddButton
+            desc="Thêm tình trạng"
+            url={`${pages.addCategoryPath}`}
+            sx={{ mt: -6 }}
+          />
           <DataGridTable
             width="1200px"
             columns={columns}
@@ -172,7 +169,12 @@ const CategotyList = () => {
           />
         </Box>
       </Stack>
-      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };

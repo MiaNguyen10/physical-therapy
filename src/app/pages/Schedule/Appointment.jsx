@@ -10,7 +10,7 @@ export default function Appointment(model) {
         <strong>{targetedAppointmentData.text}</strong>{" "}
       </div>
       <div>
-        Bác sĩ trị liệu:{" "}
+        Nhà vật lý trị liệu:{" "}
         {`${targetedAppointmentData.physiotherapistDetail.user?.firstName} ${targetedAppointmentData.physiotherapistDetail.user?.lastName}`}
       </div>
       <div>
