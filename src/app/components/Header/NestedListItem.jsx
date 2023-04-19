@@ -4,6 +4,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import EventIcon from '@mui/icons-material/Event';
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import HomeIcon from "@mui/icons-material/Home";
+import TextsmsIcon from '@mui/icons-material/Textsms';
 import {
   List,
   ListItemButton,
@@ -64,6 +65,13 @@ const NestedListItem = () => {
           <ListItemText primary="Lịch" />
         </ListItemButton>
       </RestrictedPermission>
+
+      <ListItemButton onClick={() => navigate(`${pages.feedbackListPath}`)}>
+          <ListItemIcon>
+            <TextsmsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Feedback" />
+        </ListItemButton>
     </List>
   );
 };

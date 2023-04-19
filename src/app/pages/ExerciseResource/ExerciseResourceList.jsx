@@ -8,7 +8,7 @@ import {
   CardMedia,
   Container,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
 import { selectToken } from "cores/reducers/authentication";
 import React, { useEffect, useState } from "react";
@@ -24,6 +24,7 @@ import {
   getExerciseResourceList,
 } from "../../../cores/thunk/exerciseResource";
 import AddButton from "../../components/Button/AddButton";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const ExerciseResourceList = () => {
   const { id, idDetail } = useParams();
@@ -35,9 +36,30 @@ const ExerciseResourceList = () => {
   //const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
 
+  const [resourceId, setResourceId] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(
+      deleteExerciseResource({
+        exerciseResourceID: resourceId,
+        token,
+      })
+    );
+    setRefreshKey((oldKey) => oldKey + 1);
+    setResourceId("");
+    setOpenDialog(false);
+    window.location.reload(true);
+  };
+
   /*const handlePageChange = (page) => {
     setPage(page);
   };
+  
 
   const columns = [
     {
@@ -129,6 +151,7 @@ const ExerciseResourceList = () => {
 
   useEffect(() => {
     dispatch(getExerciseResourceList({ idDetail: idDetail, token }));
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
@@ -188,14 +211,6 @@ const ExerciseResourceList = () => {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    {/* <Link
-                      href={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${exerciseResource.exerciseResourceID}/edit`}
-                    >
-                      <EditIcon
-                        fontSize="small"
-                        sx={{ color: "#0C5E96", cursor: "pointer" }}
-                      />
-                    </Link> */}
                     <Button
                       size="small"
                       onClick={() =>
@@ -209,35 +224,12 @@ const ExerciseResourceList = () => {
                     <Button
                       size="small"
                       onClick={() => {
-                        dispatch(
-                          deleteExerciseResource({
-                            exerciseResourceID:
-                              exerciseResource.exerciseResourceID,
-                            token,
-                          })
-                        );
-                        setRefreshKey((oldKey) => oldKey + 1);
+                        setResourceId(exerciseResource?.exerciseResourceID);
+                        setOpenDialog(true);
                       }}
                     >
                       Xóa
                     </Button>
-                    {/* <IconButton
-                      onClick={() => {
-                        dispatch(
-                          deleteExerciseResource({
-                            exerciseResourceID:
-                              exerciseResource.exerciseResourceID,
-                            token,
-                          })
-                        );
-                        setRefreshKey((oldKey) => oldKey + 1);
-                      }}
-                    >
-                      <DeleteIcon
-                        fontSize="small"
-                        sx={{ color: "#0C5E96", cursor: "pointer" }}
-                      />
-                    </IconButton> */}
                   </CardActions>
                 </Card>
               ))
@@ -257,6 +249,7 @@ const ExerciseResourceList = () => {
             paginationMode="client"
           /> */}
       </Box>
+      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
     </Container>
   );
 };

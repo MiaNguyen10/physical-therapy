@@ -26,6 +26,7 @@ import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchExerciseListFrom from "../Exercise/components/SearchExerciseListForm";
 import { selectToken } from "cores/reducers/authentication";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const ExerciseList = () => {
   const dispatch = useDispatch();
@@ -42,10 +43,23 @@ const ExerciseList = () => {
     searchCate: "",
   });
 
+  const [exerciseId, setExerciseId] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+
   const handlePageChange = (page) => {
     setPage(page);
   };
 
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteExercise({ exerciseID: exerciseId, token }));
+    setRefreshKey((oldKey) => oldKey + 1);
+    setExerciseId("");
+    setOpenDialog(false);
+  };
   useEffect(() => {
     if (categoryStatus === "succeeded") {
       dispatch(resetStatus);
@@ -149,8 +163,8 @@ const ExerciseList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteExercise({ excerciseID: params?.value, token }));
-                setRefreshKey((oldKey) => oldKey + 1);
+                setExerciseId(params?.value);
+                setOpenDialog(true);
               }}
             >
               <DeleteIcon
@@ -201,6 +215,7 @@ const ExerciseList = () => {
           />
         </Box>
       </Stack>
+      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
     </Container>
   );
 };

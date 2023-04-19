@@ -28,6 +28,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import SearchExerciseListDetailForm from "./components/SearchExerciseDetailForm";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const ExerciseDetailList = () => {
   const { id } = useParams();
@@ -45,10 +46,27 @@ const ExerciseDetailList = () => {
     searchDesc: "",
   });
 
-  console.log(exerciseDetailList);
+  const [detailId, setDetailId] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handlePageChange = (page) => {
     setPage(page);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(
+      deleteExerciseDetail({
+        exerciseDetailID: detailId,
+        token,
+      })
+    );
+    setRefreshKey((oldKey) => oldKey + 1);
+    setDetailId("");
+    setOpenDialog(false);
   };
 
   useEffect(() => {
@@ -149,13 +167,8 @@ const ExerciseDetailList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(
-                  deleteExerciseDetail({
-                    exerciseDetailID: params?.value,
-                    token,
-                  })
-                );
-                setRefreshKey((oldKey) => oldKey + 1);
+                setDetailId(params?.value);
+                setOpenDialog(true);
               }}
             >
               <DeleteIcon
@@ -216,6 +229,7 @@ const ExerciseDetailList = () => {
           />
         </Box>
       </Stack>
+      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
     </Container>
   );
 };

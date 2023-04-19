@@ -18,6 +18,7 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchUserListForm from "./components/SearchUserListForm";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const UserList = () => {
   const dispatch = useDispatch();
@@ -33,10 +34,23 @@ const UserList = () => {
   });
   const [refreshKey, setRefreshKey] = useState(0);
   const auth = useSelector(selectState);
+  const [idUser, setIdUser] = useState("")
+  const [openDialog, setOpenDialog] = useState(false)
 
   const handlePageChange = (page) => {
     setPage(page);
   };
+
+  const handleClose = () => {
+    setOpenDialog(false)
+  }
+
+  const handleDelete = () => {
+    dispatch(banUser({ userID: idUser, token }));
+    setRefreshKey((oldKey) => oldKey + 1);
+    setIdUser("")
+    setOpenDialog(false)
+  }
 
   useEffect(() => {
     dispatch(getUserList(token));
@@ -210,8 +224,10 @@ const UserList = () => {
           </Link>
           <IconButton
             onClick={() => {
-              dispatch(banUser({ userID: params?.value, token }));
-              setRefreshKey((oldKey) => oldKey + 1);
+              // dispatch(banUser({ userID: params?.value, token }));
+              // setRefreshKey((oldKey) => oldKey + 1);
+              setOpenDialog(true)
+              setIdUser(params?.value)
             }}
           >
             <DeleteIcon
@@ -250,6 +266,7 @@ const UserList = () => {
           />
         </Box>
       </Stack>
+      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
     </Container>
   );
 };

@@ -27,6 +27,7 @@ import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchSlotListFrom from "../Slot/components/SearchSlotListForm";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 dayjs.locale("th");
 
 const SlotList = () => {
@@ -42,8 +43,22 @@ const SlotList = () => {
     searchKey: "",
   });
 
+  const [slotId, setSlotId] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+
   const handlePageChange = (page) => {
     setPage(page);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteSlot({ id: slotId, token }));
+    setRefreshKey((oldKey) => oldKey + 1);
+    setSlotId("");
+    setOpenDialog(false);
   };
 
   useEffect(() => {
@@ -155,12 +170,10 @@ const SlotList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
             </Link>
-            <IconButton
-              onClick={() => {
-                dispatch(deleteSlot({ id: params.value, token }));
-                setRefreshKey((oldKey) => oldKey + 1);
-              }}
-            >
+            <IconButton onClick={() => {
+              setSlotId(params?.value)
+              setOpenDialog(true)
+            }}>
               <DeleteIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
@@ -210,6 +223,12 @@ const SlotList = () => {
           />
         </Box>
       </Stack>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };

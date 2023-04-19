@@ -22,6 +22,7 @@ import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchCategoryListFrom from "../Category/components/SearchCategoryListForm";
 import { RestrictedPermission } from "app/middlewares/PermissionProvider";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const CategotyList = () => {
   const dispatch = useDispatch();
@@ -33,9 +34,22 @@ const CategotyList = () => {
     searchKey: "",
     searchDesc: "",
   });
+  const [categoryId, setCategoryId] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handlePageChange = (page) => {
     setPage(page);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteCategory(categoryId));
+    setRefreshKey((oldKey) => oldKey + 1);
+    setCategoryId("");
+    setOpenDialog(false);
   };
 
   const rows = useMemo(() => {
@@ -102,8 +116,8 @@ const CategotyList = () => {
             </Link>
             <IconButton
               onClick={() => {
-                dispatch(deleteCategory(params.value));
-                setRefreshKey((oldKey) => oldKey + 1);
+                setCategoryId(params?.value);
+                setOpenDialog(true);
               }}
             >
               <DeleteIcon
@@ -126,7 +140,7 @@ const CategotyList = () => {
 
   useEffect(() => {
     dispatch(getCategoryList());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
   return (
@@ -158,6 +172,7 @@ const CategotyList = () => {
           />
         </Box>
       </Stack>
+      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
     </Container>
   );
 };

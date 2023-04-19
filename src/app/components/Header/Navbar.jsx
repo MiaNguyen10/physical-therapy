@@ -142,8 +142,11 @@ export const Navbar = () => {
                 </NavLink>
                 <NavLink variant="body2" href={pages.schedulePath}>
                   Lịch
-                </NavLink>{" "}
+                </NavLink>
               </RestrictedPermission>
+              <NavLink variant="body2" href={pages.feedbackListPath}>
+                Feedback
+              </NavLink>
             </NavbarLinksBox>
           </NavbarItem>
 

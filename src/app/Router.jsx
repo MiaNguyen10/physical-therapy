@@ -27,6 +27,7 @@ import ScheduleBySlot from "./pages/Schedule/ScheduleBySlot";
 import AddSlot from "./pages/Slot/AddSlot";
 import EditSlot from "./pages/Slot/EditSlot";
 import SlotList from "./pages/Slot/SlotList";
+import FeedbackList from "./pages/Feedback/FeedbackList";
 
 const Router = () => {
   const token = useSelector(selectToken);
@@ -93,6 +94,9 @@ const Router = () => {
           path={`/${pages.scheduleBySlotID}`}
           element={<ScheduleBySlot />}
         />
+
+        {/* Feedback */}
+        <Route path={`${pages.feedbackListPath}`} element={<FeedbackList />} />
       </Route>
     </Routes>
   );
