@@ -7,10 +7,7 @@ import {
   getStatusCategory,
   resetStatus,
 } from "../../../cores/reducers/category";
-import {
-  editCategory,
-  getCategoryDetail
-} from "../../../cores/thunk/category";
+import { editCategory, getCategoryDetail } from "../../../cores/thunk/category";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import CategoryForm from "./components/CategoryForm";
@@ -27,13 +24,14 @@ const EditCategory = () => {
     navigate(`${pages.categoryListPath}`);
   };
 
-  const handleFormSubmit = ({ categoryName, description }) => {
+  const handleFormSubmit = ({ categoryName, description, iconUrl }) => {
     try {
       dispatch(
         editCategory({
           categoryID: id,
           categoryName: categoryName,
           description: description,
+          iconUrl: iconUrl,
         })
       ).unwrap();
       setOpen(true);
@@ -54,7 +52,6 @@ const EditCategory = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
@@ -63,6 +60,7 @@ const EditCategory = () => {
           categoryDetail={{
             categoryName: categoryDetail?.categoryName,
             description: categoryDetail?.description,
+            iconUrl: categoryDetail?.iconUrl,
           }}
           onFormSubmit={handleFormSubmit}
           isLoading={categoryStatus === "loading"}

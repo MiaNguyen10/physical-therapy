@@ -1,46 +1,15 @@
-import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Button,
+  IconButton,
   InputAdornment,
   Stack,
   TextField
 } from "@mui/material";
+import { makeStyles } from "app/pages/Account/components/AccountForm";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
-const makeStyles = () => ({
-  textFieldStyle: {
-    width: "320px",
-    ".MuiOutlinedInput-root": {
-      height: 44,
-    },
-    ".MuiSelect-select": {
-      marginTop: 1,
-    },
-    ".MuiInputLabel-root": {
-      zIndex: 0,
-      top: "-25px",
-      fontSize: "16px",
-      fontWeight: 700,
-      color: "#333333",
-      WebkitTransform: "none",
-      span: {
-        color: "#D93A39",
-      },
-      "&.Mui-focused": {
-        color: "#333333",
-      },
-      "&.Mui-error": {
-        color: "#333333",
-      },
-    },
-    ".MuiOutlinedInput-notchedOutline": {
-      legend: {
-        maxWidth: 0,
-      },
-    },
-  },
-});
 
 const SearchCategoryListForm = ({ onSearch }) => {
   const styles = makeStyles();
@@ -77,9 +46,11 @@ const SearchCategoryListForm = ({ onSearch }) => {
             onChange={onChange}
             variant="outlined"
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                  <ClearIcon fontSize="small"/>
+                  </IconButton>
                 </InputAdornment>
               ),
             }}
@@ -99,6 +70,15 @@ const SearchCategoryListForm = ({ onSearch }) => {
             value={value}
             onChange={onChange}
             variant="outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />

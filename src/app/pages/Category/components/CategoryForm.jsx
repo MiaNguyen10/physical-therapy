@@ -1,11 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Backdrop,
+  Box,
   Button,
   CircularProgress,
   Container,
   Stack,
-  TextField,
+  TextField
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -57,20 +58,23 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
   const schema = yup.object({
     categoryName: yup.string().required("Vui lòng điền thông tin"),
     description: yup.string().required("Vui lòng điền thông tin"),
+    iconUrl: yup.string().required("Vui lòng đính kèm ảnh"),
   });
 
   const {
     handleSubmit,
-    formState: { errors: formErrors},
+    formState: { errors: formErrors },
     control,
     reset,
     getValues,
+    watch,
   } = useForm({
     mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
       categoryName: "",
       description: "",
+      iconUrl: "",
     },
   });
 
@@ -80,6 +84,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
     reset({
       categoryName: categoryDetail?.categoryName,
       description: categoryDetail?.description,
+      iconUrl: categoryDetail?.iconUrl,
     });
   }, [categoryDetail, reset, getValues]);
 
@@ -121,6 +126,37 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading }) => {
                 required
                 inputProps={{ required: false, maxLength: 255 }}
                 label="Mô tả"
+                variant="outlined"
+              />
+            )}
+          />
+
+          {watch("iconUrl") ? (
+            <Box
+              component="img"
+              sx={{
+                height: 300,
+                width: "100%",
+                maxHeight: { xs: 300, md: 167 },
+                maxWidth: { xs: "100%", md: 250 },
+              }}
+              alt="image"
+              src={watch("iconUrl")}
+            />
+          ) : null}
+          <Controller
+            control={control}
+            name="iconUrl"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.iconUrl}
+                helperText={formErrors?.iconUrl?.message}
+                required
+                inputProps={{ required: true }}
+                label="Icon"
                 variant="outlined"
               />
             )}

@@ -1,6 +1,7 @@
-import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Button,
+  IconButton,
   InputAdornment,
   Stack,
   TextField
@@ -77,9 +78,11 @@ const SearchExerciseListForm = ({ onSearch }) => {
             onChange={onChange}
             variant="outlined"
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
                 </InputAdornment>
               ),
             }}
@@ -99,6 +102,15 @@ const SearchExerciseListForm = ({ onSearch }) => {
             value={value}
             onChange={onChange}
             variant="outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />

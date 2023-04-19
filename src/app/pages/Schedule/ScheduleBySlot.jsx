@@ -18,8 +18,10 @@ import {
 import { getTypeOfSlotList } from "cores/thunk/typeOfSlot";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Appointment from "./Appointment";
+import { Button } from "@mui/material";
+import pages from "app/config/pages";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth();
@@ -35,6 +37,7 @@ const ScheduleBySlot = () => {
   const token = useSelector(selectToken);
   const listTypeOfSlot = useSelector(getList);
   const status = useSelector(getStatus);
+  const navigate = useNavigate()
 
   const schedules = useSelector(getSchedule);
   const scheduleStatus = useSelector(getScheduleStatus);
@@ -75,22 +78,24 @@ const ScheduleBySlot = () => {
   useEffect(() => {
     const formatData = [];
     schedules.forEach((schedule) => {
-      const formatDateStart = moment(schedule.slot.timeStart).format("YYYY-MM-DD");
-        const formatDateEnd = moment(schedule.slot.timeEnd).format("YYYY-MM-DD");
-        const formatTimeStart = moment(schedule.slot.timeStart).format(
-          "HH:mm:ss"
-        );
-        const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
-        const formatSchedule = {
-          text: schedule.slot.slotName,
-          description: schedule.description,
-          physiotherapistDetail: schedule.physiotherapistDetail,
-          startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
-          endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
-          typeOfSlotID: schedule.typeOfSlotID,
-          scheduleID: schedule.scheduleID,
-          slotID: schedule.slotID,
-        };
+      const formatDateStart = moment(schedule.slot.timeStart).format(
+        "YYYY-MM-DD"
+      );
+      const formatDateEnd = moment(schedule.slot.timeEnd).format("YYYY-MM-DD");
+      const formatTimeStart = moment(schedule.slot.timeStart).format(
+        "HH:mm:ss"
+      );
+      const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
+      const formatSchedule = {
+        text: schedule.slot.slotName,
+        description: schedule.description,
+        physiotherapistDetail: schedule.physiotherapistDetail,
+        startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
+        endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
+        typeOfSlotID: schedule.typeOfSlotID,
+        scheduleID: schedule.scheduleID,
+        slotID: schedule.slotID,
+      };
       formatData.push(formatSchedule);
     });
     setAppointmentList(formatData);
@@ -199,6 +204,14 @@ const ScheduleBySlot = () => {
 
   return (
     <React.Fragment>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => navigate(pages.slotListPath)}
+        sx={{m: 2, float: "right"}}
+      >
+        Quay về slot
+      </Button>
       <Scheduler
         timeZone="Asia/Ho_Chi_Minh"
         id="scheduler"

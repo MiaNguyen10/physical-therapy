@@ -8,6 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +22,6 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchCategoryListFrom from "../Category/components/SearchCategoryListForm";
-import { RestrictedPermission } from "app/middlewares/PermissionProvider";
-import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const CategotyList = () => {
   const dispatch = useDispatch();
@@ -149,14 +148,11 @@ const CategotyList = () => {
         <Typography variant="h3">TÌNH TRẠNG</Typography>
         <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
         <Box>
-          {/* Staff  */}
-          <RestrictedPermission permission={"Staff"}>
-            <AddButton
-              desc="Thêm tình trạng"
-              url={`${pages.addCategoryPath}`}
-              sx={{ mt: -6 }}
-            />
-          </RestrictedPermission>
+          <AddButton
+            desc="Thêm tình trạng"
+            url={`${pages.addCategoryPath}`}
+            sx={{ mt: -6 }}
+          />
           <DataGridTable
             width="1200px"
             columns={columns}
@@ -172,7 +168,12 @@ const CategotyList = () => {
           />
         </Box>
       </Stack>
-      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };

@@ -28,6 +28,7 @@ import AddSlot from "./pages/Slot/AddSlot";
 import EditSlot from "./pages/Slot/EditSlot";
 import SlotList from "./pages/Slot/SlotList";
 import FeedbackList from "./pages/Feedback/FeedbackList";
+import ProtectedRoutes from "./middlewares/ProtectedRoutes";
 
 const Router = () => {
   const token = useSelector(selectToken);
@@ -43,60 +44,77 @@ const Router = () => {
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
       <Route element={<Layout />}>
+        <Route element={<ProtectedRoutes />}>
+          {/* User */}
+          <Route path={`/${pages.userListPath}`} element={<UserList />} />
+          <Route path={`/${pages.addUserPath}`} element={<AddAccount />} />
+          <Route path={`/${pages.userEditPath}`} element={<EditAccount />} />
+          {/* Category */}
+          <Route
+            path={`/${pages.categoryListPath}`}
+            element={<CategotyList />}
+          />
+          <Route path={`/${pages.addCategoryPath}`} element={<AddCategory />} />
+          <Route
+            path={`/${pages.categoryEditPath}`}
+            element={<EditCategory />}
+          />
+          {/* Exercise */}
+          <Route
+            path={`/${pages.exerciseListPath}`}
+            element={<ExerciseList />}
+          />
+          <Route path={`/${pages.addExercisePath}`} element={<AddExercise />} />
+          <Route
+            path={`/${pages.exerciseEditPath}`}
+            element={<EditExercise />}
+          />
+          {/* Detail */}
+          <Route
+            path={`/${pages.exerciseDetailListPath}`}
+            element={<ExerciseDetailList />}
+          />
+          <Route
+            path={`/${pages.exerciseDetailEditPath}`}
+            element={<EditExerciseDetail />}
+          />
+          <Route
+            path={`/${pages.exerciseDetailAddPath}`}
+            element={<AddExerciseDetail />}
+          />
+          {/* Resource */}
+          <Route
+            path={`/${pages.addExerciseResourcePath}`}
+            element={<AddExerciseResource />}
+          />
+          <Route
+            path={`/${pages.exerciseResourceListPath}`}
+            element={<ExerciseResourceList />}
+          />
+          <Route
+            path={`/${pages.editExerciseResourcePath}`}
+            element={<EditExerciseResource />}
+          />
+
+          {/* Slot */}
+          <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
+          <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
+          <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
+
+          {/* Schedule */}
+          <Route path={`/${pages.schedulePath}`} element={<Schedule />} />
+          <Route
+            path={`/${pages.scheduleBySlotID}`}
+            element={<ScheduleBySlot />}
+          />
+
+          {/* Feedback */}
+          <Route
+            path={`${pages.feedbackListPath}`}
+            element={<FeedbackList />}
+          />
+        </Route>
         <Route index path={`/${pages.landingPage}`} element={<LandingPage />} />
-        {/* User */}
-        <Route path={`/${pages.userListPath}`} element={<UserList />} />
-        <Route path={`/${pages.addUserPath}`} element={<AddAccount />} />
-        <Route path={`/${pages.userEditPath}`} element={<EditAccount />} />
-        {/* Category */}
-        <Route path={`/${pages.categoryListPath}`} element={<CategotyList />} />
-        <Route path={`/${pages.addCategoryPath}`} element={<AddCategory />} />
-        <Route path={`/${pages.categoryEditPath}`} element={<EditCategory />} />
-        {/* Exercise */}
-        <Route path={`/${pages.exerciseListPath}`} element={<ExerciseList />} />
-        <Route path={`/${pages.addExercisePath}`} element={<AddExercise />} />
-        <Route path={`/${pages.exerciseEditPath}`} element={<EditExercise />} />
-        {/* Detail */}
-        <Route
-          path={`/${pages.exerciseDetailListPath}`}
-          element={<ExerciseDetailList />}
-        />
-        <Route
-          path={`/${pages.exerciseDetailEditPath}`}
-          element={<EditExerciseDetail />}
-        />
-        <Route
-          path={`/${pages.exerciseDetailAddPath}`}
-          element={<AddExerciseDetail />}
-        />
-        {/* Resource */}
-        <Route
-          path={`/${pages.addExerciseResourcePath}`}
-          element={<AddExerciseResource />}
-        />
-        <Route
-          path={`/${pages.exerciseResourceListPath}`}
-          element={<ExerciseResourceList />}
-        />
-        <Route
-          path={`/${pages.editExerciseResourcePath}`}
-          element={<EditExerciseResource />}
-        />
-
-        {/* Slot */}
-        <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
-        <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
-        <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
-
-        {/* Schedule */}
-        <Route path={`/${pages.schedulePath}`} element={<Schedule />} />
-        <Route
-          path={`/${pages.scheduleBySlotID}`}
-          element={<ScheduleBySlot />}
-        />
-
-        {/* Feedback */}
-        <Route path={`${pages.feedbackListPath}`} element={<FeedbackList />} />
       </Route>
     </Routes>
   );

@@ -21,12 +21,13 @@ const AddCategory = () => {
     navigate(`${pages.categoryListPath}`)
   }
 
-  const handleFormSubmit = ({ categoryName, description }) => {
+  const handleFormSubmit = ({ categoryName, description, iconUrl }) => {
     try {
       dispatch(
         addCategory({
           categoryName: categoryName,
           description: description,
+          iconUrl: iconUrl,
           isDeleted: false,
         })
       ).unwrap();
