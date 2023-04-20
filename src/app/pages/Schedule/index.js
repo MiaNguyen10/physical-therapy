@@ -194,7 +194,6 @@ const Schedule = () => {
         views={views}
         defaultCurrentView="week"
         defaultCurrentDate={currentDate}
-        height={700}
         startDayHour={5}
         editing={config.current}
         allDayPanelMode="hidden"

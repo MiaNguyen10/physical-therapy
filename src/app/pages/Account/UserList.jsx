@@ -1,5 +1,5 @@
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {
   Box,
   Container,
@@ -112,26 +112,14 @@ const UserList = () => {
 
   const columns = [
     {
-      field: "lastName",
-      headerName: "Họ",
-      width: 200,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
       field: "firstName",
-      headerName: "Tên",
+      headerName: "Họ tên",
       width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -144,7 +132,7 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
@@ -159,7 +147,7 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
@@ -174,7 +162,7 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         if (params?.value?.name === "Physiotherapist") {
@@ -194,7 +182,7 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return (
@@ -213,7 +201,7 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <>
@@ -230,7 +218,7 @@ const UserList = () => {
             }}
             sx={{ml: 1}}
           >
-            <DeleteIcon
+            <RemoveCircleIcon
               fontSize="small"
               sx={{ color: "#0C5E96", cursor: "pointer" }}
             />
@@ -253,6 +241,7 @@ const UserList = () => {
             sx={{ mt: -6 }}
           />
           <DataGridTable
+          width="1200px"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.id}
@@ -266,7 +255,7 @@ const UserList = () => {
           />
         </Box>
       </Stack>
-      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
+      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có muốn chặn người dùng này không?"/>
     </Container>
   );
 };

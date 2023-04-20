@@ -33,12 +33,25 @@ const ScheduleBySlot = () => {
   const token = useSelector(selectToken);
   const listTypeOfSlot = useSelector(getList);
   const status = useSelector(getStatus);
-  const navigate = useNavigate()
-  const slotStatus = useSelector(getStatusSlots)
-  const slotDetail = useSelector(getSlot)
+  const navigate = useNavigate();
+  const slotStatus = useSelector(getStatusSlots);
+  const slotDetail = useSelector(getSlot);
 
   const schedules = useSelector(getSchedule);
   const scheduleStatus = useSelector(getScheduleStatus);
+  console.log(slotDetail.timeStart)
+
+  useEffect(() => {
+    dispatch(getSlotDetail({ id: id, token }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (slotStatus === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     dispatch(getTypeOfSlotList(token));
@@ -53,9 +66,9 @@ const ScheduleBySlot = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getScheduleBySlotID({ slotID: id, token }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (slotDetail) dispatch(getScheduleBySlotID({ slotID: id, token }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slotDetail]);
 
   useEffect(() => {
     if (scheduleStatus === "succeeded") {
@@ -63,19 +76,6 @@ const ScheduleBySlot = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    dispatch(getSlotDetail({id: id, token}));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (slotStatus === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
 
   const [appointmentList, setAppointmentList] = useState([]);
   const config = useRef({
@@ -220,7 +220,7 @@ const ScheduleBySlot = () => {
         variant="outlined"
         color="primary"
         onClick={() => navigate(pages.slotListPath)}
-        sx={{m: 2, float: "right"}}
+        sx={{ m: 2, float: "right" }}
       >
         Quay về slot
       </Button>
@@ -230,8 +230,7 @@ const ScheduleBySlot = () => {
         dataSource={appointmentList}
         views={views}
         defaultCurrentView="day"
-        defaultCurrentDate={slotDetail.timeStart}
-        height={700}
+        defaultCurrentDate={slotDetail?.timeStart}
         startDayHour={5}
         editing={config.current}
         allDayPanelMode="hidden"

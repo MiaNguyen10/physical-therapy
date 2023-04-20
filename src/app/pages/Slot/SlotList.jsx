@@ -94,7 +94,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -106,7 +106,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>
@@ -122,7 +122,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>
@@ -138,7 +138,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>{params?.value ? "Còn trống" : "Đã đầy"}</Typography>
@@ -153,7 +153,7 @@ const SlotList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return (
