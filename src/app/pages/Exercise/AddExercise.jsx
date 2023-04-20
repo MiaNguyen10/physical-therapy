@@ -57,7 +57,7 @@ const AddExercise = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">THÊM BÀI TẬP</Typography>
+        <Typography variant="h3">THÊM BÀI TẬP</Typography>
         <ExerciseForm
           onFormSubmit={handleFormSubmit}
           isLoading={exerciseStatus === "loading"}

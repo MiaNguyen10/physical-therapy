@@ -2,12 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 
 import Scheduler, { Editing, Resource } from "devextreme-react/scheduler";
 
+import { Button } from "@mui/material";
+import pages from "app/config/pages";
 import { selectToken } from "cores/reducers/authentication";
 import {
   getSchedule,
   getScheduleStatus,
   resetScheduleStatus,
 } from "cores/reducers/schedule";
+import { getSlot, getStatusSlots, resetStatus } from "cores/reducers/slot";
 import { getList, getStatus } from "cores/reducers/typeOfSlot";
 import resetStatusTypeOfSlot from "cores/reducers/typeOfSlot/index";
 import {
@@ -15,19 +18,12 @@ import {
   editSchedule,
   getScheduleBySlotID,
 } from "cores/thunk/schedule";
+import { getSlotDetail } from "cores/thunk/slot";
 import { getTypeOfSlotList } from "cores/thunk/typeOfSlot";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Appointment from "./Appointment";
-import { Button } from "@mui/material";
-import pages from "app/config/pages";
-
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth();
-const currentDay = new Date().getDate();
-
-const currentDate = new Date(currentYear, currentMonth, currentDay);
 
 const views = ["day", "week", "workWeek", "month"];
 
@@ -38,6 +34,8 @@ const ScheduleBySlot = () => {
   const listTypeOfSlot = useSelector(getList);
   const status = useSelector(getStatus);
   const navigate = useNavigate()
+  const slotStatus = useSelector(getStatusSlots)
+  const slotDetail = useSelector(getSlot)
 
   const schedules = useSelector(getSchedule);
   const scheduleStatus = useSelector(getScheduleStatus);
@@ -66,6 +64,19 @@ const ScheduleBySlot = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    dispatch(getSlotDetail({id: id, token}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (slotStatus === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
   const [appointmentList, setAppointmentList] = useState([]);
   const config = useRef({
     allowAdding: false,
@@ -86,6 +97,7 @@ const ScheduleBySlot = () => {
         "HH:mm:ss"
       );
       const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
+
       const formatSchedule = {
         text: schedule.slot.slotName,
         description: schedule.description,
@@ -217,9 +229,9 @@ const ScheduleBySlot = () => {
         id="scheduler"
         dataSource={appointmentList}
         views={views}
-        defaultCurrentView="week"
-        defaultCurrentDate={currentDate}
-        height={600}
+        defaultCurrentView="day"
+        defaultCurrentDate={slotDetail.timeStart}
+        height={700}
         startDayHour={5}
         editing={config.current}
         allDayPanelMode="hidden"

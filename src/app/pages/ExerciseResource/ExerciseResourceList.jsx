@@ -191,7 +191,7 @@ const ExerciseResourceList = () => {
         >
           {exerciseResourceList
             ? exerciseResourceList.map((exerciseResource) => (
-                <Card sx={{ maxWidth: 345 }}>
+                <Card sx={{ maxWidth: 345 }} key={exerciseResource.exerciseResourceID}>
                   <CardActionArea>
                     <CardMedia
                       component="img"

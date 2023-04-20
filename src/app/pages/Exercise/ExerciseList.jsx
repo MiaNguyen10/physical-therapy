@@ -5,16 +5,18 @@ import {
   Box,
   Container,
   IconButton,
-  Link,
   Stack,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
+import { selectToken } from "cores/reducers/authentication";
 import { getCategories, getStatusCategory } from "cores/reducers/category";
 import { getCategoryList } from "cores/thunk/category";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getExercises,
   getStatusExercises,
@@ -25,8 +27,6 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchExerciseListFrom from "../Exercise/components/SearchExerciseListForm";
-import { selectToken } from "cores/reducers/authentication";
-import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const ExerciseList = () => {
   const dispatch = useDispatch();
@@ -35,6 +35,7 @@ const ExerciseList = () => {
   let categoryList = useSelector(getCategories);
   const categoryStatus = useSelector(getStatusCategory);
   const token = useSelector(selectToken);
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -147,20 +148,30 @@ const ExerciseList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link href={`${pages.exerciseListPath}/${params?.value}/edit`}>
+            <IconButton
+              onClick={() =>
+                navigate(`${pages.exerciseListPath}/${params?.value}/edit`)
+              }
+              sx={{ ml: 1 }}
+            >
               <EditIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
-            </Link>
-            <Link href={`/exercise/${params?.value}/exerciseDetailList`}>
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                navigate(`/exercise/${params?.value}/exerciseDetailList`)
+              }
+              sx={{ ml: 1, mr: 1 }}
+            >
               <Tooltip title="Chi tiết bài tập">
                 <UpdateIcon
                   fontSize="small"
                   sx={{ color: "#0C5E96", cursor: "pointer" }}
                 />
               </Tooltip>
-            </Link>
+            </IconButton>
             <IconButton
               onClick={() => {
                 setExerciseId(params?.value);
@@ -215,7 +226,12 @@ const ExerciseList = () => {
           />
         </Box>
       </Stack>
-      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };

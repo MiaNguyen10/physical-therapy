@@ -46,7 +46,7 @@ export default function CarouselText() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, width: 700, flexGrow: 1 }}>
+    <Box sx={{flexGrow: 1 }}>
       <Paper
         square
         elevation={0}

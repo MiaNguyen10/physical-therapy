@@ -4,21 +4,21 @@ import {
   Box,
   Container,
   IconButton,
-  Link,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectState, selectToken } from "cores/reducers/authentication";
 import { getUserStatus, getUsers, resetStatus } from "cores/reducers/user";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { banUser, getUserList } from "../../../cores/thunk/user";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchUserListForm from "./components/SearchUserListForm";
-import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const UserList = () => {
   const dispatch = useDispatch();
@@ -36,6 +36,7 @@ const UserList = () => {
   const auth = useSelector(selectState);
   const [idUser, setIdUser] = useState("")
   const [openDialog, setOpenDialog] = useState(false)
+  const navigate = useNavigate()
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -216,19 +217,18 @@ const UserList = () => {
       ),
       renderCell: (params) => (
         <>
-          <Link href={`/user/${params?.value}/edit`}>
+          <IconButton onClick={() => navigate(`/user/${params?.value}/edit`)} sx={{ml: 1}}>
             <EditIcon
               fontSize="small"
               sx={{ color: "#0C5E96", cursor: "pointer" }}
             />
-          </Link>
+          </IconButton>
           <IconButton
             onClick={() => {
-              // dispatch(banUser({ userID: params?.value, token }));
-              // setRefreshKey((oldKey) => oldKey + 1);
               setOpenDialog(true)
               setIdUser(params?.value)
             }}
+            sx={{ml: 1}}
           >
             <DeleteIcon
               fontSize="small"

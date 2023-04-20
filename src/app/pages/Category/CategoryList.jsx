@@ -4,14 +4,14 @@ import {
   Box,
   Container,
   IconButton,
-  Link,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getCategories,
   getStatusCategory,
@@ -35,6 +35,7 @@ const CategotyList = () => {
   });
   const [categoryId, setCategoryId] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
+  const navigate = useNavigate();
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -107,17 +108,23 @@ const CategotyList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link href={`${pages.categoryListPath}/${params.value}/edit`}>
+            <IconButton
+              onClick={() =>
+                navigate(`${pages.categoryListPath}/${params.value}/edit`)
+              }
+              sx={{ ml: 1 }}
+            >
               <EditIcon
                 fontSize="small"
                 sx={{ color: "#0C5E96", cursor: "pointer" }}
               />
-            </Link>
+            </IconButton>
             <IconButton
               onClick={() => {
                 setCategoryId(params?.value);
                 setOpenDialog(true);
               }}
+              sx={{ ml: 1 }}
             >
               <DeleteIcon
                 fontSize="small"

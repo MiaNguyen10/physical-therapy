@@ -23,9 +23,9 @@ const ReasonToApply = () => {
   }));
 
   const ReasonBox = styled(Box)(({ theme }) =>({
-    marginTop: '-80px',
+    marginTop: "10px",
     [theme.breakpoints.down("md")]: {
-      marginTop:'80px',
+      marginTop:'20px',
     },
   }));
 
