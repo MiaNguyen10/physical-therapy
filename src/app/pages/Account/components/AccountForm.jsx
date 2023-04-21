@@ -15,6 +15,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
+import { differenceInYears } from "date-fns";
 
 export const makeStyles = () => ({
   textFieldStyle: {
@@ -70,6 +71,9 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       .matches(emailRegExp, "Vui lòng điền đúng quy cách mail"),
     address: yup.string().required("Vui lòng điền thông tin"),
     image: yup.string().required("Vui lòng đính kèm ảnh"),
+    dob: yup.string().test("dob", "Phải lớn hơn 18 tuổi", function (value) {
+      return differenceInYears(new Date(), new Date(value)) >= 18;
+    }),
   });
 
   const {
@@ -212,9 +216,10 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   type="date"
                   value={value}
                   onChange={onChange}
-                  // error={!!formErrors?.password}
-                  // helperText={formErrors?.password?.message}
-                  inputProps={{ required: false }}
+                  error={!!formErrors?.dob}
+                  helperText={formErrors?.dob?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
                   label="DOB"
                   variant="outlined"
                 />

@@ -20,10 +20,10 @@ import {
 } from "cores/thunk/schedule";
 import { getSlotDetail } from "cores/thunk/slot";
 import { getTypeOfSlotList } from "cores/thunk/typeOfSlot";
-import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Appointment from "./Appointment";
+import dayjs from "dayjs";
 
 const views = ["day", "week", "workWeek", "month"];
 
@@ -89,14 +89,14 @@ const ScheduleBySlot = () => {
   useEffect(() => {
     const formatData = [];
     schedules.forEach((schedule) => {
-      const formatDateStart = moment(schedule.slot.timeStart).format(
+      const formatDateStart = dayjs(schedule.slot.timeStart).format(
         "YYYY-MM-DD"
       );
-      const formatDateEnd = moment(schedule.slot.timeEnd).format("YYYY-MM-DD");
-      const formatTimeStart = moment(schedule.slot.timeStart).format(
+      const formatDateEnd = dayjs(schedule.slot.timeEnd).format("YYYY-MM-DD");
+      const formatTimeStart = dayjs(schedule.slot.timeStart).format(
         "HH:mm:ss"
       );
-      const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
+      const formatTimeEnd = dayjs(schedule.slot.timeEnd).format("HH:mm:ss");
 
       const formatSchedule = {
         text: schedule.slot.slotName,

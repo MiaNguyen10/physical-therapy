@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
 import { makeStyles } from "./AccountForm";
+import { differenceInYears } from "date-fns";
 
 const RoleForAdmin = ["Admin", "Quản lý", "Nhà vật lý trị liệu", "Người dùng"];
 const RoleForStaff = ["Nhà vật lý trị liệu", "Người dùng"];
@@ -45,6 +46,9 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     address: yup.string().required("Vui lòng điền thông tin"),
     image: yup.string().required("Vui lòng đính kèm ảnh"),
     role: yup.string().required("Vui lòng điền thông tin"),
+    dob: yup.string().test("dob", "Phải lớn hơn 18 tuổi", function (value) {
+      return differenceInYears(new Date(), new Date(value)) >= 18;
+    }),
   });
 
   const {
@@ -213,7 +217,10 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   type="date"
                   value={value}
                   onChange={onChange}
-                  inputProps={{ required: false }}
+                  error={!!formErrors?.dob}
+                  helperText={formErrors?.dob?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
                   label="DOB"
                   variant="outlined"
                 />

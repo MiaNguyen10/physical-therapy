@@ -8,7 +8,7 @@ import { getList, getStatus } from "cores/reducers/typeOfSlot";
 import resetStatusTypeOfSlot from "cores/reducers/typeOfSlot/index";
 import { deleteSchedule, editSchedule } from "cores/thunk/schedule";
 import { getTypeOfSlotList } from "cores/thunk/typeOfSlot";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import Appointment from "./Appointment";
 
@@ -52,12 +52,12 @@ const Schedule = () => {
       const schedules = res.data;
       const formatData = [];
       schedules.forEach((schedule) => {
-        const formatDateStart = moment(schedule.slot.timeStart).format("YYYY-MM-DD");
-        const formatDateEnd = moment(schedule.slot.timeEnd).format("YYYY-MM-DD");
-        const formatTimeStart = moment(schedule.slot.timeStart).format(
+        const formatDateStart = dayjs(schedule.slot.timeStart).format("YYYY-MM-DD");
+        const formatDateEnd = dayjs(schedule.slot.timeEnd).format("YYYY-MM-DD");
+        const formatTimeStart = dayjs(schedule.slot.timeStart).format(
           "HH:mm:ss"
         );
-        const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
+        const formatTimeEnd = dayjs(schedule.slot.timeEnd).format("HH:mm:ss");
         const formatSchedule = {
           text: schedule.slot.slotName,
           description: schedule.description,

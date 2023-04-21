@@ -1,12 +1,6 @@
 import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import {
-  Box,
-  Container,
-  IconButton,
-  Stack,
-  Typography
-} from "@mui/material";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectState, selectToken } from "cores/reducers/authentication";
 import { getUserStatus, getUsers, resetStatus } from "cores/reducers/user";
@@ -34,24 +28,24 @@ const UserList = () => {
   });
   const [refreshKey, setRefreshKey] = useState(0);
   const auth = useSelector(selectState);
-  const [idUser, setIdUser] = useState("")
-  const [openDialog, setOpenDialog] = useState(false)
-  const navigate = useNavigate()
+  const [idUser, setIdUser] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const navigate = useNavigate();
 
   const handlePageChange = (page) => {
     setPage(page);
   };
 
   const handleClose = () => {
-    setOpenDialog(false)
-  }
+    setOpenDialog(false);
+  };
 
   const handleDelete = () => {
     dispatch(banUser({ userID: idUser, token }));
     setRefreshKey((oldKey) => oldKey + 1);
-    setIdUser("")
-    setOpenDialog(false)
-  }
+    setIdUser("");
+    setOpenDialog(false);
+  };
 
   useEffect(() => {
     dispatch(getUserList(token));
@@ -94,7 +88,7 @@ const UserList = () => {
         user?.email
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0 ||
-        (user?.firstName + user?.lastName)
+        user?.firstName
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0;
       const isFoundPhoneNumb =
@@ -119,7 +113,9 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -132,7 +128,9 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
@@ -147,7 +145,9 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
@@ -162,14 +162,16 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         if (params?.value?.name === "Physiotherapist") {
           return <Typography>Nhà vật lý trị liệu</Typography>;
-        }else if(params?.value?.name === "Member"){
+        } else if (params?.value?.name === "Member") {
           return <Typography>Người dùng</Typography>;
-        }else{
+        } else {
           return <Typography>{params?.value?.name ?? "-"}</Typography>;
         }
       },
@@ -182,7 +184,9 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return (
@@ -201,11 +205,16 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => navigate(`/user/${params?.value}/edit`)} sx={{ml: 1}}>
+          <IconButton
+            onClick={() => navigate(`/user/${params?.value}/edit`)}
+            sx={{ ml: 1 }}
+          >
             <EditIcon
               fontSize="small"
               sx={{ color: "#0C5E96", cursor: "pointer" }}
@@ -213,10 +222,10 @@ const UserList = () => {
           </IconButton>
           <IconButton
             onClick={() => {
-              setOpenDialog(true)
-              setIdUser(params?.value)
+              setOpenDialog(true);
+              setIdUser(params?.value);
             }}
-            sx={{ml: 1}}
+            sx={{ ml: 1 }}
           >
             <RemoveCircleIcon
               fontSize="small"
@@ -241,7 +250,7 @@ const UserList = () => {
             sx={{ mt: -6 }}
           />
           <DataGridTable
-          width="1200px"
+            width="1200px"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.id}
@@ -255,7 +264,12 @@ const UserList = () => {
           />
         </Box>
       </Stack>
-      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có muốn chặn người dùng này không?"/>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có muốn chặn người dùng này không?"
+      />
     </Container>
   );
 };
