@@ -1,8 +1,11 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { Button, Drawer, Link, styled } from "@mui/material";
+import { Button, Drawer, Link, Typography, styled } from "@mui/material";
 import Box from "@mui/material/Box";
-import { RestrictedPermission } from "app/middlewares/PermissionProvider";
-import { logout, selectToken } from "cores/reducers/authentication";
+import {
+  logout,
+  selectState,
+  selectToken,
+} from "cores/reducers/authentication";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +21,7 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector(selectToken);
+  const auth = useSelector(selectState);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -121,35 +125,38 @@ export const Navbar = () => {
               <NavLink variant="body2" href={pages.landingPage}>
                 Trang chủ
               </NavLink>
-              <RestrictedPermission permission="Admin">
-                <NavLink variant="body2" href={pages.userListPath}>
-                  Quản lý người dùng
-                </NavLink>
-                <NavLink variant="body2" href={pages.categoryListPath}>
-                  Tình trạng
-                </NavLink>
-                <NavLink variant="body2" href={pages.exerciseListPath}>
-                  Danh sách bài tập
-                </NavLink>
-              </RestrictedPermission>
-              {/* Staff */}
-              <RestrictedPermission permission="Staff">
-                <NavLink variant="body2" href={pages.userListPath}>
-                  Quản lý người dùng
-                </NavLink>
-                <NavLink variant="body2" href={pages.slotListPath}>
-                  Slot
-                </NavLink>
-                <NavLink variant="body2" href={pages.schedulePath}>
-                  Lịch
-                </NavLink>
-              </RestrictedPermission>
+              {auth?.role === "Admin" ? (
+                <>
+                  {/* Admin */}
+                  <NavLink variant="body2" href={pages.userListPath}>
+                    Quản lý người dùng
+                  </NavLink>
+                  <NavLink variant="body2" href={pages.categoryListPath}>
+                    Tình trạng
+                  </NavLink>
+                  <NavLink variant="body2" href={pages.exerciseListPath}>
+                    Danh sách bài tập
+                  </NavLink>
+                </>
+              ) : (
+                <>
+                  {/* Staff */}
+                  <NavLink variant="body2" href={pages.userListPath}>
+                    Quản lý người dùng
+                  </NavLink>
+                  <NavLink variant="body2" href={pages.slotListPath}>
+                    Slot
+                  </NavLink>
+                  <NavLink variant="body2" href={pages.schedulePath}>
+                    Lịch
+                  </NavLink>
+                </>
+              )}
               <NavLink variant="body2" href={pages.feedbackListPath}>
                 Feedback
               </NavLink>
             </NavbarLinksBox>
           </NavbarItem>
-
           <Box
             sx={{
               display: "flex",
@@ -158,6 +165,12 @@ export const Navbar = () => {
               gap: "1rem",
             }}
           >
+            <Typography
+              variant="h6"
+              sx={{ fontStyle: "italic", color: "white" }}
+            >
+              Xin chào {auth.role}: {auth.UserName}
+            </Typography>
             <Button
               sx={{
                 fontSize: "18px",

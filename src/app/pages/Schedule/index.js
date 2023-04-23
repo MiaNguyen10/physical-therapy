@@ -150,18 +150,7 @@ const Schedule = () => {
           displayExpr: "typeName",
           valueExpr: "typeOfSlotID",
         },
-      },
-      {
-        label: {
-          text: "Xem feedback",
-        },
-        editorType: "dxButton",
-        editorOptions: {
-          items: listTypeOfSlot,
-          displayExpr: "typeName",
-          valueExpr: "typeOfSlotID",
-        },
-      },
+      }
     ]);
   };
 

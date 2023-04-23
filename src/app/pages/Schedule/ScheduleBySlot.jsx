@@ -39,7 +39,9 @@ const ScheduleBySlot = () => {
 
   const schedules = useSelector(getSchedule);
   const scheduleStatus = useSelector(getScheduleStatus);
-  console.log(slotDetail.timeStart)
+  // const currentDate = new Date(2023, 1, 4);
+  // console.log(new Date(dayjs(slotDetail.timeStart).format("YYYY/DD/MM")));
+  // console.log(currentDate);
 
   useEffect(() => {
     dispatch(getSlotDetail({ id: id, token }));
@@ -67,7 +69,7 @@ const ScheduleBySlot = () => {
 
   useEffect(() => {
     if (slotDetail) dispatch(getScheduleBySlotID({ slotID: id, token }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slotDetail]);
 
   useEffect(() => {
@@ -93,9 +95,7 @@ const ScheduleBySlot = () => {
         "YYYY-MM-DD"
       );
       const formatDateEnd = dayjs(schedule.slot.timeEnd).format("YYYY-MM-DD");
-      const formatTimeStart = dayjs(schedule.slot.timeStart).format(
-        "HH:mm:ss"
-      );
+      const formatTimeStart = dayjs(schedule.slot.timeStart).format("HH:mm:ss");
       const formatTimeEnd = dayjs(schedule.slot.timeEnd).format("HH:mm:ss");
 
       const formatSchedule = {
@@ -214,7 +214,7 @@ const ScheduleBySlot = () => {
     dispatch(deleteSchedule({ id: e.appointmentData.scheduleID, token }));
   };
 
-  return (
+  return slotDetail.timeStart ? (
     <React.Fragment>
       <Button
         variant="outlined"
@@ -230,7 +230,9 @@ const ScheduleBySlot = () => {
         dataSource={appointmentList}
         views={views}
         defaultCurrentView="day"
-        defaultCurrentDate={slotDetail?.timeStart}
+        defaultCurrentDate={
+          new Date(dayjs(slotDetail.timeStart).format("YYYY/MM/DD"))
+        }
         startDayHour={5}
         editing={config.current}
         allDayPanelMode="hidden"
@@ -244,7 +246,7 @@ const ScheduleBySlot = () => {
         <Resource dataSource={listTypeOfSlot} fieldExpr="typeOfSlotID" />
       </Scheduler>
     </React.Fragment>
-  );
+  ) : null;
 };
 
 export default ScheduleBySlot;
