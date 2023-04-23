@@ -11,14 +11,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { selectState } from "cores/reducers/authentication";
-import { useSelector } from "react-redux";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 import { useNavigate } from "react-router-dom";
 import pages from "../../config/pages";
 
 const NestedListItem = () => {
   const navigate = useNavigate();
-  const auth = useSelector(selectState);
   return (
     <List
       sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper" }}
@@ -30,45 +28,43 @@ const NestedListItem = () => {
         </ListItemIcon>
         <ListItemText primary="Trang chủ" />
       </ListItemButton>
-      {auth.role === "Ädmin" ? (
-        <>
-          <ListItemButton onClick={() => navigate(`${pages.categoryListPath}`)}>
-            <ListItemIcon>
-              <CategoryIcon />
-            </ListItemIcon>
-            <ListItemText primary="Tình trạng" />
-          </ListItemButton>
-          <ListItemButton onClick={() => navigate(`${pages.exerciseListPath}`)}>
-            <ListItemIcon>
-              <FitnessCenterIcon />
-            </ListItemIcon>
-            <ListItemText primary="Danh sách bài tập" />
-          </ListItemButton>{" "}
-        </>
-      ) : (
-        <>
-          <ListItemButton onClick={() => navigate(`${pages.accountPath}`)}>
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Quản lý người dùng" />
-          </ListItemButton>
 
-          <ListItemButton onClick={() => navigate(`${pages.slotListPath}`)}>
-            <ListItemIcon>
-              <EventIcon />
-            </ListItemIcon>
-            <ListItemText primary="SLOT" />
-          </ListItemButton>
+      <ListItemButton onClick={() => navigate(`${pages.userListPath}`)}>
+        <ListItemIcon>
+          <AccountCircleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Quản lý người dùng" />
+      </ListItemButton>
+      <RestrictedPermission permission={"Admin"}>
+        <ListItemButton onClick={() => navigate(`${pages.categoryListPath}`)}>
+          <ListItemIcon>
+            <CategoryIcon />
+          </ListItemIcon>
+          <ListItemText primary="Tình trạng" />
+        </ListItemButton>
+        <ListItemButton onClick={() => navigate(`${pages.exerciseListPath}`)}>
+          <ListItemIcon>
+            <FitnessCenterIcon />
+          </ListItemIcon>
+          <ListItemText primary="Danh sách bài tập" />
+        </ListItemButton>{" "}
+      </RestrictedPermission>
 
-          <ListItemButton onClick={() => navigate(`${pages.schedulePath}`)}>
-            <ListItemIcon>
-              <CalendarMonthIcon />
-            </ListItemIcon>
-            <ListItemText primary="Lịch" />
-          </ListItemButton>
-        </>
-      )}
+      <RestrictedPermission permission={"Staff"}>
+        <ListItemButton onClick={() => navigate(`${pages.slotListPath}`)}>
+          <ListItemIcon>
+            <EventIcon />
+          </ListItemIcon>
+          <ListItemText primary="SLOT" />
+        </ListItemButton>
+
+        <ListItemButton onClick={() => navigate(`${pages.schedulePath}`)}>
+          <ListItemIcon>
+            <CalendarMonthIcon />
+          </ListItemIcon>
+          <ListItemText primary="Lịch" />
+        </ListItemButton>
+      </RestrictedPermission>
 
       <ListItemButton onClick={() => navigate(`${pages.feedbackListPath}`)}>
         <ListItemIcon>

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 export const Navbar = () => {
   const [mobileMenu, setMobileMenu] = useState({
@@ -125,33 +126,28 @@ export const Navbar = () => {
               <NavLink variant="body2" href={pages.landingPage}>
                 Trang chủ
               </NavLink>
-              {auth?.role === "Admin" ? (
-                <>
-                  {/* Admin */}
-                  <NavLink variant="body2" href={pages.userListPath}>
-                    Quản lý người dùng
-                  </NavLink>
-                  <NavLink variant="body2" href={pages.categoryListPath}>
-                    Tình trạng
-                  </NavLink>
-                  <NavLink variant="body2" href={pages.exerciseListPath}>
-                    Danh sách bài tập
-                  </NavLink>
-                </>
-              ) : (
-                <>
-                  {/* Staff */}
-                  <NavLink variant="body2" href={pages.userListPath}>
-                    Quản lý người dùng
-                  </NavLink>
-                  <NavLink variant="body2" href={pages.slotListPath}>
-                    Slot
-                  </NavLink>
-                  <NavLink variant="body2" href={pages.schedulePath}>
-                    Lịch
-                  </NavLink>
-                </>
-              )}
+              <NavLink variant="body2" href={pages.userListPath}>
+                Quản lý người dùng
+              </NavLink>
+              <RestrictedPermission permission={"Admin"}>
+                {/* Admin */}
+                <NavLink variant="body2" href={pages.categoryListPath}>
+                  Tình trạng
+                </NavLink>
+                <NavLink variant="body2" href={pages.exerciseListPath}>
+                  Danh sách bài tập
+                </NavLink>
+              </RestrictedPermission>
+              <RestrictedPermission permission={"Staff"}>
+                {/* Staff */}
+                <NavLink variant="body2" href={pages.slotListPath}>
+                  Slot
+                </NavLink>
+                <NavLink variant="body2" href={pages.schedulePath}>
+                  Lịch
+                </NavLink>
+              </RestrictedPermission>
+
               <NavLink variant="body2" href={pages.feedbackListPath}>
                 Feedback
               </NavLink>
@@ -169,7 +165,7 @@ export const Navbar = () => {
               variant="h6"
               sx={{ fontStyle: "italic", color: "white" }}
             >
-              Xin chào {auth.role}: {auth.UserName}
+              Xin chào {JSON.parse(localStorage.getItem('role'))}: {auth.UserName}
             </Typography>
             <Button
               sx={{
