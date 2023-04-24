@@ -1,28 +1,27 @@
-import { Container, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import ModalCompo from 'app/components/ModalCompo'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import {
   getCategory,
   getStatusCategory,
   resetStatus,
-} from "../../../cores/reducers/category";
-import { editCategory, getCategoryDetail } from "../../../cores/thunk/category";
-import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
-import pages from "../../config/pages";
-import CategoryForm from "./components/CategoryForm";
+} from '../../../cores/reducers/category'
+import { editCategory, getCategoryDetail } from '../../../cores/thunk/category'
+import ConfirmDialog from '../../components/Dialog/ConfirmDialog'
+import pages from '../../config/pages'
+import CategoryForm from './components/CategoryForm'
 
-const EditCategory = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const categoryStatus = useSelector(getStatusCategory);
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-  const categoryDetail = useSelector(getCategory);
+const EditCategory = ({ id, onClose, openModal }) => {
+  const dispatch = useDispatch()
+  const categoryStatus = useSelector(getStatusCategory)
+  const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
+  const categoryDetail = useSelector(getCategory)
   const handleClose = () => {
-    setOpen(false);
-    navigate(`${pages.categoryListPath}`);
-  };
+    setOpen(false)
+    navigate(`${pages.categoryListPath}`)
+  }
 
   const handleFormSubmit = ({ categoryName, description, iconUrl }) => {
     try {
@@ -33,46 +32,57 @@ const EditCategory = () => {
           description: description,
           iconUrl: iconUrl,
         })
-      ).unwrap();
-      setOpen(true);
+      ).unwrap()
+      setOpen(true)
+      onClose()
     } catch (err) {
       // eslint-disable-next-line no-empty
     }
-  };
+  }
 
   useEffect(() => {
-    if (categoryStatus === "succeeded") {
-      dispatch(resetStatus);
+    if (categoryStatus === 'succeeded') {
+      dispatch(resetStatus)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   useEffect(() => {
-    dispatch(getCategoryDetail(id));
+    dispatch(getCategoryDetail(id))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   return (
-    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">SỬA TÌNH TRẠNG</Typography>
-        <CategoryForm
-          categoryDetail={{
-            categoryName: categoryDetail?.categoryName,
-            description: categoryDetail?.description,
-            iconUrl: categoryDetail?.iconUrl,
-          }}
-          onFormSubmit={handleFormSubmit}
-          isLoading={categoryStatus === "loading"}
+    <React.Fragment>
+      {openModal && (
+        <ModalCompo
+          title="SỬA TÌNH TRẠNG"
+          onClose={onClose}
+          open={openModal}
+          maxWidth="xl"
+          divider={true}
+        >
+          <CategoryForm
+            onFormSubmit={handleFormSubmit}
+            isLoading={categoryStatus === 'loading'}
+            onClose={onClose}
+            categoryDetail={{
+              categoryName: categoryDetail?.categoryName,
+              description: categoryDetail?.description,
+              iconUrl: categoryDetail?.iconUrl,
+            }}
+          />
+        </ModalCompo>
+      )}
+      {open && (
+        <ConfirmDialog
+          open={open}
+          handleClose={handleClose}
+          desc="Cập nhật tình trạng thành công"
         />
-      </Stack>
-      <ConfirmDialog
-        open={open}
-        handleClose={handleClose}
-        desc="Cập nhật tình trạng thành công"
-      />
-    </Container>
-  );
-};
+      )}
+    </React.Fragment>
+  )
+}
 
-export default EditCategory;
+export default EditCategory
