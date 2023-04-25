@@ -113,7 +113,7 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold" }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -128,7 +128,7 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold" }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -145,7 +145,7 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold" }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -162,7 +162,7 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold" }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -184,7 +184,7 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold" }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -205,7 +205,7 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold" }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -216,8 +216,7 @@ const UserList = () => {
             sx={{ ml: 1 }}
           >
             <EditIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
+              sx={{ color: "#e8fc05", cursor: "pointer", fontSize: 28 }}
             />
           </IconButton>
           <IconButton
@@ -228,8 +227,7 @@ const UserList = () => {
             sx={{ ml: 1 }}
           >
             <RemoveCircleIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
+              sx={{ color: "#f70c0c", cursor: "pointer", fontSize: 28 }}
             />
           </IconButton>
         </>
@@ -240,7 +238,7 @@ const UserList = () => {
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3" alignItems="center">
-          DANH SÁCH NHÀ VẬT LÝ TRỊ LIỆU
+          DANH SÁCH NGƯỜI DÙNG
         </Typography>
         <SearchUserListForm onSearch={(data) => setFilters(data)} />
         <Box>

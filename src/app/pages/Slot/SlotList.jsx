@@ -94,7 +94,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -106,7 +106,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>
@@ -122,7 +122,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>
@@ -138,7 +138,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>{params?.value ? "Còn trống" : "Đã đầy"}</Typography>
@@ -153,7 +153,7 @@ const SlotList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return (
@@ -165,8 +165,8 @@ const SlotList = () => {
               sx={{ ml: 1 }}
             >
               <EditIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+               
+                sx={{ color: "#e8fc05", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton
@@ -174,8 +174,8 @@ const SlotList = () => {
               sx={{ ml: 1, mr: 1 }}
             >
               <CalendarMonthIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+               
+                sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton
@@ -185,8 +185,8 @@ const SlotList = () => {
               }}
             >
               <DeleteIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+               
+                sx={{ color: "#f70c0c", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
           </>

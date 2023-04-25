@@ -78,7 +78,7 @@ const CategotyList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -90,7 +90,7 @@ const CategotyList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -103,7 +103,7 @@ const CategotyList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{fontWeight: "bold"}}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return (
@@ -115,8 +115,8 @@ const CategotyList = () => {
               sx={{ ml: 1 }}
             >
               <EditIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+                
+                sx={{ color: "#e8fc05", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton
@@ -127,8 +127,8 @@ const CategotyList = () => {
               sx={{ ml: 1 }}
             >
               <DeleteIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+                
+                sx={{ color: "#f70c0c", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
           </>

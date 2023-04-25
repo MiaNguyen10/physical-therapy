@@ -9,13 +9,13 @@ import {
   TextField,
 } from "@mui/material";
 import { emailRegExp, phoneRegExp } from "cores/utils/regexFormat";
+import { differenceInYears } from "date-fns";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
-import { differenceInYears } from "date-fns";
 
 export const makeStyles = () => ({
   textFieldStyle: {
@@ -57,10 +57,11 @@ export const makeStyles = () => ({
 const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
+  const {id} = useParams()
 
   const schema = yup.object({
     firstName: yup.string().required("Vui lòng điền thông tin"),
-    lastName: yup.string().required("Vui lòng điền thông tin"),
+    // lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
       .string()
       .required("Vui lòng điền thông tin")
@@ -86,7 +87,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
     mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
-      lastName: "",
+      // lastName: "",
       firstName: "",
       email: "",
       phoneNumber: "",
@@ -100,7 +101,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
 
   useEffect(() => {
     reset({
-      lastName: userDetail?.lastName || "",
+      //lastName: userDetail?.lastName || "",
       firstName: userDetail?.firstName || "",
       email: userDetail?.email || "",
       phoneNumber: userDetail?.phoneNumber || "",
@@ -118,7 +119,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
         </Backdrop>
         <Stack alignItems="flex-start" pt={6} spacing={5}>
           <Stack direction="row" spacing={3}>
-            <Controller
+            {/* <Controller
               control={control}
               name="lastName"
               render={({ field: { onChange, value } }) => (
@@ -134,7 +135,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   variant="outlined"
                 />
               )}
-            />
+            /> */}
             <Controller
               control={control}
               name="firstName"
@@ -148,6 +149,24 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Tên"
+                  variant="outlined"
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="dob"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={styles.textFieldStyle}
+                  type="date"
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.dob}
+                  helperText={formErrors?.dob?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  label="DOB"
                   variant="outlined"
                 />
               )}
@@ -168,6 +187,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Email"
                   variant="outlined"
+                  disabled
                 />
               )}
             />
@@ -185,6 +205,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Số điện thoại"
                   variant="outlined"
+                  disabled
                 />
               )}
             />
@@ -203,24 +224,6 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Địa chỉ"
-                  variant="outlined"
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="dob"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  sx={styles.textFieldStyle}
-                  type="date"
-                  value={value}
-                  onChange={onChange}
-                  error={!!formErrors?.dob}
-                  helperText={formErrors?.dob?.message}
-                  required
-                  inputProps={{ required: false, maxLength: 255 }}
-                  label="DOB"
                   variant="outlined"
                 />
               )}
@@ -266,10 +269,10 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
             {userDetail?.role?.name === "Physiotherapist" ? (
               <Button
                 variant="outlined"
-                onClick={() => navigate(pages.userListPath)}
+                onClick={() => navigate(`/user/${id}/physiotherapist`)}
                 disabled={isLoading}
               >
-                Xem chi tiết
+                Xem chi tiết nhà vật lý trị liệu
               </Button>
             ) : null}
             <Button

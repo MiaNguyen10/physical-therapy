@@ -30,6 +30,8 @@ import SlotList from "./pages/Slot/SlotList";
 import FeedbackList from "./pages/Feedback/FeedbackList";
 import ProtectedRoutes from "./middlewares/ProtectedRoutes";
 import { RestrictedPermission } from "./middlewares/PermissionProvider";
+import Physiotherapist from "./pages/Account/Physiotherapist";
+import AddPhysiotherapist from "./pages/Account/AddPhysiotherapist";
 
 const Router = () => {
   const token = useSelector(selectToken);
@@ -50,6 +52,10 @@ const Router = () => {
           <Route path={`/${pages.userListPath}`} element={<UserList />} />
           <Route path={`/${pages.addUserPath}`} element={<AddAccount />} />
           <Route path={`/${pages.userEditPath}`} element={<EditAccount />} />
+
+          {/* Physiotherapist */}
+          <Route path={`${pages.physioPath}`} element={<Physiotherapist />} />
+          <Route path={`${pages.addPhysioPath}`} element={<AddPhysiotherapist />} />
 
           {/* Feedback */}
           <Route

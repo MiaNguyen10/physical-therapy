@@ -17,7 +17,7 @@ const EditAccount = () => {
   const status = useSelector(getUserStatus);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
+  
   const handleClose = () => {
     setOpen(false);
     navigate(pages.userListPath);
@@ -26,18 +26,16 @@ const EditAccount = () => {
   const handleFormSubmit = ({
     email,
     firstName,
-    lastName,
     address,
     image,
     dob,
     phoneNumber,
   }) => {
-    console.log("1");
     const user = {
       id: id,
       email: email,
       firstName: firstName,
-      lastName: lastName,
+      lastName: "",
       address: address,
       image: image,
       dob: dob,
@@ -48,7 +46,6 @@ const EditAccount = () => {
     try {
       dispatch(editUser({ user, token })).unwrap();
       setOpen(true);
-      console.log(user);
     } catch (err) {
       // eslint-disable-next-line no-empty
     }
@@ -71,13 +68,14 @@ const EditAccount = () => {
         <Typography variant="h3">Chi tiết tài khoản</Typography>
         <AccountForm
           userDetail={{
-            lastName: userDetail?.lastName,
+            //lastName: userDetail?.lastName,
             firstName: userDetail?.firstName,
             email: userDetail?.email,
             phoneNumber: userDetail?.phoneNumber,
             address: userDetail?.address,
             dob: userDetail?.dob,
             image: userDetail?.image,
+            role: userDetail?.role,
           }}
           onFormSubmit={handleFormSubmit}
           isLoading={status === "loading"}

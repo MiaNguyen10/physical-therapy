@@ -21,6 +21,7 @@ import { differenceInYears } from "date-fns";
 
 const RoleForAdmin = ["Admin", "Quản lý", "Nhà vật lý trị liệu", "Người dùng"];
 const RoleForStaff = ["Nhà vật lý trị liệu", "Người dùng"];
+const Gender = ["Nam", "Nữ"];
 
 const UserForm = ({ onFormSubmit, isLoading }) => {
   const styles = makeStyles();
@@ -28,13 +29,16 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
   const role = JSON.parse(localStorage.getItem("role"));
 
   const schema = yup.object({
-    userName: yup.string().required("Vui lòng điền thông tin"),
+    // userName: yup
+    //   .string()
+    //   .required("Vui lòng điền thông tin")
+    //   .min(6, "Tối thiểu 6 kí tự"),
     password: yup
       .string()
       .required("Vui lòng điền thông tin")
       .min(6, "Tối thiểu 6 kí tự"),
     firstName: yup.string().required("Vui lòng điền thông tin"),
-    lastName: yup.string().required("Vui lòng điền thông tin"),
+    //lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
       .string()
       .required("Vui lòng điền thông tin")
@@ -46,9 +50,15 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     address: yup.string().required("Vui lòng điền thông tin"),
     image: yup.string().required("Vui lòng đính kèm ảnh"),
     role: yup.string().required("Vui lòng điền thông tin"),
-    dob: yup.string().test("dob", "Phải lớn hơn 18 tuổi", function (value) {
-      return differenceInYears(new Date(), new Date(value)) >= 18;
-    }),
+    gender: yup.string().required("Vui lòng điền thông tin"),
+    dob: yup
+      .string()
+      .test("dob", "Lớn hơn 18 tuổi và ít hơn 80 tuổi", function (value) {
+        return (
+          differenceInYears(new Date(), new Date(value)) >= 18 &&
+          differenceInYears(new Date(), new Date(value)) <= 80
+        );
+      }),
   });
 
   const {
@@ -62,7 +72,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     defaultValues: {
       userName: "",
       password: "",
-      lastName: "",
+      //lastName: "",
       firstName: "",
       email: "",
       phoneNumber: "",
@@ -83,7 +93,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
         </Backdrop>
         <Stack alignItems="flex-start" pt={6} spacing={5}>
           <Stack direction="row" spacing={3}>
-            <Controller
+            {/* <Controller
               control={control}
               name="userName"
               render={({ field: { onChange, value } }) => (
@@ -96,6 +106,23 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Username"
+                  variant="outlined"
+                />
+              )}
+            /> */}
+            <Controller
+              control={control}
+              name="phoneNumber"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={styles.textFieldStyle}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.phoneNumber}
+                  helperText={formErrors?.phoneNumber?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  label="Số điện thoại"
                   variant="outlined"
                 />
               )}
@@ -119,7 +146,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
             />
           </Stack>
           <Stack direction="row" spacing={3}>
-            <Controller
+            {/* <Controller
               control={control}
               name="lastName"
               render={({ field: { onChange, value } }) => (
@@ -135,7 +162,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   variant="outlined"
                 />
               )}
-            />
+            /> */}
             <Controller
               control={control}
               name="firstName"
@@ -153,8 +180,6 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                 />
               )}
             />
-          </Stack>
-          <Stack direction="row" spacing={3}>
             <Controller
               control={control}
               name="email"
@@ -168,23 +193,6 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Email"
-                  variant="outlined"
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="phoneNumber"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  sx={styles.textFieldStyle}
-                  value={value}
-                  onChange={onChange}
-                  error={!!formErrors?.phoneNumber}
-                  helperText={formErrors?.phoneNumber?.message}
-                  required
-                  inputProps={{ required: false, maxLength: 255 }}
-                  label="Số điện thoại"
                   variant="outlined"
                 />
               )}
@@ -210,6 +218,30 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
             />
             <Controller
               control={control}
+              name="gender"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={{
+                    ...styles.textFieldStyle,
+                  }}
+                  select
+                  onChange={onChange}
+                  value={value}
+                  variant="outlined"
+                  label="Giới tính"
+                >
+                  {Gender.map((gender, index) => (
+                    <MenuItem value={gender} key={index}>
+                      {gender}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+          </Stack>
+          <Stack direction="row" spacing={3}>
+            <Controller
+              control={control}
               name="dob"
               render={({ field: { onChange, value } }) => (
                 <TextField
@@ -226,35 +258,36 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                 />
               )}
             />
+            <Controller
+              control={control}
+              name="role"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={{
+                    ...styles.textFieldStyle,
+                  }}
+                  select
+                  onChange={onChange}
+                  value={value}
+                  variant="outlined"
+                  label="Loại tài khoản"
+                >
+                  {role === "Admin"
+                    ? RoleForAdmin.map((role) => (
+                        <MenuItem value={role} key={role}>
+                          {role}
+                        </MenuItem>
+                      ))
+                    : RoleForStaff.map((role) => (
+                        <MenuItem value={role} key={role}>
+                          {role}
+                        </MenuItem>
+                      ))}
+                </TextField>
+              )}
+            />
           </Stack>
-          <Controller
-            control={control}
-            name="role"
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={{
-                  ...styles.textFieldStyle,
-                }}
-                select
-                onChange={onChange}
-                value={value}
-                variant="outlined"
-                label="Loại tài khoản"
-              >
-                {role === "Admin"
-                  ? RoleForAdmin.map((role) => (
-                      <MenuItem value={role} key={role}>
-                        {role}
-                      </MenuItem>
-                    ))
-                  : RoleForStaff.map((role) => (
-                      <MenuItem value={role} key={role}>
-                        {role}
-                      </MenuItem>
-                    ))}
-              </TextField>
-            )}
-          />
+
           {watch("image") ? (
             <CardMedia
               component="img"

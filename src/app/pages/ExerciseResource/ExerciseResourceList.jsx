@@ -196,10 +196,10 @@ const ExerciseResourceList = () => {
                     <CardMedia
                       component="img"
                       sx={{
-                        height: 300,
-                        width: "100%",
-                        maxHeight: { xs: 300, md: 167 },
-                        maxWidth: { xs: "100%", md: 250 },
+                        height: 'auto',
+                        width: 345,
+                        maxHeight: { xs: 'auto', md: 167 },
+                        maxwidth: { xs: 345, md: 212 },
                       }}
                       alt="User image"
                       src={exerciseResource.imageURL}
