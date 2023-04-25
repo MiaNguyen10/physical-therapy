@@ -30,6 +30,7 @@ const EditAccount = () => {
     image,
     dob,
     phoneNumber,
+    gender,
   }) => {
     const user = {
       id: id,
@@ -40,7 +41,7 @@ const EditAccount = () => {
       image: image,
       dob: dob,
       phoneNumber: phoneNumber,
-      gender: true,
+      gender: gender === "Nam" ? true : false, 
       bookingStatus: true,
     };
     try {
@@ -76,6 +77,7 @@ const EditAccount = () => {
             dob: userDetail?.dob,
             image: userDetail?.image,
             role: userDetail?.role,
+            gender: userDetail?.gender === true ? "Nam" : "Nữ",
           }}
           onFormSubmit={handleFormSubmit}
           isLoading={status === "loading"}

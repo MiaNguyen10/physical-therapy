@@ -5,6 +5,7 @@ import {
   CardMedia,
   CircularProgress,
   Container,
+  MenuItem,
   Stack,
   TextField,
 } from "@mui/material";
@@ -16,6 +17,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
+import { Gender } from "./UserForm";
 
 export const makeStyles = () => ({
   textFieldStyle: {
@@ -57,7 +59,7 @@ export const makeStyles = () => ({
 const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
-  const {id} = useParams()
+  const { id } = useParams();
 
   const schema = yup.object({
     firstName: yup.string().required("Vui lòng điền thông tin"),
@@ -72,9 +74,15 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       .matches(emailRegExp, "Vui lòng điền đúng quy cách mail"),
     address: yup.string().required("Vui lòng điền thông tin"),
     image: yup.string().required("Vui lòng đính kèm ảnh"),
-    dob: yup.string().test("dob", "Phải lớn hơn 18 tuổi", function (value) {
-      return differenceInYears(new Date(), new Date(value)) >= 18;
-    }),
+    gender: yup.string().required("Vui lòng điền thông tin"),
+    dob: yup
+      .string()
+      .test("dob", "Lớn hơn 18 tuổi và ít hơn 80 tuổi", function (value) {
+        return (
+          differenceInYears(new Date(), new Date(value)) >= 18 &&
+          differenceInYears(new Date(), new Date(value)) <= 80
+        );
+      }),
   });
 
   const {
@@ -94,6 +102,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       address: "",
       dob: dayjs(new Date()).format("YYYY-MM-DD"),
       image: "",
+      gender: "",
     },
   });
 
@@ -108,6 +117,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       address: userDetail?.address,
       dob: dayjs(userDetail?.dob).format("YYYY-MM-DD") || "",
       image: userDetail?.image || "",
+      gender: userDetail?.gender || "",
     });
   }, [userDetail, reset]);
 
@@ -226,6 +236,28 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   label="Địa chỉ"
                   variant="outlined"
                 />
+              )}
+            />
+            <Controller
+              control={control}
+              name="gender"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={{
+                    ...styles.textFieldStyle,
+                  }}
+                  select
+                  onChange={onChange}
+                  value={value}
+                  variant="outlined"
+                  label="Giới tính"
+                >
+                  {Gender.map((gender, index) => (
+                    <MenuItem value={gender} key={index}>
+                      {gender}
+                    </MenuItem>
+                  ))}
+                </TextField>
               )}
             />
           </Stack>

@@ -21,7 +21,7 @@ import { differenceInYears } from "date-fns";
 
 const RoleForAdmin = ["Admin", "Quản lý", "Nhà vật lý trị liệu", "Người dùng"];
 const RoleForStaff = ["Nhà vật lý trị liệu", "Người dùng"];
-const Gender = ["Nam", "Nữ"];
+export const Gender = ["Nam", "Nữ"];
 
 const UserForm = ({ onFormSubmit, isLoading }) => {
   const styles = makeStyles();
@@ -80,6 +80,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       dob: dayjs(new Date()).format("YYYY-MM-DD"),
       image: "",
       role: "",
+      gender:"",
     },
   });
 
