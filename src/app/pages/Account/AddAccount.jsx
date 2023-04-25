@@ -1,6 +1,5 @@
 import { Container, Stack, Typography } from "@mui/material";
 import ConfirmDialog from "app/components/Dialog/ConfirmDialog";
-import QuestionDialog from "app/components/Dialog/QuestionDialog";
 import pages from "app/config/pages";
 import { selectToken } from "cores/reducers/authentication";
 import { getUserStatus } from "cores/reducers/user";
@@ -19,13 +18,12 @@ const AddAccount = () => {
   const dispatch = useDispatch();
   const status = useSelector(getUserStatus);
   const [open, setOpen] = useState(false);
-  const [openPhysio, setOpenPhysio] = useState(false);
   const navigate = useNavigate();
   const token = useSelector(selectToken);
   const error = useSelector((state) => state.user.error);
   const [desc, setDesc] = useState("");
-  const [descPhysio, setDescPhysio] = useState("");
   const id = useSelector((state) => state.user.userID);
+  console.log(id);
 
   const handleClose = () => {
     if (status === "succeeded") {
@@ -35,17 +33,6 @@ const AddAccount = () => {
       setOpen(false);
       navigate(`${pages.addUserPath}`);
       setDesc("");
-    }
-  };
-
-  const handleAccpet = () => {
-    if (status === "succeeded") {
-      setOpenPhysio(false);
-      navigate(`/user/${id}/physiotherapist/add`);
-    } else {
-      setOpenPhysio(false);
-      navigate(`${pages.addUserPath}`);
-      setDescPhysio("");
     }
   };
 
@@ -83,7 +70,13 @@ const AddAccount = () => {
         setOpen(true);
       } else if (role === "Nhà vật lý trị liệu") {
         dispatch(addPhysiotherapist({ user, token })).unwrap();
-        setOpenPhysio(true);
+        if (id) {
+          if (status === "succeeded") {
+            navigate(`/user/${id}/physiotherapist/add`);
+          } else {
+            setOpen(true);
+          }
+        }
       } else {
         dispatch(addUser({ user, token })).unwrap();
         setOpen(true);
@@ -98,20 +91,14 @@ const AddAccount = () => {
       error === "Unexpected token 'E', \"Email Đã Tồn Tại!\" is not valid JSON"
     ) {
       setDesc("Email Đã Tồn Tại!. Nhập email khác");
-      setDescPhysio("Email Đã Tồn Tại!. Nhập email khác");
     } else if (
       error === "Unexpected token 'S', \"Số Điện Th\"... is not valid JSON"
     ) {
       setDesc("Số điện thoại đã tồn tại! Nhập SĐT khác");
-      setDescPhysio("Số điện thoại đã tồn tại! Nhập SĐT khác");
     } else if (status === "failed") {
       setDesc("Lỗi. Vui lòng nhập lại");
-      setDescPhysio("Lỗi. Vui lòng nhập lại");
     } else {
       setDesc("Thêm người dùng thành công");
-      setDescPhysio(
-        "Thêm thành công. Bạn có muốn thêm chi tiết nhà vật lý trị liệu"
-      );
     }
   }, [error, status]);
   return (
@@ -124,11 +111,6 @@ const AddAccount = () => {
         />
       </Stack>
       <ConfirmDialog open={open} handleClose={handleClose} desc={desc} />
-      <QuestionDialog
-        open={openPhysio}
-        handleAccept={handleAccpet}
-        desc={descPhysio}
-      />
     </Container>
   );
 };

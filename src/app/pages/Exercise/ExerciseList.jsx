@@ -156,7 +156,7 @@ const ExerciseList = () => {
             >
               <EditIcon
                 
-                sx={{ color: "#e8fc05", cursor: "pointer", fontSize: 28 }}
+                sx={{ color: "#60f520", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton

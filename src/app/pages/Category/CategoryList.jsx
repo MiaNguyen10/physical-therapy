@@ -6,7 +6,6 @@ import DeleteDialog from 'app/components/Dialog/DeleteDialog'
 import { trim } from 'lodash'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import {
   getCategories,
   getStatusCategory,
@@ -33,7 +32,6 @@ const CategotyList = () => {
   })
   const [categoryId, setCategoryId] = useState('')
   const [openDialog, setOpenDialog] = useState(false)
-  const navigate = useNavigate()
 
   const handlePageChange = (page) => {
     setPage(page)
@@ -128,7 +126,7 @@ const CategotyList = () => {
               sx={{ ml: 1 }}
             >
               <EditIcon
-                sx={{ color: "#e8fc05", cursor: "pointer", fontSize: 28 }}
+                sx={{ color: "#60f520", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton

@@ -83,6 +83,7 @@ const SearchUserListForm = ({ onSearch }) => {
             }}
             placeholder="Nhập số điện thoại"
             value={value}
+            label="Số điện thoại"
             onChange={onChange}
             variant="outlined"
             InputProps={{
