@@ -24,10 +24,8 @@ const EditExercise = () => {
   const navigate = useNavigate();
   let categories = useSelector(getCategories);
   const exerciseDetail = useSelector(getExercise)
-  const handleClose = () => {
-    setOpen(false);
-    navigate(`${pages.exerciseListPath}`);
-  };
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({
     exerciseName,
@@ -46,6 +44,7 @@ const EditExercise = () => {
     };
     try {
       dispatch(editExercise({ excercise, token })).unwrap();
+      setRefreshKey((oldKey) => oldKey + 1);
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty
@@ -62,12 +61,31 @@ const EditExercise = () => {
   useEffect(() => {
     dispatch(getExerciseDetail({id, token}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     dispatch(getCategoryList());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (exerciseStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [exerciseStatus]);
+
+  const handleClose = () => {
+    if (exerciseStatus === "succeeded") {
+      setOpen(false);
+      navigate(`${pages.exerciseListPath}`);
+    } else {
+      setOpen(false);
+      navigate(`/exercise/${id}/edit`);
+      setDesc("");
+    }
+  };
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
@@ -89,7 +107,7 @@ const EditExercise = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Cập nhật bài tập thành công"
+        desc={desc}
       />
     </Container>
   );

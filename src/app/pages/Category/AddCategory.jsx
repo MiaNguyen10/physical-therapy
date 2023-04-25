@@ -13,11 +13,7 @@ const AddCategory = ({ onClose, openModal }) => {
   const categoryStatus = useSelector(getStatusCategory)
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
-
-  const handleClose = () => {
-    setOpen(false)
-    navigate(`${pages.categoryListPath}`)
-  }
+  const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({ categoryName, description, iconUrl }) => {
     try {
@@ -36,6 +32,25 @@ const AddCategory = ({ onClose, openModal }) => {
       console.log(err)
     }
   }
+
+  useEffect(() => {
+    if (categoryStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [categoryStatus]);
+
+  const handleClose = () => {
+    if (categoryStatus === "succeeded") {
+      setOpen(false);
+      navigate(`${pages.categoryListPath}`);
+    } else {
+      setOpen(false);
+      navigate(`${pages.addCategoryPath}`);
+      setDesc("");
+    }
+  };
 
   return (
     <React.Fragment>
@@ -56,10 +71,10 @@ const AddCategory = ({ onClose, openModal }) => {
       )}
       {open && (
         <ConfirmDialog
-          open={open}
-          handleClose={handleClose}
-          desc="Thêm tình trạng thành công"
-        />
+        open={open}
+        handleClose={handleClose}
+        desc={desc}
+      />
       )}
     </React.Fragment>
   )

@@ -6,6 +6,9 @@ const pages = {
     userEditPath: '/user/:id/edit',
     addUserPath : '/user/add',
 
+    physioPath: '/user/:id/physiotherapist',
+    addPhysioPath: '/user/:id/physiotherapist/add',
+
     categoryListPath: '/category',
     addCategoryPath: '/category/add',
     categoryEditPath: '/category/:id/edit',

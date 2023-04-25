@@ -1,11 +1,8 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import { Button, Drawer, Link, Typography, styled } from "@mui/material";
 import Box from "@mui/material/Box";
-import {
-  logout,
-  selectState,
-  selectToken,
-} from "cores/reducers/authentication";
+import { RestrictedPermission } from "app/middlewares/PermissionProvider";
+import { logout, selectState } from "cores/reducers/authentication";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
-import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 
 export const Navbar = () => {
   const [mobileMenu, setMobileMenu] = useState({
@@ -21,7 +17,6 @@ export const Navbar = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = useSelector(selectToken);
   const auth = useSelector(selectState);
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -105,7 +100,7 @@ export const Navbar = () => {
 
   return (
     <>
-      {token ? (
+      {JSON.parse(localStorage.getItem("authentication")) ? (
         <NavbarContainer>
           <NavbarItem>
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -165,7 +160,8 @@ export const Navbar = () => {
               variant="h6"
               sx={{ fontStyle: "italic", color: "white" }}
             >
-              Xin chào {JSON.parse(localStorage.getItem('role'))}: {auth.UserName}
+              Xin chào {JSON.parse(localStorage.getItem("role"))}:{" "}
+              {auth.UserName}
             </Typography>
             <Button
               sx={{

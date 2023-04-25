@@ -25,7 +25,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const currentSession = useSelector(selectToken);
   const [eMessage, setEMessage] = useState("")
-  
 
   const {
     register,
@@ -126,19 +125,19 @@ const Login = () => {
             >
               Sign In
             </Button>
-            {/* <Grid container>
+            <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
+                <Link href="/" variant="body2" sx={{fontStyle: "italic"}}>
+                  Trở về trang chủ
                 </Link>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 Don't have an account?
                 <Link href="#" variant="body2">
                   {" Sign Up"}
                 </Link>
-              </Grid>
-            </Grid> */}
+              </Grid> */}
+            </Grid>
           </Box>
         </Box>
       </Grid>

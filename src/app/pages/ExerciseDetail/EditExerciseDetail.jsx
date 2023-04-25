@@ -22,11 +22,7 @@ const EditExerciseDetail = () => {
   const [open, setOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
-
-  const handleClose = () => {
-    setOpen(false);
-    navigate(`/exercise/${id}/exerciseDetailList`);
-  };
+  const [desc, setDesc] = useState("");
 
   const handleEditFormSubmit = ({ detailName, set, description }) => {
     try {
@@ -58,9 +54,28 @@ const EditExerciseDetail = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getExerciseDetailById({ id, token }));
+    dispatch(getExerciseDetailById({ id: idDetail, token }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
+
+  useEffect(() => {
+    if (exerciseDetailStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [exerciseDetailStatus]);
+
+  const handleClose = () => {
+    if (exerciseDetailStatus === "succeeded") {
+      setOpen(false);
+      navigate(`/exercise/${id}/exerciseDetailList`);
+    } else {
+      setOpen(false);
+      navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/edit`);
+      setDesc("");
+    }
+  };
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
@@ -80,7 +95,7 @@ const EditExerciseDetail = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Cập nhật chi tiết bài tập thành công"
+        desc={desc}
       />
     </Container>
   );

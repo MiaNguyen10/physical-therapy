@@ -18,11 +18,7 @@ const AddExercise = () => {
   const exerciseStatus = useSelector(getStatusExercises);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleClose = () => {
-    setOpen(false);
-    navigate(`${pages.exerciseListPath}`);
-  };
+  const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({
     exerciseName,
@@ -53,6 +49,25 @@ const AddExercise = () => {
     dispatch(getCategoryList());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (exerciseStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [exerciseStatus]);
+
+  const handleClose = () => {
+    if (exerciseStatus === "succeeded") {
+      setOpen(false);
+      navigate(`${pages.exerciseListPath}`);
+    } else {
+      setOpen(false);
+      navigate(`${pages.addExercisePath}`);
+      setDesc("");
+    }
+  };
   
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
@@ -67,7 +82,7 @@ const AddExercise = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Thêm bài tập thành công"
+        desc={desc}
       />
     </Container>
   );

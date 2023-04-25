@@ -18,10 +18,8 @@ const EditCategory = ({ id, onClose, openModal }) => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
   const categoryDetail = useSelector(getCategory)
-  const handleClose = () => {
-    setOpen(false)
-    navigate(`${pages.categoryListPath}`)
-  }
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({ categoryName, description, iconUrl }) => {
     try {
@@ -33,6 +31,7 @@ const EditCategory = ({ id, onClose, openModal }) => {
           iconUrl: iconUrl,
         })
       ).unwrap()
+      setRefreshKey((oldKey) => oldKey + 1);
       setOpen(true)
       onClose()
     } catch (err) {
@@ -50,7 +49,26 @@ const EditCategory = ({ id, onClose, openModal }) => {
   useEffect(() => {
     dispatch(getCategoryDetail(id))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [refreshKey]);
+
+  useEffect(() => {
+    if (categoryStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [categoryStatus]);
+
+  const handleClose = () => {
+    if (categoryStatus === "succeeded") {
+      setOpen(false);
+      navigate(`${pages.categoryListPath}`);
+    } else {
+      setOpen(false);
+      navigate(`/category/${id}/edit`);
+      setDesc("");
+    }
+  };
 
   return (
     <React.Fragment>
@@ -78,7 +96,7 @@ const EditCategory = ({ id, onClose, openModal }) => {
         <ConfirmDialog
           open={open}
           handleClose={handleClose}
-          desc="Cập nhật tình trạng thành công"
+           desc={desc}
         />
       )}
     </React.Fragment>
