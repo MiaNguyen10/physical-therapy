@@ -21,24 +21,25 @@ const HeaderHomePage = () => {
     display: "flex",
     justifyContent: "center",
     gap: theme.spacing(5),
-    marginTop: theme.spacing(3),
+    marginTop: '80px',
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
       alignItems: "center",
       textAlign: "center",
+      marginTop: 0
     },
   }));
 
   return (
     <>
-      <Box sx={{ minHeight: "80vh", mt: 10 }}>
+      <Box >
         <Container>
           <CustomBox>
             <Box sx={{ flex: "1" }}>
               <Title variant="h2">Vật lý trị liệu là gì?</Title>
               <Typography
                 variant="body2"
-                sx={{ fontSize: "18px", color: "#5A6473", my: 4 }}
+                sx={{ fontSize: "18px", color: "#5A6473", my: 2 }}
               >
                 Vật lý trị liệu (physiotherapy) là một trong các phương pháp
                 chữa bệnh không dùng thuốc, sử dụng các yếu tố vật lý như nhiệt,

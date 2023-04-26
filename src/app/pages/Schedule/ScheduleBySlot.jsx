@@ -2,12 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 
 import Scheduler, { Editing, Resource } from "devextreme-react/scheduler";
 
+import { Button } from "@mui/material";
+import pages from "app/config/pages";
 import { selectToken } from "cores/reducers/authentication";
 import {
   getSchedule,
   getScheduleStatus,
   resetScheduleStatus,
 } from "cores/reducers/schedule";
+import { getSlot, getStatusSlots, resetStatus } from "cores/reducers/slot";
 import { getList, getStatus } from "cores/reducers/typeOfSlot";
 import resetStatusTypeOfSlot from "cores/reducers/typeOfSlot/index";
 import {
@@ -15,17 +18,12 @@ import {
   editSchedule,
   getScheduleBySlotID,
 } from "cores/thunk/schedule";
+import { getSlotDetail } from "cores/thunk/slot";
 import { getTypeOfSlotList } from "cores/thunk/typeOfSlot";
-import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Appointment from "./Appointment";
-
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth();
-const currentDay = new Date().getDate();
-
-const currentDate = new Date(currentYear, currentMonth, currentDay);
+import dayjs from "dayjs";
 
 const views = ["day", "week", "workWeek", "month"];
 
@@ -35,9 +33,27 @@ const ScheduleBySlot = () => {
   const token = useSelector(selectToken);
   const listTypeOfSlot = useSelector(getList);
   const status = useSelector(getStatus);
+  const navigate = useNavigate();
+  const slotStatus = useSelector(getStatusSlots);
+  const slotDetail = useSelector(getSlot);
 
   const schedules = useSelector(getSchedule);
   const scheduleStatus = useSelector(getScheduleStatus);
+  // const currentDate = new Date(2023, 1, 4);
+  // console.log(new Date(dayjs(slotDetail.timeStart).format("YYYY/DD/MM")));
+  // console.log(currentDate);
+
+  useEffect(() => {
+    dispatch(getSlotDetail({ id: id, token }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (slotStatus === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     dispatch(getTypeOfSlotList(token));
@@ -52,9 +68,9 @@ const ScheduleBySlot = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getScheduleBySlotID({ slotID: id, token }));
+    if (slotDetail) dispatch(getScheduleBySlotID({ slotID: id, token }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [slotDetail]);
 
   useEffect(() => {
     if (scheduleStatus === "succeeded") {
@@ -75,22 +91,23 @@ const ScheduleBySlot = () => {
   useEffect(() => {
     const formatData = [];
     schedules.forEach((schedule) => {
-      const formatDateStart = moment(schedule.slot.timeStart).format("YYYY-MM-DD");
-        const formatDateEnd = moment(schedule.slot.timeEnd).format("YYYY-MM-DD");
-        const formatTimeStart = moment(schedule.slot.timeStart).format(
-          "HH:mm:ss"
-        );
-        const formatTimeEnd = moment(schedule.slot.timeEnd).format("HH:mm:ss");
-        const formatSchedule = {
-          text: schedule.slot.slotName,
-          description: schedule.description,
-          physiotherapistDetail: schedule.physiotherapistDetail,
-          startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
-          endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
-          typeOfSlotID: schedule.typeOfSlotID,
-          scheduleID: schedule.scheduleID,
-          slotID: schedule.slotID,
-        };
+      const formatDateStart = dayjs(schedule.slot.timeStart).format(
+        "YYYY-MM-DD"
+      );
+      const formatDateEnd = dayjs(schedule.slot.timeEnd).format("YYYY-MM-DD");
+      const formatTimeStart = dayjs(schedule.slot.timeStart).format("HH:mm:ss");
+      const formatTimeEnd = dayjs(schedule.slot.timeEnd).format("HH:mm:ss");
+
+      const formatSchedule = {
+        text: schedule.slot.slotName,
+        description: schedule.description,
+        physiotherapistDetail: schedule.physiotherapistDetail,
+        startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
+        endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
+        typeOfSlotID: schedule.typeOfSlotID,
+        scheduleID: schedule.scheduleID,
+        slotID: schedule.slotID,
+      };
       formatData.push(formatSchedule);
     });
     setAppointmentList(formatData);
@@ -197,16 +214,25 @@ const ScheduleBySlot = () => {
     dispatch(deleteSchedule({ id: e.appointmentData.scheduleID, token }));
   };
 
-  return (
+  return slotDetail.timeStart ? (
     <React.Fragment>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => navigate(pages.slotListPath)}
+        sx={{ m: 2, float: "right" }}
+      >
+        Quay về slot
+      </Button>
       <Scheduler
         timeZone="Asia/Ho_Chi_Minh"
         id="scheduler"
         dataSource={appointmentList}
         views={views}
-        defaultCurrentView="week"
-        defaultCurrentDate={currentDate}
-        height={600}
+        defaultCurrentView="day"
+        defaultCurrentDate={
+          new Date(dayjs(slotDetail.timeStart).format("YYYY/MM/DD"))
+        }
         startDayHour={5}
         editing={config.current}
         allDayPanelMode="hidden"
@@ -220,7 +246,7 @@ const ScheduleBySlot = () => {
         <Resource dataSource={listTypeOfSlot} fieldExpr="typeOfSlotID" />
       </Scheduler>
     </React.Fragment>
-  );
+  ) : null;
 };
 
 export default ScheduleBySlot;

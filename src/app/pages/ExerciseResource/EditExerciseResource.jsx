@@ -23,11 +23,8 @@ const EditExerciseResource = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const exerciseResourceDetail = useSelector(getExerciseResource);
-
-  const handleClose = () => {
-    setOpen(false);
-    navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`);
-  };
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({ resourceName, imageURL, videoURL }) => {
     const exerciseResource = {
@@ -39,6 +36,7 @@ const EditExerciseResource = () => {
     };
     try {
       dispatch(editExerciseResource({ exerciseResource, token })).unwrap();
+      setRefreshKey((oldKey) => oldKey + 1);
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty
@@ -55,7 +53,26 @@ const EditExerciseResource = () => {
   useEffect(() => {
     dispatch(getExerciseResourceDetail({ id: idResource, token }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshKey]);
+
+  useEffect(() => {
+    if (exerciseResourceStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [exerciseResourceStatus]);
+
+  const handleClose = () => {
+    if (exerciseResourceStatus === "succeeded") {
+      setOpen(false);
+      navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`);
+    } else {
+      setOpen(false);
+      navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${idResource}/edit`);
+      setDesc("");
+    }
+  };
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
@@ -74,7 +91,7 @@ const EditExerciseResource = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Cập nhật tài nguyên bài tập thành công"
+        desc={desc}
       />
     </Container>
   );

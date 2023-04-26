@@ -1,6 +1,7 @@
-import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Button,
+  IconButton,
   InputAdornment,
   MenuItem,
   Stack,
@@ -59,10 +60,13 @@ const SearchUserListForm = ({ onSearch }) => {
             value={value}
             onChange={onChange}
             variant="outlined"
+            label="Tên hoặc email"
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
                 </InputAdornment>
               ),
             }}
@@ -80,8 +84,18 @@ const SearchUserListForm = ({ onSearch }) => {
             }}
             placeholder="Nhập số điện thoại"
             value={value}
+            label="Số điện thoại"
             onChange={onChange}
             variant="outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />

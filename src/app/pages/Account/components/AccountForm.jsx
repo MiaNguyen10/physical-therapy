@@ -5,16 +5,19 @@ import {
   CardMedia,
   CircularProgress,
   Container,
+  MenuItem,
   Stack,
   TextField,
 } from "@mui/material";
 import { emailRegExp, phoneRegExp } from "cores/utils/regexFormat";
+import { differenceInYears } from "date-fns";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
+import { Gender } from "./UserForm";
 
 export const makeStyles = () => ({
   textFieldStyle: {
@@ -56,10 +59,11 @@ export const makeStyles = () => ({
 const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const schema = yup.object({
     firstName: yup.string().required("Vui lòng điền thông tin"),
-    lastName: yup.string().required("Vui lòng điền thông tin"),
+    // lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
       .string()
       .required("Vui lòng điền thông tin")
@@ -70,6 +74,15 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       .matches(emailRegExp, "Vui lòng điền đúng quy cách mail"),
     address: yup.string().required("Vui lòng điền thông tin"),
     image: yup.string().required("Vui lòng đính kèm ảnh"),
+    gender: yup.string().required("Vui lòng điền thông tin"),
+    dob: yup
+      .string()
+      .test("dob", "Lớn hơn 18 tuổi và ít hơn 80 tuổi", function (value) {
+        return (
+          differenceInYears(new Date(), new Date(value)) >= 18 &&
+          differenceInYears(new Date(), new Date(value)) <= 80
+        );
+      }),
   });
 
   const {
@@ -82,13 +95,14 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
     mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
-      lastName: "",
+      // lastName: "",
       firstName: "",
       email: "",
       phoneNumber: "",
       address: "",
       dob: dayjs(new Date()).format("YYYY-MM-DD"),
       image: "",
+      gender: "",
     },
   });
 
@@ -96,13 +110,14 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
 
   useEffect(() => {
     reset({
-      lastName: userDetail?.lastName || "",
+      //lastName: userDetail?.lastName || "",
       firstName: userDetail?.firstName || "",
       email: userDetail?.email || "",
       phoneNumber: userDetail?.phoneNumber || "",
       address: userDetail?.address,
       dob: dayjs(userDetail?.dob).format("YYYY-MM-DD") || "",
       image: userDetail?.image || "",
+      gender: userDetail?.gender || "",
     });
   }, [userDetail, reset]);
 
@@ -114,7 +129,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
         </Backdrop>
         <Stack alignItems="flex-start" pt={6} spacing={5}>
           <Stack direction="row" spacing={3}>
-            <Controller
+            {/* <Controller
               control={control}
               name="lastName"
               render={({ field: { onChange, value } }) => (
@@ -130,7 +145,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   variant="outlined"
                 />
               )}
-            />
+            /> */}
             <Controller
               control={control}
               name="firstName"
@@ -144,6 +159,24 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Tên"
+                  variant="outlined"
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="dob"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={styles.textFieldStyle}
+                  type="date"
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.dob}
+                  helperText={formErrors?.dob?.message}
+                  required
+                  inputProps={{ required: false, maxLength: 255 }}
+                  label="DOB"
                   variant="outlined"
                 />
               )}
@@ -164,6 +197,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Email"
                   variant="outlined"
+                  disabled
                 />
               )}
             />
@@ -181,6 +215,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Số điện thoại"
                   variant="outlined"
+                  disabled
                 />
               )}
             />
@@ -205,19 +240,24 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
             />
             <Controller
               control={control}
-              name="dob"
+              name="gender"
               render={({ field: { onChange, value } }) => (
                 <TextField
-                  sx={styles.textFieldStyle}
-                  type="date"
-                  value={value}
+                  sx={{
+                    ...styles.textFieldStyle,
+                  }}
+                  select
                   onChange={onChange}
-                  // error={!!formErrors?.password}
-                  // helperText={formErrors?.password?.message}
-                  inputProps={{ required: false }}
-                  label="DOB"
+                  value={value}
                   variant="outlined"
-                />
+                  label="Giới tính"
+                >
+                  {Gender.map((gender, index) => (
+                    <MenuItem value={gender} key={index}>
+                      {gender}
+                    </MenuItem>
+                  ))}
+                </TextField>
               )}
             />
           </Stack>
@@ -261,10 +301,10 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
             {userDetail?.role?.name === "Physiotherapist" ? (
               <Button
                 variant="outlined"
-                onClick={() => navigate(pages.userListPath)}
+                onClick={() => navigate(`/user/${id}/physiotherapist`)}
                 disabled={isLoading}
               >
-                Xem chi tiết
+                Xem chi tiết nhà vật lý trị liệu
               </Button>
             ) : null}
             <Button

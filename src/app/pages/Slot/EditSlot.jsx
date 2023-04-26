@@ -3,14 +3,12 @@ import { selectToken } from 'cores/reducers/authentication'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getCategories } from '../../../cores/reducers/category'
 import {
-  getSlots,
+  getSlot,
   getStatusSlots,
-  resetStatus,
+  resetStatus
 } from '../../../cores/reducers/slot'
-import { getCategoryList } from '../../../cores/thunk/category'
-import { editSlot, getSlotList } from '../../../cores/thunk/slot'
+import { editSlot, getSlotDetail } from '../../../cores/thunk/slot'
 import ConfirmDialog from '../../components/Dialog/ConfirmDialog'
 import pages from '../../config/pages'
 import SlotForm from './components/SlotForm'
@@ -22,15 +20,9 @@ const EditSlot = () => {
   const token = useSelector(selectToken)
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
-  const slotList = useSelector(getSlots)
-  let categories = useSelector(getCategories)
-  const slotDetail =
-    Array.isArray(slotList) && slotList.find((slot) => slot.slotID === id)
-
-  const handleClose = () => {
-    setOpen(false)
-    navigate(`${pages.slotListPath}`)
-  }
+  const slotDetail = useSelector(getSlot)
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({ slotName, timeStart, timeEnd, available }) => {
     const slot = {
@@ -42,6 +34,7 @@ const EditSlot = () => {
     }
     try {
       dispatch(editSlot({ slot, token })).unwrap()
+      setRefreshKey((oldKey) => oldKey + 1);
       setOpen(true)
     } catch (err) {
       // eslint-disable-next-line no-empty
@@ -56,17 +49,33 @@ const EditSlot = () => {
   }, [])
 
   useEffect(() => {
-    dispatch(getSlotList())
-  }, [dispatch])
+    dispatch(getSlotDetail({id: id, token}))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey])
 
   useEffect(() => {
-    dispatch(getCategoryList())
-  }, [dispatch])
+    if (slotStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [slotStatus]);
+
+  const handleClose = () => {
+    if (slotStatus === "succeeded") {
+      setOpen(false);
+      navigate(`${pages.slotListPath}`)
+    } else {
+      setOpen(false);
+      navigate(`/slot/${id}/edit`)
+      setDesc("");
+    }
+  };
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: '38px' }}>
-        <Typography variant="h1">SỬA BÀI TẬP</Typography>
+        <Typography variant="h3">SỬA BÀI TẬP</Typography>
         <SlotForm
           slotDetail={{
             slotName: slotDetail?.slotName,
@@ -74,7 +83,6 @@ const EditSlot = () => {
             timeEnd: slotDetail?.timeEnd,
             available: slotDetail?.available,
           }}
-          categories={categories}
           onFormSubmit={handleFormSubmit}
           isLoading={slotStatus === 'loading'}
         />
@@ -82,7 +90,7 @@ const EditSlot = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Cập nhật slot thành công"
+        desc={desc}
       />
     </Container>
   )

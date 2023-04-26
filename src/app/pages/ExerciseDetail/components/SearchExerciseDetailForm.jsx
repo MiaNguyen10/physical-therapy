@@ -1,41 +1,8 @@
-import SearchIcon from "@mui/icons-material/Search";
-import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import { Button, IconButton, InputAdornment, Stack, TextField } from "@mui/material";
+import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-
-const makeStyles = () => ({
-  textFieldStyle: {
-    width: "320px",
-    ".MuiOutlinedInput-root": {
-      height: 44,
-    },
-    ".MuiSelect-select": {
-      marginTop: 1,
-    },
-    ".MuiInputLabel-root": {
-      zIndex: 0,
-      top: "-25px",
-      fontSize: "16px",
-      fontWeight: 700,
-      color: "#333333",
-      WebkitTransform: "none",
-      span: {
-        color: "#D93A39",
-      },
-      "&.Mui-focused": {
-        color: "#333333",
-      },
-      "&.Mui-error": {
-        color: "#333333",
-      },
-    },
-    ".MuiOutlinedInput-notchedOutline": {
-      legend: {
-        maxWidth: 0,
-      },
-    },
-  },
-});
 
 const SearchExerciseListDetailForm = ({ onSearch }) => {
   const styles = makeStyles();
@@ -69,13 +36,16 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               width: "380px",
             }}
             placeholder="Nhập chi tiết bài tập"
+            label="Chi tiết bài tập"
             value={value}
             onChange={onChange}
             variant="outlined"
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
                 </InputAdornment>
               ),
             }}
@@ -93,9 +63,19 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               width: "400px",
             }}
             placeholder="Nhập mô tả"
+            label="Mô tả"
             value={value}
             onChange={onChange}
             variant="outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />
@@ -106,12 +86,22 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
           <TextField
             sx={{
               ...styles.textFieldStyle,
-              width: "120px",
+              width: "140px",
             }}
             placeholder="Nhập set"
+            label="Set"
             value={value}
             onChange={onChange}
             variant="outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />

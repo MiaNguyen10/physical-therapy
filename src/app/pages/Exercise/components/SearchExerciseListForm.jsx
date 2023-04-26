@@ -1,6 +1,7 @@
-import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Button,
+  IconButton,
   InputAdornment,
   Stack,
   TextField
@@ -73,13 +74,16 @@ const SearchExerciseListForm = ({ onSearch }) => {
               width: "380px",
             }}
             placeholder="Nhập tên bài tập cần tìm"
+            label="Bài tập"
             value={value}
             onChange={onChange}
             variant="outlined"
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
                 </InputAdornment>
               ),
             }}
@@ -96,9 +100,19 @@ const SearchExerciseListForm = ({ onSearch }) => {
               width: "500px",
             }}
             placeholder="Nhập tình trạng"
+            label="Tình trạng"
             value={value}
             onChange={onChange}
             variant="outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small"/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />

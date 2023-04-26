@@ -1,24 +1,18 @@
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  Box,
-  Container,
-  IconButton,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectState, selectToken } from "cores/reducers/authentication";
 import { getUserStatus, getUsers, resetStatus } from "cores/reducers/user";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { banUser, getUserList } from "../../../cores/thunk/user";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchUserListForm from "./components/SearchUserListForm";
-import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const UserList = () => {
   const dispatch = useDispatch();
@@ -34,23 +28,24 @@ const UserList = () => {
   });
   const [refreshKey, setRefreshKey] = useState(0);
   const auth = useSelector(selectState);
-  const [idUser, setIdUser] = useState("")
-  const [openDialog, setOpenDialog] = useState(false)
+  const [idUser, setIdUser] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const navigate = useNavigate();
 
   const handlePageChange = (page) => {
     setPage(page);
   };
 
   const handleClose = () => {
-    setOpenDialog(false)
-  }
+    setOpenDialog(false);
+  };
 
   const handleDelete = () => {
     dispatch(banUser({ userID: idUser, token }));
     setRefreshKey((oldKey) => oldKey + 1);
-    setIdUser("")
-    setOpenDialog(false)
-  }
+    setIdUser("");
+    setOpenDialog(false);
+  };
 
   useEffect(() => {
     dispatch(getUserList(token));
@@ -93,7 +88,7 @@ const UserList = () => {
         user?.email
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0 ||
-        (user?.firstName + user?.lastName)
+        user?.firstName
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0;
       const isFoundPhoneNumb =
@@ -111,26 +106,16 @@ const UserList = () => {
 
   const columns = [
     {
-      field: "lastName",
-      headerName: "Họ",
-      width: 200,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
       field: "firstName",
-      headerName: "Tên",
+      headerName: "Họ tên",
       width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -143,7 +128,9 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
@@ -158,7 +145,9 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
@@ -173,14 +162,16 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         if (params?.value?.name === "Physiotherapist") {
           return <Typography>Nhà vật lý trị liệu</Typography>;
-        }else if(params?.value?.name === "Member"){
+        } else if (params?.value?.name === "Member") {
           return <Typography>Người dùng</Typography>;
-        }else{
+        } else {
           return <Typography>{params?.value?.name ?? "-"}</Typography>;
         }
       },
@@ -193,7 +184,9 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return (
@@ -212,27 +205,29 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => (
         <>
-          <Link href={`/user/${params?.value}/edit`}>
+          <IconButton
+            onClick={() => navigate(`/user/${params?.value}/edit`)}
+            sx={{ ml: 1 }}
+          >
             <EditIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
+              sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
             />
-          </Link>
+          </IconButton>
           <IconButton
             onClick={() => {
-              // dispatch(banUser({ userID: params?.value, token }));
-              // setRefreshKey((oldKey) => oldKey + 1);
-              setOpenDialog(true)
-              setIdUser(params?.value)
+              setOpenDialog(true);
+              setIdUser(params?.value);
             }}
+            sx={{ ml: 1 }}
           >
-            <DeleteIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
+            <RemoveCircleIcon
+              sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
             />
           </IconButton>
         </>
@@ -243,7 +238,7 @@ const UserList = () => {
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3" alignItems="center">
-          DANH SÁCH NHÀ VẬT LÝ TRỊ LIỆU
+          DANH SÁCH NGƯỜI DÙNG
         </Typography>
         <SearchUserListForm onSearch={(data) => setFilters(data)} />
         <Box>
@@ -253,6 +248,7 @@ const UserList = () => {
             sx={{ mt: -6 }}
           />
           <DataGridTable
+            width="1200px"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.id}
@@ -266,7 +262,12 @@ const UserList = () => {
           />
         </Box>
       </Stack>
-      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có muốn chặn người dùng này không?"
+      />
     </Container>
   );
 };

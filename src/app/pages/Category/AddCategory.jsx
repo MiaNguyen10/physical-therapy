@@ -1,54 +1,83 @@
-import { Container, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {
-  getStatusCategory
-} from "../../../cores/reducers/category";
-import { addCategory } from "../../../cores/thunk/category";
-import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
-import pages from "../../config/pages";
-import CategoryForm from "./components/CategoryForm";
+import ModalCompo from 'app/components/ModalCompo'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getStatusCategory } from '../../../cores/reducers/category'
+import { addCategory } from '../../../cores/thunk/category'
+import ConfirmDialog from '../../components/Dialog/ConfirmDialog'
+import pages from '../../config/pages'
+import CategoryForm from './components/CategoryForm'
 
-const AddCategory = () => {
-  const dispatch = useDispatch();
-  const categoryStatus = useSelector(getStatusCategory);
+const AddCategory = ({ onClose, openModal }) => {
+  const dispatch = useDispatch()
+  const categoryStatus = useSelector(getStatusCategory)
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
+  const [desc, setDesc] = useState("");
 
-  const handleClose = () => {
-    setOpen(false)
-    navigate(`${pages.categoryListPath}`)
-  }
-
-  const handleFormSubmit = ({ categoryName, description }) => {
+  const handleFormSubmit = ({ categoryName, description, iconUrl }) => {
     try {
       dispatch(
         addCategory({
           categoryName: categoryName,
           description: description,
+          iconUrl: iconUrl,
           isDeleted: false,
         })
-      ).unwrap();
+      ).unwrap()
       setOpen(true)
+      onClose()
     } catch (err) {
       // eslint-disable-next-line no-empty
-      console.log(err);
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    if (categoryStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [categoryStatus]);
+
+  const handleClose = () => {
+    if (categoryStatus === "succeeded") {
+      setOpen(false);
+      navigate(`${pages.categoryListPath}`);
+    } else {
+      setOpen(false);
+      navigate(`${pages.addCategoryPath}`);
+      setDesc("");
     }
   };
 
   return (
-    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h1">THÊM TÌNH TRẠNG</Typography>
-        <CategoryForm
-          onFormSubmit={handleFormSubmit}
-          isLoading={categoryStatus === 'loading'}
-        />
-      </Stack>
-      <ConfirmDialog open={open} handleClose={handleClose} desc="Thêm tình trạng thành công"/>
-    </Container>
-  );
-};
+    <React.Fragment>
+      {openModal && (
+        <ModalCompo
+          title="THÊM TÌNH TRẠNG"
+          onClose={onClose}
+          open={openModal}
+          maxWidth="xl"
+          divider={true}
+        >
+          <CategoryForm
+            onFormSubmit={handleFormSubmit}
+            isLoading={categoryStatus === 'loading'}
+            onClose={onClose}
+          />
+        </ModalCompo>
+      )}
+      {open && (
+        <ConfirmDialog
+        open={open}
+        handleClose={handleClose}
+        desc={desc}
+      />
+      )}
+    </React.Fragment>
+  )
+}
 
-export default AddCategory;
+export default AddCategory

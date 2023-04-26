@@ -1,13 +1,14 @@
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
   Container,
   IconButton,
-  Link,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectToken } from "cores/reducers/authentication";
 import { getStatusCategory } from "cores/reducers/category";
 import { getCategoryList } from "cores/thunk/category";
@@ -16,6 +17,7 @@ import "dayjs/locale/th";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getSlots,
   getStatusSlots,
@@ -26,8 +28,6 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchSlotListFrom from "../Slot/components/SearchSlotListForm";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import DeleteDialog from "app/components/Dialog/DeleteDialog";
 dayjs.locale("th");
 
 const SlotList = () => {
@@ -36,7 +36,7 @@ const SlotList = () => {
   const slotStatus = useSelector(getStatusSlots);
   const categoryStatus = useSelector(getStatusCategory);
   const token = useSelector(selectToken);
-
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
@@ -94,7 +94,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -106,7 +106,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>
@@ -122,7 +122,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>
@@ -138,7 +138,7 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => (
         <Typography>{params?.value ? "Còn trống" : "Đã đầy"}</Typography>
@@ -153,30 +153,40 @@ const SlotList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return (
           <>
-            <Link href={`${pages.slotListPath}/${params.value}/edit`}>
+            <IconButton
+              onClick={() =>
+                navigate(`${pages.slotListPath}/${params.value}/edit`)
+              }
+              sx={{ ml: 1 }}
+            >
               <EditIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+               
+                sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
               />
-            </Link>
-            <Link href={`/slot/${params.value}/schedule`}>
+            </IconButton>
+            <IconButton
+              onClick={() => navigate(`/slot/${params.value}/schedule`)}
+              sx={{ ml: 1, mr: 1 }}
+            >
               <CalendarMonthIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+               
+                sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
               />
-            </Link>
-            <IconButton onClick={() => {
-              setSlotId(params?.value)
-              setOpenDialog(true)
-            }}>
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setSlotId(params?.value);
+                setOpenDialog(true);
+              }}
+            >
               <DeleteIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+               
+                sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
           </>

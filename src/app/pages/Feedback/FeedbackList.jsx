@@ -46,7 +46,7 @@ const FeedbackList = () => {
           direction="row"
           justifyContent="flex-start"
           alignItems="center"
-          spacing={2}
+          spacing={4}
           sx={{ float: "left", mt: 8 }}
         >
           {feedbackList

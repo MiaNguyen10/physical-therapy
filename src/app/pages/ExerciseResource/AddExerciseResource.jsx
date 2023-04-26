@@ -1,6 +1,6 @@
 import { Container, Stack, Typography } from "@mui/material";
 import { selectToken } from "cores/reducers/authentication";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getStatus } from "../../../cores/reducers/exerciseResource";
@@ -12,16 +12,10 @@ const AddExerciseResource = () => {
   const {id, idDetail} = useParams();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
-
   const exerciseResourceStatus = useSelector(getStatus);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleClose = () => {
-    setOpen(false);
-    navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`);
-  };
-  
+  const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({ resourceName, imageURL, videoURL}) => {
     try {
@@ -41,6 +35,25 @@ const AddExerciseResource = () => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    if (exerciseResourceStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [exerciseResourceStatus]);
+
+  const handleClose = () => {
+    if (exerciseResourceStatus === "succeeded") {
+      setOpen(false);
+      navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`);
+    } else {
+      setOpen(false);
+      navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`);
+      setDesc("");
+    }
+  };
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
@@ -53,7 +66,7 @@ const AddExerciseResource = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Thêm tài nguyên bài tập thành công"
+        desc={desc}
       />
     </Container>
   );

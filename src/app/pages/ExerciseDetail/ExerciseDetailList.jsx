@@ -6,11 +6,11 @@ import {
   Button,
   Container,
   IconButton,
-  Link,
   Stack,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectToken } from "cores/reducers/authentication";
 import {
   getExerciseDetailsList,
@@ -28,7 +28,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import SearchExerciseListDetailForm from "./components/SearchExerciseDetailForm";
-import DeleteDialog from "app/components/Dialog/DeleteDialog";
 
 const ExerciseDetailList = () => {
   const { id } = useParams();
@@ -105,7 +104,7 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -117,7 +116,7 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -129,7 +128,7 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -142,29 +141,35 @@ const ExerciseDetailList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return (
           <>
-            <Link
-              href={`/exercise/${id}/exerciseDetailList/${params?.value}/edit`}
+            <IconButton
+              onClick={() =>
+                navigate(`/exercise/${id}/exerciseDetailList/${params?.value}/edit`)
+              }
+              sx={{ ml: 1 }}
             >
               <EditIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+                
+                sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
               />
-            </Link>
-            <Link
-              href={`/exercise/${id}/exerciseDetailList/${params?.value}/exerciseResource`}
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                navigate(`/exercise/${id}/exerciseDetailList/${params?.value}/exerciseResource`)
+              }
+              sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title="Chi tiết tài nguyên">
+              <Tooltip title="Chi tiết bài tập">
                 <UpdateIcon
-                  fontSize="small"
-                  sx={{ color: "#0C5E96", cursor: "pointer" }}
+                  
+                  sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
               </Tooltip>
-            </Link>
+            </IconButton>
             <IconButton
               onClick={() => {
                 setDetailId(params?.value);
@@ -172,8 +177,8 @@ const ExerciseDetailList = () => {
               }}
             >
               <DeleteIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+                
+                sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
           </>
@@ -229,7 +234,12 @@ const ExerciseDetailList = () => {
           />
         </Box>
       </Stack>
-      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };
