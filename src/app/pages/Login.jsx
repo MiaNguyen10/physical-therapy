@@ -81,7 +81,7 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Đăng nhập
           </Typography>
           <Box
             component="form"
@@ -90,7 +90,7 @@ const Login = () => {
             sx={{ mt: 1 }}
           >
             <LabelledInput
-              title="Phonenumber"
+              title="Số điện thoại"
               name="phoneNumber"
               errors={errors}
               register={register}
@@ -103,7 +103,7 @@ const Login = () => {
               }}
             />
             <LabelledInput
-              title="Password"
+              title="Mật khẩu"
               name="password"
               type="password"
               errors={errors}
@@ -123,7 +123,7 @@ const Login = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Đăng nhập
             </Button>
             <Grid container>
               <Grid item xs>

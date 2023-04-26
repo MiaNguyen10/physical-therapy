@@ -130,7 +130,7 @@ const Schedule = () => {
       },
       {
         label: {
-          text: "Nhà vật lý trị liệu",
+          text: "Chuyên viên vật lý trị liệu",
         },
         name: "physiotherapist",
         editorType: "dxTextBox",

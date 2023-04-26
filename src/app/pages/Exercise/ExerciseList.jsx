@@ -136,7 +136,7 @@ const ExerciseList = () => {
     },
     {
       field: "exerciseID",
-      headerName: "Action",
+      headerName: "Chỉnh sửa",
       width: 200,
       headerAlign: "center",
       align: "center",
@@ -156,7 +156,7 @@ const ExerciseList = () => {
             >
               <EditIcon
                 
-                sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
+                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton

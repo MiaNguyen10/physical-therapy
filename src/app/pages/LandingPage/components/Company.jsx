@@ -100,7 +100,7 @@ const Company = () => {
             textAlign: "center",
           }}
         >
-          Vật lý trị liệu phục hồi chức năng cùng Physical Therapy Company
+          Vật lý trị liệu phục hồi chức năng cùng Physiotherapy Company
         </Typography>
 
         <CustomBox>
@@ -113,10 +113,10 @@ const Company = () => {
               textAlign: "center",
             }}
           >
-            Physical Therapy là nền tảng ứng dụng cung cấp cho bạn những bài tập
+            Physiotherapy là nền tảng ứng dụng cung cấp cho bạn những bài tập
             Vật lý trị liệu – Phục hồi chức năng mới nhất, được nhiều bệnh nhân
             trong và ngoài nước tin tưởng tìm đến. Ưu điểm nổi bật khi trải
-            nghiệm Physical Therapy app là
+            nghiệm Physiotherapy app là
           </Typography>
         </CustomBox>
 
@@ -167,14 +167,14 @@ const Company = () => {
           </GuideBox>
         </GuidesBox>
 
-        <CustomButton
+        {/* <CustomButton
           backgroundColor="#0F1B4C"
           color="#fff"
           buttonText="See Full Guides"
           guideBtn={true}
-        />
+        /> */}
 
-        <TextFlexbox>
+        {/* <TextFlexbox>
           <Box
             sx={{
               display: "flex",
@@ -207,7 +207,7 @@ const Company = () => {
             <LargeText>1000+</LargeText>
             <SmallText>Bệnh nhân đã khỏi bệnh</SmallText>
           </Box>
-        </TextFlexbox>
+        </TextFlexbox> */}
       </Box>
       <DownloadApp />
     </>

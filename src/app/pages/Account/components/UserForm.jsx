@@ -19,8 +19,8 @@ import pages from "../../../config/pages";
 import { makeStyles } from "./AccountForm";
 import { differenceInYears } from "date-fns";
 
-const RoleForAdmin = ["Admin", "Quản lý", "Nhà vật lý trị liệu", "Người dùng"];
-const RoleForStaff = ["Nhà vật lý trị liệu", "Người dùng"];
+const RoleForAdmin = ["Admin", "Quản lý", "Chuyên viên vật lý trị liệu", "Người dùng"];
+const RoleForStaff = ["Chuyên viên vật lý trị liệu", "Người dùng"];
 export const Gender = ["Nam", "Nữ"];
 
 const UserForm = ({ onFormSubmit, isLoading }) => {
@@ -78,9 +78,9 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       phoneNumber: "",
       address: "",
       dob: dayjs(new Date()).format("YYYY-MM-DD"),
-      image: "",
+      image: "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fperson.png?alt=media&token=c5c521dc-2f27-4fb9-ba76-b0241c2dfe19",
       role: "",
-      gender:"",
+      gender:true,
     },
   });
 
@@ -312,7 +312,6 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                 onChange={onChange}
                 error={!!formErrors?.image}
                 helperText={formErrors?.image?.message}
-                required
                 inputProps={{ required: true }}
                 label="Hình ảnh"
                 variant="outlined"

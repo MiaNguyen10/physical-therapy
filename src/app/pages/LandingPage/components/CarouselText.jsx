@@ -73,7 +73,7 @@ export default function CarouselText() {
             onClick={handleNext}
             disabled={activeStep === maxSteps - 1}
           >
-            Next
+            Tiếp theo
             {theme.direction === 'rtl' ? (
               <KeyboardArrowLeft />
             ) : (
@@ -88,7 +88,7 @@ export default function CarouselText() {
             ) : (
               <KeyboardArrowLeft />
             )}
-            Back
+            Trở lại
           </Button>
         }
       />
