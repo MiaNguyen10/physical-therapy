@@ -59,7 +59,17 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
   const schema = yup.object({
     slotName: yup.string().required("Vui lòng điền thông tin"),
     timeStart: yup.string().required("Vui lòng điền thông tin"),
-    timeEnd: yup.string().required("Vui lòng điền thông tin"),
+    timeEnd: yup
+      .string()
+      .required("Vui lòng điền thông tin")
+      .test(
+        "is-greater",
+        "Thời gian kết thúc phải sau thời gian bắt đầu",
+        function (value) {
+          const { timeStart } = this.parent;
+          return dayjs(value).isAfter(dayjs(timeStart));
+        }
+      ),
   });
 
   const {
@@ -70,7 +80,7 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
     getValues,
   } = useForm({
     mode: "all",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema), // <-- use the schema with yupResolver
     defaultValues: {
       slotName: "",
       timeStart: dayjs(new Date()),
@@ -148,8 +158,13 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
                   value={value ?? ""}
                   onChange={onChange}
                   sx={styles.textFieldStyle}
-                  error={error}
+                  error={error || !!formErrors.timeEnd} // <-- show formErrors.timeEnd as well
                 />
+                {formErrors.timeEnd && (
+                  <p style={{ color: "#f44336", fontSize: "0.75rem" }}>
+                    {formErrors.timeEnd.message}
+                  </p>
+                )}
               </React.Fragment>
             )}
           />

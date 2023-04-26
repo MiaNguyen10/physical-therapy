@@ -25,11 +25,12 @@ const EditSlot = () => {
   const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({ slotName, timeStart, timeEnd, available }) => {
+    const sevenHours = 7 * 60 * 60 * 1000; // 7 hours in milliseconds
     const slot = {
       slotID: id,
       slotName: slotName,
-      timeStart: new Date(timeStart),
-      timeEnd: new Date(timeEnd),
+      timeStart: new Date(new Date(timeStart).getTime() + sevenHours),
+      timeEnd: new Date(new Date(timeEnd).getTime() + sevenHours),
       available,
     }
     try {
