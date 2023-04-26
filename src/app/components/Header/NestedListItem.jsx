@@ -1,9 +1,10 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CategoryIcon from "@mui/icons-material/Category";
-import EventIcon from '@mui/icons-material/Event';
+import EventIcon from "@mui/icons-material/Event";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import HomeIcon from "@mui/icons-material/Home";
+import TextsmsIcon from "@mui/icons-material/Textsms";
 import {
   List,
   ListItemButton,
@@ -27,7 +28,14 @@ const NestedListItem = () => {
         </ListItemIcon>
         <ListItemText primary="Trang chủ" />
       </ListItemButton>
-      <RestrictedPermission permission="Admin">
+
+      <ListItemButton onClick={() => navigate(`${pages.userListPath}`)}>
+        <ListItemIcon>
+          <AccountCircleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Quản lý người dùng" />
+      </ListItemButton>
+      <RestrictedPermission permission={"Admin"}>
         <ListItemButton onClick={() => navigate(`${pages.categoryListPath}`)}>
           <ListItemIcon>
             <CategoryIcon />
@@ -42,14 +50,7 @@ const NestedListItem = () => {
         </ListItemButton>{" "}
       </RestrictedPermission>
 
-      <RestrictedPermission permission="Manager">
-        <ListItemButton onClick={() => navigate(`${pages.accountPath}`)}>
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Quản lý người dùng" />
-        </ListItemButton>
-
+      <RestrictedPermission permission={"Staff"}>
         <ListItemButton onClick={() => navigate(`${pages.slotListPath}`)}>
           <ListItemIcon>
             <EventIcon />
@@ -64,6 +65,13 @@ const NestedListItem = () => {
           <ListItemText primary="Lịch" />
         </ListItemButton>
       </RestrictedPermission>
+
+      <ListItemButton onClick={() => navigate(`${pages.feedbackListPath}`)}>
+        <ListItemIcon>
+          <TextsmsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Feedback" />
+      </ListItemButton>
     </List>
   );
 };

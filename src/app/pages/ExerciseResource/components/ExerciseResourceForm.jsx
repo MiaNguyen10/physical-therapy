@@ -5,8 +5,9 @@ import {
   Button,
   CircularProgress,
   Container,
+  Grid,
   Stack,
-  TextField
+  TextField,
 } from "@mui/material";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React, { useEffect } from "react";
@@ -57,62 +58,94 @@ const ExerciseResourceForm = ({
   }, [exerciseResourceDetail, reset]);
 
   return (
-    <Container sx={{ width: "50%", display: "flex" }}>
+    <Container sx={{ width: "100%", display: "flex" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />
         </Backdrop>
-        <Stack alignItems="flex-start" pt={3} spacing={5}>
-          <Controller
-            control={control}
-            name="resourceName"
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={styles.textFieldStyle}
-                value={value}
-                onChange={onChange}
-                error={!!formErrors?.resourceName}
-                helperText={formErrors?.resourceName?.message}
-                required
-                inputProps={{ required: true }}
-                label="Tên tài nguyên của bài tập"
-                variant="outlined"
-              />
-            )}
-          />
-
-          {watch("imageURL") ? (
-            <Box
-              component="img"
-              sx={{
-                height: 300,
-                width: "100%",
-                maxHeight: { xs: 300, md: 167 },
-                maxWidth: { xs: "100%", md: 250 },
-              }}
-              alt="User image"
-              src={watch("imageURL")}
-              ref={inputRef}
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <Controller
+              control={control}
+              name="resourceName"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={styles.textFieldStyle}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.resourceName}
+                  helperText={formErrors?.resourceName?.message}
+                  required
+                  inputProps={{ required: true }}
+                  label="Tên tài nguyên của bài tập"
+                  variant="outlined"
+                />
+              )}
             />
-          ) : null}
-          <Controller
-            control={control}
-            name="imageURL"
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={styles.textFieldStyle}
-                value={value}
-                onChange={onChange}
-                error={!!formErrors?.imageURL}
-                helperText={formErrors?.imageURL?.message}
-                required
-                inputProps={{ required: true }}
-                label="Hình ảnh"
-                variant="outlined"
+
+            {watch("imageURL") ? (
+              <Box
+                component="img"
+                sx={{
+                  height: 350,
+                  width: 450,
+                  maxHeight: { xs: 350, md: 217 },
+                  maxWidth: { xs: 450, md: 350 },
+                  mt: 4,
+                }}
+                alt="User image"
+                src={watch("imageURL")}
+                ref={inputRef}
               />
-            )}
-          />
-          {/* <Controller
+            ) : null}
+            <Controller
+              control={control}
+              name="imageURL"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={{ ...styles.textFieldStyle, mt:5 }}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.imageURL}
+                  helperText={formErrors?.imageURL?.message}
+                  required
+                  inputProps={{ required: true }}
+                  label="Hình ảnh"
+                  variant="outlined"
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            {watch("videoURL") ? (
+              <ReactPlayer
+                url={watch("videoURL")}
+                controls
+                width="100%"
+                height="300px"
+              />
+            ) : null}
+            <Controller
+              control={control}
+              name="videoURL"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  sx={{...styles.textFieldStyle, mt: 4, width: '540px' }}
+                  value={value}
+                  onChange={onChange}
+                  error={!!formErrors?.videoURL}
+                  helperText={formErrors?.videoURL?.message}
+                  required
+                  inputProps={{ required: true }}
+                  label="Video"
+                  variant="outlined"
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+
+        {/* <Controller
             control={control}
             name="imageURL"
             render={({ field: { onChange } }) => (
@@ -142,33 +175,7 @@ const ExerciseResourceForm = ({
             </Typography>
           )}*/}
 
-          {watch("videoURL") ? (
-            // <video
-            //   width="100%"
-            //   height="300px"
-            //   controls
-            //   src={watch("videoURL")}
-            // />
-            <ReactPlayer url={watch("videoURL")} controls width="100%" height="400px" />
-          ) : null}
-          <Controller
-            control={control}
-            name="videoURL"
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                sx={styles.textFieldStyle}
-                value={value}
-                onChange={onChange}
-                error={!!formErrors?.videoURL}
-                helperText={formErrors?.videoURL?.message}
-                required
-                inputProps={{ required: true }}
-                label="Video"
-                variant="outlined"
-              />
-            )}
-          />
-          {/* <Controller
+        {/* <Controller
             control={control}
             name="videoURL"
             render={({ field: { onChange } }) => (
@@ -197,27 +204,26 @@ const ExerciseResourceForm = ({
             </Typography>
           )}*/}
 
-          <Stack
-            direction="row"
-            justifyContent="center"
-            spacing={2}
-            sx={{ width: "100%" }}
+        <Stack
+          direction="row"
+          justifyContent="flex-end"
+          spacing={2}
+          sx={{ width: "100%", mt: 4 }}
+        >
+          <Button
+            variant="outlined"
+            onClick={() =>
+              navigate(
+                `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`
+              )
+            }
+            disabled={isLoading}
           >
-            <Button
-              variant="outlined"
-              onClick={() =>
-                navigate(
-                  `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`
-                )
-              }
-              disabled={isLoading}
-            >
-              Hủy bỏ
-            </Button>
-            <Button variant="contained" disabled={isLoading} type="submit">
-              Lưu thông tin
-            </Button>
-          </Stack>
+            Hủy bỏ
+          </Button>
+          <Button variant="contained" disabled={isLoading} type="submit">
+            Lưu thông tin
+          </Button>
         </Stack>
       </form>
     </Container>

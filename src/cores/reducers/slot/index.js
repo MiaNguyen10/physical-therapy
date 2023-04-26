@@ -10,6 +10,7 @@ const initialState = {
   status: "idle",
   error: "",
   slots: [],
+  slotDetail: {},
 };
 
 const slotSlice = createSlice({
@@ -48,7 +49,7 @@ const slotSlice = createSlice({
       })
       .addCase(getSlotDetail.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.slotDetail = action;
+        state.slotDetail = action.payload;
       })
       .addCase(getSlotDetail.rejected, (state, action) => {
         state.status = "failed";
@@ -70,4 +71,5 @@ const slotSlice = createSlice({
 export const { resetStatus } = slotSlice.actions;
 export default slotSlice.reducer;
 export const getSlots = (state) => state.slot.slots;
+export const getSlot = (state) => state.slot.slotDetail
 export const getStatusSlots = (state) => state.slot.status;

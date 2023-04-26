@@ -2,12 +2,12 @@ const pages = {
     landingPage: '/',   
     loginPath: '/login',
 
-    therapistListPath: '/account/therapist',
-    therapistEditPath: '/account/therapist/:userId/edit',
-
     userListPath: '/user',
     userEditPath: '/user/:id/edit',
     addUserPath : '/user/add',
+
+    physioPath: '/user/:id/physiotherapist',
+    addPhysioPath: '/user/:id/physiotherapist/add',
 
     categoryListPath: '/category',
     addCategoryPath: '/category/add',
@@ -26,13 +26,13 @@ const pages = {
     editExerciseResourcePath: '/exercise/:id/exerciseDetailList/:idDetail/exerciseResource/:idResource/edit',
 
     schedulePath: '/schedulePath',
-    scheduleBySlotID: '/slot/:id/schedule',
-    
+        
     slotListPath: '/slot',
     addSlotPath: '/slot/add',
     slotEditPath: '/slot/:id/edit',
+    scheduleBySlotID: '/slot/:id/schedule',
 
-    addPhysiotherapistPath: '/physiotherapist/add',
+    feedbackListPath: '/feedback',
 }
 
 export default pages

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addPhysiotherapist } from "cores/thunk/physiotherapist";
 import {
   addAdmin,
-  addManager,
+  addPhysiotherapist,
+  addStaff,
   addUser,
   banUser,
   getUserDetail,
@@ -14,6 +14,7 @@ const initialState = {
   error: "",
   users: [],
   userDetail: {},
+  userID: "",
 };
 
 const userSlice = createSlice({
@@ -60,20 +61,21 @@ const userSlice = createSlice({
       .addCase(addPhysiotherapist.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(addPhysiotherapist.fulfilled, (state) => {
+      .addCase(addPhysiotherapist.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.userID = action.payload;
       })
       .addCase(addPhysiotherapist.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(addManager.pending, (state) => {
+      .addCase(addStaff.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(addManager.fulfilled, (state) => {
+      .addCase(addStaff.fulfilled, (state) => {
         state.status = "succeeded";
       })
-      .addCase(addManager.rejected, (state, action) => {
+      .addCase(addStaff.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

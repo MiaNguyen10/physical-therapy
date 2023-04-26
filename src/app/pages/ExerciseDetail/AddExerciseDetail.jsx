@@ -1,5 +1,5 @@
 import { Container, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getStatus } from "../../../cores/reducers/exerciseDetail";
@@ -15,11 +15,7 @@ const AddExerciseDetail = () => {
   const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleClose = () => {
-    setOpen(false);
-    navigate(`/exercise/${id}/exerciseDetailList`);
-  };
+  const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({ detailName, set, description }) => {
     const excerciseDetail = {
@@ -37,6 +33,25 @@ const AddExerciseDetail = () => {
     }
   };
 
+  useEffect(() => {
+    if (exerciseDetailStatus === "succeeded") {
+      setDesc("Thêm thông tin thành công");
+    } else {
+      setDesc("Lỗi, vui lòng nhập lại");
+    }
+  }, [exerciseDetailStatus]);
+
+  const handleClose = () => {
+    if (exerciseDetailStatus === "succeeded") {
+      setOpen(false);
+      navigate(`/exercise/${id}/exerciseDetailList`);
+    } else {
+      setOpen(false);
+      navigate(`/exercise/${id}/exerciseDetailList/add`);
+      setDesc("");
+    }
+  };
+
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
@@ -49,7 +64,7 @@ const AddExerciseDetail = () => {
       <ConfirmDialog
         open={open}
         handleClose={handleClose}
-        desc="Thêm chi tiết bài tập thành công"
+        desc={desc}
       />
     </Container>
   );

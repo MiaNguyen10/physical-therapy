@@ -18,6 +18,7 @@ const DownloadApp = () => {
       alignItems: "center",
       padding: theme.spacing(3, 3, 0, 3),
       width: "90%",
+      margin: "20px",
     },
   }));
 
@@ -36,12 +37,13 @@ const DownloadApp = () => {
           <Typography
             sx={{ fontSize: "35px", color: "white", fontWeight: "700" }}
           >
-            Download Physical Therapy App 
+            Download Physical Therapy App
           </Typography>
           <Typography
             sx={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 3 }}
           >
-            Nhanh tay tải app để có thể cập nhật những bài tập vật lý trị liệu mới nhất của chúng tôi!
+            Nhanh tay tải app để có thể cập nhật những bài tập vật lý trị liệu
+            mới nhất của chúng tôi!
           </Typography>
 
           <CustomButton

@@ -6,9 +6,10 @@ import exerciseDetailReducer from "../reducers/exerciseDetail/index";
 import exerciseResourceReducer from "../reducers/exerciseResource/index";
 import slotReducer from "../reducers/slot/index";
 import userReducer from "../reducers/user/index";
-import physiotherapistReducer from "cores/reducers/physiotherapist/index";
 import typeOfSlotReducer from "cores/reducers/typeOfSlot/index"
 import scheduleReducer from "cores/reducers/schedule/index"
+import feedbackReducer from "cores/reducers/feedback/index"
+import physioReducer from "cores/reducers/physio/index"
 
 export const store = configureStore({
   reducer: {
@@ -19,8 +20,9 @@ export const store = configureStore({
     exerciseResource: exerciseResourceReducer,
     slot: slotReducer,
     user: userReducer,
-    physiotherapist: physiotherapistReducer,
     typeOfSlot: typeOfSlotReducer,
     schedule: scheduleReducer,
+    feedback: feedbackReducer,
+    physio: physioReducer,
   },
 });

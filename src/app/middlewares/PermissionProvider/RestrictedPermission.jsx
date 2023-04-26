@@ -6,7 +6,8 @@ import PermissionContext from './PermissionContext'
 
 const RestrictedPermission = ({ permission, children }) => {
   const { isAllowedTo } = useContext(PermissionContext)
-  const role = JSON.parse(localStorage.getItem("role"))
+  const role = JSON.parse(localStorage.getItem('role'))
+
   if (isAllowedTo(role, permission)) {
     if (children) {
       return <>{children}</>

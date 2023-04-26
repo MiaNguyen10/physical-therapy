@@ -1,18 +1,13 @@
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  Box,
-  Container,
-  IconButton,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { selectToken } from "cores/reducers/authentication";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
+import { selectState, selectToken } from "cores/reducers/authentication";
 import { getUserStatus, getUsers, resetStatus } from "cores/reducers/user";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { banUser, getUserList } from "../../../cores/thunk/user";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
@@ -27,13 +22,29 @@ const UserList = () => {
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    searchAddress: "",
+    searchPhone: "",
     status: "Tất cả",
+    role: "Tất cả",
   });
   const [refreshKey, setRefreshKey] = useState(0);
+  const auth = useSelector(selectState);
+  const [idUser, setIdUser] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const navigate = useNavigate();
 
   const handlePageChange = (page) => {
     setPage(page);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(banUser({ userID: idUser, token }));
+    setRefreshKey((oldKey) => oldKey + 1);
+    setIdUser("");
+    setOpenDialog(false);
   };
 
   useEffect(() => {
@@ -48,55 +59,63 @@ const UserList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const userListForStaff = userList.filter(
+    (user) =>
+      user?.role?.name === "Physiotherapist" || user?.role?.name === "Member"
+  );
+  const listOfUser = auth.role === "Admin" ? userList : userListForStaff;
+
   const rows = useMemo(() => {
-    let banStatus;
+    let banStatus, role;
     if (filters.status === "Hoạt động") {
       banStatus = false;
     } else if (filters.status === "Không hoạt động") {
       banStatus = true;
     }
 
-    return userList.filter((user) => {
+    if (filters.role === "Admin") {
+      role = "Admin";
+    } else if (filters.role === "Staff") {
+      role = "Staff";
+    } else if (filters.role === "Nhà vật lý trị liệu") {
+      role = "Physiotherapist";
+    } else {
+      role = "Member";
+    }
+
+    return listOfUser.filter((user) => {
       const isFoundNameOrEmail =
         user?.email
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0 ||
-        (user?.firstName + user?.lastName)
+        user?.firstName
           .toLowerCase()
           .search(trim(filters.searchKey.toLowerCase())) >= 0;
       const isFoundPhoneNumb =
-        user?.address
-          .toLowerCase()
-          .search(trim(filters.searchAddress.toLowerCase())) >= 0;
+        user?.phoneNumber.search(trim(filters.searchPhone)) >= 0;
+      const isFoundRole =
+        filters.role === "Tất cả" ? true : user?.role?.name === role;
       const isFoundBanded =
-        filters.status === "Tất cả" ? true : user.banStatus === banStatus;
-      return isFoundNameOrEmail && isFoundPhoneNumb && isFoundBanded;
+        filters.status === "Tất cả" ? true : user?.banStatus === banStatus;
+      return (
+        isFoundNameOrEmail && isFoundPhoneNumb && isFoundRole && isFoundBanded
+      );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, userList]);
 
   const columns = [
     {
-      field: "lastName",
-      headerName: "Họ",
-      width: 200,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
       field: "firstName",
-      headerName: "Tên",
+      headerName: "Họ tên",
       width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -104,30 +123,57 @@ const UserList = () => {
     {
       field: "email",
       headerName: "Email",
-      width: 300,
+      width: 250,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
       },
     },
     {
-      field: "address",
-      headerName: "Địa chỉ nhà",
-      width: 300,
+      field: "phoneNumber",
+      headerName: "Số điện thoại",
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return <Typography>{params?.value ?? "-"}</Typography>;
+      },
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      sortable: false,
+      renderHeader: (params) => (
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
+      ),
+      renderCell: (params) => {
+        if (params?.value?.name === "Physiotherapist") {
+          return <Typography>Nhà vật lý trị liệu</Typography>;
+        } else if (params?.value?.name === "Member") {
+          return <Typography>Người dùng</Typography>;
+        } else {
+          return <Typography>{params?.value?.name ?? "-"}</Typography>;
+        }
       },
     },
     {
@@ -138,7 +184,9 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return (
@@ -157,25 +205,29 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => (
         <>
-          <Link href={`/user/${params?.value}/edit`}>
+          <IconButton
+            onClick={() => navigate(`/user/${params?.value}/edit`)}
+            sx={{ ml: 1 }}
+          >
             <EditIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
+              sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
             />
-          </Link>
+          </IconButton>
           <IconButton
             onClick={() => {
-              dispatch(banUser({ userID: params?.value, token }));
-              setRefreshKey((oldKey) => oldKey + 1);
+              setOpenDialog(true);
+              setIdUser(params?.value);
             }}
+            sx={{ ml: 1 }}
           >
-            <DeleteIcon
-              fontSize="small"
-              sx={{ color: "#0C5E96", cursor: "pointer" }}
+            <RemoveCircleIcon
+              sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
             />
           </IconButton>
         </>
@@ -186,7 +238,7 @@ const UserList = () => {
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3" alignItems="center">
-          DANH SÁCH NHÀ VẬT LÝ TRỊ LIỆU
+          DANH SÁCH NGƯỜI DÙNG
         </Typography>
         <SearchUserListForm onSearch={(data) => setFilters(data)} />
         <Box>
@@ -196,19 +248,26 @@ const UserList = () => {
             sx={{ mt: -6 }}
           />
           <DataGridTable
+            width="1200px"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.id}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={userList?.length ?? 0}
+            rowCount={rows?.length ?? 0}
             isLoading={status !== "succeeded"}
             pagination
             paginationMode="client"
           />
         </Box>
       </Stack>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có muốn chặn người dùng này không?"
+      />
     </Container>
   );
 };

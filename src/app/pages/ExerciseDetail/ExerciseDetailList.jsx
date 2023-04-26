@@ -6,11 +6,11 @@ import {
   Button,
   Container,
   IconButton,
-  Link,
   Stack,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectToken } from "cores/reducers/authentication";
 import {
   getExerciseDetailsList,
@@ -45,10 +45,27 @@ const ExerciseDetailList = () => {
     searchDesc: "",
   });
 
-  console.log(exerciseDetailList);
+  const [detailId, setDetailId] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handlePageChange = (page) => {
     setPage(page);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(
+      deleteExerciseDetail({
+        exerciseDetailID: detailId,
+        token,
+      })
+    );
+    setRefreshKey((oldKey) => oldKey + 1);
+    setDetailId("");
+    setOpenDialog(false);
   };
 
   useEffect(() => {
@@ -87,7 +104,7 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -99,7 +116,7 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -111,7 +128,7 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -124,43 +141,44 @@ const ExerciseDetailList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
       ),
       renderCell: (params) => {
         return (
           <>
-            <Link
-              href={`/exercise/${id}/exerciseDetailList/${params?.value}/edit`}
+            <IconButton
+              onClick={() =>
+                navigate(`/exercise/${id}/exerciseDetailList/${params?.value}/edit`)
+              }
+              sx={{ ml: 1 }}
             >
               <EditIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+                
+                sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
               />
-            </Link>
-            <Link
-              href={`/exercise/${id}/exerciseDetailList/${params?.value}/exerciseResource`}
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                navigate(`/exercise/${id}/exerciseDetailList/${params?.value}/exerciseResource`)
+              }
+              sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title="Chi tiết tài nguyên">
+              <Tooltip title="Chi tiết bài tập">
                 <UpdateIcon
-                  fontSize="small"
-                  sx={{ color: "#0C5E96", cursor: "pointer" }}
+                  
+                  sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
               </Tooltip>
-            </Link>
+            </IconButton>
             <IconButton
               onClick={() => {
-                dispatch(
-                  deleteExerciseDetail({
-                    exerciseDetailID: params?.value,
-                    token,
-                  })
-                );
-                setRefreshKey((oldKey) => oldKey + 1);
+                setDetailId(params?.value);
+                setOpenDialog(true);
               }}
             >
               <DeleteIcon
-                fontSize="small"
-                sx={{ color: "#0C5E96", cursor: "pointer" }}
+                
+                sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
           </>
@@ -209,13 +227,19 @@ const ExerciseDetailList = () => {
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
-            rowCount={exerciseDetailList?.length ?? 0}
+            rowCount={rows?.length ?? 0}
             isLoading={status !== "succeeded"}
             pagination
             paginationMode="client"
           />
         </Box>
       </Stack>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };
