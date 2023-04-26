@@ -154,7 +154,7 @@ const ExerciseDetailList = () => {
             >
               <EditIcon
                 
-                sx={{ color: "#60f520", cursor: "pointer", fontSize: 28 }}
+                sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton
@@ -178,7 +178,7 @@ const ExerciseDetailList = () => {
             >
               <DeleteIcon
                 
-                sx={{ color: "#f70c0c", cursor: "pointer", fontSize: 28 }}
+                sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
           </>

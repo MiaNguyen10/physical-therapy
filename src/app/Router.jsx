@@ -48,90 +48,97 @@ const Router = () => {
       <Route path={`/${pages.loginPath}`} element={<Login />} />
       <Route element={<Layout />}>
         <Route element={<ProtectedRoutes />}>
-          {/* User */}
-          <Route path={`/${pages.userListPath}`} element={<UserList />} />
-          <Route path={`/${pages.addUserPath}`} element={<AddAccount />} />
-          <Route path={`/${pages.userEditPath}`} element={<EditAccount />} />
-
-          {/* Physiotherapist */}
-          <Route path={`${pages.physioPath}`} element={<Physiotherapist />} />
-          <Route path={`${pages.addPhysioPath}`} element={<AddPhysiotherapist />} />
-
-          {/* Feedback */}
           <Route
-            path={`${pages.feedbackListPath}`}
-            element={<FeedbackList />}
-          />
+            element={<RestrictedPermission permission={["Admin", "Staff"]} />}
+          >
+            {/* User */}
+            <Route path={`/${pages.userListPath}`} element={<UserList />} />
+            <Route path={`/${pages.addUserPath}`} element={<AddAccount />} />
+            <Route path={`/${pages.userEditPath}`} element={<EditAccount />} />
 
-          {/* Admin */}
-          <Route element={<RestrictedPermission permission={"Admin"} />}>
-            {/* Category */}
+            {/* Physiotherapist */}
+            <Route path={`${pages.physioPath}`} element={<Physiotherapist />} />
             <Route
-              path={`/${pages.categoryListPath}`}
-              element={<CategotyList />}
+              path={`${pages.addPhysioPath}`}
+              element={<AddPhysiotherapist />}
             />
-            <Route
-              path={`/${pages.addCategoryPath}`}
-              element={<AddCategory />}
-            />
-            <Route
-              path={`/${pages.categoryEditPath}`}
-              element={<EditCategory />}
-            />
-            {/* Exercise */}
-            <Route
-              path={`/${pages.exerciseListPath}`}
-              element={<ExerciseList />}
-            />
-            <Route
-              path={`/${pages.addExercisePath}`}
-              element={<AddExercise />}
-            />
-            <Route
-              path={`/${pages.exerciseEditPath}`}
-              element={<EditExercise />}
-            />
-            {/* Detail */}
-            <Route
-              path={`/${pages.exerciseDetailListPath}`}
-              element={<ExerciseDetailList />}
-            />
-            <Route
-              path={`/${pages.exerciseDetailEditPath}`}
-              element={<EditExerciseDetail />}
-            />
-            <Route
-              path={`/${pages.exerciseDetailAddPath}`}
-              element={<AddExerciseDetail />}
-            />
-            {/* Resource */}
-            <Route
-              path={`/${pages.addExerciseResourcePath}`}
-              element={<AddExerciseResource />}
-            />
-            <Route
-              path={`/${pages.exerciseResourceListPath}`}
-              element={<ExerciseResourceList />}
-            />
-            <Route
-              path={`/${pages.editExerciseResourcePath}`}
-              element={<EditExerciseResource />}
-            />
-          </Route>
 
-          {/* Staff */}
-          <Route element={<RestrictedPermission permission={"Staff"} />}>
-            {/* Slot */}
-            <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
-            <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
-            <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
-
-            {/* Schedule */}
-            <Route path={`/${pages.schedulePath}`} element={<Schedule />} />
+            {/* Feedback */}
             <Route
-              path={`/${pages.scheduleBySlotID}`}
-              element={<ScheduleBySlot />}
+              path={`${pages.feedbackListPath}`}
+              element={<FeedbackList />}
             />
+
+            {/* Admin */}
+            <Route element={<RestrictedPermission permission={"Admin"} />}>
+              {/* Category */}
+              <Route
+                path={`/${pages.categoryListPath}`}
+                element={<CategotyList />}
+              />
+              <Route
+                path={`/${pages.addCategoryPath}`}
+                element={<AddCategory />}
+              />
+              <Route
+                path={`/${pages.categoryEditPath}`}
+                element={<EditCategory />}
+              />
+              {/* Exercise */}
+              <Route
+                path={`/${pages.exerciseListPath}`}
+                element={<ExerciseList />}
+              />
+              <Route
+                path={`/${pages.addExercisePath}`}
+                element={<AddExercise />}
+              />
+              <Route
+                path={`/${pages.exerciseEditPath}`}
+                element={<EditExercise />}
+              />
+              {/* Detail */}
+              <Route
+                path={`/${pages.exerciseDetailListPath}`}
+                element={<ExerciseDetailList />}
+              />
+              <Route
+                path={`/${pages.exerciseDetailEditPath}`}
+                element={<EditExerciseDetail />}
+              />
+              <Route
+                path={`/${pages.exerciseDetailAddPath}`}
+                element={<AddExerciseDetail />}
+              />
+              {/* Resource */}
+              <Route
+                path={`/${pages.addExerciseResourcePath}`}
+                element={<AddExerciseResource />}
+              />
+              <Route
+                path={`/${pages.exerciseResourceListPath}`}
+                element={<ExerciseResourceList />}
+              />
+              <Route
+                path={`/${pages.editExerciseResourcePath}`}
+                element={<EditExerciseResource />}
+              />
+            </Route>
+
+            {/* Staff */}
+            <Route element={<RestrictedPermission permission={"Staff"} />}>
+              {/* Slot */}
+              <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
+              <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
+              <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
+
+              {/* Schedule */}
+              <Route path={`/${pages.schedulePath}`} element={<Schedule />} />
+              <Route
+                path={`/${pages.scheduleBySlotID}`}
+                element={<ScheduleBySlot />}
+              />
+            </Route>
           </Route>
         </Route>
         <Route index path={`/${pages.landingPage}`} element={<LandingPage />} />

@@ -126,7 +126,7 @@ const CategotyList = () => {
               sx={{ ml: 1 }}
             >
               <EditIcon
-                sx={{ color: "#60f520", cursor: "pointer", fontSize: 28 }}
+                sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton
@@ -136,7 +136,7 @@ const CategotyList = () => {
               }}
               sx={{ ml: 1 }}
             >
-              <DeleteIcon sx={{ color: "#f70c0c", cursor: "pointer", fontSize: 28 }} />
+              <DeleteIcon sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }} />
             </IconButton>
           </>
         )

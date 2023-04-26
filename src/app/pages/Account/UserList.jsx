@@ -216,7 +216,7 @@ const UserList = () => {
             sx={{ ml: 1 }}
           >
             <EditIcon
-              sx={{ color: "#60f520", cursor: "pointer", fontSize: 28 }}
+              sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
             />
           </IconButton>
           <IconButton
@@ -227,7 +227,7 @@ const UserList = () => {
             sx={{ ml: 1 }}
           >
             <RemoveCircleIcon
-              sx={{ color: "#f70c0c", cursor: "pointer", fontSize: 28 }}
+              sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
             />
           </IconButton>
         </>

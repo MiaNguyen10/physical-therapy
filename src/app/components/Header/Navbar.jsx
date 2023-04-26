@@ -104,49 +104,53 @@ export const Navbar = () => {
         <NavbarContainer>
           <NavbarItem>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <CustomMenuIcon onClick={toggleDrawer("left", true)} />
-              <Drawer
-                anchor="left"
-                open={mobileMenu["left"]}
-                onClose={toggleDrawer("left", false)}
-              >
-                {list("left")}
-              </Drawer>
+              <RestrictedPermission permission={["Admin", "Staff"]}>
+                <CustomMenuIcon onClick={toggleDrawer("left", true)} />
+                <Drawer
+                  anchor="left"
+                  open={mobileMenu["left"]}
+                  onClose={toggleDrawer("left", false)}
+                >
+                  {list("left")}
+                </Drawer>
+              </RestrictedPermission>
+
               <a href={pages.landingPage}>
                 <img src={logo} alt="Logo" />
               </a>
             </Box>
+            <RestrictedPermission permission={["Admin", "Staff"]}>
+              <NavbarLinksBox>
+                <NavLink variant="body2" href={pages.landingPage}>
+                  Trang chủ
+                </NavLink>
+                <NavLink variant="body2" href={pages.userListPath}>
+                  Quản lý người dùng
+                </NavLink>
+                <RestrictedPermission permission={"Admin"}>
+                  {/* Admin */}
+                  <NavLink variant="body2" href={pages.categoryListPath}>
+                    Tình trạng
+                  </NavLink>
+                  <NavLink variant="body2" href={pages.exerciseListPath}>
+                    Danh sách bài tập
+                  </NavLink>
+                </RestrictedPermission>
+                <RestrictedPermission permission={"Staff"}>
+                  {/* Staff */}
+                  <NavLink variant="body2" href={pages.slotListPath}>
+                    Slot
+                  </NavLink>
+                  <NavLink variant="body2" href={pages.schedulePath}>
+                    Lịch
+                  </NavLink>
+                </RestrictedPermission>
 
-            <NavbarLinksBox>
-              <NavLink variant="body2" href={pages.landingPage}>
-                Trang chủ
-              </NavLink>
-              <NavLink variant="body2" href={pages.userListPath}>
-                Quản lý người dùng
-              </NavLink>
-              <RestrictedPermission permission={"Admin"}>
-                {/* Admin */}
-                <NavLink variant="body2" href={pages.categoryListPath}>
-                  Tình trạng
+                <NavLink variant="body2" href={pages.feedbackListPath}>
+                  Feedback
                 </NavLink>
-                <NavLink variant="body2" href={pages.exerciseListPath}>
-                  Danh sách bài tập
-                </NavLink>
-              </RestrictedPermission>
-              <RestrictedPermission permission={"Staff"}>
-                {/* Staff */}
-                <NavLink variant="body2" href={pages.slotListPath}>
-                  Slot
-                </NavLink>
-                <NavLink variant="body2" href={pages.schedulePath}>
-                  Lịch
-                </NavLink>
-              </RestrictedPermission>
-
-              <NavLink variant="body2" href={pages.feedbackListPath}>
-                Feedback
-              </NavLink>
-            </NavbarLinksBox>
+              </NavbarLinksBox>
+            </RestrictedPermission>
           </NavbarItem>
           <Box
             sx={{

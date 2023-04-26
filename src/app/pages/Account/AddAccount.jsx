@@ -70,12 +70,11 @@ const AddAccount = () => {
         setOpen(true);
       } else if (role === "Nhà vật lý trị liệu") {
         dispatch(addPhysiotherapist({ user, token })).unwrap();
+
         if (id) {
-          if (status === "succeeded") {
-            navigate(`/user/${id}/physiotherapist/add`);
-          } else {
-            setOpen(true);
-          }
+          navigate(`/user/${id}/physiotherapist/add`);
+        } else {
+          setOpen(true);
         }
       } else {
         dispatch(addUser({ user, token })).unwrap();
