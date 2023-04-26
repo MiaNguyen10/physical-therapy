@@ -45,6 +45,7 @@ const SearchCategoryListForm = ({ onSearch }) => {
             value={value}
             onChange={onChange}
             variant="outlined"
+            label="Tình trạng"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -70,6 +71,7 @@ const SearchCategoryListForm = ({ onSearch }) => {
             value={value}
             onChange={onChange}
             variant="outlined"
+            label="Mô tả"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

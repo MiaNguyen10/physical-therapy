@@ -60,6 +60,7 @@ const SearchUserListForm = ({ onSearch }) => {
             value={value}
             onChange={onChange}
             variant="outlined"
+            label="Tên hoặc email"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

@@ -40,6 +40,7 @@ const SearchSlotListForm = ({ onSearch }) => {
               width: "380px",
             }}
             placeholder="Nhập tên slot cần tìm"
+            label="Slot"
             value={value}
             onChange={onChange}
             variant="outlined"

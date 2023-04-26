@@ -36,6 +36,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               width: "380px",
             }}
             placeholder="Nhập chi tiết bài tập"
+            label="Chi tiết bài tập"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -62,6 +63,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               width: "400px",
             }}
             placeholder="Nhập mô tả"
+            label="Mô tả"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -87,6 +89,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               width: "140px",
             }}
             placeholder="Nhập set"
+            label="Set"
             value={value}
             onChange={onChange}
             variant="outlined"

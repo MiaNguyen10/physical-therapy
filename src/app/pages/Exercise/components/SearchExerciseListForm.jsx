@@ -74,6 +74,7 @@ const SearchExerciseListForm = ({ onSearch }) => {
               width: "380px",
             }}
             placeholder="Nhập tên bài tập cần tìm"
+            label="Bài tập"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -99,6 +100,7 @@ const SearchExerciseListForm = ({ onSearch }) => {
               width: "500px",
             }}
             placeholder="Nhập tình trạng"
+            label="Tình trạng"
             value={value}
             onChange={onChange}
             variant="outlined"
