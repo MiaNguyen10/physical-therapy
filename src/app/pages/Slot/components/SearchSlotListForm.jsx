@@ -77,12 +77,12 @@ const SearchSlotListForm = ({
       />
 
       <DatePickerInput
-        label="Start date"
+        label="Ngày bắt đầu"
         value={rangeDate.startDate}
         onChange={handleStartDateChange}
       />
       <DatePickerInput
-        label="End date"
+        label="Ngày kết thúc"
         value={rangeDate.endDate}
         onChange={handleEndDateChange}
       />

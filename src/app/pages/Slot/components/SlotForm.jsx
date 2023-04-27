@@ -56,6 +56,9 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
 
+  const startOfDay = dayjs(slotDetail?.timeStart).startOf("day");
+  const endOfDay = dayjs(slotDetail?.timeStart).endOf("day");
+
   const schema = yup.object({
     slotName: yup.string().required("Vui lòng điền thông tin"),
     timeStart: yup.string().required("Vui lòng điền thông tin"),
@@ -68,6 +71,14 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         function (value) {
           const { timeStart } = this.parent;
           return dayjs(value).isAfter(dayjs(timeStart));
+        }
+      )
+      .test(
+        "is-same-day",
+        "Thời gian kết thúc phải trong cùng một ngày với thời gian bắt đầu",
+        function (value) {
+          const { timeStart } = this.parent;
+          return dayjs(value).isBetween(startOfDay, endOfDay, null, "[]");
         }
       ),
   });
