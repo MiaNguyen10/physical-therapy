@@ -5,6 +5,7 @@ import {
   addStaff,
   addUser,
   banUser,
+  editUser,
   getUserDetail,
   getUserList
 } from "../../thunk/user";
@@ -87,6 +88,10 @@ const userSlice = createSlice({
         state.userDetail = action.payload;
       })
       .addCase(getUserDetail.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(editUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

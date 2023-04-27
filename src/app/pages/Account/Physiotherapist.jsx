@@ -18,6 +18,7 @@ const Physiotherapist = () => {
   const navigate = useNavigate();
   const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
+  const error = useSelector(state => state.physio.error)
 
   const handleFormSubmit = ({ specialize, skill }) => {
     try {
@@ -42,7 +43,7 @@ const Physiotherapist = () => {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     dispatch(getPhysioDetail({ id: id, token }));
@@ -50,22 +51,24 @@ const Physiotherapist = () => {
   }, [refreshKey]);
 
   useEffect(() => {
-    if (status === "succeeded") {
+    if (!error) {
       setDesc("Thêm thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }
-  }, [status]);
+  }, [error]);
 
   const handleClose = () => {
-    if (status === "succeeded") {
-      setOpen(false);
-      navigate(`/user/${id}/edit`);
-    } else {
-      setOpen(false);
-      navigate(`/user/${id}/physiotherapist`);
-      setDesc("");
-    }
+    // if (status === "succeeded") {
+    //   setOpen(false);
+    //   navigate(`/user/${id}/edit`);
+    // } else {
+    //   setOpen(false);
+    //   navigate(`/user/${id}/physiotherapist`);
+    //   setDesc("");
+    // }
+    setOpen(false);
+    navigate(`/user/${id}/physiotherapist`);
   };
 
   return physioDetail === {} ? (

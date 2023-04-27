@@ -8,6 +8,7 @@ import { getStatusSlots } from "../../../cores/reducers/slot";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import pages from "../../config/pages";
 import SlotForm from "./components/SlotForm";
+import dayjs from "dayjs";
 
 const AddSlot = () => {
   const dispatch = useDispatch();
@@ -18,11 +19,12 @@ const AddSlot = () => {
   const [desc, setDesc] = useState("");
 
   const handleFormSubmit = ({ slotName, timeStart, timeEnd }) => {
-    const sevenHours = 7 * 60 * 60 * 1000; // 7 hours in milliseconds
+    const start = dayjs(timeStart).add(7, 'hour')
+    const end = dayjs(timeEnd).add(7, 'hour')
     const slot = {
       slotName: slotName,
-      timeStart: new Date(new Date(timeStart).getTime() + sevenHours),
-      timeEnd: new Date(new Date(timeEnd).getTime() + sevenHours),
+      timeStart: start,
+      timeEnd: end,
       available: true,
       isDeleted: false,
     };

@@ -23,16 +23,14 @@ const AddAccount = () => {
   const error = useSelector((state) => state.user.error);
   const [desc, setDesc] = useState("");
   const id = useSelector((state) => state.user.userID);
-  console.log(id);
 
   const handleClose = () => {
-    if (status === "succeeded") {
+    if (!error) {
       setOpen(false);
       navigate(`${pages.userListPath}`);
     } else {
       setOpen(false);
       navigate(`${pages.addUserPath}`);
-      setDesc("");
     }
   };
 

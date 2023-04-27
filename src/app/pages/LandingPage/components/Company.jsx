@@ -5,7 +5,6 @@ import flexibleTime from "../../../assets/flexible.png";
 import medicalTeam from "../../../assets/medical-team.png";
 import physicalTherapy from "../../../assets/physical-therapy.png";
 
-import CustomButton from "./CustomButton";
 import DownloadApp from "./DownloadApp";
 
 const Company = () => {
@@ -41,7 +40,7 @@ const Company = () => {
     },
   }));
 
-  const LargeText = styled(Typography)(({ theme }) => ({
+/*  const LargeText = styled(Typography)(({ theme }) => ({
     fontSize: "64px",
     color: "#000",
     fontWeight: "700",
@@ -69,7 +68,8 @@ const Company = () => {
       flexDirection: "column",
       gap: theme.spacing(5),
     },
-  }));
+  })); 
+*/
 
   return (
     <>

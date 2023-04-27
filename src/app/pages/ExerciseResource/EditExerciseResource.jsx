@@ -25,6 +25,7 @@ const EditExerciseResource = () => {
   const exerciseResourceDetail = useSelector(getExerciseResource);
   const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
+  const err = useSelector((state) => state.exerciseResource.error);
 
   const handleFormSubmit = ({ resourceName, imageURL, videoURL }) => {
     const exerciseResource = {
@@ -48,7 +49,7 @@ const EditExerciseResource = () => {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     dispatch(getExerciseResourceDetail({ id: idResource, token }));
@@ -56,22 +57,26 @@ const EditExerciseResource = () => {
   }, [refreshKey]);
 
   useEffect(() => {
-    if (exerciseResourceStatus === "succeeded") {
+    if (!err) {
       setDesc("Thêm thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }
-  }, [exerciseResourceStatus]);
+  }, [err]);
 
   const handleClose = () => {
-    if (exerciseResourceStatus === "succeeded") {
-      setOpen(false);
-      navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`);
-    } else {
-      setOpen(false);
-      navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${idResource}/edit`);
-      setDesc("");
-    }
+    // if (exerciseResourceStatus === "succeeded") {
+    //   setOpen(false);
+    //   navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`);
+    // } else {
+    //   setOpen(false);
+    //   navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${idResource}/edit`);
+    //   setDesc("");
+    // }
+    setOpen(false);
+    navigate(
+      `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${idResource}/edit`
+    );
   };
 
   return (
@@ -88,11 +93,7 @@ const EditExerciseResource = () => {
           isLoading={exerciseResourceStatus === "loading"}
         />
       </Stack>
-      <ConfirmDialog
-        open={open}
-        handleClose={handleClose}
-        desc={desc}
-      />
+      <ConfirmDialog open={open} handleClose={handleClose} desc={desc} />
     </Container>
   );
 };

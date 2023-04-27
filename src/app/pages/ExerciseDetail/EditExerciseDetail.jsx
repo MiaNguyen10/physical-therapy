@@ -23,6 +23,7 @@ const EditExerciseDetail = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
   const [desc, setDesc] = useState("");
+  const err = useSelector(state => state.exerciseDetail.error)
 
   const handleEditFormSubmit = ({ detailName, set, description }) => {
     try {
@@ -51,7 +52,7 @@ const EditExerciseDetail = () => {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     dispatch(getExerciseDetailById({ id: idDetail, token }));
@@ -59,12 +60,12 @@ const EditExerciseDetail = () => {
   }, [refreshKey]);
 
   useEffect(() => {
-    if (exerciseDetailStatus === "succeeded") {
+    if (!err) {
       setDesc("Thêm thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }
-  }, [exerciseDetailStatus]);
+  }, [err]);
 
   const handleClose = () => {
     if (exerciseDetailStatus === "succeeded") {

@@ -11,7 +11,6 @@ const DateTimePickerInput = ({ value, onChange, error, sx }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
       <MobileDateTimePicker
-        openTo="hours"
         value={dayjs(value)}
         onChange={onChange}
         closeOnSelect

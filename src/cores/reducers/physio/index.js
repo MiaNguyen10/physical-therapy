@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addPhysio, deletePhysio, getPhysioDetail } from "cores/thunk/physio";
+import { addPhysio, deletePhysio, editPhysio, getPhysioDetail } from "cores/thunk/physio";
 
 const initialState = {
   status: "idle",
@@ -35,6 +35,10 @@ const physioSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(addPhysio.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(editPhysio.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
