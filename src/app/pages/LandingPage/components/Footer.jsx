@@ -71,7 +71,7 @@ const Footer = () => {
 
             <FooterLink>About us</FooterLink>
             <br />
-            <FooterLink>Physical Therapy App</FooterLink>
+            <FooterLink>Physiotherapy App</FooterLink>
           </Box>
 
           <Box>

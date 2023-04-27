@@ -100,7 +100,7 @@ const ExerciseResourceList = () => {
     },
     {
       field: "exerciseResourceID",
-      headerName: "Action",
+      headerName: "Chỉnh sửa",
       width: 100,
       headerAlign: "center",
       align: "center",

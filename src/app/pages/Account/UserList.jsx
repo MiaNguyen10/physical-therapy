@@ -77,7 +77,7 @@ const UserList = () => {
       role = "Admin";
     } else if (filters.role === "Staff") {
       role = "Staff";
-    } else if (filters.role === "Nhà vật lý trị liệu") {
+    } else if (filters.role === "Chuyên viên vật lý trị liệu") {
       role = "Physiotherapist";
     } else {
       role = "Member";
@@ -155,7 +155,7 @@ const UserList = () => {
     },
     {
       field: "role",
-      headerName: "Role",
+      headerName: "Vai trò",
       width: 200,
       headerAlign: "center",
       align: "center",
@@ -168,7 +168,7 @@ const UserList = () => {
       ),
       renderCell: (params) => {
         if (params?.value?.name === "Physiotherapist") {
-          return <Typography>Nhà vật lý trị liệu</Typography>;
+          return <Typography>Chuyên viên vật lý trị liệu</Typography>;
         } else if (params?.value?.name === "Member") {
           return <Typography>Người dùng</Typography>;
         } else {
@@ -198,8 +198,8 @@ const UserList = () => {
     },
     {
       field: "id",
-      headerName: "Action",
-      width: 100,
+      headerName: "Chỉnh sửa",
+      width: 180,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -216,7 +216,7 @@ const UserList = () => {
             sx={{ ml: 1 }}
           >
             <EditIcon
-              sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
+              sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
             />
           </IconButton>
           <IconButton

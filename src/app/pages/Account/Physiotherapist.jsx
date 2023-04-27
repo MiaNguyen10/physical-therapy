@@ -72,7 +72,7 @@ const Physiotherapist = () => {
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h5">
-          Chưa có thông tin nhà vật lý trị liệu
+          Chưa có thông tin chuyên viên vật lý trị liệu
         </Typography>
         <Button
           variant="outlined"

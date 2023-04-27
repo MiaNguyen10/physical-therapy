@@ -55,7 +55,7 @@ const NestedListItem = () => {
           <ListItemIcon>
             <EventIcon />
           </ListItemIcon>
-          <ListItemText primary="SLOT" />
+          <ListItemText primary="Slot" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate(`${pages.schedulePath}`)}>

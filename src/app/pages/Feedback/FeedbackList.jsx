@@ -81,7 +81,7 @@ const FeedbackList = () => {
                       Schedule: {feedback.schedule.description}
                     </Typography>
                     <Typography variant="body2" gutterBottom>
-                      Nhà vật lý trị liệu:{" "}
+                      Chuyên viên vật lý trị liệu:{" "}
                       {`${feedback.schedule.physiotherapistDetail.user.lastName} ${feedback.schedule.physiotherapistDetail.user.firstName}`}
                     </Typography>
                     <Typography variant="body2" gutterBottom>Rating star: </Typography>

@@ -1,2 +1,2 @@
 # physical-therapy
-Physical therapy web
+Physiotherapy web

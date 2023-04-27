@@ -51,7 +51,7 @@ const HeaderHomePage = () => {
             <Box sx={{ flex: "1" }}>
               <img
                 src={physicalTherapy}
-                alt="Physical Therapy"
+                alt="Physiotherapy"
                 style={{
                   maxWidth: "100%",
                   marginBottom: "2rem",

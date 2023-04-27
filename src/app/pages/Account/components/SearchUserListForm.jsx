@@ -18,10 +18,10 @@ export const URole = [
   "Tất cả",
   "Admin",
   "Staff",
-  "Nhà vật lý trị liệu",
+  "Chuyên viên vật lý trị liệu",
   "Người dùng",
 ];
-export const URoleForStaff = ["Tất cả", "Nhà vật lý trị liệu", "Người dùng"];
+export const URoleForStaff = ["Tất cả", "Chuyên viên vật lý trị liệu", "Người dùng"];
 
 const SearchUserListForm = ({ onSearch }) => {
   const styles = makeStyles();
@@ -113,7 +113,7 @@ const SearchUserListForm = ({ onSearch }) => {
               onChange={onChange}
               value={value}
               variant="outlined"
-              label="Status"
+              label="Trạng thái"
             >
               {UStatus.map((status) => (
                 <MenuItem value={status} key={status}>
@@ -138,7 +138,7 @@ const SearchUserListForm = ({ onSearch }) => {
               onChange={onChange}
               value={value}
               variant="outlined"
-              label="Role"
+              label="Vai trò"
             >
               {auth.role === "Staff"
                 ? URoleForStaff.map((role) => (
@@ -160,7 +160,7 @@ const SearchUserListForm = ({ onSearch }) => {
         variant="outlined"
         sx={{ height: "45px", width: "80px" }}
       >
-        Search
+        Tìm
       </Button>
     </Stack>
   );

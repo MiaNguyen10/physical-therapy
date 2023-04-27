@@ -101,8 +101,8 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       phoneNumber: "",
       address: "",
       dob: dayjs(new Date()).format("YYYY-MM-DD"),
-      image: "",
-      gender: "",
+      image: "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fperson.png?alt=media&token=c5c521dc-2f27-4fb9-ba76-b0241c2dfe19",
+      gender: true,
     },
   });
 
@@ -284,7 +284,6 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                 onChange={onChange}
                 error={!!formErrors?.image}
                 helperText={formErrors?.image?.message}
-                required
                 inputProps={{ required: true }}
                 label="Hình ảnh"
                 variant="outlined"
@@ -304,7 +303,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                 onClick={() => navigate(`/user/${id}/physiotherapist`)}
                 disabled={isLoading}
               >
-                Xem chi tiết nhà vật lý trị liệu
+                Xem chi tiết chuyên viên vật lý trị liệu
               </Button>
             ) : null}
             <Button
