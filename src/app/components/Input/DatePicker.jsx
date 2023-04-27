@@ -1,34 +1,27 @@
-import { TextField } from "@mui/material";
-import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import "dayjs/locale/en";
-import React from "react";
+import { TextField } from '@mui/material'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import dayjs from 'dayjs'
+import 'dayjs/locale/en'
+import React from 'react'
 
-dayjs.locale("en");
+dayjs.locale('en')
 
-const DatePickerInput = ({ value, onChange, error, sx }) => {
+const DatePickerInput = ({ value, onChange, sx, label }) => {
   return (
-    <LocalizationProvider
-      dateAdapter={AdapterDayjs}
-      adapterLocale="en"
-    >
-      <MobileDatePicker
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <DatePicker
         inputFormat="dd/mm/YYYY"
         value={value}
-        onChange={onChange}
+        onChange={(value) => onChange(value)}
         closeOnSelect
-        sx={{...sx}}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            error={!!error}
-            helperText={error ? error.message : null}
-          />
-        )}
+        sx={{ ...sx }}
+        label={label}
+        slotProps={{ textField: { size: 'small' } }}
+        renderInput={(params) => <TextField {...params} />}
       />
     </LocalizationProvider>
-  );
-};
+  )
+}
 
-export default DatePickerInput;
+export default DatePickerInput
