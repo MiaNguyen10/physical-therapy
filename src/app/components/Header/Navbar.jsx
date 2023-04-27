@@ -162,7 +162,7 @@ export const Navbar = () => {
           >
             <Typography
               variant="h6"
-              sx={{ fontStyle: "italic", color: "white" }}
+              sx={{ fontStyle: "bold", color: "white" }}
             >
               Xin chào {JSON.parse(localStorage.getItem("role"))}:{" "}
               {auth.UserName}
