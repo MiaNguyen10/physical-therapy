@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addExercise,
   deleteExercise,
+  editExercise,
   getExerciseDetail,
   getExerciseList
 } from "../../thunk/exercise";
@@ -52,6 +53,10 @@ const exerciseSlice = createSlice({
         state.exerciseDetail = action.payload;
       })
       .addCase(getExerciseDetail.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(editExercise.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

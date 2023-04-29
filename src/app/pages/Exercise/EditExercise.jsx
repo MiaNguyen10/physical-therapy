@@ -7,12 +7,11 @@ import { getCategories } from "../../../cores/reducers/category";
 import {
   getExercise,
   getStatusExercises,
-  resetStatus
+  resetStatus,
 } from "../../../cores/reducers/exercise";
 import { getCategoryList } from "../../../cores/thunk/category";
 import { editExercise, getExerciseDetail } from "../../../cores/thunk/exercise";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
-import pages from "../../config/pages";
 import ExerciseForm from "./components/ExerciseForm";
 
 const EditExercise = () => {
@@ -23,9 +22,10 @@ const EditExercise = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   let categories = useSelector(getCategories);
-  const exerciseDetail = useSelector(getExercise)
+  const exerciseDetail = useSelector(getExercise);
   const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
+  const err = useSelector((state) => state.exercise.error);
 
   const handleFormSubmit = ({
     exerciseName,
@@ -56,10 +56,10 @@ const EditExercise = () => {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
-    dispatch(getExerciseDetail({id, token}));
+    dispatch(getExerciseDetail({ id, token }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
@@ -69,22 +69,24 @@ const EditExercise = () => {
   }, []);
 
   useEffect(() => {
-    if (exerciseStatus === "succeeded") {
+    if (!err) {
       setDesc("Thêm thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }
-  }, [exerciseStatus]);
+  }, [err]);
 
   const handleClose = () => {
-    if (exerciseStatus === "succeeded") {
-      setOpen(false);
-      navigate(`${pages.exerciseListPath}`);
-    } else {
-      setOpen(false);
-      navigate(`/exercise/${id}/edit`);
-      setDesc("");
-    }
+    // if (exerciseStatus === "succeeded") {
+    //   setOpen(false);
+    //   navigate(`${pages.exerciseListPath}`);
+    // } else {
+    //   setOpen(false);
+    //   navigate(`/exercise/${id}/edit`);
+    //   setDesc("");
+    // }
+    setOpen(false);
+    navigate(`/exercise/${id}/edit`);
   };
 
   return (
@@ -104,11 +106,7 @@ const EditExercise = () => {
           isLoading={exerciseStatus === "loading"}
         />
       </Stack>
-      <ConfirmDialog
-        open={open}
-        handleClose={handleClose}
-        desc={desc}
-      />
+      <ConfirmDialog open={open} handleClose={handleClose} desc={desc} />
     </Container>
   );
 };

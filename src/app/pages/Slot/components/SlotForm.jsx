@@ -70,6 +70,7 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         "Thời gian kết thúc phải sau thời gian bắt đầu",
         function (value) {
           const { timeStart } = this.parent;
+          console.log(timeStart)
           return dayjs(value).isAfter(dayjs(timeStart));
         }
       )
@@ -101,7 +102,6 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     onFormSubmit(data);
   };
 

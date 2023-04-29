@@ -133,7 +133,7 @@ const SlotList = () => {
       ),
       renderCell: (params) => (
         <Typography>
-          {dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? '-'}
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm A") ?? "-"}
         </Typography>
       ),
     },
@@ -151,7 +151,7 @@ const SlotList = () => {
       ),
       renderCell: (params) => (
         <Typography>
-          {dayjs(params?.value).format('DD-MM-YYYY HH:mm:ss') ?? '-'}
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm A") ?? "-"}
         </Typography>
       ),
     },

@@ -10,10 +10,9 @@ import {
 } from "../../../cores/reducers/slot";
 import { editSlot, getSlotDetail } from "../../../cores/thunk/slot";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
-import pages from "../../config/pages";
+import moment from 'moment';
 import SlotForm from "./components/SlotForm";
 import dayjs from "dayjs";
-import moment from 'moment';
 
 const EditSlot = () => {
   const { id } = useParams();
@@ -25,10 +24,11 @@ const EditSlot = () => {
   const slotDetail = useSelector(getSlot);
   const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
+  const err = useSelector((state) => state.slot.error);
 
   const handleFormSubmit = ({ slotName, timeStart, timeEnd, available }) => {
     // Add 7 hours to timeStart and timeEnd
-    const startTime = new Date(timeStart);
+    /*const startTime = new Date(timeStart);
     startTime.setHours(startTime.getHours() + 7);
     const endTime = new Date(timeEnd);
     endTime.setHours(endTime.getHours() + 7);
@@ -36,7 +36,15 @@ const EditSlot = () => {
       slotID: id,
       slotName: slotName,
       timeStart: dayjs(new Date(startTime)),
-      timeEnd: dayjs(new Date(endTime)),
+      timeEnd: dayjs(new Date(endTime)), */
+
+    const start = dayjs(timeStart).add(7, 'hour')
+    const end = dayjs(timeEnd).add(7, 'hour')
+    const slot = {
+      slotID: id,
+      slotName: slotName,
+      timeStart: start,
+      timeEnd: end,
       available,
     };
     try {
@@ -53,7 +61,7 @@ const EditSlot = () => {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     dispatch(getSlotDetail({ id: id, token }));
@@ -61,22 +69,24 @@ const EditSlot = () => {
   }, [refreshKey]);
 
   useEffect(() => {
-    if (slotStatus === "succeeded") {
-      setDesc("Cập nhật thông tin thành công");
+    if (!err) {
+      setDesc("Cập nhật thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }
-  }, [slotStatus]);
+  }, [err]);
 
   const handleClose = () => {
-    if (slotStatus === "succeeded") {
-      setOpen(false);
-      navigate(`${pages.slotListPath}`);
-    } else {
-      setOpen(false);
-      navigate(`/slot/${id}/edit`);
-      setDesc("");
-    }
+    // if (slotStatus === "succeeded") {
+    //   setOpen(false);
+    //   navigate(`${pages.slotListPath}`);
+    // } else {
+    //   setOpen(false);
+    //   navigate(`/slot/${id}/edit`);
+    //   setDesc("");
+    // }
+    setOpen(false);
+    navigate(`/slot/${id}/edit`);
   };
 
   return (
