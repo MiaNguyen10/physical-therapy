@@ -10,7 +10,6 @@ import {
 } from "../../../cores/reducers/slot";
 import { editSlot, getSlotDetail } from "../../../cores/thunk/slot";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
-import moment from 'moment';
 import SlotForm from "./components/SlotForm";
 import dayjs from "dayjs";
 
@@ -26,7 +25,7 @@ const EditSlot = () => {
   const [desc, setDesc] = useState("");
   const err = useSelector((state) => state.slot.error);
 
-  const handleFormSubmit = ({ slotName, timeStart, timeEnd, available }) => {
+  const handleFormSubmit = ({ slotName, timeStart, timeEnd }) => {
     // Add 7 hours to timeStart and timeEnd
     /*const startTime = new Date(timeStart);
     startTime.setHours(startTime.getHours() + 7);
@@ -45,7 +44,7 @@ const EditSlot = () => {
       slotName: slotName,
       timeStart: start,
       timeEnd: end,
-      available,
+      available: true,
     };
     try {
       dispatch(editSlot({ slot, token })).unwrap();
