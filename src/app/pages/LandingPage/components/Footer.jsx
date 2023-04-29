@@ -57,7 +57,7 @@ const Footer = () => {
 
   return (
         <CustomContainer>
-          <Box>
+          {/* <Box>
             <Typography
               sx={{
                 fontSize: "20px",
@@ -140,7 +140,7 @@ const Footer = () => {
                 style={{ cursor: "pointer" }}
               />
             </IconBox>
-          </Box>
+          </Box> */}
         </CustomContainer>
   );
 };

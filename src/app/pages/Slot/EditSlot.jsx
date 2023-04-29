@@ -10,6 +10,7 @@ import {
 } from "../../../cores/reducers/slot";
 import { editSlot, getSlotDetail } from "../../../cores/thunk/slot";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
+import moment from 'moment';
 import SlotForm from "./components/SlotForm";
 import dayjs from "dayjs";
 
@@ -26,6 +27,17 @@ const EditSlot = () => {
   const err = useSelector((state) => state.slot.error);
 
   const handleFormSubmit = ({ slotName, timeStart, timeEnd, available }) => {
+    // Add 7 hours to timeStart and timeEnd
+    /*const startTime = new Date(timeStart);
+    startTime.setHours(startTime.getHours() + 7);
+    const endTime = new Date(timeEnd);
+    endTime.setHours(endTime.getHours() + 7);
+    const slot = {
+      slotID: id,
+      slotName: slotName,
+      timeStart: dayjs(new Date(startTime)),
+      timeEnd: dayjs(new Date(endTime)), */
+
     const start = dayjs(timeStart).add(7, 'hour')
     const end = dayjs(timeEnd).add(7, 'hour')
     const slot = {
@@ -80,7 +92,7 @@ const EditSlot = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">SỬA BÀI TẬP</Typography>
+        <Typography variant="h3">SỬA SLOT</Typography>
         <SlotForm
           slotDetail={{
             slotName: slotDetail?.slotName,
