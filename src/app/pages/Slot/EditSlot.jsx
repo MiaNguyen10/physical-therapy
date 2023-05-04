@@ -37,8 +37,8 @@ const EditSlot = () => {
       timeStart: dayjs(new Date(startTime)),
       timeEnd: dayjs(new Date(endTime)), */
 
-    const start = dayjs(timeStart).add(7, 'hour')
-    const end = dayjs(timeEnd).add(7, 'hour')
+    const start = dayjs(timeStart).add(7, "hour");
+    const end = dayjs(timeEnd).add(7, "hour");
     const slot = {
       slotID: id,
       slotName: slotName,
@@ -50,7 +50,7 @@ const EditSlot = () => {
       dispatch(editSlot({ slot, token })).unwrap();
       setRefreshKey((oldKey) => oldKey + 1);
       setOpen(true);
-    } catch (err) {
+    } catch (error) {
       // eslint-disable-next-line no-empty
     }
   };

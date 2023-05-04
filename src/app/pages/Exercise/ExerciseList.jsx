@@ -7,7 +7,7 @@ import {
   IconButton,
   Stack,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectToken } from "cores/reducers/authentication";
@@ -99,7 +99,9 @@ const ExerciseList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -111,7 +113,9 @@ const ExerciseList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => (
         <Typography>
@@ -130,7 +134,9 @@ const ExerciseList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -143,7 +149,9 @@ const ExerciseList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return (
@@ -155,7 +163,6 @@ const ExerciseList = () => {
               sx={{ ml: 1 }}
             >
               <EditIcon
-                
                 sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
@@ -167,7 +174,6 @@ const ExerciseList = () => {
             >
               <Tooltip title="Chi tiết bài tập">
                 <UpdateIcon
-                  
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
               </Tooltip>
@@ -179,7 +185,6 @@ const ExerciseList = () => {
               }}
             >
               <DeleteIcon
-                
                 sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
@@ -210,7 +215,12 @@ const ExerciseList = () => {
           <AddButton
             desc="Thêm bài tập"
             url={`${pages.addExercisePath}`}
-            sx={{ mt: -6 }}
+            sx={{
+              mt: -6,
+              fontWeight: "bold",
+              boxShadow:
+                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+            }}
           />
           <DataGridTable
             columns={columns}

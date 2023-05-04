@@ -1,36 +1,36 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
-import OpenModalButton from "app/components/Button/OpenModalButton";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
+import { selectToken } from "cores/reducers/authentication";
+import { getList, getStatus, resetStatus } from "cores/reducers/typeOfSlot";
+import { deleteTypeOfSlot, getTypeOfSlotList } from "cores/thunk/typeOfSlot";
+import dayjs from "dayjs";
+import "dayjs/locale/th";
 import { trim } from "lodash";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getCategories,
-  getStatusCategory,
-  resetStatus,
-} from "../../../cores/reducers/category";
-import { deleteCategory, getCategoryList } from "../../../cores/thunk/category";
+import { useNavigate } from "react-router-dom";
+import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
-import SearchCategoryListFrom from "../Category/components/SearchCategoryListForm";
-import AddCategory from "./AddCategory";
-import EditCategory from "./EditCategory";
+import pages from "../../config/pages";
+import SearchTypeOfSlotForm from "./components/SearchTypeOfSlotForm";
+dayjs.locale("th");
 
-const CategotyList = () => {
+const TypeOfSlotList = () => {
   const dispatch = useDispatch();
-  let categoryList = useSelector(getCategories);
-  const [openAddModal, setOpenAddModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const getId = useRef(-1);
-  const categoryStatus = useSelector(getStatusCategory);
+  let typeOfSlotList = useSelector(getList);
+  const status = useSelector(getStatus);
+  const token = useSelector(selectToken);
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    searchDesc: "",
+    searchPrice: "",
   });
-  const [categoryId, setCategoryId] = useState("");
+
+  const [id, setId] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
 
   const handlePageChange = (page) => {
@@ -41,52 +41,45 @@ const CategotyList = () => {
     setOpenDialog(false);
   };
 
-  const handleOpenAdd = () => {
-    setOpenAddModal(true);
-  };
-
-  const handleCloseAdd = () => {
-    setOpenAddModal(false);
-  };
-
-  const handleOpenEdit = (id) => {
-    getId.current = id;
-    setOpenEditModal(true);
-  };
-
-  const handleCloseEdit = () => {
-    setOpenEditModal(false);
-  };
-
   const handleDelete = () => {
-    dispatch(deleteCategory(categoryId));
+    dispatch(deleteTypeOfSlot({ id: id, token }));
     setRefreshKey((oldKey) => oldKey + 1);
-    setCategoryId("");
+    setId("");
     setOpenDialog(false);
   };
 
+  useEffect(() => {
+    if (status === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    dispatch(getTypeOfSlotList(token));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey]);
+
   const rows = useMemo(() => {
     return (
-      Array.isArray(categoryList) &&
-      categoryList.filter((category) => {
+      Array.isArray(typeOfSlotList) &&
+      typeOfSlotList.filter((type) => {
         const isFoundName =
-          category.categoryName
+          type.typeName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundDesc =
-          category.description
-            .toLowerCase()
-            .search(trim(filters.searchDesc.toLowerCase())) >= 0;
-        return isFoundName && isFoundDesc;
+      
+        return isFoundName;
       })
     );
-  }, [filters, categoryList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, typeOfSlotList]);
 
   const columns = [
     {
-      field: "categoryName",
-      headerName: "Tình trạng",
-      width: 400,
+      field: "typeName",
+      headerName: "Tên loại",
+      width: 450,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -98,9 +91,9 @@ const CategotyList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "description",
-      headerName: "Mô tả",
-      width: 500,
+      field: "price",
+      headerName: "Giá",
+      width: 300,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -112,7 +105,7 @@ const CategotyList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "categoryID",
+      field: "typeOfSlotID",
       headerName: "Chỉnh sửa",
       width: 200,
       headerAlign: "center",
@@ -128,7 +121,7 @@ const CategotyList = () => {
         return (
           <>
             <IconButton
-              onClick={() => handleOpenEdit(params.value)}
+              onClick={() => navigate(`/typeOfSlot/${params?.value}/edit`)}
               sx={{ ml: 1 }}
             >
               <EditIcon
@@ -137,10 +130,9 @@ const CategotyList = () => {
             </IconButton>
             <IconButton
               onClick={() => {
-                setCategoryId(params?.value);
+                setId(params?.value);
                 setOpenDialog(true);
               }}
-              sx={{ ml: 1 }}
             >
               <DeleteIcon
                 sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
@@ -152,27 +144,15 @@ const CategotyList = () => {
     },
   ];
 
-  useEffect(() => {
-    if (categoryStatus === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    dispatch(getCategoryList());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">TÌNH TRẠNG</Typography>
-        <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
+        <Typography variant="h3">DANH SÁCH SLOT</Typography>
+        <SearchTypeOfSlotForm onSearch={(data) => setFilters(data)} />
         <Box>
-          <OpenModalButton
-            desc="Thêm tình trạng"
-            onOpen={handleOpenAdd}
+          <AddButton
+            desc="Thêm loại slot"
+            url={`${pages.addtypeOfSlotPath}`}
             sx={{
               mt: -6,
               fontWeight: "bold",
@@ -181,40 +161,29 @@ const CategotyList = () => {
             }}
           />
           <DataGridTable
-            width="1200px"
+            sx={{ ml: 10 }}
+            width="1000px"
             columns={columns}
             rows={rows}
-            getRowId={(row) => row.categoryID}
+            getRowId={(row) => row.typeOfSlotID}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
             rowCount={rows?.length ?? 0}
-            isLoading={categoryStatus !== "succeeded"}
+            isLoading={status !== "succeeded"}
             pagination
             paginationMode="client"
           />
         </Box>
       </Stack>
-      {openDialog && (
-        <DeleteDialog
-          open={openDialog}
-          handleClose={handleClose}
-          handleDelete={handleDelete}
-          desc="Bạn có chắc chắn muốn xóa không?"
-        />
-      )}
-      {openAddModal && (
-        <AddCategory openModal={openAddModal} onClose={handleCloseAdd} />
-      )}
-      {openEditModal && (
-        <EditCategory
-          openModal={openEditModal}
-          onClose={handleCloseEdit}
-          id={getId.current}
-        />
-      )}
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };
 
-export default CategotyList;
+export default TypeOfSlotList;

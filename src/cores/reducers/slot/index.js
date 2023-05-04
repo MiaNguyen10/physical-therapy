@@ -56,6 +56,10 @@ const slotSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
+      .addCase(editSlot.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.slotDetail = action.payload;
+      })
       .addCase(editSlot.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;

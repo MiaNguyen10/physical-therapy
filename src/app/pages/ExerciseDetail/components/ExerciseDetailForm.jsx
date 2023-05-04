@@ -144,6 +144,7 @@ const ExerciseDetailForm = ({ exerciseDetail, onFormSubmit, isLoading }) => {
                 label="Mô tả"
                 multiline
                 variant="outlined"
+                rows={8}
               />
             )}
           />

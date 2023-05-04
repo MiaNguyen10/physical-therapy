@@ -32,6 +32,9 @@ import ProtectedRoutes from "./middlewares/ProtectedRoutes";
 import { RestrictedPermission } from "./middlewares/PermissionProvider";
 import Physiotherapist from "./pages/Account/Physiotherapist";
 import AddPhysiotherapist from "./pages/Account/AddPhysiotherapist";
+import TypeOfSlorList from "./pages/TypeOfSlot/TypeOfSlotList";
+import AddTypeOfSlot from "./pages/TypeOfSlot/AddTypeOfSlot";
+import EditTypeOfSlot from "./pages/TypeOfSlot/EditTypeOfSlot";
 
 const Router = () => {
   const token = useSelector(selectToken);
@@ -131,6 +134,19 @@ const Router = () => {
               <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
               <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
               <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
+              {/* Type Of Slot */}
+              <Route
+                path={`/${pages.typeOfSlotListPath}`}
+                element={<TypeOfSlorList />}
+              />
+              <Route
+                path={`/${pages.addtypeOfSlotPath}`}
+                element={<AddTypeOfSlot />}
+              />
+              <Route
+                path={`/${pages.typeOfSlotEditPath}`}
+                element={<EditTypeOfSlot />}
+              />
 
               {/* Schedule */}
               <Route path={`/${pages.schedulePath}`} element={<Schedule />} />

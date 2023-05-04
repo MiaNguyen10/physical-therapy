@@ -141,6 +141,9 @@ export const Navbar = () => {
                   <NavLink variant="body2" href={pages.slotListPath}>
                     Slot
                   </NavLink>
+                  <NavLink variant="body2" href={pages.typeOfSlotListPath}>
+                    Loại Slot
+                  </NavLink>
                   <NavLink variant="body2" href={pages.schedulePath}>
                     Lịch
                   </NavLink>

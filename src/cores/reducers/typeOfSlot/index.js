@@ -44,7 +44,7 @@ const typeOfSlotSlice = createSlice({
       })
       .addCase(getTypeOfSlotDetail.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.slotDetail = action;
+        state.typeOfSlotDetail = action.payload;
       })
       .addCase(getTypeOfSlotDetail.rejected, (state, action) => {
         state.status = "failed";

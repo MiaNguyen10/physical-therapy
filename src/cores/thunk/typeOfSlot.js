@@ -41,7 +41,7 @@ export const editTypeOfSlot = createAsyncThunk(
   async (data) => {
     const { input, token } = data
     const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/User`,
+      `${process.env.REACT_APP_API_ENDPOINT}/TypeOfSlot`,
       {
         method: "PUT",
         headers: {

@@ -151,7 +151,7 @@ const ExerciseResourceList = () => {
 
   useEffect(() => {
     dispatch(getExerciseResourceList({ idDetail: idDetail, token }));
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
@@ -172,13 +172,23 @@ const ExerciseResourceList = () => {
           variant="outlined"
           color="primary"
           onClick={() => navigate(`/exercise/${id}/exerciseDetailList`)}
+          sx={{
+            fontWeight: "bold",
+            boxShadow:
+              "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+          }}
         >
           Quay về chi tiết
         </Button>
         <AddButton
           desc="Thêm tài nguyên bài tập"
           url={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`}
-          sx={{ mt: -6 }}
+          sx={{
+            mt: -6,
+            fontWeight: "bold",
+            boxShadow:
+              "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+          }}
         />
       </Stack>
       <Box>
@@ -191,14 +201,17 @@ const ExerciseResourceList = () => {
         >
           {exerciseResourceList
             ? exerciseResourceList.map((exerciseResource) => (
-                <Card sx={{ maxWidth: 345 }} key={exerciseResource.exerciseResourceID}>
+                <Card
+                  sx={{ maxWidth: 345 }}
+                  key={exerciseResource.exerciseResourceID}
+                >
                   <CardActionArea>
                     <CardMedia
                       component="img"
                       sx={{
-                        height: 'auto',
+                        height: "auto",
                         width: 345,
-                        maxHeight: { xs: 'auto', md: 167 },
+                        maxHeight: { xs: "auto", md: 167 },
                         maxwidth: { xs: 345, md: 212 },
                       }}
                       alt="User image"
@@ -249,7 +262,12 @@ const ExerciseResourceList = () => {
             paginationMode="client"
           /> */}
       </Box>
-      <DeleteDialog open={openDialog} handleClose={handleClose} handleDelete={handleDelete} desc="Bạn có chắc chắn muốn xóa không?"/>
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };
