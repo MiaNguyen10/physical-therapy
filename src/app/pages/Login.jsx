@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { login } from "../../cores/thunk/auth";
-import { phoneRegExp } from "../../cores/utils/regexFormat";
+import { emailRegExp } from "../../cores/utils/regexFormat";
 import logo2 from "../assets/logo2.jpg";
 import LabelledInput from "../components/Input/LabelledInput";
 import pages from "../config/pages";
@@ -24,7 +24,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentSession = useSelector(selectToken);
-  const [eMessage, setEMessage] = useState("")
+  const [eMessage, setEMessage] = useState("");
 
   const {
     register,
@@ -32,19 +32,19 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = async ({ phoneNumber, password }) => {
+  const submitHandler = async ({ email, password }) => {
     try {
-      await dispatch(login({ phoneNumber, password })).unwrap();
+      await dispatch(login({ email, password })).unwrap();
 
       const destination =
         state && state.from.pathname ? state.from.pathname : pages.landingPage;
       navigate(destination, { replace: true });
     } catch (e) {
-      setEMessage(e.message)
+      setEMessage(e.message);
     }
   };
 
-      if (currentSession) {
+  if (currentSession) {
     navigate(pages.landingPage, { replace: true });
   }
 
@@ -90,15 +90,15 @@ const Login = () => {
             sx={{ mt: 1 }}
           >
             <LabelledInput
-              title="Số điện thoại"
-              name="phoneNumber"
+              title="Email"
+              name="email"
               errors={errors}
               register={register}
               rules={{
                 required: "Vui lòng điền thông tin",
                 pattern: {
-                  value: phoneRegExp,
-                  message: "Số điện thoại không hợp lệ",
+                  value: emailRegExp,
+                  message: "Email không hợp lệ",
                 },
               }}
             />
@@ -116,7 +116,11 @@ const Login = () => {
                 // },
               }}
             />
-            <Typography sx={{color: 'red', fontStyle: 'italic', fontSize:'14px'}}>{eMessage} </Typography>
+            <Typography
+              sx={{ color: "red", fontStyle: "italic", fontSize: "14px" }}
+            >
+              {eMessage}{" "}
+            </Typography>
             <Button
               type="submit"
               fullWidth
@@ -127,7 +131,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/" variant="body2" sx={{fontStyle: "italic"}}>
+                <Link href="/" variant="body2" sx={{ fontStyle: "italic" }}>
                   Trở về trang chủ
                 </Link>
               </Grid>
