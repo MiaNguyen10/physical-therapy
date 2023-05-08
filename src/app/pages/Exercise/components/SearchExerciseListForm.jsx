@@ -4,7 +4,7 @@ import {
   IconButton,
   InputAdornment,
   Stack,
-  TextField
+  TextField,
 } from "@mui/material";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -82,7 +82,7 @@ const SearchExerciseListForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -108,7 +108,7 @@ const SearchExerciseListForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -119,7 +119,13 @@ const SearchExerciseListForm = ({ onSearch }) => {
       <Button
         type="submit"
         variant="outlined"
-        sx={{ height: "45px", width: "80px" }}
+        sx={{
+          height: "45px",
+          width: "80px",
+          fontWeight: "bold",
+          boxShadow:
+            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+        }}
       >
         Tìm
       </Button>

@@ -1,5 +1,11 @@
 import ClearIcon from "@mui/icons-material/Clear";
-import { Button, IconButton, InputAdornment, Stack, TextField } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -44,7 +50,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -71,7 +77,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -97,7 +103,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -108,7 +114,13 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
       <Button
         type="submit"
         variant="outlined"
-        sx={{ height: "45px", width: "80px" }}
+        sx={{
+          height: "45px",
+          width: "80px",
+          fontWeight: "bold",
+          boxShadow:
+            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+        }}
       >
         Tìm
       </Button>
