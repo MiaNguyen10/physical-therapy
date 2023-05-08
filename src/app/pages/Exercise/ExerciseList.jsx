@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import UpdateIcon from "@mui/icons-material/Update";
+import InfoIcon from '@mui/icons-material/Info';
 import {
   Box,
   Container,
@@ -173,7 +173,7 @@ const ExerciseList = () => {
               sx={{ ml: 1, mr: 1 }}
             >
               <Tooltip title="Chi tiết bài tập">
-                <UpdateIcon
+                <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
               </Tooltip>

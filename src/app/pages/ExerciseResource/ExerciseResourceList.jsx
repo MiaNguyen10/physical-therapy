@@ -176,10 +176,14 @@ const ExerciseResourceList = () => {
             fontWeight: "bold",
             boxShadow:
               "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+            fontSize: "1.2rem", // change this value to increase or decrease the font size
+            padding: "10px 32px", // change this value to increase or decrease the padding
+            border: "2px solid",
           }}
         >
           Quay về chi tiết
         </Button>
+
         <AddButton
           desc="Thêm tài nguyên bài tập"
           url={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`}
@@ -188,6 +192,8 @@ const ExerciseResourceList = () => {
             fontWeight: "bold",
             boxShadow:
               "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+            fontSize: "1.2rem", // change this value to increase or decrease the font size
+            padding: "12px 32px", // change this value to increase or decrease the padding
           }}
         />
       </Stack>
@@ -217,13 +223,13 @@ const ExerciseResourceList = () => {
                       alt="User image"
                       src={exerciseResource.imageURL}
                     />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
+                    <CardContent sx={{ paddingBottom: 0 }}>
+                      <Typography gutterBottom variant="h5" component="div" >
                         {exerciseResource.resourceName}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
-                  <CardActions>
+                  <CardActions sx={{ paddingTop: 0, display: "flex", justifyContent: "center", gap: "50px" }}>
                     <Button
                       size="small"
                       onClick={() =>
@@ -231,6 +237,11 @@ const ExerciseResourceList = () => {
                           `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${exerciseResource.exerciseResourceID}/edit`
                         )
                       }
+                      sx={{
+                        fontWeight: "bold",
+                        fontSize: "1.2rem", // change this value to increase or decrease the font size
+                        padding: "10px 32px", // change this value to increase or decrease the padding
+                      }}
                     >
                       Sửa
                     </Button>
@@ -239,6 +250,12 @@ const ExerciseResourceList = () => {
                       onClick={() => {
                         setResourceId(exerciseResource?.exerciseResourceID);
                         setOpenDialog(true);
+                      }}
+                      sx={{
+                        fontWeight: "bold",
+                        fontSize: "1.2rem", // change this value to increase or decrease the font size
+                        padding: "10px 32px", // change this value to increase or decrease the padding
+                        color: "red",
                       }}
                     >
                       Xóa

@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import UpdateIcon from "@mui/icons-material/Update";
+import SourceIcon from '@mui/icons-material/Source';
 import {
   Box,
   Button,
@@ -175,7 +175,7 @@ const ExerciseDetailList = () => {
               sx={{ ml: 1, mr: 1 }}
             >
               <Tooltip title="Chi tiết bài tập">
-                <UpdateIcon
+                <SourceIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
               </Tooltip>
