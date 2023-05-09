@@ -201,7 +201,7 @@ const ScheduleBySlot = () => {
       physiotherapistID: e.appointmentData.physiotherapistID,
       typeOfSlotID: e.appointmentData.typeOfSlotID,
       description: e.appointmentData.description,
-      physioBookingStatus: true,
+      physioBookingStatus: false,
     };
     try {
       dispatch(editSchedule({ input, token })).unwrap();
