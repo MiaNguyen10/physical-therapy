@@ -37,7 +37,7 @@ const AddTypeOfSlot = () => {
     if (status === "succeeded") {
       setDesc("Thêm thông tin thành công");
     } else {
-      setDesc("Lỗi, vui lòng nhập lại");
+      setDesc("Thông tin đã tồn tại hoặc nhập lỗi");
     }
   }, [status]);
 

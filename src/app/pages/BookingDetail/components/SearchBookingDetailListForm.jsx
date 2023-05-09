@@ -6,39 +6,54 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import DatePickerInput from "app/components/Input/DatePicker";
-import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
-const SearchSlotListForm = ({
-  onSearch,
-  rangeDate,
-  setRangeDate,
-  setUnique,
-}) => {
+const makeStyles = () => ({
+  textFieldStyle: {
+    width: "320px",
+    ".MuiOutlinedInput-root": {
+      height: 44,
+    },
+    ".MuiSelect-select": {
+      marginTop: 1,
+    },
+    ".MuiInputLabel-root": {
+      zIndex: 0,
+      top: "-25px",
+      fontSize: "16px",
+      fontWeight: 700,
+      color: "#333333",
+      WebkitTransform: "none",
+      span: {
+        color: "#D93A39",
+      },
+      "&.Mui-focused": {
+        color: "#333333",
+      },
+      "&.Mui-error": {
+        color: "#333333",
+      },
+    },
+    ".MuiOutlinedInput-notchedOutline": {
+      legend: {
+        maxWidth: 0,
+      },
+    },
+  },
+});
+
+const SearchBookingDetailListForm = ({ onSearch }) => {
   const styles = makeStyles();
   const { handleSubmit, control } = useForm({
     defaultValues: {
       searchKey: "",
+      searchCate: "",
     },
   });
 
-  const handleStartDateChange = (value) => {
-    if (value.toString() !== "Invalid Date")
-      setRangeDate((prev) => ({ ...prev, startDate: value }));
-    else setRangeDate((prev) => ({ ...prev, startDate: null }));
-  };
-
-  const handleEndDateChange = (value) => {
-    if (value.toString() !== "Invalid Date")
-      setRangeDate((prev) => ({ ...prev, endDate: value }));
-    else setRangeDate((prev) => ({ ...prev, endDate: null }));
-  };
-
   const onSubmit = (data) => {
     onSearch(data);
-    setUnique(Math.random());
   };
 
   return (
@@ -58,8 +73,8 @@ const SearchSlotListForm = ({
               ...styles.textFieldStyle,
               width: "380px",
             }}
-            placeholder="Nhập tên slot cần tìm"
-            label="Slot"
+            placeholder="Nhập tên bài tập cần tìm"
+            label="Bài tập"
             value={value}
             onChange={onChange}
             variant="outlined"
@@ -75,18 +90,32 @@ const SearchSlotListForm = ({
           />
         )}
       />
-
-      <DatePickerInput
-        label="Ngày bắt đầu"
-        value={rangeDate.startDate}
-        onChange={handleStartDateChange}
+      <Controller
+        control={control}
+        name="searchCate"
+        render={({ field: { onChange, value } }) => (
+          <TextField
+            sx={{
+              ...styles.textFieldStyle,
+              width: "500px",
+            }}
+            placeholder="Nhập tình trạng"
+            label="Tình trạng"
+            value={value}
+            onChange={onChange}
+            variant="outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => onChange("")}>
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        )}
       />
-      <DatePickerInput
-        label="Ngày kết thúc"
-        value={rangeDate.endDate}
-        onChange={handleEndDateChange}
-      />
-
             <Button
         type="submit"
         variant="outlined"
@@ -107,4 +136,4 @@ const SearchSlotListForm = ({
   );
 };
 
-export default SearchSlotListForm;
+export default SearchBookingDetailListForm;

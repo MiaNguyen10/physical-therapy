@@ -32,6 +32,7 @@ import SlotList from "./pages/Slot/SlotList";
 import AddTypeOfSlot from "./pages/TypeOfSlot/AddTypeOfSlot";
 import EditTypeOfSlot from "./pages/TypeOfSlot/EditTypeOfSlot";
 import TypeOfSlorList from "./pages/TypeOfSlot/TypeOfSlotList";
+import BookingDetailList from "./pages/BookingDetail/BookingDetailList";
 
 const Router = () => {
   return (
@@ -142,6 +143,7 @@ const Router = () => {
                 path={`/${pages.scheduleBySlotID}`}
                 element={<ScheduleBySlot />}
               />
+              <Route path={`/${pages.bookingDetailPath}`} element={<BookingDetailList />} />
             </Route>
           </Route>
         </Route>

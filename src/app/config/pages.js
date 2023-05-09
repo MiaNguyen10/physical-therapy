@@ -37,6 +37,8 @@ const pages = {
     typeOfSlotEditPath: '/typeOfSlot/:id/edit',
 
     feedbackListPath: '/feedback',
+
+    bookingDetailPath: '/bookingDetail',
 }
 
 export default pages

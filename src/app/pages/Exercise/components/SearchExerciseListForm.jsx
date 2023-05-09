@@ -116,7 +116,7 @@ const SearchExerciseListForm = ({ onSearch }) => {
           />
         )}
       />
-      <Button
+            <Button
         type="submit"
         variant="outlined"
         sx={{
@@ -125,6 +125,9 @@ const SearchExerciseListForm = ({ onSearch }) => {
           fontWeight: "bold",
           boxShadow:
             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+          fontSize: "1.2rem", // change this value to increase or decrease the font size
+          padding: "10px 32px", // change this value to increase or decrease the padding
+          border: "2px solid",
         }}
       >
         Tìm

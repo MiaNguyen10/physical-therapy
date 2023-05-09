@@ -6,6 +6,7 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import HomeIcon from "@mui/icons-material/Home";
 import TextsmsIcon from "@mui/icons-material/Textsms";
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import {
   List,
   ListItemButton,
@@ -71,6 +72,12 @@ const NestedListItem = () => {
             <CalendarMonthIcon />
           </ListItemIcon>
           <ListItemText primary="Lịch" />
+        </ListItemButton>
+        <ListItemButton onClick={() => navigate(`${pages.bookingDetailPath}`)}>
+          <ListItemIcon>
+            <AccountBalanceWalletIcon />
+          </ListItemIcon>
+          <ListItemText primary="Booking" />
         </ListItemButton>
       </RestrictedPermission>
 

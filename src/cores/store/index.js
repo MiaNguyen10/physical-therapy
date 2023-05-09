@@ -6,10 +6,11 @@ import exerciseDetailReducer from "../reducers/exerciseDetail/index";
 import exerciseResourceReducer from "../reducers/exerciseResource/index";
 import slotReducer from "../reducers/slot/index";
 import userReducer from "../reducers/user/index";
-import typeOfSlotReducer from "cores/reducers/typeOfSlot/index"
-import scheduleReducer from "cores/reducers/schedule/index"
-import feedbackReducer from "cores/reducers/feedback/index"
-import physioReducer from "cores/reducers/physio/index"
+import typeOfSlotReducer from "cores/reducers/typeOfSlot/index";
+import scheduleReducer from "cores/reducers/schedule/index";
+import feedbackReducer from "cores/reducers/feedback/index";
+import physioReducer from "cores/reducers/physio/index";
+import bookingDetailReducer from "cores/reducers/bookingDetail/index";
 
 export const store = configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export const store = configureStore({
     schedule: scheduleReducer,
     feedback: feedbackReducer,
     physio: physioReducer,
+    bookingDetail: bookingDetailReducer,
   },
 });
