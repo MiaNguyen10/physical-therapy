@@ -84,6 +84,15 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     },
   });
 
+  function isValidURL(url) {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   const onSubmit = (data) => onFormSubmit(data);
 
   return (
@@ -254,7 +263,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   helperText={formErrors?.dob?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="DOB"
+                  label="Ngày sinh"
                   variant="outlined"
                 />
               )}
@@ -289,7 +298,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
             />
           </Stack>
 
-          {watch("image") ? (
+          {watch("image") && isValidURL(watch("image")) ?  (
             <CardMedia
               component="img"
               sx={{

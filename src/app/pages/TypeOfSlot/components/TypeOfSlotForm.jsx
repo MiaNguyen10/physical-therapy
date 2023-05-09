@@ -38,6 +38,9 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
   });
 
   const onSubmit = (data) => {
+    if (data.price < 1000) {
+      data.price *= 1000;
+    }
     onFormSubmit(data);
   };
 
@@ -85,7 +88,7 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.price?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Giá"
+                label="Giá tiền"
                 variant="outlined"
                 type="number"
               />

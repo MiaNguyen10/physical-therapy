@@ -92,7 +92,7 @@ const TypeOfSlotList = () => {
     },
     {
       field: "price",
-      headerName: "Giá",
+      headerName: "Giá tiền",
       width: 300,
       headerAlign: "center",
       align: "center",
@@ -102,7 +102,12 @@ const TypeOfSlotList = () => {
           {params.colDef.headerName}
         </Typography>
       ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+      renderCell: (params) => (
+        <Typography>
+          {params.value ? params.value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : "-"}
+        </Typography>
+      ),
+      
     },
     {
       field: "typeOfSlotID",

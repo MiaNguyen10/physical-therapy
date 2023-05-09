@@ -176,7 +176,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   helperText={formErrors?.dob?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="DOB"
+                  label="Ngày sinh"
                   variant="outlined"
                 />
               )}
