@@ -1,17 +1,13 @@
 import { Container, Stack, Typography } from "@mui/material";
 import { selectToken } from "cores/reducers/authentication";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getSlot,
-  getStatusSlots,
-  resetStatus,
-} from "../../../cores/reducers/slot";
-import { editSlot, getSlotDetail } from "../../../cores/thunk/slot";
+import { getStatusSlots } from "../../../cores/reducers/slot";
+import { editSlot } from "../../../cores/thunk/slot";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import SlotForm from "./components/SlotForm";
-import dayjs from "dayjs";
 
 const EditSlot = () => {
   const { id } = useParams();
@@ -20,23 +16,34 @@ const EditSlot = () => {
   const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const slotDetail = useSelector(getSlot);
-  const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
   const err = useSelector((state) => state.slot.error);
 
-  const handleFormSubmit = ({ slotName, timeStart, timeEnd }) => {
-    // Add 7 hours to timeStart and timeEnd
-    /*const startTime = new Date(timeStart);
-    startTime.setHours(startTime.getHours() + 7);
-    const endTime = new Date(timeEnd);
-    endTime.setHours(endTime.getHours() + 7);
-    const slot = {
-      slotID: id,
-      slotName: slotName,
-      timeStart: dayjs(new Date(startTime)),
-      timeEnd: dayjs(new Date(endTime)), */
+  const [slotDetail, setSlotDetail] = useState(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}/Slot/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const jsonData = await response.json();
+        setSlotDetail(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleFormSubmit = ({ slotName, timeStart, timeEnd }) => {
     const start = dayjs(timeStart).add(7, "hour");
     const end = dayjs(timeEnd).add(7, "hour");
     const slot = {
@@ -48,24 +55,12 @@ const EditSlot = () => {
     };
     try {
       dispatch(editSlot({ slot, token })).unwrap();
-      setRefreshKey((oldKey) => oldKey + 1);
+      setSlotDetail(slot);
       setOpen(true);
     } catch (error) {
       // eslint-disable-next-line no-empty
     }
   };
-
-  useEffect(() => {
-    if (slotStatus === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
-  useEffect(() => {
-    dispatch(getSlotDetail({ id: id, token }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
 
   useEffect(() => {
     if (!err) {
@@ -76,14 +71,6 @@ const EditSlot = () => {
   }, [err]);
 
   const handleClose = () => {
-    // if (slotStatus === "succeeded") {
-    //   setOpen(false);
-    //   navigate(`${pages.slotListPath}`);
-    // } else {
-    //   setOpen(false);
-    //   navigate(`/slot/${id}/edit`);
-    //   setDesc("");
-    // }
     setOpen(false);
     navigate(`/slot/${id}/edit`);
   };

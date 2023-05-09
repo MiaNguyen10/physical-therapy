@@ -1,8 +1,8 @@
 import { Container, Stack, Typography } from "@mui/material";
 import ConfirmDialog from "app/components/Dialog/ConfirmDialog";
 import { selectToken } from "cores/reducers/authentication";
-import { getUser, getUserStatus, resetStatus } from "cores/reducers/user";
-import { editUser, getUserDetail } from "cores/thunk/user";
+import { getUserStatus } from "cores/reducers/user";
+import { editUser } from "cores/thunk/user";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,14 +11,36 @@ import AccountForm from "./components/AccountForm";
 const EditAccount = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const userDetail = useSelector(getUser);
   const token = useSelector(selectToken);
   const status = useSelector(getUserStatus);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
   const error = useSelector(state => state.user.error)
+
+  const [userDetail, setUserDetail] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}/User/getById/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const jsonData = await response.json();
+        setUserDetail(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   
   const handleClose = () => {
@@ -49,23 +71,12 @@ const EditAccount = () => {
     };
     try {
       dispatch(editUser({ user, token })).unwrap();
-      setRefreshKey((oldKey) => oldKey + 1);
+      setUserDetail(user)
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty
     }
   };
-  useEffect(() => {
-    dispatch(getUserDetail({ id: id, token }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
-  useEffect(() => {
-    if (status === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
 
   useEffect(() => {
     if (!error) {
