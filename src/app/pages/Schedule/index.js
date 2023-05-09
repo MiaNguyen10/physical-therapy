@@ -62,6 +62,7 @@ const Schedule = () => {
           text: schedule.slot.slotName,
           description: schedule.description,
           physiotherapistDetail: schedule.physiotherapistDetail,
+          typeOfSlot: schedule.typeOfSlot,
           physiotherapistID: schedule.physiotherapistID,
           startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
           endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),

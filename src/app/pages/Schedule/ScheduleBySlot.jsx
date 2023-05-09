@@ -102,6 +102,7 @@ const ScheduleBySlot = () => {
         text: schedule.slot.slotName,
         description: schedule.description,
         physiotherapistDetail: schedule.physiotherapistDetail,
+        typeOfSlot: schedule.typeOfSlot,
         startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
         endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
         typeOfSlotID: schedule.typeOfSlotID,
