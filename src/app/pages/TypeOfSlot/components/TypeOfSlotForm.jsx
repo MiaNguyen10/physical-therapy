@@ -88,7 +88,7 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.price?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Giá tiền"
+                label="Giá tiền/Tháng"
                 variant="outlined"
                 type="number"
               />

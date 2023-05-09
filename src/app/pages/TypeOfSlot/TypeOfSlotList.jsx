@@ -92,7 +92,7 @@ const TypeOfSlotList = () => {
     },
     {
       field: "price",
-      headerName: "Giá tiền",
+      headerName: "Giá tiền/Tháng",
       width: 300,
       headerAlign: "center",
       align: "center",
