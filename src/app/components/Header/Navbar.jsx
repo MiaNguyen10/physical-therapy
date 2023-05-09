@@ -153,7 +153,7 @@ export const Navbar = () => {
                 </RestrictedPermission>
 
                 <NavLink variant="body2" href={pages.feedbackListPath}>
-                  Feedback
+                  Phản hồi
                 </NavLink>
               </NavbarLinksBox>
             </RestrictedPermission>

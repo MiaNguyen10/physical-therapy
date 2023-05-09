@@ -77,7 +77,8 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         "is-same-day",
         "Thời gian kết thúc phải trong cùng một ngày với thời gian bắt đầu",
         function (value) {
-          return dayjs(value).isBetween(startOfDay, endOfDay, null, "[]");
+          const { timeStart } = this.parent;
+          return dayjs(value).isSame(dayjs(timeStart), "day");
         }
       ),
   });

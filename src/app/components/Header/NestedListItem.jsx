@@ -85,7 +85,7 @@ const NestedListItem = () => {
         <ListItemIcon>
           <TextsmsIcon />
         </ListItemIcon>
-        <ListItemText primary="Feedback" />
+        <ListItemText primary="Phản hồi" />
       </ListItemButton>
     </List>
   );

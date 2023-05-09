@@ -8,6 +8,7 @@ import { getStatusSlots } from "../../../cores/reducers/slot";
 import { editSlot } from "../../../cores/thunk/slot";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import SlotForm from "./components/SlotForm";
+import pages from "../../config/pages";
 
 const EditSlot = () => {
   const { id } = useParams();
@@ -71,8 +72,14 @@ const EditSlot = () => {
   }, [err]);
 
   const handleClose = () => {
-    setOpen(false);
-    navigate(`/slot/${id}/edit`);
+    if (slotStatus === "succeeded") {
+      setOpen(false);
+      navigate(`${pages.slotListPath}`);
+    } else {
+      setOpen(false);
+      navigate(`${pages.editSlotPath}`);
+      setDesc("");
+    }
   };
 
   return (
