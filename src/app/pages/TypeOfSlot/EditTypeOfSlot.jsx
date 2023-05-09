@@ -1,7 +1,7 @@
 import { Container, Stack, Typography } from "@mui/material";
 import { selectToken } from "cores/reducers/authentication";
-import { getDetail, getStatus, resetStatus } from "cores/reducers/typeOfSlot";
-import { editTypeOfSlot, getTypeOfSlotDetail } from "cores/thunk/typeOfSlot";
+import { getStatus } from "cores/reducers/typeOfSlot";
+import { editTypeOfSlot } from "cores/thunk/typeOfSlot";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,10 +15,32 @@ const EditTypeOfSlot = () => {
   const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const typeOfSlotDetail = useSelector(getDetail);
-  const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
   const err = useSelector((state) => state.typeOfSlot.error);
+
+  const [typeOfSlotDetail, setTypeOfSlotDetail] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}/TypeOfSlot/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const jsonData = await response.json();
+        setTypeOfSlotDetail(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFormSubmit = ({ typeName, price }) => {
     const input = {
@@ -29,25 +51,12 @@ const EditTypeOfSlot = () => {
     };
     try {
       dispatch(editTypeOfSlot({ input, token })).unwrap();
-      
-      setRefreshKey((oldKey) => oldKey + 1);
+      setTypeOfSlotDetail(input)
       setOpen(true);
     } catch (error) {
       // eslint-disable-next-line no-empty
     }
   };
-
-  useEffect(() => {
-    if (status === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
-  useEffect(() => {
-    dispatch(getTypeOfSlotDetail({ id: id, token }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
 
   useEffect(() => {
     if (!err) {

@@ -75,7 +75,6 @@ const ExerciseForm = ({
     formState: { errors: formErrors },
     control,
     reset,
-    getValues,
   } = useForm({
     mode: "all",
     resolver: yupResolver(schema),
@@ -89,19 +88,19 @@ const ExerciseForm = ({
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     onFormSubmit(data);
   };
-
+  
   useEffect(() => {
     reset({
       exerciseName: exerciseDetail?.exerciseName,
       categoryID: exerciseDetail?.categoryID,
-      exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeek,
+      exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeekPerWeek,
       status: exerciseDetail?.status,
       flag: exerciseDetail?.flag,
     });
-  }, [exerciseDetail, reset, getValues, categories]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exerciseDetail]);
 
   return (
     <Container sx={{ width: "50%", display: "flex" }}>

@@ -45,6 +45,7 @@ export const authenSlice = createSlice({
         state.access_token = action.payload.result.access_token;
         state.token_type = action.payload.result.token_type;
         state.firstName = action.payload.result.firstName;
+        state.role = action.payload.result.role.name;
 
         localStorage.setItem("authentication", JSON.stringify(state));
       })

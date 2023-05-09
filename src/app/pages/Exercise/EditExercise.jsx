@@ -4,13 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCategories } from "../../../cores/reducers/category";
-import {
-  getExercise,
-  getStatusExercises,
-  resetStatus,
-} from "../../../cores/reducers/exercise";
+import { getStatusExercises } from "../../../cores/reducers/exercise";
 import { getCategoryList } from "../../../cores/thunk/category";
-import { editExercise, getExerciseDetail } from "../../../cores/thunk/exercise";
+import { editExercise } from "../../../cores/thunk/exercise";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import ExerciseForm from "./components/ExerciseForm";
 
@@ -22,46 +18,52 @@ const EditExercise = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   let categories = useSelector(getCategories);
-  const exerciseDetail = useSelector(getExercise);
-  const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
   const err = useSelector((state) => state.exercise.error);
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}/Exercise/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFormSubmit = ({
     exerciseName,
     categoryID,
     exerciseTimePerWeek,
-    status,
-    flag,
   }) => {
     const excercise = {
       exerciseID: id,
       exerciseName: exerciseName,
-      flag: flag,
       categoryID: categoryID,
       exerciseTimePerWeek: exerciseTimePerWeek,
-      status: JSON.parse([status]),
     };
     try {
       dispatch(editExercise({ excercise, token })).unwrap();
-      setRefreshKey((oldKey) => oldKey + 1);
+      if (!err) setData(excercise);
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty
     }
   };
-
-  useEffect(() => {
-    if (exerciseStatus === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
-  useEffect(() => {
-    dispatch(getExerciseDetail({ id, token }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
 
   useEffect(() => {
     dispatch(getCategoryList());
@@ -77,14 +79,6 @@ const EditExercise = () => {
   }, [err]);
 
   const handleClose = () => {
-    // if (exerciseStatus === "succeeded") {
-    //   setOpen(false);
-    //   navigate(`${pages.exerciseListPath}`);
-    // } else {
-    //   setOpen(false);
-    //   navigate(`/exercise/${id}/edit`);
-    //   setDesc("");
-    // }
     setOpen(false);
     navigate(`/exercise/${id}/edit`);
   };
@@ -95,11 +89,11 @@ const EditExercise = () => {
         <Typography variant="h3">SỬA BÀI TẬP</Typography>
         <ExerciseForm
           exerciseDetail={{
-            exerciseName: exerciseDetail?.exerciseName,
-            categoryID: exerciseDetail?.categoryID,
-            exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeek,
-            flag: exerciseDetail?.flag,
-            status: exerciseDetail?.status,
+            exerciseName: data?.exerciseName,
+            categoryID: data?.categoryID,
+            exerciseTimePerWeek: data?.exerciseTimePerWeek,
+            flag: data?.flag,
+            status: data?.status,
           }}
           categories={categories}
           onFormSubmit={handleFormSubmit}

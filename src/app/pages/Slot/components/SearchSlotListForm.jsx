@@ -1,15 +1,15 @@
-import ClearIcon from '@mui/icons-material/Clear'
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Button,
   IconButton,
   InputAdornment,
   Stack,
   TextField,
-} from '@mui/material'
-import DatePickerInput from 'app/components/Input/DatePicker'
-import { makeStyles } from 'app/pages/Category/components/CategoryForm'
-import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
+} from "@mui/material";
+import DatePickerInput from "app/components/Input/DatePicker";
+import { makeStyles } from "app/pages/Category/components/CategoryForm";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const SearchSlotListForm = ({
   onSearch,
@@ -17,29 +17,29 @@ const SearchSlotListForm = ({
   setRangeDate,
   setUnique,
 }) => {
-  const styles = makeStyles()
+  const styles = makeStyles();
   const { handleSubmit, control } = useForm({
     defaultValues: {
-      searchKey: '',
+      searchKey: "",
     },
-  })
+  });
 
   const handleStartDateChange = (value) => {
-    if (value.toString() !== 'Invalid Date')
-      setRangeDate((prev) => ({ ...prev, startDate: value }))
-    else setRangeDate((prev) => ({ ...prev, startDate: null }))
-  }
+    if (value.toString() !== "Invalid Date")
+      setRangeDate((prev) => ({ ...prev, startDate: value }));
+    else setRangeDate((prev) => ({ ...prev, startDate: null }));
+  };
 
   const handleEndDateChange = (value) => {
-    if (value.toString() !== 'Invalid Date')
-      setRangeDate((prev) => ({ ...prev, endDate: value }))
-    else setRangeDate((prev) => ({ ...prev, endDate: null }))
-  }
+    if (value.toString() !== "Invalid Date")
+      setRangeDate((prev) => ({ ...prev, endDate: value }));
+    else setRangeDate((prev) => ({ ...prev, endDate: null }));
+  };
 
   const onSubmit = (data) => {
-    onSearch(data)
-    setUnique(Math.random())
-  }
+    onSearch(data);
+    setUnique(Math.random());
+  };
 
   return (
     <Stack
@@ -56,7 +56,7 @@ const SearchSlotListForm = ({
           <TextField
             sx={{
               ...styles.textFieldStyle,
-              width: '380px',
+              width: "380px",
             }}
             placeholder="Nhập tên slot cần tìm"
             label="Slot"
@@ -66,7 +66,7 @@ const SearchSlotListForm = ({
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => onChange('')}>
+                  <IconButton onClick={() => onChange("")}>
                     <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
@@ -90,12 +90,18 @@ const SearchSlotListForm = ({
       <Button
         type="submit"
         variant="outlined"
-        sx={{ height: '45px', width: '80px' }}
+        sx={{
+          height: "45px",
+          width: "80px",
+          fontWeight: "bold",
+          boxShadow:
+            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+        }}
       >
         Tìm
       </Button>
     </Stack>
-  )
-}
+  );
+};
 
-export default SearchSlotListForm
+export default SearchSlotListForm;

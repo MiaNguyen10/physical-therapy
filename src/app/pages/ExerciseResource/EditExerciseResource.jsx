@@ -3,15 +3,8 @@ import { selectToken } from "cores/reducers/authentication";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getExerciseResource,
-  getStatus,
-  resetStatus,
-} from "../../../cores/reducers/exerciseResource";
-import {
-  editExerciseResource,
-  getExerciseResourceDetail,
-} from "../../../cores/thunk/exerciseResource";
+import { getStatus } from "../../../cores/reducers/exerciseResource";
+import { editExerciseResource } from "../../../cores/thunk/exerciseResource";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import ExerciseResourceForm from "./components/ExerciseResourceForm";
 
@@ -22,10 +15,32 @@ const EditExerciseResource = () => {
   const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const exerciseResourceDetail = useSelector(getExerciseResource);
-  const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
   const err = useSelector((state) => state.exerciseResource.error);
+
+  const [exerciseResourceDetail, setExerciseResourceDetail] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}/ExerciseResource/${idResource}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const jsonData = await response.json();
+        setExerciseResourceDetail(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFormSubmit = ({ resourceName, imageURL, videoURL }) => {
     const exerciseResource = {
@@ -37,24 +52,12 @@ const EditExerciseResource = () => {
     };
     try {
       dispatch(editExerciseResource({ exerciseResource, token })).unwrap();
-      setRefreshKey((oldKey) => oldKey + 1);
+      setExerciseResourceDetail(exerciseResource)
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty
     }
   };
-
-  useEffect(() => {
-    if (exerciseResourceStatus === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
-  useEffect(() => {
-    dispatch(getExerciseResourceDetail({ id: idResource, token }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
 
   useEffect(() => {
     if (!err) {
@@ -65,14 +68,6 @@ const EditExerciseResource = () => {
   }, [err]);
 
   const handleClose = () => {
-    // if (exerciseResourceStatus === "succeeded") {
-    //   setOpen(false);
-    //   navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource`);
-    // } else {
-    //   setOpen(false);
-    //   navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${idResource}/edit`);
-    //   setDesc("");
-    // }
     setOpen(false);
     navigate(
       `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${idResource}/edit`

@@ -18,6 +18,7 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = useSelector(selectState);
+  const role = JSON.parse(localStorage.getItem('authentication'))
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -94,7 +95,6 @@ export const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout);
     localStorage.removeItem("authentication");
-    localStorage.removeItem("role");
     navigate(`${pages.loginPath}`);
   };
 
@@ -167,7 +167,7 @@ export const Navbar = () => {
               variant="h6"
               sx={{ fontStyle: "bold", color: "white" }}
             >
-              Xin chào {JSON.parse(localStorage.getItem("role"))}:{" "}
+              Xin chào {role.role}:{" "}
               {auth.UserName}
             </Typography>
             <Button

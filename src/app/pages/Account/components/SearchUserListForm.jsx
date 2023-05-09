@@ -21,7 +21,11 @@ export const URole = [
   "Chuyên viên vật lý trị liệu",
   "Người dùng",
 ];
-export const URoleForStaff = ["Tất cả", "Chuyên viên vật lý trị liệu", "Người dùng"];
+export const URoleForStaff = [
+  "Tất cả",
+  "Chuyên viên vật lý trị liệu",
+  "Người dùng",
+];
 
 const SearchUserListForm = ({ onSearch }) => {
   const styles = makeStyles();
@@ -65,7 +69,7 @@ const SearchUserListForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -91,7 +95,7 @@ const SearchUserListForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -158,7 +162,13 @@ const SearchUserListForm = ({ onSearch }) => {
       <Button
         type="submit"
         variant="outlined"
-        sx={{ height: "45px", width: "80px" }}
+        sx={{
+          height: "45px",
+          width: "80px",
+          fontWeight: "bold",
+          boxShadow:
+            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+        }}
       >
         Tìm
       </Button>
