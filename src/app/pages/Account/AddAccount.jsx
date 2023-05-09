@@ -23,16 +23,14 @@ const AddAccount = () => {
   const error = useSelector((state) => state.user.error);
   const [desc, setDesc] = useState("");
   const id = useSelector((state) => state.user.userID);
-  console.log(id);
 
   const handleClose = () => {
-    if (status === "succeeded") {
+    if (!error) {
       setOpen(false);
       navigate(`${pages.userListPath}`);
     } else {
       setOpen(false);
       navigate(`${pages.addUserPath}`);
-      setDesc("");
     }
   };
 
@@ -68,7 +66,7 @@ const AddAccount = () => {
       } else if (role === "Quản lý") {
         dispatch(addStaff({ user, token })).unwrap();
         setOpen(true);
-      } else if (role === "Nhà vật lý trị liệu") {
+      } else if (role === "Chuyên viên vật lý trị liệu") {
         dispatch(addPhysiotherapist({ user, token })).unwrap();
 
         if (id) {

@@ -62,6 +62,7 @@ const Schedule = () => {
           text: schedule.slot.slotName,
           description: schedule.description,
           physiotherapistDetail: schedule.physiotherapistDetail,
+          physiotherapistID: schedule.physiotherapistID,
           startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
           endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
           typeOfSlotID: schedule.typeOfSlotID,
@@ -130,7 +131,7 @@ const Schedule = () => {
       },
       {
         label: {
-          text: "Nhà vật lý trị liệu",
+          text: "Chuyên viên vật lý trị liệu",
         },
         name: "physiotherapist",
         editorType: "dxTextBox",
@@ -163,6 +164,7 @@ const Schedule = () => {
       description: e.appointmentData.description,
       physioBookingStatus: true,
     };
+    console.log("🚀 ~ file: index.js:166 ~ onAppointmentUpdated ~ input:", input)
     try {
       dispatch(editSchedule({ input, token })).unwrap();
     } catch (err) {

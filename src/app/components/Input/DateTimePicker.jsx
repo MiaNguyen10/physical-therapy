@@ -1,17 +1,20 @@
-import { TextField } from '@mui/material'
-import { LocalizationProvider, MobileDateTimePicker } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import dayjs from 'dayjs'
-import 'dayjs/locale/en'
-import React from 'react'
+import { TextField } from "@mui/material";
+import {
+  LocalizationProvider,
+  MobileDateTimePicker,
+} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import "dayjs/locale/en";
+import React from "react";
 
-dayjs.locale('en')
+dayjs.locale("en");
 
 const DateTimePickerInput = ({ value, onChange, error, sx }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
       <MobileDateTimePicker
-        openTo="hours"
+        format="DD / MM / YYYY hh:ss A"
         value={dayjs(value)}
         onChange={onChange}
         closeOnSelect
@@ -25,7 +28,7 @@ const DateTimePickerInput = ({ value, onChange, error, sx }) => {
         )}
       />
     </LocalizationProvider>
-  )
-}
+  );
+};
 
-export default DateTimePickerInput
+export default DateTimePickerInput;

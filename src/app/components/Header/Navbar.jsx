@@ -18,6 +18,7 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = useSelector(selectState);
+  const role = JSON.parse(localStorage.getItem("authentication"));
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -94,7 +95,6 @@ export const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout);
     localStorage.removeItem("authentication");
-    localStorage.removeItem("role");
     navigate(`${pages.loginPath}`);
   };
 
@@ -141,13 +141,19 @@ export const Navbar = () => {
                   <NavLink variant="body2" href={pages.slotListPath}>
                     Slot
                   </NavLink>
+                  <NavLink variant="body2" href={pages.typeOfSlotListPath}>
+                    Loại Slot
+                  </NavLink>
                   <NavLink variant="body2" href={pages.schedulePath}>
                     Lịch
+                  </NavLink>
+                  <NavLink variant="body2" href={pages.bookingDetailPath}>
+                    Booking
                   </NavLink>
                 </RestrictedPermission>
 
                 <NavLink variant="body2" href={pages.feedbackListPath}>
-                  Feedback
+                  Phản hồi
                 </NavLink>
               </NavbarLinksBox>
             </RestrictedPermission>
@@ -160,12 +166,8 @@ export const Navbar = () => {
               gap: "1rem",
             }}
           >
-            <Typography
-              variant="h6"
-              sx={{ fontStyle: "italic", color: "white" }}
-            >
-              Xin chào {JSON.parse(localStorage.getItem("role"))}:{" "}
-              {auth.UserName}
+            <Typography variant="h6" sx={{ fontStyle: "bold", color: "white" }}>
+              Xin chào {role.role}: {auth.UserName}
             </Typography>
             <Button
               sx={{

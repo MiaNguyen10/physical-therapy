@@ -1,7 +1,7 @@
 import { Button, Container, Stack, Typography } from "@mui/material";
 import { selectToken } from "cores/reducers/authentication";
-import { getPhysio, getPhysioStatus, resetStatus } from "cores/reducers/physio";
-import { editPhysio, getPhysioDetail } from "cores/thunk/physio";
+import { getPhysioStatus } from "cores/reducers/physio";
+import { editPhysio } from "cores/thunk/physio";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,10 +14,33 @@ const Physiotherapist = () => {
   const dispatch = useDispatch();
   const status = useSelector(getPhysioStatus);
   const [open, setOpen] = useState(false);
-  const physioDetail = useSelector(getPhysio);
   const navigate = useNavigate();
-  const [refreshKey, setRefreshKey] = useState(0);
   const [desc, setDesc] = useState("");
+  const error = useSelector(state => state.physio.error)
+
+  const [physioDetail, setPhysioDetail] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}/Physiotherapist/GetPhysiotherapistByUserID?userID=${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const jsonData = await response.json();
+        setPhysioDetail(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFormSubmit = ({ specialize, skill }) => {
     try {
@@ -30,7 +53,7 @@ const Physiotherapist = () => {
         isDeleted: false,
       };
       dispatch(editPhysio({ input, token })).unwrap();
-      setRefreshKey((oldKey) => oldKey + 1);
+      setPhysioDetail(input)
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty
@@ -38,41 +61,23 @@ const Physiotherapist = () => {
   };
 
   useEffect(() => {
-    if (status === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    dispatch(getPhysioDetail({ id: id, token }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
-  useEffect(() => {
-    if (status === "succeeded") {
+    if (!error) {
       setDesc("Thêm thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }
-  }, [status]);
+  }, [error]);
 
   const handleClose = () => {
-    if (status === "succeeded") {
-      setOpen(false);
-      navigate(`/user/${id}/edit`);
-    } else {
-      setOpen(false);
-      navigate(`/user/${id}/physiotherapist`);
-      setDesc("");
-    }
+    setOpen(false);
+    navigate(`/user/${id}/physiotherapist`);
   };
 
   return physioDetail === {} ? (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h5">
-          Chưa có thông tin nhà vật lý trị liệu
+          Chưa có thông tin chuyên viên vật lý trị liệu
         </Typography>
         <Button
           variant="outlined"

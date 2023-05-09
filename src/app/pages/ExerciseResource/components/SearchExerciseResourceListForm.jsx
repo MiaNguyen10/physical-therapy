@@ -1,10 +1,5 @@
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Button,
-  InputAdornment,
-  Stack,
-  TextField
-} from "@mui/material";
+import { Button, InputAdornment, Stack, TextField } from "@mui/material";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -102,10 +97,19 @@ const SearchExerciseResourceListForm = ({ onSearch }) => {
           />
         )}
       />
-      <Button
+            <Button
         type="submit"
         variant="outlined"
-        sx={{ height: "45px", width: "80px" }}
+        sx={{
+          height: "45px",
+          width: "80px",
+          fontWeight: "bold",
+          boxShadow:
+            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+          fontSize: "1.2rem", // change this value to increase or decrease the font size
+          padding: "10px 32px", // change this value to increase or decrease the padding
+          border: "2px solid",
+        }}
       >
         Tìm
       </Button>

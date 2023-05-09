@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addSlot,
   deleteSlot,
+  editSlot,
   getSlotDetail,
   getSlotList
 } from "../../thunk/slot";
@@ -52,6 +53,14 @@ const slotSlice = createSlice({
         state.slotDetail = action.payload;
       })
       .addCase(getSlotDetail.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(editSlot.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.slotDetail = action.payload;
+      })
+      .addCase(editSlot.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

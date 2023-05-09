@@ -70,7 +70,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
     defaultValues: {
       categoryName: '',
       description: '',
-      iconUrl: '',
+      iconUrl: "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fcategory.png?alt=media&token=a19e1cae-4701-4cb4-bb3b-d62edd30007a",
     },
   })
 
@@ -151,7 +151,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
               helperText={formErrors?.iconUrl?.message}
               required
               inputProps={{ required: true }}
-              label="Icon"
+              label="Đường link của Icon"
               variant="outlined"
             />
           )}

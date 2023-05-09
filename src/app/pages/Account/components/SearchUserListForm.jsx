@@ -18,10 +18,14 @@ export const URole = [
   "Tất cả",
   "Admin",
   "Staff",
-  "Nhà vật lý trị liệu",
+  "Chuyên viên vật lý trị liệu",
   "Người dùng",
 ];
-export const URoleForStaff = ["Tất cả", "Nhà vật lý trị liệu", "Người dùng"];
+export const URoleForStaff = [
+  "Tất cả",
+  "Chuyên viên vật lý trị liệu",
+  "Người dùng",
+];
 
 const SearchUserListForm = ({ onSearch }) => {
   const styles = makeStyles();
@@ -65,7 +69,7 @@ const SearchUserListForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -91,7 +95,7 @@ const SearchUserListForm = ({ onSearch }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small"/>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -113,7 +117,7 @@ const SearchUserListForm = ({ onSearch }) => {
               onChange={onChange}
               value={value}
               variant="outlined"
-              label="Status"
+              label="Trạng thái"
             >
               {UStatus.map((status) => (
                 <MenuItem value={status} key={status}>
@@ -138,7 +142,7 @@ const SearchUserListForm = ({ onSearch }) => {
               onChange={onChange}
               value={value}
               variant="outlined"
-              label="Role"
+              label="Vai trò"
             >
               {auth.role === "Staff"
                 ? URoleForStaff.map((role) => (
@@ -155,12 +159,21 @@ const SearchUserListForm = ({ onSearch }) => {
           );
         }}
       />
-      <Button
+            <Button
         type="submit"
         variant="outlined"
-        sx={{ height: "45px", width: "80px" }}
+        sx={{
+          height: "45px",
+          width: "80px",
+          fontWeight: "bold",
+          boxShadow:
+            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+          fontSize: "1.2rem", // change this value to increase or decrease the font size
+          padding: "10px 32px", // change this value to increase or decrease the padding
+          border: "2px solid",
+        }}
       >
-        Search
+        Tìm
       </Button>
     </Stack>
   );

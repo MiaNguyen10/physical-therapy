@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addCategory,
   deleteCategory,
+  editCategory,
   getCategoryDetail,
   getCategoryList,
 } from "../../thunk/category";
@@ -52,6 +53,10 @@ const categorySlice = createSlice({
         state.categoryDetail = action.payload;
       })
       .addCase(getCategoryDetail.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(editCategory.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

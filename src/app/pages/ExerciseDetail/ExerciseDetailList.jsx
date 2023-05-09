@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import UpdateIcon from "@mui/icons-material/Update";
+import SourceIcon from '@mui/icons-material/Source';
 import {
   Box,
   Button,
@@ -8,7 +8,7 @@ import {
   IconButton,
   Stack,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectToken } from "cores/reducers/authentication";
@@ -104,7 +104,9 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -116,7 +118,9 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -128,44 +132,50 @@ const ExerciseDetailList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
       field: "exerciseDetailID",
-      headerName: "Action",
+      headerName: "Chỉnh sửa",
       width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return (
           <>
             <IconButton
               onClick={() =>
-                navigate(`/exercise/${id}/exerciseDetailList/${params?.value}/edit`)
+                navigate(
+                  `/exercise/${id}/exerciseDetailList/${params?.value}/edit`
+                )
               }
               sx={{ ml: 1 }}
             >
               <EditIcon
-                
-                sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
+                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton
               onClick={() =>
-                navigate(`/exercise/${id}/exerciseDetailList/${params?.value}/exerciseResource`)
+                navigate(
+                  `/exercise/${id}/exerciseDetailList/${params?.value}/exerciseResource`
+                )
               }
               sx={{ ml: 1, mr: 1 }}
             >
               <Tooltip title="Chi tiết bài tập">
-                <UpdateIcon
-                  
+                <SourceIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
               </Tooltip>
@@ -177,7 +187,6 @@ const ExerciseDetailList = () => {
               }}
             >
               <DeleteIcon
-                
                 sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
@@ -211,13 +220,23 @@ const ExerciseDetailList = () => {
               variant="outlined"
               color="primary"
               onClick={() => navigate(`/exercise`)}
+              sx={{
+                fontWeight: "bold",
+                boxShadow:
+                  "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+              }}
             >
               Quay về bài tập
             </Button>
             <AddButton
               desc="Thêm chi tiết bài tập"
               url={`/exercise/${id}/exerciseDetailList/add`}
-              sx={{ mt: -6 }}
+              sx={{
+                mt: -6,
+                fontWeight: "bold",
+                boxShadow:
+                  "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+              }}
             />
           </Stack>
           <DataGridTable

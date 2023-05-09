@@ -151,3 +151,19 @@ export const banUser = createAsyncThunk(
     return await response.json();
   }
 );
+
+export const unBanUser = createAsyncThunk(
+  "user/unBanUser",
+  async (data) => {
+    const { userID, token } = data
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/User/unBanUser/${userID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return await response.json();
+  }
+);

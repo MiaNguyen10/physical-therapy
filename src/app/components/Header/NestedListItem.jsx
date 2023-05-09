@@ -5,6 +5,8 @@ import EventIcon from "@mui/icons-material/Event";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import HomeIcon from "@mui/icons-material/Home";
 import TextsmsIcon from "@mui/icons-material/Textsms";
+import AddIcCallIcon from '@mui/icons-material/AddIcCall';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import {
   List,
   ListItemButton,
@@ -55,7 +57,14 @@ const NestedListItem = () => {
           <ListItemIcon>
             <EventIcon />
           </ListItemIcon>
-          <ListItemText primary="SLOT" />
+          <ListItemText primary="Slot" />
+        </ListItemButton>
+
+        <ListItemButton onClick={() => navigate(`${pages.typeOfSlotListPath}`)}>
+          <ListItemIcon>
+            <AddIcCallIcon />
+          </ListItemIcon>
+          <ListItemText primary="Loại slot" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate(`${pages.schedulePath}`)}>
@@ -64,13 +73,19 @@ const NestedListItem = () => {
           </ListItemIcon>
           <ListItemText primary="Lịch" />
         </ListItemButton>
+        <ListItemButton onClick={() => navigate(`${pages.bookingDetailPath}`)}>
+          <ListItemIcon>
+            <AccountBalanceWalletIcon />
+          </ListItemIcon>
+          <ListItemText primary="Booking" />
+        </ListItemButton>
       </RestrictedPermission>
 
       <ListItemButton onClick={() => navigate(`${pages.feedbackListPath}`)}>
         <ListItemIcon>
           <TextsmsIcon />
         </ListItemIcon>
-        <ListItemText primary="Feedback" />
+        <ListItemText primary="Phản hồi" />
       </ListItemButton>
     </List>
   );

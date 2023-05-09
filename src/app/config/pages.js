@@ -32,7 +32,13 @@ const pages = {
     slotEditPath: '/slot/:id/edit',
     scheduleBySlotID: '/slot/:id/schedule',
 
+    typeOfSlotListPath: '/typeOfSlot',
+    addtypeOfSlotPath: '/typeOfSlot/add',
+    typeOfSlotEditPath: '/typeOfSlot/:id/edit',
+
     feedbackListPath: '/feedback',
+
+    bookingDetailPath: '/bookingDetail',
 }
 
 export default pages

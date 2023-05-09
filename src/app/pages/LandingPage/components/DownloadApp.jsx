@@ -1,7 +1,7 @@
 import { styled, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React from "react";
-import homeIllustration from "../../../assets/illustration.png";
+import homeIllustration from "../../../assets/qrcode.png";
 import CustomButton from "./CustomButton";
 
 const DownloadApp = () => {
@@ -23,7 +23,7 @@ const DownloadApp = () => {
   }));
 
   const CustomBox = styled(Box)(({ theme }) => ({
-    padding: theme.spacing(10, 0, 10, 0),
+    padding: theme.spacing(5, 0, 10, 0),
     margin: theme.spacing(0, 2, 0, 2),
     [theme.breakpoints.down("md")]: {
       padding: "0",
@@ -37,19 +37,26 @@ const DownloadApp = () => {
           <Typography
             sx={{ fontSize: "35px", color: "white", fontWeight: "700" }}
           >
-            Download Physical Therapy App
+            Tải ứng dụng Mobile của chúng tôi
           </Typography>
           <Typography
-            sx={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 3 }}
+            sx={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 2 }}
           >
-            Nhanh tay tải app để có thể cập nhật những bài tập vật lý trị liệu
+            - Ứng dụng dành cho chuyên viên và người dùng
+          </Typography>
+          <Typography
+            sx={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 2 }}
+          >
+            - Nhanh tay tải app để có thể cập nhật những bài tập vật lý trị liệu
             mới nhất của chúng tôi!
           </Typography>
 
           <CustomButton
             backgroundColor="#fff"
             color="#17275F"
-            buttonText="Download here"
+            buttonText="Nhấn để tải ứng dụng"
+            // href={process.env.DOWNLOAD_APP}
+            href="https://drive.google.com/file/d/1SPX55gpP53VjwPBEae723mTUf_UtzzPU/view?usp=sharing"
             getStartedBtn={true}
           />
         </Box>
@@ -57,7 +64,7 @@ const DownloadApp = () => {
         <img
           src={homeIllustration}
           alt="illustration"
-          style={{ maxWidth: "100%" }}
+          style={{ maxWidth: "30%" }}
         />
       </CustomContainer>
     </CustomBox>

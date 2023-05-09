@@ -1,12 +1,13 @@
-import { selectState, selectToken } from "cores/reducers/authentication";
-import { getRole } from "cores/thunk/auth";
-import { default as React, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { default as React } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import pages from "./config/pages";
+import { RestrictedPermission } from "./middlewares/PermissionProvider";
+import ProtectedRoutes from "./middlewares/ProtectedRoutes";
 import AddAccount from "./pages/Account/AddAccount";
+import AddPhysiotherapist from "./pages/Account/AddPhysiotherapist";
 import EditAccount from "./pages/Account/EditAccount";
+import Physiotherapist from "./pages/Account/Physiotherapist";
 import UserList from "./pages/Account/UserList";
 import AddCategory from "./pages/Category/AddCategory";
 import CategotyList from "./pages/Category/CategoryList";
@@ -20,6 +21,7 @@ import ExerciseDetailList from "./pages/ExerciseDetail/ExerciseDetailList";
 import AddExerciseResource from "./pages/ExerciseResource/AddExerciseResource";
 import EditExerciseResource from "./pages/ExerciseResource/EditExerciseResource";
 import ExerciseResourceList from "./pages/ExerciseResource/ExerciseResourceList";
+import FeedbackList from "./pages/Feedback/FeedbackList";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Login from "./pages/Login";
 import Schedule from "./pages/Schedule";
@@ -27,22 +29,12 @@ import ScheduleBySlot from "./pages/Schedule/ScheduleBySlot";
 import AddSlot from "./pages/Slot/AddSlot";
 import EditSlot from "./pages/Slot/EditSlot";
 import SlotList from "./pages/Slot/SlotList";
-import FeedbackList from "./pages/Feedback/FeedbackList";
-import ProtectedRoutes from "./middlewares/ProtectedRoutes";
-import { RestrictedPermission } from "./middlewares/PermissionProvider";
-import Physiotherapist from "./pages/Account/Physiotherapist";
-import AddPhysiotherapist from "./pages/Account/AddPhysiotherapist";
+import AddTypeOfSlot from "./pages/TypeOfSlot/AddTypeOfSlot";
+import EditTypeOfSlot from "./pages/TypeOfSlot/EditTypeOfSlot";
+import TypeOfSlorList from "./pages/TypeOfSlot/TypeOfSlotList";
+import BookingDetailList from "./pages/BookingDetail/BookingDetailList";
 
 const Router = () => {
-  const token = useSelector(selectToken);
-  const currentState = useSelector(selectState);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (token) {
-      dispatch(getRole(currentState.UserId));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentState.UserId]);
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
@@ -131,6 +123,19 @@ const Router = () => {
               <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
               <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
               <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
+              {/* Type Of Slot */}
+              <Route
+                path={`/${pages.typeOfSlotListPath}`}
+                element={<TypeOfSlorList />}
+              />
+              <Route
+                path={`/${pages.addtypeOfSlotPath}`}
+                element={<AddTypeOfSlot />}
+              />
+              <Route
+                path={`/${pages.typeOfSlotEditPath}`}
+                element={<EditTypeOfSlot />}
+              />
 
               {/* Schedule */}
               <Route path={`/${pages.schedulePath}`} element={<Schedule />} />
@@ -138,6 +143,7 @@ const Router = () => {
                 path={`/${pages.scheduleBySlotID}`}
                 element={<ScheduleBySlot />}
               />
+              <Route path={`/${pages.bookingDetailPath}`} element={<BookingDetailList />} />
             </Route>
           </Route>
         </Route>

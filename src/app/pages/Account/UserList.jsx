@@ -8,7 +8,7 @@ import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { banUser, getUserList } from "../../../cores/thunk/user";
+import { banUser, getUserList, unBanUser } from "../../../cores/thunk/user";
 import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
@@ -31,6 +31,7 @@ const UserList = () => {
   const [idUser, setIdUser] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
+  const [desc, setDesc] = useState("");
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -41,7 +42,11 @@ const UserList = () => {
   };
 
   const handleDelete = () => {
-    dispatch(banUser({ userID: idUser, token }));
+    if (desc === "Bạn có muốn khôi phục tài khoản không?") {
+      dispatch(unBanUser({ userID: idUser, token }));
+    } else {
+      dispatch(banUser({ userID: idUser, token }));
+    }
     setRefreshKey((oldKey) => oldKey + 1);
     setIdUser("");
     setOpenDialog(false);
@@ -77,7 +82,7 @@ const UserList = () => {
       role = "Admin";
     } else if (filters.role === "Staff") {
       role = "Staff";
-    } else if (filters.role === "Nhà vật lý trị liệu") {
+    } else if (filters.role === "Chuyên viên vật lý trị liệu") {
       role = "Physiotherapist";
     } else {
       role = "Member";
@@ -113,7 +118,7 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -128,7 +133,7 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -145,7 +150,7 @@ const UserList = () => {
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -155,20 +160,20 @@ const UserList = () => {
     },
     {
       field: "role",
-      headerName: "Role",
+      headerName: "Vai trò",
       width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
       renderCell: (params) => {
         if (params?.value?.name === "Physiotherapist") {
-          return <Typography>Nhà vật lý trị liệu</Typography>;
+          return <Typography>Chuyên viên vật lý trị liệu</Typography>;
         } else if (params?.value?.name === "Member") {
           return <Typography>Người dùng</Typography>;
         } else {
@@ -184,7 +189,7 @@ const UserList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -198,40 +203,54 @@ const UserList = () => {
     },
     {
       field: "id",
-      headerName: "Action",
-      width: 100,
+      headerName: "Chỉnh sửa",
+      width: 180,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
-      renderCell: (params) => (
-        <>
-          <IconButton
-            onClick={() => navigate(`/user/${params?.value}/edit`)}
-            sx={{ ml: 1 }}
-          >
-            <EditIcon
-              sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
-            />
-          </IconButton>
-          <IconButton
-            onClick={() => {
-              setOpenDialog(true);
-              setIdUser(params?.value);
-            }}
-            sx={{ ml: 1 }}
-          >
-            <RemoveCircleIcon
-              sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
-            />
-          </IconButton>
-        </>
-      ),
+      renderCell: (params) => {
+        return (
+          <>
+            <IconButton
+              onClick={() => navigate(`/user/${params?.value}/edit`)}
+              sx={{ ml: 1 }}
+            >
+              <EditIcon
+                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
+              />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setOpenDialog(true);
+                setIdUser(params?.value);
+                params?.row.banStatus === true
+                  ? setDesc("Bạn có muốn khôi phục tài khoản không?")
+                  : setDesc("Bạn có muốn chặn người dùng này không?");
+              }}
+              sx={{ ml: 1 }}
+              disabled={params?.row.role.name === "Admin"}
+            >
+              <RemoveCircleIcon
+                sx={{
+                  color:
+                    params?.row.role.name === "Admin" ||
+                    params?.row.banStatus === true
+                      ? "#1712116f"
+                      : "#e63307",
+                  cursor: "pointer",
+                  fontSize: 28,
+                }}
+              />
+            </IconButton>
+          </>
+        );
+      },
     },
   ];
   return (
@@ -245,7 +264,12 @@ const UserList = () => {
           <AddButton
             desc="Thêm người dùng"
             url={`${pages.addUserPath}`}
-            sx={{ mt: -6 }}
+            sx={{
+              mt: -6,
+              fontWeight: "bold",
+              boxShadow:
+                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+            }}
           />
           <DataGridTable
             width="1200px"
@@ -266,7 +290,7 @@ const UserList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc="Bạn có muốn chặn người dùng này không?"
+        desc={desc}
       />
     </Container>
   );

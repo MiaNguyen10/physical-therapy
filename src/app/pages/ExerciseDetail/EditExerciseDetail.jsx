@@ -4,25 +4,44 @@ import { selectToken } from "cores/reducers/authentication";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getStatus, resetStatus } from "../../../cores/reducers/exerciseDetail";
-import {
-  editExerciseDetail,
-  getExerciseDetailById,
-} from "../../../cores/thunk/exerciseDetail";
+import { getStatus } from "../../../cores/reducers/exerciseDetail";
+import { editExerciseDetail } from "../../../cores/thunk/exerciseDetail";
 import ExerciseDetailForm from "./components/ExerciseDetailForm";
 
 const EditExerciseDetail = () => {
   const { id, idDetail } = useParams();
   const dispatch = useDispatch();
-  let exerciseDetail = useSelector(
-    (state) => state.exerciseDetail.exerciseDetail
-  );
   const exerciseDetailStatus = useSelector(getStatus);
   const token = useSelector(selectToken);
   const [open, setOpen] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
   const [desc, setDesc] = useState("");
+  const err = useSelector((state) => state.exerciseDetail.error);
+
+  const [exerciseDetail, setExerciseDetail] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}/ExerciseDetail/${idDetail}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const jsonData = await response.json();
+        setExerciseDetail(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   const handleEditFormSubmit = ({ detailName, set, description }) => {
     try {
@@ -39,42 +58,22 @@ const EditExerciseDetail = () => {
           token,
         })
       ).unwrap();
+      setExerciseDetail(excerciseDetail)
       setOpen(true);
-      setRefreshKey((oldKey) => oldKey + 1);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
-    if (exerciseDetailStatus === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    dispatch(getExerciseDetailById({ id: idDetail, token }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
-
-  useEffect(() => {
-    if (exerciseDetailStatus === "succeeded") {
+    if (!err) {
       setDesc("Thêm thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }
-  }, [exerciseDetailStatus]);
+  }, [err]);
 
   const handleClose = () => {
-    if (exerciseDetailStatus === "succeeded") {
-      setOpen(false);
-      navigate(`/exercise/${id}/exerciseDetailList`);
-    } else {
-      setOpen(false);
-      navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/edit`);
-      setDesc("");
-    }
+    setOpen(false);
+    navigate(`/exercise/${id}/exerciseDetailList/${idDetail}/edit`);
   };
 
   return (
@@ -92,11 +91,7 @@ const EditExerciseDetail = () => {
           isLoading={exerciseDetailStatus === "loading"}
         />
       </Stack>
-      <ConfirmDialog
-        open={open}
-        handleClose={handleClose}
-        desc={desc}
-      />
+      <ConfirmDialog open={open} handleClose={handleClose} desc={desc} />
     </Container>
   );
 };

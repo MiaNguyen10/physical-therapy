@@ -5,8 +5,10 @@ import {
   addStaff,
   addUser,
   banUser,
+  editUser,
   getUserDetail,
-  getUserList
+  getUserList,
+  unBanUser
 } from "../../thunk/user";
 
 const initialState = {
@@ -90,6 +92,10 @@ const userSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
+      .addCase(editUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
       .addCase(banUser.pending, (state) => {
         state.status = "loading";
       })
@@ -97,6 +103,16 @@ const userSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(banUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(unBanUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(unBanUser.fulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addCase(unBanUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });

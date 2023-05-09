@@ -1,17 +1,12 @@
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  Box,
-  Container,
-  IconButton,
-  Stack,
-  Typography
-} from "@mui/material";
+import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectToken } from "cores/reducers/authentication";
 import { getStatusCategory } from "cores/reducers/category";
 import { getCategoryList } from "cores/thunk/category";
+import { format } from "date-fns";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
 import { trim } from "lodash";
@@ -42,7 +37,12 @@ const SlotList = () => {
   const [filters, setFilters] = useState({
     searchKey: "",
   });
+  const [unique, setUnique] = useState(Math.random());
 
+  const [rangeDate, setRangeDate] = useState({
+    startDate: null,
+    endDate: null,
+  });
   const [slotId, setSlotId] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -73,17 +73,41 @@ const SlotList = () => {
   }, [dispatch]);
 
   const rows = useMemo(() => {
+    if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
+      if (rangeDate.startDate.getTime() > rangeDate.endDate.getTime())
+        return [];
+    }
     return (
       Array.isArray(slotList) &&
       slotList.filter((slot) => {
+        const startDateGMT7 = new Date(
+          format(new Date(slot.timeStart), "yyyy-MM-dd")
+        );
+
+        startDateGMT7.setUTCHours(startDateGMT7.getUTCHours() - 7);
+        const startDateGMT0 = new Date(startDateGMT7.getTime());
+        let compareDate = true;
+
+        if (rangeDate.startDate !== null && rangeDate.endDate === null) {
+          compareDate =
+            startDateGMT0.getTime() >= rangeDate.startDate.getTime();
+        } else if (rangeDate.startDate === null && rangeDate.endDate !== null) {
+          compareDate = startDateGMT0.getTime() <= rangeDate.endDate.getTime();
+        } else if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
+          compareDate =
+            startDateGMT0.getTime() >= rangeDate.startDate.getTime() &&
+            startDateGMT0.getTime() <= rangeDate.endDate.getTime();
+        }
+
         const isFoundName =
           slot.slotName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        return isFoundName;
+        return compareDate && isFoundName;
       })
     );
-  }, [filters, slotList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, slotList, unique]);
 
   const columns = [
     {
@@ -94,7 +118,9 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
@@ -106,11 +132,13 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => (
         <Typography>
-          {dayjs(params?.value).format("DD-MM-YYYY HH:mm:ss") ?? "-"}
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm A") ?? "-"}
         </Typography>
       ),
     },
@@ -122,11 +150,13 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => (
         <Typography>
-          {dayjs(params?.value).format("DD-MM-YYYY HH:mm:ss") ?? "-"}
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm A") ?? "-"}
         </Typography>
       ),
     },
@@ -138,7 +168,9 @@ const SlotList = () => {
       align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => (
         <Typography>{params?.value ? "Còn trống" : "Đã đầy"}</Typography>
@@ -146,14 +178,16 @@ const SlotList = () => {
     },
     {
       field: "slotID",
-      headerName: "Action",
+      headerName: "Chỉnh sửa",
       width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: '19px' }}>{params.colDef.headerName}</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
       ),
       renderCell: (params) => {
         return (
@@ -165,8 +199,7 @@ const SlotList = () => {
               sx={{ ml: 1 }}
             >
               <EditIcon
-               
-                sx={{ color: "#08cf33", cursor: "pointer", fontSize: 28 }}
+                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton
@@ -174,7 +207,6 @@ const SlotList = () => {
               sx={{ ml: 1, mr: 1 }}
             >
               <CalendarMonthIcon
-               
                 sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
@@ -185,7 +217,6 @@ const SlotList = () => {
               }}
             >
               <DeleteIcon
-               
                 sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
@@ -211,12 +242,22 @@ const SlotList = () => {
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3">DANH SÁCH SLOT</Typography>
-        <SearchSlotListFrom onSearch={(data) => setFilters(data)} />
+        <SearchSlotListFrom
+          onSearch={(data) => setFilters(data)}
+          rangeDate={rangeDate}
+          setRangeDate={setRangeDate}
+          setUnique={setUnique}
+        />
         <Box>
           <AddButton
             desc="Thêm slot"
             url={`${pages.addSlotPath}`}
-            sx={{ mt: -6 }}
+            sx={{
+              mt: -6,
+              fontWeight: "bold",
+              boxShadow:
+                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+            }}
           />
           <DataGridTable
             width="1200px"
