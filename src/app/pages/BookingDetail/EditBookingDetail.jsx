@@ -50,15 +50,15 @@ const EditBookingDetail = () => {
     categoryID,
     bookingDetailTimePerWeek,
   }) => {
-    const excercise = {
+    const bookingDetail = {
       bookingDetailID: id,
       bookingDetailName: bookingDetailName,
       categoryID: categoryID,
       bookingDetailTimePerWeek: bookingDetailTimePerWeek,
     };
     try {
-      dispatch(editBookingDetail({ excercise, token })).unwrap();
-      if (!err) setData(excercise);
+      dispatch(editBookingDetail({ bookingDetail, token })).unwrap();
+      if (!err) setData(bookingDetail);
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty

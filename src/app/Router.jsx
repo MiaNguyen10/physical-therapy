@@ -33,6 +33,10 @@ import AddTypeOfSlot from "./pages/TypeOfSlot/AddTypeOfSlot";
 import EditTypeOfSlot from "./pages/TypeOfSlot/EditTypeOfSlot";
 import TypeOfSlorList from "./pages/TypeOfSlot/TypeOfSlotList";
 import BookingDetailList from "./pages/BookingDetail/BookingDetailList";
+import AddSubProfile from "./pages/SubProfile/AddSubProfile";
+import SubProfile from "./pages/Account/SubProfile";
+import SubProfileList from "./pages/SubProfile/SubProfileList";
+import EditSubProfile from "./pages/SubProfile/EditSubProfile";
 
 const Router = () => {
   return (
@@ -47,6 +51,21 @@ const Router = () => {
             <Route path={`/${pages.userListPath}`} element={<UserList />} />
             <Route path={`/${pages.addUserPath}`} element={<AddAccount />} />
             <Route path={`/${pages.userEditPath}`} element={<EditAccount />} />
+            <Route path={`${pages.subProfilePath}`} element={<SubProfile />} />
+
+            {/* SubProfile */}
+            <Route
+                path={`/${pages.subProfileListPath}`}
+                element={<SubProfileList />}
+              />
+              <Route
+                path={`/${pages.subProfileEditPath}`}
+                element={<EditSubProfile />}
+              />
+              <Route
+                path={`/${pages.subProfileAddPath}`}
+                element={<AddSubProfile />}
+              />
 
             {/* Physiotherapist */}
             <Route path={`${pages.physioPath}`} element={<Physiotherapist />} />

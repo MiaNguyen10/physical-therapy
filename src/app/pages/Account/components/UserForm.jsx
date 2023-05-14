@@ -71,7 +71,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     resolver: yupResolver(schema),
     defaultValues: {
       userName: "",
-      password: "",
+      password: "123456",
       //lastName: "",
       firstName: "",
       email: "",
@@ -151,6 +151,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Mật khẩu"
                   variant="outlined"
+                  placeholder="Mặc định không điền là 1-6"
                 />
               )}
             />

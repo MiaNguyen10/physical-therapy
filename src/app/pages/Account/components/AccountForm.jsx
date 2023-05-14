@@ -101,7 +101,8 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       phoneNumber: "",
       address: "",
       dob: dayjs(new Date()).format("YYYY-MM-DD"),
-      image: "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fperson.png?alt=media&token=c5c521dc-2f27-4fb9-ba76-b0241c2dfe19",
+      image:
+        "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fperson.png?alt=media&token=c5c521dc-2f27-4fb9-ba76-b0241c2dfe19",
       gender: true,
     },
   });
@@ -304,6 +305,15 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                 disabled={isLoading}
               >
                 Xem chi tiết chuyên viên vật lý trị liệu
+              </Button>
+            ) : null}
+            {userDetail?.role?.name === "Member" ? (
+              <Button
+                variant="outlined"
+                onClick={() => navigate(`/user/${id}/subProfileList`)}
+                disabled={isLoading}
+              >
+                Xem mối quan hệ với người dùng
               </Button>
             ) : null}
             <Button

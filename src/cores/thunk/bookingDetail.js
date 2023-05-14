@@ -18,7 +18,7 @@ export const getBookingDetailList = createAsyncThunk(
 export const addBookingDetail = createAsyncThunk(
   "bookingDetail/addBookingDetail",
   async (data) => {
-    const { excercise, token } = data
+    const { bookingDetail, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/BookingDetail`,
       {
@@ -28,7 +28,7 @@ export const addBookingDetail = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...excercise,
+          ...bookingDetail,
         }),
       }
     );
@@ -39,7 +39,7 @@ export const addBookingDetail = createAsyncThunk(
 export const editBookingDetail = createAsyncThunk(
   "bookingDetail/editBookingDetail",
   async (data) => {
-    const { excercise, token } = data
+    const { bookingDetail, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/BookingDetail`,
       {
@@ -49,7 +49,7 @@ export const editBookingDetail = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...excercise,
+          ...bookingDetail,
         }),
       }
     );

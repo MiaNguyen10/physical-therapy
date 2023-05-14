@@ -11,6 +11,7 @@ import scheduleReducer from "cores/reducers/schedule/index";
 import feedbackReducer from "cores/reducers/feedback/index";
 import physioReducer from "cores/reducers/physio/index";
 import bookingDetailReducer from "cores/reducers/bookingDetail/index";
+import subProfileReducer from "cores/reducers/subProfile/index";
 
 export const store = configureStore({
   reducer: {
@@ -26,5 +27,6 @@ export const store = configureStore({
     feedback: feedbackReducer,
     physio: physioReducer,
     bookingDetail: bookingDetailReducer,
+    subProfile: subProfileReducer,
   },
 });

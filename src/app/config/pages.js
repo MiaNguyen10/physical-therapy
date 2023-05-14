@@ -8,6 +8,8 @@ const pages = {
 
     physioPath: '/user/:id/physiotherapist',
     addPhysioPath: '/user/:id/physiotherapist/add',
+    subProfilePath: '/user/:id/subProfile',
+    addSubProfilePath: '/user/:id/subProfile/add',
 
     categoryListPath: '/category',
     addCategoryPath: '/category/add',
@@ -39,6 +41,10 @@ const pages = {
     feedbackListPath: '/feedback',
 
     bookingDetailPath: '/bookingDetail',
+
+    subProfileListPath: '/user/:id/subProfileList',
+    subProfileEditPath: '/user/:id/subProfileList/:idDetail/edit',
+    subProfileAddPath: '/user/:id/subProfileList/add',
 }
 
 export default pages

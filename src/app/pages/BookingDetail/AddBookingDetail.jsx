@@ -25,7 +25,7 @@ const AddBookingDetail = () => {
     bookingDetailTimePerWeek,
     categoryID,
   }) => {
-    const excercise = {
+    const bookingDetail = {
       bookingDetailName: bookingDetailName,
       categoryID: categoryID,
       bookingDetailTimePerWeek: bookingDetailTimePerWeek,
@@ -35,7 +35,7 @@ const AddBookingDetail = () => {
     }
     try {
       dispatch(
-        addBookingDetail({excercise, token})
+        addBookingDetail({bookingDetail, token})
       ).unwrap();
       setOpen(true);
     } catch (err) {

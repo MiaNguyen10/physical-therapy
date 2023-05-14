@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserForm from "./components/UserForm";
+import { addSubProfile } from "cores/thunk/subProfile";
 
 const AddAccount = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,23 @@ const AddAccount = () => {
       bookingStatus: true,
       banStatus: false,
     };
+    const subProfile = {
+      subName: firstName,
+      isDeleted: false,
+      userID: id,
+      relationId: "33bcf935-d751-4c98-b835-9f23ae881386",
+    };
+    // try {
+    //   dispatch(addUser({ user, token }))
+    //     .unwrap()
+    //     .then((userId) => {
+    //       dispatch(addSubProfile({ userId, subProfile, token })).unwrap();
+    //       setOpen(true);
+    //     });
+    // } catch (err) {
+    //   // eslint-disable-next-line no-empty
+    // }
+
     try {
       if (role === "Admin") {
         dispatch(addAdmin({ user, token })).unwrap();
@@ -75,8 +93,39 @@ const AddAccount = () => {
           setOpen(true);
         }
       } else {
-        dispatch(addUser({ user, token })).unwrap();
-        setOpen(true);
+        dispatch(addUser({ user, token }))
+          .unwrap()
+          .then((addedUser) => {
+            dispatch(
+              addSubProfile({
+                subProfile,
+                token,
+                userID: addedUser,
+                subName: firstName,
+              })
+            ).unwrap();
+          });
+
+        // else {
+        //   dispatch(addUser({ user, token })).unwrap().then((addedUser) => {
+        //     const subProfile = {
+        //       subName: addedUser.firstName,
+        //       isDeleted: false,
+        //       userID: addedUser.id,
+        //       relationId: "33bcf935-d751-4c98-b835-9f23ae881386"
+        //     };
+        //     dispatch(addSubProfile({ subProfile, token })).unwrap();
+        //   });
+        //   setOpen(true);
+        // }
+        if (id) {
+          dispatch(
+            addSubProfile({ subProfile, token, userId: id, subName: firstName })
+          ).unwrap();
+          navigate(`/user/${id}/subProfile/add`);
+        } else {
+          setOpen(true);
+        }
       }
     } catch (err) {
       // eslint-disable-next-line no-empty
@@ -87,7 +136,7 @@ const AddAccount = () => {
     if (
       error === "Unexpected token 'E', \"Email Đã Tồn Tại!\" is not valid JSON"
     ) {
-      setDesc("Email Đã Tồn Tại!. Nhập email khác");
+      setDesc("Email Đã Tồn Tại! Nhập email khác");
     } else if (
       error === "Unexpected token 'S', \"Số Điện Th\"... is not valid JSON"
     ) {
