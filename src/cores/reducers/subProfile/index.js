@@ -4,7 +4,9 @@ import {
   deleteSubProfile,
   editSubProfile,
   getSubProfileDetail,
-  getSubProfileList,
+  // getSubProfileList,
+  getSubProfileByID,
+  getSubProfileListByID,
 } from "../../thunk/subProfile";
 
 const initialState = {
@@ -12,6 +14,8 @@ const initialState = {
   error: "",
   subProfiles: [],
   subProfileDetail: {},
+  subProfile: {},
+  subProfileList: [],
 };
 
 const subProfileSlice = createSlice({
@@ -24,14 +28,36 @@ const subProfileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getSubProfileList.pending, (state) => {
+      // .addCase(getSubProfileList.pending, (state) => {
+      //   state.status = "loading";
+      // })
+      // .addCase(getSubProfileList.fulfilled, (state, action) => {
+      //   state.status = "succeeded";
+      //   state.subProfiles = action.payload;
+      // })
+      // .addCase(getSubProfileList.rejected, (state, action) => {
+      //   state.status = "failed";
+      //   state.error = action.error.message;
+      // })
+      .addCase(getSubProfileListByID.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getSubProfileList.fulfilled, (state, action) => {
+      .addCase(getSubProfileListByID.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.subProfiles = action.payload;
+        state.subProfileList = action.payload;
       })
-      .addCase(getSubProfileList.rejected, (state, action) => {
+      .addCase(getSubProfileListByID.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(getSubProfileByID.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getSubProfileByID.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.subProfile = action.payload;
+      })
+      .addCase(getSubProfileByID.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

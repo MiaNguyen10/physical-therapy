@@ -16,7 +16,6 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
     defaultValues: {
       searchKey: "",
       searchSet: "",
-      searchDesc: "",
     },
   });
 
@@ -59,7 +58,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
         )}
       />
 
-      <Controller
+      {/* <Controller
         control={control}
         name="searchDesc"
         render={({ field: { onChange, value } }) => (
@@ -84,8 +83,8 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
             }}
           />
         )}
-      />
-      <Controller
+      /> */}
+      {/* <Controller
         control={control}
         name="searchSet"
         render={({ field: { onChange, value } }) => (
@@ -94,7 +93,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               ...styles.textFieldStyle,
               width: "140px",
             }}
-            placeholder="Nhập set"
+            placeholder="Nhập subName"
             label="Set"
             value={value}
             onChange={onChange}
@@ -110,7 +109,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
             }}
           />
         )}
-      />
+      /> */}
             <Button
         type="submit"
         variant="outlined"

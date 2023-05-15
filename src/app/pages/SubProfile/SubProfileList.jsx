@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import SourceIcon from '@mui/icons-material/Source';
+import SourceIcon from "@mui/icons-material/Source";
 import {
   Box,
   Button,
@@ -59,7 +59,7 @@ const SubProfileList = () => {
   const handleDelete = () => {
     dispatch(
       deleteSubProfile({
-        subProfileID: detailId,
+        profileID: detailId,
         token,
       })
     );
@@ -82,14 +82,14 @@ const SubProfileList = () => {
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
         const isFoundSet =
-          subProfile.set
+          subProfile.subName
             .toLowerCase()
             .search(trim(filters.searchSet.toLowerCase())) >= 0;
-        const isFoundDesc =
-          subProfile.description
-            .toLowerCase()
-            .search(trim(filters.searchDesc.toLowerCase())) >= 0;
-        return isFoundName && isFoundDesc && isFoundSet;
+        // const isFoundDesc =
+        //   subProfile.description
+        //     .toLowerCase()
+        //     .search(trim(filters.searchDesc.toLowerCase())) >= 0;
+        return isFoundName && isFoundSet;
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,7 +98,7 @@ const SubProfileList = () => {
   const columns = [
     {
       field: "relationName",
-      headerName: "Tên chi tiết của mối quan hệ",
+      headerName: "Tên mối quan hệ",
       width: 350,
       headerAlign: "center",
       align: "center",
@@ -111,8 +111,8 @@ const SubProfileList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "set",
-      headerName: "SET",
+      field: "subName",
+      headerName: "subName",
       width: 350,
       headerAlign: "center",
       align: "center",
@@ -124,22 +124,22 @@ const SubProfileList = () => {
       ),
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
+    // {
+    //   field: "description",
+    //   headerName: "Mô tả",
+    //   width: 400,
+    //   headerAlign: "center",
+    //   align: "center",
+    //   disableColumnMenu: true,
+    //   renderHeader: (params) => (
+    //     <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+    //       {params.colDef.headerName}
+    //     </Typography>
+    //   ),
+    //   renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    // },
     {
-      field: "description",
-      headerName: "Mô tả",
-      width: 400,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-          {params.colDef.headerName}
-        </Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "subProfileID",
+      field: "profileID",
       headerName: "Chỉnh sửa",
       width: 200,
       headerAlign: "center",
@@ -156,9 +156,7 @@ const SubProfileList = () => {
           <>
             <IconButton
               onClick={() =>
-                navigate(
-                  `/user/${id}/subProfileList/${params?.value}/edit`
-                )
+                navigate(`/user/${id}/subProfileList/${params?.value}/edit`)
               }
               sx={{ ml: 1 }}
             >
@@ -242,7 +240,7 @@ const SubProfileList = () => {
           <DataGridTable
             columns={columns}
             rows={rows}
-            getRowId={(row) => row.subProfileID}
+            getRowId={(row) => row.profileID}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}

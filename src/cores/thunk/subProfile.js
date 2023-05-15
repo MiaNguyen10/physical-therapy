@@ -60,11 +60,27 @@ export const addSubProfile = createAsyncThunk(
 );
 
 export const getSubProfileListByID = createAsyncThunk(
-  "exerciseDetail/getSubProfileList",
+  "subProfile/getSubProfileList",
   async (data) => {
     const { id, token } = data
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/SubProfile/GetByUserID/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return await response.json();
+  }
+);
+
+export const getSubProfileByID = createAsyncThunk(
+  "subProfile/getSubProfileById",
+  async (data) => {
+    const { id, token } = data
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/SubProfile/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
