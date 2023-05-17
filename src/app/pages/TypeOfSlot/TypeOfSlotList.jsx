@@ -68,7 +68,7 @@ const TypeOfSlotList = () => {
           type.typeName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
-      
+
         return isFoundName;
       })
     );
@@ -92,7 +92,7 @@ const TypeOfSlotList = () => {
     },
     {
       field: "price",
-      headerName: "Giá tiền/Tháng",
+      headerName: "Giá tiền/Slot",
       width: 300,
       headerAlign: "center",
       align: "center",
@@ -104,10 +104,14 @@ const TypeOfSlotList = () => {
       ),
       renderCell: (params) => (
         <Typography>
-          {params.value ? params.value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : "-"}
+          {params.value
+            ? params.value.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })
+            : "-"}
         </Typography>
       ),
-      
     },
     {
       field: "typeOfSlotID",
@@ -138,9 +142,17 @@ const TypeOfSlotList = () => {
                 setId(params?.value);
                 setOpenDialog(true);
               }}
+              disabled={params?.row.typeName === "Trị liệu dài hạn"}
             >
               <DeleteIcon
-                sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
+                sx={{
+                  color:
+                    params?.row.typeName === "Trị liệu dài hạn"
+                      ? "#1712116f"
+                      : "#e63307",
+                  cursor: "pointer",
+                  fontSize: 28,
+                }}
               />
             </IconButton>
           </>

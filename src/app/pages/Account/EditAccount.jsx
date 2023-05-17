@@ -80,7 +80,7 @@ const EditAccount = () => {
 
   useEffect(() => {
     if (!error) {
-      setDesc("Thêm thông tin thành công");
+      setDesc("Cập nhật thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }

@@ -19,7 +19,12 @@ import pages from "../../../config/pages";
 import { makeStyles } from "./AccountForm";
 import { differenceInYears } from "date-fns";
 
-const RoleForAdmin = ["Admin", "Quản lý", "Chuyên viên vật lý trị liệu", "Người dùng"];
+const RoleForAdmin = [
+  "Admin",
+  "Quản lý",
+  "Chuyên viên vật lý trị liệu",
+  "Người dùng",
+];
 const RoleForStaff = ["Chuyên viên vật lý trị liệu", "Người dùng"];
 export const Gender = ["Nam", "Nữ"];
 
@@ -34,9 +39,9 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     //   .required("Vui lòng điền thông tin")
     //   .min(6, "Tối thiểu 6 kí tự"),
     password: yup
-      .string()
-      .required("Vui lòng điền thông tin")
-      .min(6, "Tối thiểu 6 kí tự"),
+      .string(),
+      // .required("Vui lòng điền thông tin")
+      // .min(6, "Tối thiểu 6 kí tự"),
     firstName: yup.string().required("Vui lòng điền thông tin"),
     //lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
@@ -47,18 +52,20 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       .string()
       .required("Vui lòng điền thông tin")
       .matches(emailRegExp, "Vui lòng điền đúng quy cách mail"),
-    address: yup.string().required("Vui lòng điền thông tin"),
-    image: yup.string().required("Vui lòng đính kèm ảnh"),
+    address: yup
+      // .required("Vui lòng điền thông tin")
+      .string(),
+    image: yup
+      // .required("Vui lòng đính kèm ảnh")
+      .string(),
     role: yup.string().required("Vui lòng điền thông tin"),
     gender: yup.string().required("Vui lòng điền thông tin"),
-    dob: yup
-      .string()
-      .test("dob", "Lớn hơn 18 tuổi và ít hơn 80 tuổi", function (value) {
-        return (
-          differenceInYears(new Date(), new Date(value)) >= 18 &&
-          differenceInYears(new Date(), new Date(value)) <= 80
-        );
-      }),
+    dob: yup.string().test("dob", "Lớn hơn 18 tuổi", function (value) {
+      return (
+        differenceInYears(new Date(), new Date(value)) >= 18 &&
+        differenceInYears(new Date(), new Date(value)) <= 150
+      );
+    }),
   });
 
   const {
@@ -78,20 +85,21 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       phoneNumber: "",
       address: "",
       dob: dayjs(new Date()).format("YYYY-MM-DD"),
-      image: "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fperson.png?alt=media&token=c5c521dc-2f27-4fb9-ba76-b0241c2dfe19",
+      image:
+        "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2FavatarIcon.png?alt=media&token=790e190a-1559-4272-b4c8-213fbc0d7f89",
       role: "",
-      gender:true,
+      gender: true,
     },
   });
 
-  function isValidURL(url) {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  }
+  // function isValidURL(url) {
+  //   try {
+  //     new URL(url);
+  //     return true;
+  //   } catch {
+  //     return false;
+  //   }
+  // }
 
   const onSubmit = (data) => onFormSubmit(data);
 
@@ -101,6 +109,36 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />
         </Backdrop>
+        {watch("image") ? (
+          <CardMedia
+            component="img"
+            sx={{
+              height: 150, // Set the height and width to the same value for a square image
+              width: 150,
+              objectFit: "cover", // Maintain aspect ratio and fill the square container
+              margin: "auto", // Center the image
+            }}
+            alt="User image"
+            src={watch("image")}
+          />
+        ) : null}
+        <Controller
+          control={control}
+          name="image"
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              sx={styles.textFieldStyle}
+              value={value}
+              onChange={onChange}
+              error={!!formErrors?.image}
+              helperText={formErrors?.image?.message}
+              inputProps={{ required: true }}
+              label="Đường link của Hình ảnh"
+              variant="outlined"
+              hidden
+            />
+          )}
+        />
         <Stack alignItems="flex-start" pt={6} spacing={5}>
           <Stack direction="row" spacing={3}>
             {/* <Controller
@@ -120,19 +158,20 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                 />
               )}
             /> */}
+
             <Controller
               control={control}
-              name="phoneNumber"
+              name="email"
               render={({ field: { onChange, value } }) => (
                 <TextField
                   sx={styles.textFieldStyle}
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.phoneNumber}
-                  helperText={formErrors?.phoneNumber?.message}
+                  error={!!formErrors?.email}
+                  helperText={formErrors?.email?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Số điện thoại"
+                  label="Email"
                   variant="outlined"
                 />
               )}
@@ -147,7 +186,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   onChange={onChange}
                   error={!!formErrors?.password}
                   helperText={formErrors?.password?.message}
-                  required
+                  // required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Mật khẩu"
                   variant="outlined"
@@ -193,17 +232,17 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
             />
             <Controller
               control={control}
-              name="email"
+              name="phoneNumber"
               render={({ field: { onChange, value } }) => (
                 <TextField
                   sx={styles.textFieldStyle}
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.email}
-                  helperText={formErrors?.email?.message}
+                  error={!!formErrors?.phoneNumber}
+                  helperText={formErrors?.phoneNumber?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Email"
+                  label="Số điện thoại"
                   variant="outlined"
                 />
               )}
@@ -220,7 +259,6 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   onChange={onChange}
                   error={!!formErrors?.address}
                   helperText={formErrors?.address?.message}
-                  required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Địa chỉ"
                   variant="outlined"
@@ -239,6 +277,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   onChange={onChange}
                   value={value}
                   variant="outlined"
+                  required
                   label="Giới tính"
                 >
                   {Gender.map((gender, index) => (
@@ -281,6 +320,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   onChange={onChange}
                   value={value}
                   variant="outlined"
+                  required
                   label="Loại tài khoản"
                 >
                   {role === "Admin"
@@ -299,7 +339,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
             />
           </Stack>
 
-          {watch("image") && isValidURL(watch("image")) ?  (
+          {/* {watch("image") && isValidURL(watch("image")) ? (
             <CardMedia
               component="img"
               sx={{
@@ -327,7 +367,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                 variant="outlined"
               />
             )}
-          />
+          /> */}
 
           <Stack
             direction="row"

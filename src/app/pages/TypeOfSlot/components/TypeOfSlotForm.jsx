@@ -51,6 +51,8 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
     });
   }, [typeOfSlotDetail, reset]);
 
+  const isTrilieu = typeOfSlotDetail?.typeName === "Trị liệu dài hạn";
+
   return (
     <Container sx={{ width: "50%", display: "flex" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -72,6 +74,7 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
                 inputProps={{ required: false, maxLength: 255 }}
                 label="Tên loại slot"
                 variant="outlined"
+                disabled={isTrilieu}
               />
             )}
           />
@@ -88,7 +91,7 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.price?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Giá tiền/Tháng"
+                label="Giá tiền/Slot"
                 variant="outlined"
                 type="number"
               />

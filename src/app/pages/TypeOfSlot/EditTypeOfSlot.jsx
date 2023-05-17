@@ -68,7 +68,7 @@ const EditTypeOfSlot = () => {
 
   const handleClose = () => {
     setOpen(false);
-    navigate(`/typeOfSlot/${id}/edit`);
+    navigate(`/typeOfSlot`);
   };
 
   return (

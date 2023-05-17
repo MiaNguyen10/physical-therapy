@@ -66,14 +66,18 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
     // lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
       .string()
-      .required("Vui lòng điền thông tin")
+      // .required("Vui lòng điền thông tin")
       .matches(phoneRegExp, "Độ dài là 10 số, không gồm chữ cái"),
     email: yup
       .string()
       .required("Vui lòng điền thông tin")
       .matches(emailRegExp, "Vui lòng điền đúng quy cách mail"),
-    address: yup.string().required("Vui lòng điền thông tin"),
-    image: yup.string().required("Vui lòng đính kèm ảnh"),
+    address: yup
+      // .required("Vui lòng điền thông tin")
+      .string(),
+    image: yup
+      // .required("Vui lòng đính kèm ảnh")
+      .string(),
     gender: yup.string().required("Vui lòng điền thông tin"),
     dob: yup
       .string()
@@ -102,7 +106,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       address: "",
       dob: dayjs(new Date()).format("YYYY-MM-DD"),
       image:
-        "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fperson.png?alt=media&token=c5c521dc-2f27-4fb9-ba76-b0241c2dfe19",
+        "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2FavatarIcon.png?alt=media&token=790e190a-1559-4272-b4c8-213fbc0d7f89",
       gender: true,
     },
   });
@@ -128,25 +132,22 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />
         </Backdrop>
+        {watch("image") ? (
+          <CardMedia
+            component="img"
+            sx={{
+              height: 150, // Set the height and width to the same value for a square image
+              width: 150,
+              objectFit: "cover", // Maintain aspect ratio and fill the square container
+              margin: "auto", // Center the image
+            }}
+            alt="User image"
+            src={watch("image")}
+          />
+        ) : null}
+
         <Stack alignItems="flex-start" pt={6} spacing={5}>
           <Stack direction="row" spacing={3}>
-            {/* <Controller
-              control={control}
-              name="lastName"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  sx={styles.textFieldStyle}
-                  value={value}
-                  onChange={onChange}
-                  error={!!formErrors?.lastName}
-                  helperText={formErrors?.lastName?.message}
-                  required
-                  inputProps={{ required: false, maxLength: 255 }}
-                  label="Họ"
-                  variant="outlined"
-                />
-              )}
-            /> */}
             <Controller
               control={control}
               name="firstName"
@@ -212,11 +213,9 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   onChange={onChange}
                   error={!!formErrors?.phoneNumber}
                   helperText={formErrors?.phoneNumber?.message}
-                  required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Số điện thoại"
                   variant="outlined"
-                  disabled
                 />
               )}
             />
@@ -232,10 +231,10 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   onChange={onChange}
                   error={!!formErrors?.address}
                   helperText={formErrors?.address?.message}
-                  required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Địa chỉ"
                   variant="outlined"
+                  placeholder="Có thể để trống"
                 />
               )}
             />
@@ -252,6 +251,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   value={value}
                   variant="outlined"
                   label="Giới tính"
+                  required
                 >
                   {Gender.map((gender, index) => (
                     <MenuItem value={gender} key={index}>
@@ -262,7 +262,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
               )}
             />
           </Stack>
-          {watch("image") ? (
+          {/* {watch("image") ? (
             <CardMedia
               component="img"
               sx={{
@@ -286,11 +286,12 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                 error={!!formErrors?.image}
                 helperText={formErrors?.image?.message}
                 inputProps={{ required: true }}
-                label="Hình ảnh"
+                label="Đường link của Hình ảnh"
                 variant="outlined"
+                hidden
               />
             )}
-          />
+          /> */}
 
           <Stack
             direction="row"

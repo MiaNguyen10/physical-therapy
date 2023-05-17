@@ -66,7 +66,7 @@ const PhysioForm = ({physioDetail, onFormSubmit, isLoading, id }) => {
                   helperText={formErrors?.specialize?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Chuyên về"
+                  label="Chuyên môn"
                   variant="outlined"
                 />
               )}
@@ -83,7 +83,7 @@ const PhysioForm = ({physioDetail, onFormSubmit, isLoading, id }) => {
                   helperText={formErrors?.skill?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Kĩ năng"
+                  label="Kĩ năng điều trị"
                   variant="outlined"
                 />
               )}

@@ -155,7 +155,8 @@ const UserList = () => {
         </Typography>
       ),
       renderCell: (params) => {
-        return <Typography>{params?.value ?? "-"}</Typography>;
+        const phoneNumberRender = params?.value;
+        return <Typography>{phoneNumberRender ? phoneNumberRender : "< Không có >"}</Typography>;
       },
     },
     {
