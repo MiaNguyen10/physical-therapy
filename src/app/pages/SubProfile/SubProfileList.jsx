@@ -42,7 +42,6 @@ const SubProfileList = () => {
   const [filters, setFilters] = useState({
     searchKey: "",
     searchSet: "",
-    searchDesc: "",
   });
 
   const [detailId, setDetailId] = useState("");
