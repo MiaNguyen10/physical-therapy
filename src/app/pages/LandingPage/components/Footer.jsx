@@ -1,13 +1,13 @@
-import { styled, Typography } from "@mui/material";
+import { styled } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 
-import EmailIcon from "@mui/icons-material/Email";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import PlaceIcon from "@mui/icons-material/Place";
-import fbIcon from "../../../assets/fbicon.png";
-import linkedinIcon from "../../../assets/linkedinicon.png";
-import twitterIcon from "../../../assets/twittericon.png";
+// import EmailIcon from "@mui/icons-material/Email";
+// import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+// import PlaceIcon from "@mui/icons-material/Place";
+// import fbIcon from "../../../assets/fbicon.png";
+// import linkedinIcon from "../../../assets/linkedinicon.png";
+// import twitterIcon from "../../../assets/twittericon.png";
 
 const Footer = () => {
   const CustomContainer = styled(Box)(({ theme }) => ({
@@ -22,38 +22,38 @@ const Footer = () => {
     },
   }));
 
-  const IconBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    gap: "1rem",
-    marginTop: 10,
-    [theme.breakpoints.down("sm")]: {
-      justifyContent: "center",
-    },
-  }));
+  // const IconBox = styled(Box)(({ theme }) => ({
+  //   display: "flex",
+  //   alignItems: "center",
+  //   gap: "1rem",
+  //   marginTop: 10,
+  //   [theme.breakpoints.down("sm")]: {
+  //     justifyContent: "center",
+  //   },
+  // }));
 
-  const FooterLink = styled("span")(({ theme }) => ({
-    fontSize: "16px",
-    color: "#fff",
-    fontWeight: "300",
-    cursor: "pointer",
-    "&:hover": {
-      color: "#000",
-    },
-  }));
+  // const FooterLink = styled("span")(({ theme }) => ({
+  //   fontSize: "16px",
+  //   color: "#fff",
+  //   fontWeight: "300",
+  //   cursor: "pointer",
+  //   "&:hover": {
+  //     color: "#000",
+  //   },
+  // }));
 
-  const ContactInfo = styled(Box)({
-    display: "flex",
-    flexDirection: "row",
-    marginTop: "10px",
-  });
+  // const ContactInfo = styled(Box)({
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   marginTop: "10px",
+  // });
 
-  const TypoContact = styled(Typography)({
-    fontSize: "16px",
-    color: "#fff",
-    fontWeight: "500",
-    marginLeft: "10px",
-  });
+  // const TypoContact = styled(Typography)({
+  //   fontSize: "16px",
+  //   color: "#fff",
+  //   fontWeight: "500",
+  //   marginLeft: "10px",
+  // });
 
   return (
         <CustomContainer>

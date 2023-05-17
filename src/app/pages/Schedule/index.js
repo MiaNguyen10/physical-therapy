@@ -43,7 +43,7 @@ const Schedule = () => {
     allowAdding: false,
     allowDragging: false,
     allowResizing: false,
-    allowDeleting: true,
+    allowDeleting: false,
     allowUpdating: true,
   })
 

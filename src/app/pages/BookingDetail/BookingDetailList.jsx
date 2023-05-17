@@ -11,8 +11,8 @@ import {
 } from '@mui/material'
 import DeleteDialog from 'app/components/Dialog/DeleteDialog'
 import { selectToken } from 'cores/reducers/authentication'
-import { getStatusCategory } from 'cores/reducers/category'
-import { getCategoryList } from 'cores/thunk/category'
+// import { getStatusCategory } from 'cores/reducers/category'
+// import { getCategoryList } from 'cores/thunk/category'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -33,7 +33,7 @@ const BookingDetailList = () => {
   let bookingDetailList = useSelector(getBookingDetails)
   const bookingDetailStatus = useSelector(getStatusBookingDetails)
   // let categoryList = useSelector(getCategories);
-  const categoryStatus = useSelector(getStatusCategory)
+  // const categoryStatus = useSelector(getStatusCategory)
   const token = useSelector(selectToken)
   const navigate = useNavigate()
 
@@ -61,17 +61,17 @@ const BookingDetailList = () => {
     setBookingDetailId('')
     setOpenDialog(false)
   }
-  useEffect(() => {
-    if (categoryStatus === 'succeeded') {
-      dispatch(resetStatus)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // useEffect(() => {
+  //   if (categoryStatus === 'succeeded') {
+  //     dispatch(resetStatus)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
-  useEffect(() => {
-    dispatch(getCategoryList())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // useEffect(() => {
+  //   dispatch(getCategoryList())
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
   const rows = useMemo(() => {
     return bookingDetailList
