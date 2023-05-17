@@ -20,8 +20,8 @@ import { makeStyles } from "./AccountForm";
 import { differenceInYears } from "date-fns";
 
 const RoleForAdmin = [
-  "Admin",
-  "Quản lý",
+  "Quản trị viên",
+  "Nhân viên",
   "Chuyên viên vật lý trị liệu",
   "Người dùng",
 ];
@@ -31,17 +31,15 @@ export const Gender = ["Nam", "Nữ"];
 const UserForm = ({ onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
-  const role = JSON.parse(localStorage.getItem("role"));
-
+  const role = JSON.parse(localStorage.getItem("authentication"));
   const schema = yup.object({
     // userName: yup
     //   .string()
     //   .required("Vui lòng điền thông tin")
     //   .min(6, "Tối thiểu 6 kí tự"),
-    password: yup
-      .string(),
-      // .required("Vui lòng điền thông tin")
-      // .min(6, "Tối thiểu 6 kí tự"),
+    password: yup.string(),
+    // .required("Vui lòng điền thông tin")
+    // .min(6, "Tối thiểu 6 kí tự"),
     firstName: yup.string().required("Vui lòng điền thông tin"),
     //lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
@@ -52,9 +50,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       .string()
       .required("Vui lòng điền thông tin")
       .matches(emailRegExp, "Vui lòng điền đúng quy cách mail"),
-    address: yup
-      // .required("Vui lòng điền thông tin")
-      .string(),
+    address: yup.string().required("Vui lòng điền thông tin"),
     image: yup
       // .required("Vui lòng đính kèm ảnh")
       .string(),
@@ -104,7 +100,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
   const onSubmit = (data) => onFormSubmit(data);
 
   return (
-    <Container sx={{ width: "90%", display: "flex" }}>
+    <Container sx={{ width: "90%", display: "flex" , marginTop: "10px"}}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />
@@ -261,6 +257,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   helperText={formErrors?.address?.message}
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Địa chỉ"
+                  required
                   variant="outlined"
                 />
               )}
@@ -323,7 +320,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   required
                   label="Loại tài khoản"
                 >
-                  {role === "Admin"
+                  {role.role === "Admin"
                     ? RoleForAdmin.map((role) => (
                         <MenuItem value={role} key={role}>
                           {role}

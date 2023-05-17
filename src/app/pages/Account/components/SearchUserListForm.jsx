@@ -16,8 +16,8 @@ import { useSelector } from "react-redux";
 export const UStatus = ["Tất cả", "Hoạt động", "Không hoạt động"];
 export const URole = [
   "Tất cả",
-  "Admin",
-  "Staff",
+  "Quản trị viên",
+  "Nhân viên",
   "Chuyên viên vật lý trị liệu",
   "Người dùng",
 ];

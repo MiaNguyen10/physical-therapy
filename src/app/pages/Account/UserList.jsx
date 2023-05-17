@@ -78,9 +78,9 @@ const UserList = () => {
       banStatus = true;
     }
 
-    if (filters.role === "Admin") {
+    if (filters.role === "Quản trị viên") {
       role = "Admin";
-    } else if (filters.role === "Staff") {
+    } else if (filters.role === "Nhân viên") {
       role = "Staff";
     } else if (filters.role === "Chuyên viên vật lý trị liệu") {
       role = "Physiotherapist";
@@ -156,7 +156,11 @@ const UserList = () => {
       ),
       renderCell: (params) => {
         const phoneNumberRender = params?.value;
-        return <Typography>{phoneNumberRender ? phoneNumberRender : "< Không có >"}</Typography>;
+        return (
+          <Typography>
+            {phoneNumberRender ? phoneNumberRender : "< Không có >"}
+          </Typography>
+        );
       },
     },
     {
@@ -177,6 +181,10 @@ const UserList = () => {
           return <Typography>Chuyên viên vật lý trị liệu</Typography>;
         } else if (params?.value?.name === "Member") {
           return <Typography>Người dùng</Typography>;
+        } else if (params?.value?.name === "Staff") {
+          return <Typography>Nhân viên</Typography>;
+        } else if (params?.value?.name === "Admin") {
+          return <Typography>Quản trị viên</Typography>;
         } else {
           return <Typography>{params?.value?.name ?? "-"}</Typography>;
         }

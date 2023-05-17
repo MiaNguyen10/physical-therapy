@@ -78,10 +78,10 @@ const AddAccount = () => {
     // }
 
     try {
-      if (role === "Admin") {
+      if (role === "Quản trị viên") {
         dispatch(addAdmin({ user, token })).unwrap();
         setOpen(true);
-      } else if (role === "Quản lý") {
+      } else if (role === "Nhân viên") {
         dispatch(addStaff({ user, token })).unwrap();
         setOpen(true);
       } else if (role === "Chuyên viên vật lý trị liệu") {
@@ -150,7 +150,7 @@ const AddAccount = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">Thêm tài khoản</Typography>
+        <Typography variant="h3">THÊM TÀI KHOẢN</Typography>
         <UserForm
           onFormSubmit={handleFormSubmit}
           isLoading={status === "loading"}

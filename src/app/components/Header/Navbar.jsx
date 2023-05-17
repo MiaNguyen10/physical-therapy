@@ -98,6 +98,19 @@ export const Navbar = () => {
     navigate(`${pages.loginPath}`);
   };
 
+  // const getTranslatedRole = (role) => {
+  //   switch (role) {
+  //     case "Member":
+  //       return "Thành viên";
+  //     case "Physiotherapist":
+  //       return "Chuyên viên vật lý trị liệu";
+  //     case "Staff":
+  //       return "Quản lý";
+  //     default:
+  //       return role;
+  //   }
+  // };
+
   return (
     <>
       {JSON.parse(localStorage.getItem("authentication")) ? (
@@ -167,8 +180,19 @@ export const Navbar = () => {
             }}
           >
             <Typography variant="h6" sx={{ fontStyle: "bold", color: "white" }}>
-              Xin chào {role.role}: {auth.UserName}
+              Xin chào{" "}
+              {role.role === "Member"
+                ? "Thành viên"
+                : role.role === "Physiotherapist"
+                ? "Chuyên viên vật lý trị liệu"
+                : role.role === "Staff"
+                ? "Nhân viên"
+                : role.role === "Admin"
+                ? "Quản trị viên"
+                : role.role}
+              : {auth.firstName}
             </Typography>
+
             <Button
               sx={{
                 fontSize: "18px",
