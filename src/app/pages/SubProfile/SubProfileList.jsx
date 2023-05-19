@@ -77,27 +77,28 @@ const SubProfileList = () => {
       Array.isArray(subProfileList) &&
       subProfileList.filter((subProfile) => {
         const isFoundName =
-          subProfile.relationName
-            .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundSet =
           subProfile.subName
             .toLowerCase()
-            .search(trim(filters.searchSet.toLowerCase())) >= 0;
+            .search(trim(filters.searchKey.toLowerCase())) >= 0;
+        // const isFoundSet =
+        //   subProfile.subName
+        //     .toLowerCase()
+        //     .search(trim(filters.searchSet.toLowerCase())) >= 0;
         // const isFoundDesc =
         //   subProfile.description
         //     .toLowerCase()
         //     .search(trim(filters.searchDesc.toLowerCase())) >= 0;
-        return isFoundName && isFoundSet;
+        return isFoundName;
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, subProfileList]);
-
+  // return subProfileList;
+  // }, [subProfileList]);
   const columns = [
     {
-      field: "relationName",
-      headerName: "Tên mối quan hệ",
+      field: "subName",
+      headerName: "Họ tên",
       width: 350,
       headerAlign: "center",
       align: "center",
@@ -110,8 +111,8 @@ const SubProfileList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "subName",
-      headerName: "subName",
+      field: "relationName",
+      headerName: "Mối quan hệ",
       width: 350,
       headerAlign: "center",
       align: "center",
@@ -122,10 +123,14 @@ const SubProfileList = () => {
         </Typography>
       ),
       renderCell: (params) => {
-        console.log(params);
-        return <Typography>{params?.value ?? "-"}</Typography>;
+        if (params?.row.relationship.relationName === "Tôi") {
+          return <Typography>Chủ tài khoản</Typography>;
+        } else {
+          <Typography>{params?.row.relationship.relationName}</Typography>;
+        }
       },
     },
+
     // {
     //   field: "description",
     //   headerName: "Mô tả",
@@ -174,7 +179,7 @@ const SubProfileList = () => {
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title='Chi tiết mối quan hệ'>
+              <Tooltip title="Chi tiết mối quan hệ">
                 <SourceIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
@@ -185,9 +190,19 @@ const SubProfileList = () => {
                 setDetailId(params?.value);
                 setOpenDialog(true);
               }}
+              disabled={
+                params?.row.relationship.relationName === "Tôi"
+              }
             >
               <DeleteIcon
-                sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
+                sx={{
+                  color:
+                    params?.row.relationship.relationName === "Tôi"
+                      ? "#1712116f"
+                      : "#e63307",
+                  cursor: "pointer",
+                  fontSize: 28,
+                }}
               />
             </IconButton>
           </>
@@ -195,30 +210,32 @@ const SubProfileList = () => {
       },
     },
   ];
+
   useEffect(() => {
     if (status === "succeeded") {
       dispatch(resetStatus);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Container maxWidth='lg' fixed sx={{ mb: 3 }}>
-      <Stack alignItems='center' spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant='h3'>DANH SÁCH MỐI QUAN HỆ</Typography>
+    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
+      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
+        <Typography variant="h3">
+          DANH SÁCH MỐI QUAN HỆ VỚI CHỦ TÀI KHOẢN
+        </Typography>
         <SearchExerciseListDetailForm onSearch={(data) => setFilters(data)} />
         <Box>
           <Stack
-            direction='row'
-            justifyContent='flex-end'
-            alignItems='center'
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
             spacing={2}
             sx={{ float: "right", mb: 3 }}
           >
             <Button
-              variant='outlined'
-              color='primary'
+              variant="outlined"
+              color="primary"
               onClick={() => navigate(`/user/${id}/edit`)}
               sx={{
                 fontWeight: "bold",
@@ -229,7 +246,7 @@ const SubProfileList = () => {
               Quay về
             </Button>
             <AddButton
-              desc='Thêm mối quan hệ'
+              desc="Thêm mối quan hệ"
               url={`/user/${id}/subProfileList/add`}
               sx={{
                 mt: -6,
@@ -249,7 +266,7 @@ const SubProfileList = () => {
             rowCount={rows?.length ?? 0}
             isLoading={status !== "succeeded"}
             pagination
-            paginationMode='client'
+            paginationMode="client"
           />
         </Box>
       </Stack>
@@ -257,7 +274,7 @@ const SubProfileList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc='Bạn có chắc chắn muốn xóa không?'
+        desc="Bạn có chắc chắn muốn xóa không?"
       />
     </Container>
   );

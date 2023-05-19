@@ -40,8 +40,8 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               ...styles.textFieldStyle,
               width: "380px",
             }}
-            placeholder="Nhập chi tiết mối quan hệ"
-            label="Chi tiết mối quan hệ"
+            placeholder="Nhập để tìm tên có mối quan hệ với chủ tài khoản"
+            label="Tên"
             value={value}
             onChange={onChange}
             variant="outlined"

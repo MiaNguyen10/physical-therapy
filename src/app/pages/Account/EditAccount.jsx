@@ -44,8 +44,13 @@ const EditAccount = () => {
 
   
   const handleClose = () => {
+    if (error) {
     setOpen(false);
-    navigate(`/user/${id}/edit`);
+    navigate(`/user/${id}/edit`);}
+    else {
+      setOpen(false);
+      navigate(`/user`);
+    }
   };
 
   const handleFormSubmit = ({
