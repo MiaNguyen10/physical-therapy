@@ -51,7 +51,7 @@ export const addSubProfile = createAsyncThunk(
         body: JSON.stringify({
           ...subProfile,
           subName: subName,
-          userID: userID
+          userID: userID,
         }),
       }
     );
@@ -60,9 +60,9 @@ export const addSubProfile = createAsyncThunk(
 );
 
 export const getSubProfileListByID = createAsyncThunk(
-  "subProfile/getSubProfileList",
+  "subProfile/getSubProfileListByID",
   async (data) => {
-    const { id, token } = data
+    const { id, token } = data;
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/SubProfile/GetByUserID/${id}`,
       {
@@ -71,6 +71,7 @@ export const getSubProfileListByID = createAsyncThunk(
         },
       }
     );
+
     return await response.json();
   }
 );
@@ -78,7 +79,7 @@ export const getSubProfileListByID = createAsyncThunk(
 export const getSubProfileByID = createAsyncThunk(
   "subProfile/getSubProfileById",
   async (data) => {
-    const { id, token } = data
+    const { id, token } = data;
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/SubProfile/${id}`,
       {
@@ -94,7 +95,7 @@ export const getSubProfileByID = createAsyncThunk(
 export const editSubProfile = createAsyncThunk(
   "subProfile/editSubProfile",
   async (data) => {
-    const { subProfile, token } = data
+    const { subProfile, token } = data;
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/SubProfile`,
       {
@@ -115,7 +116,7 @@ export const editSubProfile = createAsyncThunk(
 export const getSubProfileDetail = createAsyncThunk(
   "subProfile/getSubProfileDetail",
   async (data) => {
-    const { id, token } = data
+    const { id, token } = data;
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/SubProfile/${id}`,
       {
@@ -131,7 +132,7 @@ export const getSubProfileDetail = createAsyncThunk(
 export const deleteSubProfile = createAsyncThunk(
   "subProfile/deleteSubProfile",
   async (data) => {
-    const { subProfileID, token } = data
+    const { subProfileID, token } = data;
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/SubProfile/${subProfileID}`,
       {
