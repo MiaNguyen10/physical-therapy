@@ -112,7 +112,7 @@ const SlotList = () => {
   const columns = [
     {
       field: "slotName",
-      headerName: "Tên",
+      headerName: "Tên buổi điều trị",
       width: 350,
       headerAlign: "center",
       align: "center",
@@ -241,7 +241,7 @@ const SlotList = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH SÁCH SLOT</Typography>
+        <Typography variant="h3">DANH SÁCH BUỔI ĐIỀU TRỊ</Typography>
         <SearchSlotListFrom
           onSearch={(data) => setFilters(data)}
           rangeDate={rangeDate}
@@ -250,7 +250,7 @@ const SlotList = () => {
         />
         <Box>
           <AddButton
-            desc="Thêm slot"
+            desc="Thêm buổi điều trị"
             url={`${pages.addSlotPath}`}
             sx={{
               mt: -6,

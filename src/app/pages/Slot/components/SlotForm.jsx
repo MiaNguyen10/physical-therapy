@@ -56,8 +56,8 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
 
-  const startOfDay = dayjs(slotDetail?.timeStart).startOf("day");
-  const endOfDay = dayjs(slotDetail?.timeStart).endOf("day");
+  // const startOfDay = dayjs(slotDetail?.timeStart).startOf("day");
+  // const endOfDay = dayjs(slotDetail?.timeStart).endOf("day");
 
   const schema = yup.object({
     slotName: yup.string().required("Vui lòng điền thông tin"),
@@ -132,7 +132,7 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.slotName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Tên slot"
+                label="Tên buổi điều trị"
                 variant="outlined"
               />
             )}

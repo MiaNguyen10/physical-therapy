@@ -20,7 +20,7 @@ export default function Appointment(model) {
         Kĩ năng điều trị: {targetedAppointmentData.physiotherapistDetail.skill}
       </div>
       <div>
-        Loại slot: {targetedAppointmentData.typeOfSlot?.typeName}
+        Loại điều trị: {targetedAppointmentData.typeOfSlot?.typeName}
       </div>
       <div>
         {formatDate(targetedAppointmentData.displayStartDate, "shortTime")}

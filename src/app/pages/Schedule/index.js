@@ -95,7 +95,7 @@ const Schedule = () => {
     form.option("items", [
       {
         label: {
-          text: "Tên slot",
+          text: "Tên buổi điều trị",
         },
         name: "slotName",
         editorType: "dxTextBox",
@@ -151,7 +151,7 @@ const Schedule = () => {
       },
       {
         label: {
-          text: "Loại Slot",
+          text: "Loại điều trị",
         },
         editorType: "dxSelectBox",
         dataField: "typeOfSlotID",

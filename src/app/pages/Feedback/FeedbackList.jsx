@@ -61,7 +61,7 @@ const FeedbackList = () => {
                       color="text.secondary"
                       gutterBottom
                     >
-                      Loại slot: {feedback.schedule.typeOfSlot.typeName}
+                      Loại điều trị: {feedback.schedule.typeOfSlot.typeName}
                     </Typography>
                     <Typography
                       sx={{ fontSize: 14 }}

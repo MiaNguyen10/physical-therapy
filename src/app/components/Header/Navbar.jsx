@@ -152,10 +152,10 @@ export const Navbar = () => {
                 <RestrictedPermission permission={"Staff"}>
                   {/* Staff */}
                   <NavLink variant="body2" href={pages.slotListPath}>
-                    Slot
+                    Buổi điều trị
                   </NavLink>
                   <NavLink variant="body2" href={pages.typeOfSlotListPath}>
-                    Loại Slot
+                    Loại điều trị
                   </NavLink>
                   <NavLink variant="body2" href={pages.schedulePath}>
                     Lịch

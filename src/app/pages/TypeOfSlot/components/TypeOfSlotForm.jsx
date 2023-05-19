@@ -72,7 +72,7 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.typeName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Tên loại slot"
+                label="Tên loại điều trị"
                 variant="outlined"
                 disabled={isTrilieu}
               />
@@ -91,7 +91,7 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.price?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Giá tiền/Slot"
+                label="Giá tiền/Buổi"
                 variant="outlined"
                 type="number"
               />

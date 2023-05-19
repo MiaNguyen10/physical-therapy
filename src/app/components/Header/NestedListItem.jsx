@@ -57,14 +57,14 @@ const NestedListItem = () => {
           <ListItemIcon>
             <EventIcon />
           </ListItemIcon>
-          <ListItemText primary="Slot" />
+          <ListItemText primary="Buổi điều trị" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate(`${pages.typeOfSlotListPath}`)}>
           <ListItemIcon>
             <AddIcCallIcon />
           </ListItemIcon>
-          <ListItemText primary="Loại slot" />
+          <ListItemText primary="Loại điều trị" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate(`${pages.schedulePath}`)}>

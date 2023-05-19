@@ -74,7 +74,7 @@ const EditTypeOfSlot = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">SỬA LOẠI SLOT</Typography>
+        <Typography variant="h3">SỬA LOẠI ĐIỀU TRỊ</Typography>
         <TypeOfSlotForm
           typeOfSlotDetail={{
             typeName: typeOfSlotDetail?.typeName,

@@ -58,8 +58,8 @@ const SearchSlotListForm = ({
               ...styles.textFieldStyle,
               width: "380px",
             }}
-            placeholder="Nhập tên slot cần tìm"
-            label="Slot"
+            placeholder="Nhập tên buổi điều trị cần tìm"
+            label="Buổi điều trị"
             value={value}
             onChange={onChange}
             variant="outlined"
