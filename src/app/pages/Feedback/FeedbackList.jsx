@@ -78,7 +78,7 @@ const FeedbackList = () => {
                       )}
                     </Typography>
                     <Typography variant="body2" gutterBottom>
-                      Schedule: {feedback.schedule.description}
+                      Comment: {feedback.comment}
                     </Typography>
                     <Typography variant="body2" gutterBottom>
                       Chuyên viên vật lý trị liệu:{" "}

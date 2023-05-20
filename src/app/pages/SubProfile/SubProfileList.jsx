@@ -1,13 +1,13 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import SourceIcon from "@mui/icons-material/Source";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import EditIcon from "@mui/icons-material/Edit";
+// import SourceIcon from "@mui/icons-material/Source";
 import {
   Box,
   Button,
   Container,
-  IconButton,
+  // IconButton,
   Stack,
-  Tooltip,
+  // Tooltip,
   Typography,
 } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
@@ -25,7 +25,7 @@ import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import AddButton from "../../components/Button/AddButton";
+// import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import SearchExerciseListDetailForm from "./components/SearchSubProfileForm";
 
@@ -99,7 +99,7 @@ const SubProfileList = () => {
     {
       field: "subName",
       headerName: "Họ tên",
-      width: 350,
+      width: 550,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -145,70 +145,70 @@ const SubProfileList = () => {
     //   ),
     //   renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     // },
-    {
-      field: "profileID",
-      headerName: "Chỉnh sửa",
-      width: 200,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      sortable: false,
-      renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-          {params.colDef.headerName}
-        </Typography>
-      ),
-      renderCell: (params) => {
-        return (
-          <>
-            <IconButton
-              onClick={() =>
-                navigate(`/user/${id}/subProfileList/${params?.value}/edit`)
-              }
-              sx={{ ml: 1 }}
-            >
-              <EditIcon
-                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
-              />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                navigate(
-                  `/user/${id}/subProfileList/${params?.value}/userResource`
-                )
-              }
-              sx={{ ml: 1, mr: 1 }}
-            >
-              <Tooltip title="Chi tiết mối quan hệ">
-                <SourceIcon
-                  sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
-                />
-              </Tooltip>
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setDetailId(params?.value);
-                setOpenDialog(true);
-              }}
-              disabled={
-                params?.row.relationship.relationName === "Tôi"
-              }
-            >
-              <DeleteIcon
-                sx={{
-                  color:
-                    params?.row.relationship.relationName === "Tôi"
-                      ? "#1712116f"
-                      : "#e63307",
-                  cursor: "pointer",
-                  fontSize: 28,
-                }}
-              />
-            </IconButton>
-          </>
-        );
-      },
-    },
+    // {
+    //   field: "profileID",
+    //   headerName: "Chỉnh sửa",
+    //   width: 200,
+    //   headerAlign: "center",
+    //   align: "center",
+    //   disableColumnMenu: true,
+    //   sortable: false,
+    //   renderHeader: (params) => (
+    //     <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+    //       {params.colDef.headerName}
+    //     </Typography>
+    //   ),
+    //   renderCell: (params) => {
+    //     return (
+    //       <>
+    //         {/* <IconButton
+    //           onClick={() =>
+    //             navigate(`/user/${id}/subProfileList/${params?.value}/edit`)
+    //           }
+    //           sx={{ ml: 1 }}
+    //         >
+    //           <EditIcon
+    //             sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
+    //           />
+    //         </IconButton>
+    //         <IconButton
+    //           onClick={() =>
+    //             navigate(
+    //               `/user/${id}/subProfileList/${params?.value}/userResource`
+    //             )
+    //           }
+    //           sx={{ ml: 1, mr: 1 }}
+    //         >
+    //           <Tooltip title="Chi tiết mối quan hệ">
+    //             <SourceIcon
+    //               sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
+    //             />
+    //           </Tooltip>
+    //         </IconButton>
+    //         <IconButton
+    //           onClick={() => {
+    //             setDetailId(params?.value);
+    //             setOpenDialog(true);
+    //           }}
+    //           disabled={
+    //             params?.row.relationship.relationName === "Tôi"
+    //           }
+    //         >
+    //           <DeleteIcon
+    //             sx={{
+    //               color:
+    //                 params?.row.relationship.relationName === "Tôi"
+    //                   ? "#1712116f"
+    //                   : "#e63307",
+    //               cursor: "pointer",
+    //               fontSize: 28,
+    //             }}
+    //           />
+    //         </IconButton> */}
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   useEffect(() => {
@@ -231,7 +231,7 @@ const SubProfileList = () => {
             justifyContent="flex-end"
             alignItems="center"
             spacing={2}
-            sx={{ float: "right", mb: 3 }}
+            sx={{ float: "inherit", mb: 3 }}
           >
             <Button
               variant="outlined"
@@ -245,7 +245,7 @@ const SubProfileList = () => {
             >
               Quay về
             </Button>
-            <AddButton
+            {/* <AddButton
               desc="Thêm mối quan hệ"
               url={`/user/${id}/subProfileList/add`}
               sx={{
@@ -254,7 +254,7 @@ const SubProfileList = () => {
                 boxShadow:
                   "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
               }}
-            />
+            /> */}
           </Stack>
           <DataGridTable
             columns={columns}
@@ -267,6 +267,7 @@ const SubProfileList = () => {
             isLoading={status !== "succeeded"}
             pagination
             paginationMode="client"
+            width="1000px"
           />
         </Box>
       </Stack>
