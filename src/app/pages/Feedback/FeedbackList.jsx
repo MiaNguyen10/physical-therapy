@@ -77,18 +77,20 @@ const FeedbackList = () => {
                         "DD/MM/YYYY HH:mm A"
                       )}
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      Comment: {feedback.comment}
-                    </Typography>
+                    {/* <Typography variant="body2" gutterBottom>
+                      Schedule: {feedback.schedule.description}
+                    </Typography> */}
                     <Typography variant="body2" gutterBottom>
                       Chuyên viên vật lý trị liệu:{" "}
                       {`${feedback.schedule.physiotherapistDetail.user.lastName} ${feedback.schedule.physiotherapistDetail.user.firstName}`}
                     </Typography>
-                    <Typography variant="body2" gutterBottom>Rating star: </Typography>
-                    <Rating value={feedback.ratingStar} readOnly />
                     <Typography variant="body2" gutterBottom>
                       Đánh giá: {feedback.comment}
                     </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      Rating star:{" "}
+                    </Typography>
+                    <Rating value={feedback.ratingStar} readOnly />
                   </CardContent>
                 </Card>
               ))
