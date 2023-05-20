@@ -9,8 +9,12 @@ import {
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 
 const SearchExerciseListDetailForm = ({ onSearch }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const styles = makeStyles();
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -31,6 +35,24 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
       alignItems="center"
       spacing={3}
     >
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => navigate(`/user/${id}/edit`)}
+        sx={{
+          height: "45px",
+          width: "150px",
+          fontWeight: "bold",
+          boxShadow:
+            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+          fontSize: "1.2rem", // change this value to increase or decrease the font size
+          padding: "10px 32px", // change this value to increase or decrease the padding
+          // border: "2px solid",
+          color: ""
+        }}
+      >
+        Quay về
+      </Button>
       <Controller
         control={control}
         name="searchKey"
@@ -110,7 +132,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
           />
         )}
       /> */}
-            <Button
+      <Button
         type="submit"
         variant="outlined"
         sx={{

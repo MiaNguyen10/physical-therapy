@@ -53,6 +53,9 @@ export const makeStyles = () => ({
         maxWidth: 0,
       },
     },
+    // ".MuiContainer-root": {
+    //   paddingTop: 0,
+    // },
   },
 });
 
@@ -66,7 +69,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
     // lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
       .string()
-      // .required("Vui lòng điền thông tin")
+      .required("Vui lòng điền thông tin")
       .matches(phoneRegExp, "Độ dài là 10 số, không gồm chữ cái"),
     email: yup
       .string()
@@ -216,6 +219,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Số điện thoại"
                   variant="outlined"
+                  required
                 />
               )}
             />

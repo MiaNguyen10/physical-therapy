@@ -3,7 +3,7 @@
 // import SourceIcon from "@mui/icons-material/Source";
 import {
   Box,
-  Button,
+  // Button,
   Container,
   // IconButton,
   Stack,
@@ -24,18 +24,18 @@ import {
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 // import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import SearchExerciseListDetailForm from "./components/SearchSubProfileForm";
 
 const SubProfileList = () => {
   const { id } = useParams();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   let subProfileList = useSelector(getSubProfilesList);
   const status = useSelector(getStatus);
   const token = useSelector(selectToken);
-  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -233,7 +233,7 @@ const SubProfileList = () => {
             spacing={2}
             sx={{ float: "inherit", mb: 3 }}
           >
-            <Button
+            {/* <Button
               variant="outlined"
               color="primary"
               onClick={() => navigate(`/user/${id}/edit`)}
@@ -244,7 +244,7 @@ const SubProfileList = () => {
               }}
             >
               Quay về
-            </Button>
+            </Button> */}
             {/* <AddButton
               desc="Thêm mối quan hệ"
               url={`/user/${id}/subProfileList/add`}
