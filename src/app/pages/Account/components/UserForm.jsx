@@ -59,10 +59,10 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       .string(),
     role: yup.string().required("Vui lòng điền thông tin"),
     gender: yup.string().required("Vui lòng điền thông tin"),
-    dob: yup.string().test("dob", "Lớn hơn 18 tuổi", function (value) {
+    dob: yup.string().test("dob", "Lớn hơn 18 tuổi và dưới 100 tuổi", function (value) {
       return (
         differenceInYears(new Date(), new Date(value)) >= 18 &&
-        differenceInYears(new Date(), new Date(value)) <= 150
+        differenceInYears(new Date(), new Date(value)) <= 100
       );
     }),
   });

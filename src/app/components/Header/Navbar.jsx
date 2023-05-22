@@ -10,8 +10,10 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
+import { selectUserId } from "cores/reducers/authentication";
 
 export const Navbar = () => {
+  const currentUserID = useSelector(selectUserId);
   const [mobileMenu, setMobileMenu] = useState({
     left: false,
   });
@@ -184,7 +186,11 @@ export const Navbar = () => {
               gap: "1rem",
             }}
           >
-            <Typography variant="h6" sx={{ fontStyle: "bold", color: "white" }}>
+            <NavLink
+              href={`/user/${currentUserID}/edit`}
+              variant="h6"
+              sx={{ fontStyle: "bold", color: "white" }}
+            >
               Xin chào{" "}
               {role.role === "Member"
                 ? "Thành viên"
@@ -199,7 +205,7 @@ export const Navbar = () => {
               <span style={{ fontWeight: "800", fontStyle: "italic" }}>
                 {auth.firstName}
               </span>
-            </Typography>
+            </NavLink>
 
             <Button
               sx={{

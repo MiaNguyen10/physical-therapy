@@ -90,10 +90,10 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
     gender: yup.string().required("Vui lòng điền thông tin"),
     dob: yup
       .string()
-      .test("dob", "Lớn hơn 18 tuổi và ít hơn 80 tuổi", function (value) {
+      .test("dob", "Lớn hơn 18 tuổi và dưới 100 tuổi", function (value) {
         return (
           differenceInYears(new Date(), new Date(value)) >= 18 &&
-          differenceInYears(new Date(), new Date(value)) <= 80
+          differenceInYears(new Date(), new Date(value)) <= 100
         );
       }),
   });
