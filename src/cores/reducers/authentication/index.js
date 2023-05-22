@@ -66,19 +66,6 @@ export const authenSlice = createSlice({
       .addCase(getRole.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      })
-      //* reset password
-      .addCase(resetPassword.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(resetPassword.fulfilled, (state, action) => {
-        console.log("success");
-        state.status = "succeeded";
-        console.log(action.payload);
-      })
-      .addCase(resetPassword.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
       });
   },
 });

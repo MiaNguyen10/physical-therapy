@@ -28,20 +28,3 @@ export const getRole = createAsyncThunk(
     return await response.json();
   }
 );
-
-export const resetPassword = createAsyncThunk(
-  "/resetPassword",
-  async ({ email }) => {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/User/RecoveryPassword?email=${email}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    return await res.json();
-  }
-);
