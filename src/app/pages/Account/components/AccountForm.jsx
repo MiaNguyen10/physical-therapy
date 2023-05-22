@@ -136,7 +136,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
   }, [userDetail, reset]);
 
   return (
-    <Container sx={{ width: "90%", display: "flex" }}>
+    <Container sx={{ width: "90%", display: "flex", mt: "15px !important" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />

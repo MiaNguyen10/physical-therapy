@@ -1,5 +1,5 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { Button, Drawer, Link, Typography, styled } from "@mui/material";
+import { Button, Drawer, Link, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 import { logout, selectState } from "cores/reducers/authentication";
