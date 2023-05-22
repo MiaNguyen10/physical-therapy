@@ -170,6 +170,11 @@ export const Navbar = () => {
                 </NavLink>
               </NavbarLinksBox>
             </RestrictedPermission>
+            <RestrictedPermission permission={["Member", "Physiotherapist"]}>
+              <NavLink variant="body2" href={process.env.DOWNLOAD_APP}>
+                Vui lòng tải ứng dụng Mobile để sử dụng
+              </NavLink>
+            </RestrictedPermission>
           </NavbarItem>
           <Box
             sx={{
@@ -190,7 +195,10 @@ export const Navbar = () => {
                 : role.role === "Admin"
                 ? "Quản trị viên"
                 : role.role}
-              : {auth.firstName}
+              :{" "}
+              <span style={{ fontWeight: "800", fontStyle: "italic" }}>
+                {auth.firstName}
+              </span>
             </Typography>
 
             <Button

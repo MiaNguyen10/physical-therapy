@@ -46,6 +46,7 @@ export const authenSlice = createSlice({
         state.token_type = action.payload.result.token_type;
         state.firstName = action.payload.result.firstName;
         state.role = action.payload.result.role.name;
+        state.userID = action.payload.result.userID;
 
         localStorage.setItem("authentication", JSON.stringify(state));
       })
@@ -86,3 +87,4 @@ export const selectState = (state) => {
   };
 };
 export const getUserRole = (state) => state.auth.role
+export const selectUserId = (state) => state.auth.userID;

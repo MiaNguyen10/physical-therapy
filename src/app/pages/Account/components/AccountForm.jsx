@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Backdrop,
@@ -12,12 +13,13 @@ import {
 import { emailRegExp, phoneRegExp } from "cores/utils/regexFormat";
 import { differenceInYears } from "date-fns";
 import dayjs from "dayjs";
-import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
 import { Gender } from "./UserForm";
+import { selectUserId } from "cores/reducers/authentication";
+import { useSelector } from "react-redux";
 
 export const makeStyles = () => ({
   textFieldStyle: {
@@ -63,6 +65,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
   const { id } = useParams();
+  const currentUserID = useSelector(selectUserId);
 
   const schema = yup.object({
     firstName: yup
@@ -142,15 +145,38 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
           <CardMedia
             component="img"
             sx={{
-              height: 150, // Set the height and width to the same value for a square image
-              width: 150,
+              height: 250, // Set the height and width to the same value for a square image
+              width: 250,
               objectFit: "cover", // Maintain aspect ratio and fill the square container
               margin: "auto", // Center the image
+              paddingBottom: "20px",
             }}
             alt="User image"
             src={watch("image")}
           />
         ) : null}
+
+        <Controller
+          control={control}
+          name="image"
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              sx={{ ...styles.textFieldStyle, width: "100%" }} // Set the width to 100%
+              value={value}
+              onChange={onChange}
+              error={!!formErrors?.image && currentUserID === id}
+              helperText={
+                formErrors?.image?.message &&
+                currentUserID === id &&
+                formErrors?.image?.message
+              }
+              inputProps={{ required: false }}
+              label="Đường link của Hình ảnh"
+              variant="outlined"
+              hidden={currentUserID !== id}
+            />
+          )}
+        />
 
         <Stack alignItems="flex-start" pt={6} spacing={5}>
           <Stack direction="row" spacing={3}>
@@ -162,15 +188,21 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   sx={styles.textFieldStyle}
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.firstName}
-                  helperText={formErrors?.firstName?.message}
-                  required
+                  error={!!formErrors?.firstName && currentUserID === id}
+                  helperText={
+                    formErrors?.firstName?.message &&
+                    currentUserID === id &&
+                    formErrors?.firstName?.message
+                  }
+                  required={currentUserID === id}
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Họ tên"
                   variant="outlined"
+                  disabled={currentUserID !== id}
                 />
               )}
             />
+
             <Controller
               control={control}
               name="dob"
@@ -180,12 +212,17 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   type="date"
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.dob}
-                  helperText={formErrors?.dob?.message}
-                  required
+                  error={!!formErrors?.dob && currentUserID === id}
+                  helperText={
+                    formErrors?.dob?.message &&
+                    currentUserID === id &&
+                    formErrors?.dob?.message
+                  }
+                  required={currentUserID === id}
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Ngày sinh"
                   variant="outlined"
+                  disabled={currentUserID !== id}
                 />
               )}
             />
@@ -217,12 +254,17 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   sx={styles.textFieldStyle}
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.phoneNumber}
-                  helperText={formErrors?.phoneNumber?.message}
+                  error={!!formErrors?.phoneNumber && currentUserID === id}
+                  helperText={
+                    formErrors?.phoneNumber?.message &&
+                    currentUserID === id &&
+                    formErrors?.phoneNumber?.message
+                  }
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Số điện thoại"
                   variant="outlined"
-                  required
+                  required={currentUserID === id}
+                  disabled={currentUserID !== id}
                 />
               )}
             />
@@ -236,12 +278,17 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   sx={styles.textFieldStyle}
                   value={value}
                   onChange={onChange}
-                  error={!!formErrors?.address}
-                  helperText={formErrors?.address?.message}
+                  error={!!formErrors?.address && currentUserID === id}
+                  helperText={
+                    formErrors?.address?.message &&
+                    currentUserID === id &&
+                    formErrors?.address?.message
+                  }
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Địa chỉ"
                   variant="outlined"
                   placeholder="Có thể để trống"
+                  disabled={currentUserID !== id}
                 />
               )}
             />
@@ -258,7 +305,8 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   value={value}
                   variant="outlined"
                   label="Giới tính"
-                  required
+                  required={currentUserID === id}
+                  disabled={currentUserID !== id}
                 >
                   {Gender.map((gender, index) => (
                     <MenuItem value={gender} key={index}>
