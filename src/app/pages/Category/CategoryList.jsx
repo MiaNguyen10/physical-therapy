@@ -21,6 +21,7 @@ const CategotyList = () => {
   const dispatch = useDispatch();
   let categoryList = useSelector(getCategories);
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [unique, setUnique] = useState(Math.random());
   const [openEditModal, setOpenEditModal] = useState(false);
   const getId = useRef(-1);
   const categoryStatus = useSelector(getStatusCategory);
@@ -81,7 +82,6 @@ const CategotyList = () => {
       })
     );
   }, [filters, categoryList]);
-
   const columns = [
     {
       field: "categoryName",
@@ -162,7 +162,7 @@ const CategotyList = () => {
   useEffect(() => {
     dispatch(getCategoryList());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
+  }, [refreshKey, unique]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
@@ -204,10 +204,15 @@ const CategotyList = () => {
         />
       )}
       {openAddModal && (
-        <AddCategory openModal={openAddModal} onClose={handleCloseAdd} />
+        <AddCategory
+          openModal={openAddModal}
+          onClose={handleCloseAdd}
+          setUnique={setUnique}
+        />
       )}
       {openEditModal && (
         <EditCategory
+          setUnique={setUnique}
           openModal={openEditModal}
           onClose={handleCloseEdit}
           id={getId.current}

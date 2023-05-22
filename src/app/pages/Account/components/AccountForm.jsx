@@ -65,7 +65,10 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
   const { id } = useParams();
 
   const schema = yup.object({
-    firstName: yup.string().required("Vui lòng điền thông tin"),
+    firstName: yup
+      .string()
+      .required("Vui lòng điền thông tin")
+      .matches(/^[^\d]*$/, "Tên không được chứa số"),
     // lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
       .string()
@@ -107,7 +110,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       email: "",
       phoneNumber: "",
       address: "",
-      dob: dayjs(new Date()).format("YYYY-MM-DD"),
+      dob: "2000-01-01",
       image:
         "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2FavatarIcon.png?alt=media&token=790e190a-1559-4272-b4c8-213fbc0d7f89",
       gender: true,
@@ -163,7 +166,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   helperText={formErrors?.firstName?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Tên"
+                  label="Họ tên"
                   variant="outlined"
                 />
               )}

@@ -61,10 +61,49 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
 
   const schema = yup.object({
     slotName: yup.string().required("Vui lòng điền thông tin"),
-    timeStart: yup.string().required("Vui lòng điền thông tin"),
+    timeStart: yup
+      .string()
+      .required("Vui lòng điền thông tin"),
+      // .test(
+      //   "is-valid-start-time",
+      //   "Thời gian bắt đầu phải từ 5 giờ sáng đến 11 giờ tối",
+      //   function (value) {
+      //     const startTime = dayjs(value, "HH:mm");
+      //     const startBoundary = dayjs("05:00", "HH:mm");
+      //     const endBoundary = dayjs("23:00", "HH:mm");
+      //     return (
+      //       startTime.isSameOrAfter(startBoundary) &&
+      //       startTime.isSameOrBefore(endBoundary)
+      //     );
+      //   }
+      // ),
     timeEnd: yup
       .string()
       .required("Vui lòng điền thông tin")
+      // .test(
+      //   "is-valid-time-end",
+      //   "Thời gian kết thúc phải từ 5 AM đến 11 PM",
+      //   function (value) {
+      //     const endTime = dayjs(value, "h:mm A").format("HH:mm");
+      //     return (
+      //       dayjs(endTime, "HH:mm").isSameOrAfter(dayjs("05:00", "HH:mm")) &&
+      //       dayjs(endTime, "HH:mm").isSameOrBefore(dayjs("23:00", "HH:mm"))
+      //     );
+      //   }
+      // )
+      // .test(
+      //   "is-valid-end-time",
+      //   "Thời gian kết thúc phải từ 5 giờ sáng đến 11 giờ tối",
+      //   function (value) {
+      //     const endTime = dayjs(value, "HH:mm");
+      //     const startBoundary = dayjs("05:00", "HH:mm");
+      //     const endBoundary = dayjs("23:00", "HH:mm");
+      //     return (
+      //       endTime.isSameOrAfter(startBoundary) &&
+      //       endTime.isSameOrBefore(endBoundary)
+      //     );
+      //   }
+      // )
       .test(
         "is-greater",
         "Thời gian kết thúc phải sau thời gian bắt đầu",
@@ -79,6 +118,17 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         function (value) {
           const { timeStart } = this.parent;
           return dayjs(value).isSame(dayjs(timeStart), "day");
+        }
+      )
+      .test(
+        "is-at-least-one-hour-later",
+        "Thời gian kết thúc phải ít nhất 1 giờ sau thời gian bắt đầu",
+        function (value) {
+          const { timeStart } = this.parent;
+          const timeStartPlusOneHour = dayjs(timeStart)
+            .add(1, "hour")
+            .subtract(1, "minute");
+          return dayjs(value).isAfter(timeStartPlusOneHour);
         }
       ),
   });

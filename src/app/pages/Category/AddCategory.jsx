@@ -8,7 +8,7 @@ import ConfirmDialog from '../../components/Dialog/ConfirmDialog'
 import pages from '../../config/pages'
 import CategoryForm from './components/CategoryForm'
 
-const AddCategory = ({ onClose, openModal }) => {
+const AddCategory = ({ onClose, openModal, setUnique }) => {
   const dispatch = useDispatch()
   const categoryStatus = useSelector(getStatusCategory)
   const [open, setOpen] = useState(false)
@@ -26,6 +26,7 @@ const AddCategory = ({ onClose, openModal }) => {
         })
       ).unwrap()
       setOpen(true)
+      setUnique(Math.random());
       onClose()
     } catch (err) {
       // eslint-disable-next-line no-empty

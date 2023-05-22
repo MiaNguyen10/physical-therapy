@@ -67,7 +67,11 @@ const ExerciseForm = ({
   const schema = yup.object({
     exerciseName: yup.string().required("Vui lòng điền thông tin"),
     categoryID: yup.string().required("Vui lòng điền thông tin"),
-    exerciseTimePerWeek: yup.string().required("Vui lòng điền thông tin"),
+    exerciseTimePerWeek: yup
+      .number()
+      .typeError("Vui lòng điền số lượng thời gian tập luyện trong tuần")
+      .required("Vui lòng điền thông tin")
+      .min(1, "Số lượng thời gian tập luyện trong tuần phải lớn hơn 0"),
   });
 
   const {
@@ -90,7 +94,7 @@ const ExerciseForm = ({
   const onSubmit = (data) => {
     onFormSubmit(data);
   };
-  
+
   useEffect(() => {
     reset({
       exerciseName: exerciseDetail?.exerciseName,
@@ -99,7 +103,7 @@ const ExerciseForm = ({
       status: exerciseDetail?.status,
       flag: exerciseDetail?.flag,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exerciseDetail]);
 
   return (
@@ -173,10 +177,10 @@ const ExerciseForm = ({
                 }}
               >
                 {categories.map((cate) => (
-                    <MenuItem value={cate.categoryID} key={cate.categoryID}>
-                      {cate.categoryName}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value={cate.categoryID} key={cate.categoryID}>
+                    {cate.categoryName}
+                  </MenuItem>
+                ))}
               </TextField>
             )}
           />

@@ -11,7 +11,7 @@ import { editCategory, getCategoryDetail } from "../../../cores/thunk/category";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import CategoryForm from "./components/CategoryForm";
 
-const EditCategory = ({ id, onClose, openModal }) => {
+const EditCategory = ({ id, onClose, openModal, setUnique }) => {
   const dispatch = useDispatch();
   const categoryStatus = useSelector(getStatusCategory);
   const [open, setOpen] = useState(false);
@@ -33,6 +33,7 @@ const EditCategory = ({ id, onClose, openModal }) => {
       ).unwrap();
       setRefreshKey((oldKey) => oldKey + 1);
       setOpen(true);
+      setUnique(Math.random());
       onClose();
     } catch (err) {
       // eslint-disable-next-line no-empty

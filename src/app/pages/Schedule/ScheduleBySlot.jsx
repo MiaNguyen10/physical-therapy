@@ -84,7 +84,7 @@ const ScheduleBySlot = () => {
     allowAdding: false,
     allowDragging: false,
     allowResizing: false,
-    allowDeleting: true,
+    allowDeleting: false,
     allowUpdating: true,
   });
 
@@ -103,6 +103,7 @@ const ScheduleBySlot = () => {
         description: schedule.description,
         physiotherapistDetail: schedule.physiotherapistDetail,
         typeOfSlot: schedule.typeOfSlot,
+        physiotherapistID: schedule.physiotherapistID,
         startDate: new Date(`${formatDateStart}T${formatTimeStart}`),
         endDate: new Date(`${formatDateEnd}T${formatTimeEnd}`),
         typeOfSlotID: schedule.typeOfSlotID,
@@ -111,11 +112,16 @@ const ScheduleBySlot = () => {
       };
       formatData.push(formatSchedule);
     });
-    setAppointmentList(formatData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const filterData = formatData.filter(
+      (data) => data.typeOfSlot?.typeName !== "Trị liệu dài hạn"
+    );
+    setAppointmentList(filterData);
   }, [schedules]);
 
   const onAppointmentFormOpening = (e) => {
+    const filteredListTypeOfSlot = listTypeOfSlot.filter(
+      (typeOfSlot) => typeOfSlot.typeName !== "Trị liệu dài hạn"
+    );
     const { form } = e;
     let slotName = e.appointmentData.text;
     let desc = e.appointmentData.description;
@@ -187,7 +193,7 @@ const ScheduleBySlot = () => {
         editorType: "dxSelectBox",
         dataField: "typeOfSlotID",
         editorOptions: {
-          items: listTypeOfSlot,
+          items: filteredListTypeOfSlot,
           displayExpr: "typeName",
           valueExpr: "typeOfSlotID",
         },
@@ -240,7 +246,7 @@ const ScheduleBySlot = () => {
         defaultCurrentDate={
           new Date(dayjs(slotDetail.timeStart).format("YYYY/MM/DD"))
         }
-        startDayHour={5}
+        startDayHour={0}
         editing={config.current}
         allDayPanelMode="hidden"
         onAppointmentFormOpening={onAppointmentFormOpening}
@@ -248,6 +254,7 @@ const ScheduleBySlot = () => {
         recurrenceEditMode="occurrence"
         onAppointmentUpdated={onAppointmentUpdated}
         onAppointmentDeleted={onAppointmentDeleted}
+        firstDayOfWeek={1}
       >
         <Editing allowAdding={false} />
         <Resource dataSource={listTypeOfSlot} fieldExpr="typeOfSlotID" />

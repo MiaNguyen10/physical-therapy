@@ -5,16 +5,16 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import "dayjs/locale/en";
+import "dayjs/locale/vi";
 import React from "react";
 
-dayjs.locale("en");
+dayjs.locale("vi");
 
 const DateTimePickerInput = ({ value, onChange, error, sx }) => {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
       <MobileDateTimePicker
-        format="DD / MM / YYYY hh:ss A"
+        format="DD/MM/YYYY HH:mm"
         value={dayjs(value)}
         onChange={onChange}
         closeOnSelect

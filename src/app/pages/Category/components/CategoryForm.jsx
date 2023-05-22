@@ -153,6 +153,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
               inputProps={{ required: true }}
               label="Đường link của Icon"
               variant="outlined"
+              hidden
             />
           )}
         />

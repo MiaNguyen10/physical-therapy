@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { emailRegExp, phoneRegExp } from "cores/utils/regexFormat";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +40,10 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     password: yup.string(),
     // .required("Vui lòng điền thông tin")
     // .min(6, "Tối thiểu 6 kí tự"),
-    firstName: yup.string().required("Vui lòng điền thông tin"),
+    firstName: yup
+      .string()
+      .required("Vui lòng điền thông tin")
+      .matches(/^[^\d]*$/, "Tên không được chứa số"),
     //lastName: yup.string().required("Vui lòng điền thông tin"),
     phoneNumber: yup
       .string()
@@ -80,7 +83,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       email: "",
       phoneNumber: "",
       address: "",
-      dob: dayjs(new Date()).format("YYYY-MM-DD"),
+      dob: "2000-01-01",
       image:
         "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2FavatarIcon.png?alt=media&token=790e190a-1559-4272-b4c8-213fbc0d7f89",
       role: "",
@@ -100,7 +103,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
   const onSubmit = (data) => onFormSubmit(data);
 
   return (
-    <Container sx={{ width: "90%", display: "flex" , marginTop: "10px"}}>
+    <Container sx={{ width: "90%", display: "flex", marginTop: "10px" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />
@@ -187,6 +190,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   label="Mật khẩu"
                   variant="outlined"
                   placeholder="Mặc định không điền là 1-6"
+                  disabled
                 />
               )}
             />
@@ -221,7 +225,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   helperText={formErrors?.firstName?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Tên"
+                  label="Họ tên"
                   variant="outlined"
                 />
               )}

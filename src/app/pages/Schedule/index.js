@@ -195,7 +195,7 @@ const Schedule = () => {
         views={views}
         defaultCurrentView="week"
         defaultCurrentDate={currentDate}
-        startDayHour={5}
+        startDayHour={0}
         editing={config.current}
         allDayPanelMode="hidden"
         onAppointmentFormOpening={onAppointmentFormOpening}
@@ -203,6 +203,7 @@ const Schedule = () => {
         recurrenceEditMode="occurrence"
         onAppointmentUpdated={onAppointmentUpdated}
         onAppointmentDeleted={onAppointmentDeleted}
+        firstDayOfWeek={1}
       >
         <Editing allowAdding={false} />
         <Resource dataSource={listTypeOfSlot} fieldExpr="typeOfSlotID" />
