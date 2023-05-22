@@ -59,12 +59,14 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       .string(),
     role: yup.string().required("Vui lòng điền thông tin"),
     gender: yup.string().required("Vui lòng điền thông tin"),
-    dob: yup.string().test("dob", "Lớn hơn 18 tuổi và dưới 100 tuổi", function (value) {
-      return (
-        differenceInYears(new Date(), new Date(value)) >= 18 &&
-        differenceInYears(new Date(), new Date(value)) <= 100
-      );
-    }),
+    dob: yup
+      .string()
+      .test("dob", "Lớn hơn 18 tuổi và dưới 100 tuổi", function (value) {
+        return (
+          differenceInYears(new Date(), new Date(value)) >= 18 &&
+          differenceInYears(new Date(), new Date(value)) <= 100
+        );
+      }),
   });
 
   const {
@@ -103,7 +105,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
   const onSubmit = (data) => onFormSubmit(data);
 
   return (
-    <Container sx={{ width: "90%", display: "flex", marginTop: "10px" }}>
+    <Container sx={{ width: "90%", display: "flex", mt: "15px !important" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Backdrop open={isLoading} sx={{ zIndex: 9 }}>
           <CircularProgress />
@@ -112,8 +114,8 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
           <CardMedia
             component="img"
             sx={{
-              height: 150, // Set the height and width to the same value for a square image
-              width: 150,
+              height: 250, // Set the height and width to the same value for a square image
+              width: 250,
               objectFit: "cover", // Maintain aspect ratio and fill the square container
               margin: "auto", // Center the image
             }}

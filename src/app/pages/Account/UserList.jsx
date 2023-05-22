@@ -13,8 +13,12 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchUserListForm from "./components/SearchUserListForm";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ShieldIcon from "@mui/icons-material/Shield";
+import { selectUserId } from "cores/reducers/authentication";
 
 const UserList = () => {
+  const currentUserID = useSelector(selectUserId);
   const dispatch = useDispatch();
   const userList = useSelector(getUsers);
   const status = useSelector(getUserStatus);
@@ -224,43 +228,87 @@ const UserList = () => {
         </Typography>
       ),
       renderCell: (params) => {
-        return (
-          <>
-            <IconButton
-              onClick={() => navigate(`/user/${params?.value}/edit`)}
-              sx={{ ml: 1 }}
-            >
-              <EditIcon
-                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
-              />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setOpenDialog(true);
-                setIdUser(params?.value);
-                params?.row.banStatus === true
-                  ? setDesc("Bạn có muốn khôi phục tài khoản không?")
-                  : setDesc("Bạn có muốn chặn người dùng này không?");
-              }}
-              sx={{ ml: 1 }}
-              disabled={params?.row.role.name === "Admin"}
-            >
-              <RemoveCircleIcon
-                sx={{
-                  color:
-                    params?.row.role.name === "Admin" ||
-                    params?.row.banStatus === true
-                      ? "#1712116f"
-                      : "#e63307",
-                  cursor: "pointer",
-                  fontSize: 28,
+        const isCurrentUser = params.value === currentUserID;
+        if (params.row.role.name === "Admin") {
+          return (
+            <>
+              <IconButton
+                onClick={() => navigate(`/user/${params.value}/edit`)}
+                sx={{ ml: 1 }}
+              >
+                {isCurrentUser ? (
+                  <EditIcon
+                    sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
+                  />
+                ) : (
+                  <VisibilityIcon
+                    sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
+                  />
+                )}
+              </IconButton>
+              <IconButton
+                onClick={() => navigate(`/user/${params.value}/edit`)}
+                sx={{ ml: 1 }}
+              >
+                <ShieldIcon
+                  sx={{
+                    color:
+                      params?.row.role.name === "Admin" ||
+                      params?.row.banStatus === true
+                        ? "#1712116f"
+                        : "#e63307",
+                    cursor: "pointer",
+                    fontSize: 28,
+                  }}
+                />
+              </IconButton>
+            </>
+          );
+        } else {
+          return (
+            <>
+              <IconButton
+                onClick={() => navigate(`/user/${params.value}/edit`)}
+                sx={{ ml: 1 }}
+              >
+                {isCurrentUser ? (
+                  <EditIcon
+                    sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
+                  />
+                ) : (
+                  <VisibilityIcon
+                    sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
+                  />
+                )}
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  setOpenDialog(true);
+                  setIdUser(params?.value);
+                  params?.row.banStatus === true
+                    ? setDesc("Bạn có muốn khôi phục tài khoản không?")
+                    : setDesc("Bạn có muốn chặn người dùng này không?");
                 }}
-              />
-            </IconButton>
-          </>
-        );
+                sx={{ ml: 1 }}
+                disabled={params?.row.role.name === "Admin"}
+              >
+                <RemoveCircleIcon
+                  sx={{
+                    color:
+                      params?.row.role.name === "Admin" ||
+                      params?.row.banStatus === true
+                        ? "#1712116f"
+                        : "#e63307",
+                    cursor: "pointer",
+                    fontSize: 28,
+                  }}
+                />
+              </IconButton>
+            </>
+          );
+        }
       },
-    },
+    },      
   ];
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>

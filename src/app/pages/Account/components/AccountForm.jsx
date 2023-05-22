@@ -149,7 +149,6 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
               width: 250,
               objectFit: "cover", // Maintain aspect ratio and fill the square container
               margin: "auto", // Center the image
-              paddingBottom: "20px",
             }}
             alt="User image"
             src={watch("image")}
@@ -161,7 +160,11 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
           name="image"
           render={({ field: { onChange, value } }) => (
             <TextField
-              sx={{ ...styles.textFieldStyle, width: "100%" }} // Set the width to 100%
+              sx={{
+                ...styles.textFieldStyle,
+                width: "100%",
+                marginTop: "30px", // Add margin-top for spacing
+              }} // Set the width to 100%
               value={value}
               onChange={onChange}
               error={!!formErrors?.image && currentUserID === id}
