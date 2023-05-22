@@ -76,7 +76,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
     phoneNumber: yup
       .string()
       .required("Vui lòng điền thông tin")
-      .matches(phoneRegExp, "Độ dài là 10 số, không gồm chữ cái"),
+      .matches(phoneRegExp, "Độ dài là 10 số, không gồm chữ cái và bắt đầu từ số 0"),
     email: yup
       .string()
       .required("Vui lòng điền thông tin")

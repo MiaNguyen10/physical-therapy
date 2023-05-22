@@ -249,6 +249,7 @@ const UserList = () => {
               <IconButton
                 onClick={() => navigate(`/user/${params.value}/edit`)}
                 sx={{ ml: 1 }}
+                disabled
               >
                 <ShieldIcon
                   sx={{

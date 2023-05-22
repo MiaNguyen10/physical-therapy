@@ -140,7 +140,6 @@ const ExerciseForm = ({
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                type="number"
                 error={!!formErrors?.exerciseTimePerWeek}
                 helperText={formErrors?.exerciseTimePerWeek?.message}
                 required
