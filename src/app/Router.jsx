@@ -37,11 +37,15 @@ import AddSubProfile from "./pages/SubProfile/AddSubProfile";
 import SubProfile from "./pages/Account/SubProfile";
 import SubProfileList from "./pages/SubProfile/SubProfileList";
 import EditSubProfile from "./pages/SubProfile/EditSubProfile";
+import ResetPasswordPage from "./pages/ResetPassword";
+import RecoveryPasswordPage from "./pages/RecoverPassword";
 
 const Router = () => {
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
+      <Route path={pages.resetPassword} element={<ResetPasswordPage />} />
+      <Route path={pages.recoverPassword} element={<RecoveryPasswordPage />} />
       <Route element={<Layout />}>
         <Route element={<ProtectedRoutes />}>
           <Route
@@ -55,17 +59,17 @@ const Router = () => {
 
             {/* SubProfile */}
             <Route
-                path={`/${pages.subProfileListPath}`}
-                element={<SubProfileList />}
-              />
-              <Route
-                path={`/${pages.subProfileEditPath}`}
-                element={<EditSubProfile />}
-              />
-              <Route
-                path={`/${pages.subProfileAddPath}`}
-                element={<AddSubProfile />}
-              />
+              path={`/${pages.subProfileListPath}`}
+              element={<SubProfileList />}
+            />
+            <Route
+              path={`/${pages.subProfileEditPath}`}
+              element={<EditSubProfile />}
+            />
+            <Route
+              path={`/${pages.subProfileAddPath}`}
+              element={<AddSubProfile />}
+            />
 
             {/* Physiotherapist */}
             <Route path={`${pages.physioPath}`} element={<Physiotherapist />} />
@@ -162,7 +166,10 @@ const Router = () => {
                 path={`/${pages.scheduleBySlotID}`}
                 element={<ScheduleBySlot />}
               />
-              <Route path={`/${pages.bookingDetailPath}`} element={<BookingDetailList />} />
+              <Route
+                path={`/${pages.bookingDetailPath}`}
+                element={<BookingDetailList />}
+              />
             </Route>
           </Route>
         </Route>
