@@ -16,6 +16,7 @@ const pages = {
   categoryListPath: "/category",
   addCategoryPath: "/category/add",
   categoryEditPath: "/category/:id/edit",
+  categoryExerciseListPath: "/category/:id/exercise",
 
   exerciseListPath: "/exercise",
   addExercisePath: "/exercise/add",

@@ -10,6 +10,22 @@ export const getCategoryList = createAsyncThunk(
   }
 );
 
+export const getCategoryExerciseList = createAsyncThunk(
+  "category/getCategoryExerciseList",
+  async (data) => {
+    const { id, token } = data
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/Exercise/GetByCategoryId/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return await response.json();
+  }
+);
+
 export const addCategory = createAsyncThunk(
   "category/addCategory",
   async (inputCreate) => {

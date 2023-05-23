@@ -39,6 +39,7 @@ import SubProfileList from "./pages/SubProfile/SubProfileList";
 import EditSubProfile from "./pages/SubProfile/EditSubProfile";
 import ResetPasswordPage from "./pages/ResetPassword";
 import RecoveryPasswordPage from "./pages/RecoverPassword";
+import CategoryExerciseList from "./pages/Category/CategoryExerciseList";
 
 const Router = () => {
   return (
@@ -98,6 +99,10 @@ const Router = () => {
               <Route
                 path={`/${pages.categoryEditPath}`}
                 element={<EditCategory />}
+              />
+              <Route
+                path={`/${pages.categoryExerciseListPath}`}
+                element={<CategoryExerciseList />}
               />
               {/* Exercise */}
               <Route

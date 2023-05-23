@@ -5,6 +5,7 @@ import {
   editCategory,
   getCategoryDetail,
   getCategoryList,
+  getCategoryExerciseList,
 } from "../../thunk/category";
 
 const initialState = {
@@ -32,6 +33,17 @@ const categorySlice = createSlice({
         state.categories = action.payload;
       })
       .addCase(getCategoryList.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(getCategoryExerciseList.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getCategoryExerciseList.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.categories = action.payload;
+      })
+      .addCase(getCategoryExerciseList.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
@@ -78,3 +90,4 @@ export default categorySlice.reducer;
 export const getCategories = (state) => state.category.categories;
 export const getCategory = (state) => state.category.categoryDetail;
 export const getStatusCategory = (state) => state.category.status;
+export const getCategoryExercise = (state) => state.category.categories;
