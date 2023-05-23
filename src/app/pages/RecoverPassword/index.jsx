@@ -160,6 +160,6 @@ export default function RecoveryPasswordPage() {
       </Stack>
     </Container>
   ) : (
-    <>Not valid URL</>
+    <>Email and Token is not valid</>
   );
 }
