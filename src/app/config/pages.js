@@ -2,7 +2,7 @@ const pages = {
   landingPage: "/",
   loginPath: "/login",
   resetPassword: "/reset-password",
-  recoverPassword: "/recover-password",
+  recoverPassword: "/User/ResetPassword",
 
   userListPath: "/user",
   userEditPath: "/user/:id/edit",
