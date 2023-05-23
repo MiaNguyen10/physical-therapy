@@ -1,40 +1,50 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from '@mui/icons-material/Info';
-import { Box, Container, IconButton, Stack, Tooltip, Typography } from "@mui/material";
-import OpenModalButton from "app/components/Button/OpenModalButton";
-import DeleteDialog from "app/components/Dialog/DeleteDialog";
-import { trim } from "lodash";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  getCategories,
-  getStatusCategory,
-  resetStatus,
-} from "../../../cores/reducers/category";
-import { deleteCategory, getCategoryList } from "../../../cores/thunk/category";
-import DataGridTable from "../../components/DataGrid/DataGridTable";
-import SearchCategoryListFrom from "../Category/components/SearchCategoryListForm";
-import AddCategory from "./AddCategory";
-import EditCategory from "./EditCategory";
+  Box,
+  Container,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
+import { selectToken } from "cores/reducers/authentication";
+import { getCategories, getStatusCategory } from "cores/reducers/category";
+import { getCategoryList } from "cores/thunk/category";
+import { trim } from "lodash";
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  getExercises,
+  getStatusExercises,
+  resetStatus,
+} from "../../../cores/reducers/exercise";
+import { deleteExercise, getExerciseList } from "../../../cores/thunk/exercise";
+import AddButton from "../../components/Button/AddButton";
+import DataGridTable from "../../components/DataGrid/DataGridTable";
+import pages from "../../config/pages";
+import SearchExerciseListFrom from "../Exercise/components/SearchExerciseListForm";
 
-const CategotyList = () => {
-  const navigate = useNavigate();
+const ExerciseList = () => {
   const dispatch = useDispatch();
+  let exerciseList = useSelector(getExercises);
+  const exerciseStatus = useSelector(getStatusExercises);
   let categoryList = useSelector(getCategories);
-  const [openAddModal, setOpenAddModal] = useState(false);
-  const [unique, setUnique] = useState(Math.random());
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const getId = useRef(-1);
   const categoryStatus = useSelector(getStatusCategory);
+  const token = useSelector(selectToken);
+  const navigate = useNavigate();
+
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
     searchKey: "",
-    searchDesc: "",
+    searchCate: "",
   });
-  const [categoryId, setCategoryId] = useState("");
+
+  const [exerciseId, setExerciseId] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
 
   const handlePageChange = (page) => {
@@ -45,65 +55,46 @@ const CategotyList = () => {
     setOpenDialog(false);
   };
 
-  const handleOpenAdd = () => {
-    setOpenAddModal(true);
-  };
-
-  const handleCloseAdd = () => {
-    setOpenAddModal(false);
-  };
-
-  const handleOpenEdit = (id) => {
-    getId.current = id;
-    setOpenEditModal(true);
-  };
-
-  const handleCloseEdit = () => {
-    setOpenEditModal(false);
-  };
-
   const handleDelete = () => {
-    dispatch(deleteCategory(categoryId));
+    dispatch(deleteExercise({ exerciseID: exerciseId, token }));
     setRefreshKey((oldKey) => oldKey + 1);
-    setCategoryId("");
+    setExerciseId("");
     setOpenDialog(false);
   };
+  useEffect(() => {
+    if (categoryStatus === "succeeded") {
+      dispatch(resetStatus);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCategoryList());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const rows = useMemo(() => {
     return (
-      Array.isArray(categoryList) &&
-      categoryList.filter((category) => {
+      Array.isArray(exerciseList) &&
+      exerciseList.filter((exercise) => {
         const isFoundName =
-          category.categoryName
+          exercise.exerciseName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundDesc =
-          category.description
+        const isFoundCate =
+          exercise.categoryID
             .toLowerCase()
-            .search(trim(filters.searchDesc.toLowerCase())) >= 0;
-        return isFoundName && isFoundDesc;
+            .search(trim(filters.searchCate.toLowerCase())) >= 0;
+        return isFoundName && isFoundCate;
       })
     );
-  }, [filters, categoryList]);
+  }, [filters, exerciseList]);
+
   const columns = [
     {
-      field: "categoryName",
-      headerName: "Tình trạng",
-      width: 400,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-          {params.colDef.headerName}
-        </Typography>
-      ),
-      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
-    },
-    {
-      field: "description",
-      headerName: "Mô tả",
-      width: 500,
+      field: "exerciseName",
+      headerName: "Bài tập",
+      width: 550,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -116,6 +107,41 @@ const CategotyList = () => {
     },
     {
       field: "categoryID",
+      headerName: "Tình trạng",
+      width: 350,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography>
+          {Array.isArray(categoryList) &&
+            categoryList
+              .filter((category) => category.categoryID === params.value)
+              .map((x) => x.categoryName)}
+        </Typography>
+      ),
+    },
+    {
+      field: "exerciseTimePerWeek",
+      headerName: "Thời gian / Tuần",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
+      ),
+      renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
+    },
+    {
+      field: "exerciseID",
       headerName: "Chỉnh sửa",
       width: 200,
       headerAlign: "center",
@@ -131,7 +157,9 @@ const CategotyList = () => {
         return (
           <>
             <IconButton
-              onClick={() => handleOpenEdit(params.value)}
+              onClick={() =>
+                navigate(`${pages.exerciseListPath}/${params?.value}/edit`)
+              }
               sx={{ ml: 1 }}
             >
               <EditIcon
@@ -140,11 +168,11 @@ const CategotyList = () => {
             </IconButton>
             <IconButton
               onClick={() =>
-                navigate(`/category/${params?.value}/exercise`)
+                navigate(`/exercise/${params?.value}/exerciseDetailList`)
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title="Các bài tập">
+              <Tooltip title="Chi tiết bài tập">
                 <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
@@ -152,10 +180,9 @@ const CategotyList = () => {
             </IconButton>
             <IconButton
               onClick={() => {
-                setCategoryId(params?.value);
+                setExerciseId(params?.value);
                 setOpenDialog(true);
               }}
-              sx={{ ml: 1 }}
             >
               <DeleteIcon
                 sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
@@ -168,26 +195,26 @@ const CategotyList = () => {
   ];
 
   useEffect(() => {
-    if (categoryStatus === "succeeded") {
+    if (exerciseStatus === "succeeded") {
       dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    dispatch(getCategoryList());
+    dispatch(getExerciseList(token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey, unique]);
+  }, [refreshKey]);
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">TÌNH TRẠNG</Typography>
-        <SearchCategoryListFrom onSearch={(data) => setFilters(data)} />
+        <Typography variant="h3">DANH SÁCH BÀI TẬP</Typography>
+        <SearchExerciseListFrom onSearch={(data) => setFilters(data)} />
         <Box>
-          <OpenModalButton
-            desc="Thêm tình trạng"
-            onOpen={handleOpenAdd}
+          <AddButton
+            desc="Thêm bài tập"
+            url={`${pages.addExercisePath}`}
             sx={{
               mt: -6,
               fontWeight: "bold",
@@ -196,45 +223,27 @@ const CategotyList = () => {
             }}
           />
           <DataGridTable
-            width="1200px"
             columns={columns}
             rows={rows}
-            getRowId={(row) => row.categoryID}
+            getRowId={(row) => row.exerciseID}
             rowHeight={70}
             page={page}
             onPageChange={handlePageChange}
             rowCount={rows?.length ?? 0}
-            isLoading={categoryStatus !== "succeeded"}
+            isLoading={exerciseStatus !== "succeeded"}
             pagination
             paginationMode="client"
           />
         </Box>
       </Stack>
-      {openDialog && (
-        <DeleteDialog
-          open={openDialog}
-          handleClose={handleClose}
-          handleDelete={handleDelete}
-          desc="Bạn có chắc chắn muốn xóa không?"
-        />
-      )}
-      {openAddModal && (
-        <AddCategory
-          openModal={openAddModal}
-          onClose={handleCloseAdd}
-          setUnique={setUnique}
-        />
-      )}
-      {openEditModal && (
-        <EditCategory
-          setUnique={setUnique}
-          openModal={openEditModal}
-          onClose={handleCloseEdit}
-          id={getId.current}
-        />
-      )}
+      <DeleteDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        desc="Bạn có chắc chắn muốn xóa không?"
+      />
     </Container>
   );
 };
 
-export default CategotyList;
+export default ExerciseList;

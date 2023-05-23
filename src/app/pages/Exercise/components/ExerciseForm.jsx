@@ -71,7 +71,8 @@ const ExerciseForm = ({
       .number()
       .typeError("Vui lòng điền số lượng thời gian tập luyện trong tuần")
       .required("Vui lòng điền thông tin")
-      .min(1, "Số lượng thời gian tập luyện trong tuần phải lớn hơn 0"),
+      .min(1, "Số lượng thời gian tập luyện trong tuần phải lớn hơn 0")
+      .max(100, "Số lượng thời gian tập luyện trong tuần phải nhỏ hơn 100")
   });
 
   const {
@@ -99,7 +100,7 @@ const ExerciseForm = ({
     reset({
       exerciseName: exerciseDetail?.exerciseName,
       categoryID: exerciseDetail?.categoryID,
-      exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeekPerWeek,
+      exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeek,
       status: exerciseDetail?.status,
       flag: exerciseDetail?.flag,
     });
@@ -139,7 +140,6 @@ const ExerciseForm = ({
                 sx={styles.textFieldStyle}
                 value={value}
                 onChange={onChange}
-                type="number"
                 error={!!formErrors?.exerciseTimePerWeek}
                 helperText={formErrors?.exerciseTimePerWeek?.message}
                 required

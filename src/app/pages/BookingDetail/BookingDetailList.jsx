@@ -39,10 +39,10 @@ const BookingDetailList = () => {
 
   const [page, setPage] = useState(0)
   const [refreshKey, setRefreshKey] = useState(0)
-  const [filters, setFilters] = useState({
-    searchKey: '',
-    searchCate: '',
-  })
+  // const [filters, setFilters] = useState({
+  //   searchKey: '',
+  //   searchCate: '',
+  // })
 
   const [bookingDetailId, setBookingDetailId] = useState('')
   const [openDialog, setOpenDialog] = useState(false)

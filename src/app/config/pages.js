@@ -1,50 +1,56 @@
 const pages = {
-    landingPage: '/',   
-    loginPath: '/login',
+  landingPage: "/",
+  loginPath: "/login",
+  resetPassword: "/reset-password",
+  recoverPassword: "/recover-password",
 
-    userListPath: '/user',
-    userEditPath: '/user/:id/edit',
-    addUserPath : '/user/add',
+  userListPath: "/user",
+  userEditPath: "/user/:id/edit",
+  addUserPath: "/user/add",
 
-    physioPath: '/user/:id/physiotherapist',
-    addPhysioPath: '/user/:id/physiotherapist/add',
-    subProfilePath: '/user/:id/subProfile',
-    addSubProfilePath: '/user/:id/subProfile/add',
+  physioPath: "/user/:id/physiotherapist",
+  addPhysioPath: "/user/:id/physiotherapist/add",
+  subProfilePath: "/user/:id/subProfile",
+  addSubProfilePath: "/user/:id/subProfile/add",
 
-    categoryListPath: '/category',
-    addCategoryPath: '/category/add',
-    categoryEditPath: '/category/:id/edit',
+  categoryListPath: "/category",
+  addCategoryPath: "/category/add",
+  categoryEditPath: "/category/:id/edit",
+  categoryExerciseListPath: "/category/:id/exercise",
 
-    exerciseListPath: '/exercise',
-    addExercisePath: '/exercise/add',
-    exerciseEditPath: '/exercise/:id/edit',
+  exerciseListPath: "/exercise",
+  addExercisePath: "/exercise/add",
+  exerciseEditPath: "/exercise/:id/edit",
 
-    exerciseDetailListPath: '/exercise/:id/exerciseDetailList',
-    exerciseDetailEditPath: '/exercise/:id/exerciseDetailList/:idDetail/edit',
-    exerciseDetailAddPath: '/exercise/:id/exerciseDetailList/add',
+  exerciseDetailListPath: "/exercise/:id/exerciseDetailList",
+  exerciseDetailEditPath: "/exercise/:id/exerciseDetailList/:idDetail/edit",
+  exerciseDetailAddPath: "/exercise/:id/exerciseDetailList/add",
 
-    exerciseResourceListPath: '/exercise/:id/exerciseDetailList/:idDetail/exerciseResource',
-    addExerciseResourcePath: '/exercise/:id/exerciseDetailList/:idDetail/exerciseResource/add',
-    editExerciseResourcePath: '/exercise/:id/exerciseDetailList/:idDetail/exerciseResource/:idResource/edit',
+  exerciseResourceListPath:
+    "/exercise/:id/exerciseDetailList/:idDetail/exerciseResource",
+  addExerciseResourcePath:
+    "/exercise/:id/exerciseDetailList/:idDetail/exerciseResource/add",
+  editExerciseResourcePath:
+    "/exercise/:id/exerciseDetailList/:idDetail/exerciseResource/:idResource/edit",
 
-    schedulePath: '/schedulePath',
-        
-    slotListPath: '/slot',
-    addSlotPath: '/slot/add',
-    slotEditPath: '/slot/:id/edit',
-    scheduleBySlotID: '/slot/:id/schedule',
+  schedulePath: "/schedulePath",
 
-    typeOfSlotListPath: '/typeOfSlot',
-    addtypeOfSlotPath: '/typeOfSlot/add',
-    typeOfSlotEditPath: '/typeOfSlot/:id/edit',
+  slotListPath: "/slot",
+  addSlotPath: "/slot/add",
+  slotEditPath: "/slot/:id/edit",
+  scheduleBySlotID: "/slot/:id/schedule",
 
-    feedbackListPath: '/feedback',
+  typeOfSlotListPath: "/typeOfSlot",
+  addtypeOfSlotPath: "/typeOfSlot/add",
+  typeOfSlotEditPath: "/typeOfSlot/:id/edit",
 
-    bookingDetailPath: '/bookingDetail',
+  feedbackListPath: "/feedback",
 
-    subProfileListPath: '/user/:id/subProfileList',
-    subProfileEditPath: '/user/:id/subProfileList/:idDetail/edit',
-    subProfileAddPath: '/user/:id/subProfileList/add',
-}
+  bookingDetailPath: "/bookingDetail",
 
-export default pages
+  subProfileListPath: "/user/:id/subProfileList",
+  subProfileEditPath: "/user/:id/subProfileList/:idDetail/edit",
+  subProfileAddPath: "/user/:id/subProfileList/add",
+};
+
+export default pages;

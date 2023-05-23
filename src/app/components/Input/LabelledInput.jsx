@@ -35,7 +35,7 @@ const LabelledInput = ({
   return (
     <Box>
       <StyleInput
-        margin="normal"
+        margin='normal'
         required
         fullWidth
         id={`labelled-input-${name}`}

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRole, login } from "../../thunk/auth";
+import { getRole, login, resetPassword } from "../../thunk/auth";
 import { tokenDecoder } from "../tokenDecoder";
 
 const initialState = {
@@ -66,7 +66,7 @@ export const authenSlice = createSlice({
       .addCase(getRole.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      })
+      });
   },
 });
 
@@ -86,5 +86,5 @@ export const selectState = (state) => {
     ...tokenData,
   };
 };
-export const getUserRole = (state) => state.auth.role
+export const getUserRole = (state) => state.auth.role;
 export const selectUserId = (state) => state.auth.userID;
