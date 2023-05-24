@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRole, login, resetPassword } from "../../thunk/auth";
+import { getRole, login } from "../../thunk/auth";
 import { tokenDecoder } from "../tokenDecoder";
 
 const initialState = {
@@ -42,6 +42,7 @@ export const authenSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = "idle";
+        console.log("fullfiled");
         state.access_token = action.payload.result.access_token;
         state.token_type = action.payload.result.token_type;
         state.firstName = action.payload.result.firstName;
@@ -52,6 +53,7 @@ export const authenSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
+        console.log(action);
         state.errorCode = action.error;
       })
       .addCase(getRole.pending, (state) => {

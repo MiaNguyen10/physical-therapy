@@ -40,14 +40,18 @@ import EditSubProfile from "./pages/SubProfile/EditSubProfile";
 import ResetPasswordPage from "./pages/ResetPassword";
 import RecoveryPasswordPage from "./pages/RecoverPassword";
 import CategoryExerciseList from "./pages/Category/CategoryExerciseList";
+import ChangePasswordPage from "./pages/ChangePassword";
 
 const Router = () => {
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
-      <Route path={pages.resetPassword} element={<ResetPasswordPage />} />
-      <Route path={pages.recoverPassword} element={<RecoveryPasswordPage />} />
       <Route element={<Layout />}>
+        <Route path={pages.resetPassword} element={<ResetPasswordPage />} />
+        <Route
+          path={pages.recoverPassword}
+          element={<RecoveryPasswordPage />}
+        />
         <Route element={<ProtectedRoutes />}>
           <Route
             element={<RestrictedPermission permission={["Admin", "Staff"]} />}
@@ -57,7 +61,10 @@ const Router = () => {
             <Route path={`/${pages.addUserPath}`} element={<AddAccount />} />
             <Route path={`/${pages.userEditPath}`} element={<EditAccount />} />
             <Route path={`${pages.subProfilePath}`} element={<SubProfile />} />
-
+            <Route
+              path={pages.changePassword}
+              element={<ChangePasswordPage />}
+            />
             {/* SubProfile */}
             <Route
               path={`/${pages.subProfileListPath}`}

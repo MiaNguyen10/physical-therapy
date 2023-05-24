@@ -18,6 +18,7 @@ import { emailRegExp } from "../../cores/utils/regexFormat";
 import logo2 from "../assets/logo2.jpg";
 import LabelledInput from "../components/Input/LabelledInput";
 import pages from "../config/pages";
+import axios from "axios";
 
 const Login = () => {
   const state = useLocation().state;
@@ -35,12 +36,11 @@ const Login = () => {
   const submitHandler = async ({ email, password }) => {
     try {
       await dispatch(login({ email, password })).unwrap();
-
       const destination =
         state && state.from.pathname ? state.from.pathname : pages.landingPage;
       navigate(destination, { replace: true });
     } catch (e) {
-      setEMessage(e.message);
+      setEMessage(e);
     }
   };
 
@@ -131,13 +131,13 @@ const Login = () => {
             </Button>
             <Grid container justifyContent='space-between'>
               <Grid item xs justifyContent='space-between'>
-                <Link href='/' variant='body2' sx={{ fontStyle: "italic" }}>
+                <Link href='/' variant='body2'>
                   Trở về trang chủ
                 </Link>
               </Grid>
               <Grid item>
                 <Link href={pages.resetPassword} variant='body2'>
-                  Quên mật khẩu ?
+                  Quên mật khẩu?
                 </Link>
               </Grid>
             </Grid>

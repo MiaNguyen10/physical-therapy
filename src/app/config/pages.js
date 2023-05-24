@@ -3,6 +3,7 @@ const pages = {
   loginPath: "/login",
   resetPassword: "/reset-password",
   recoverPassword: "/User/ResetPassword",
+  changePassword: "/change-password",
 
   userListPath: "/user",
   userEditPath: "/user/:id/edit",
