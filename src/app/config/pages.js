@@ -38,6 +38,7 @@ const pages = {
 
   slotListPath: "/slot",
   addSlotPath: "/slot/add",
+  addMultipleSlotPath: '/slot/add-multiple',
   slotEditPath: "/slot/:id/edit",
   scheduleBySlotID: "/slot/:id/schedule",
 

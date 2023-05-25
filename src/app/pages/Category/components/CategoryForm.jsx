@@ -15,7 +15,7 @@ export const makeStyles = () => ({
   textFieldStyle: {
     width: '500px',
     '.MuiOutlinedInput-root': {
-      height: 44,
+      height: 58,
       '& fieldset': {
         borderColor: '',
       },

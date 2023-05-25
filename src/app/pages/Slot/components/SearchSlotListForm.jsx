@@ -48,6 +48,10 @@ const SearchSlotListForm = ({
       component="form"
       alignItems="center"
       spacing={3}
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}
     >
       <Controller
         control={control}
@@ -57,6 +61,7 @@ const SearchSlotListForm = ({
             sx={{
               ...styles.textFieldStyle,
               width: "380px",
+              height: "60px !important",
             }}
             placeholder="Nhập tên buổi điều trị cần tìm"
             label="Buổi điều trị"
@@ -77,17 +82,21 @@ const SearchSlotListForm = ({
       />
 
       <DatePickerInput
+        disablePast={false}
+        disabled={false}
         label="Ngày bắt đầu"
-        value={rangeDate.startDate}
+        value={rangeDate.startDate ?? ""}
         onChange={handleStartDateChange}
       />
       <DatePickerInput
+        disablePast={false}
+        disabled={false}
         label="Ngày kết thúc"
-        value={rangeDate.endDate}
+        value={rangeDate.endDate ?? ""}
         onChange={handleEndDateChange}
       />
 
-            <Button
+      <Button
         type="submit"
         variant="outlined"
         sx={{

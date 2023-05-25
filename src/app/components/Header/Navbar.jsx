@@ -37,7 +37,7 @@ export const Navbar = () => {
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 280 }}
-      role='presentation'
+      role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
@@ -47,16 +47,26 @@ export const Navbar = () => {
 
   const NavLinkComponent = styled(Link)({
     fontSize: "18px",
+    height: "80px",
     color: "#fff",
     fontWeight: "bold",
     cursor: "pointer",
+    transition: "0.1s",
+    display: "flex",
+    alignItems: "center",
+    padding: "0 12px",
+    ":hover": {
+      transition: "0.3s ease",
+      backgroundColor: "#fff",
+      color: "#2ea1e2",
+    },
   });
 
   const NavbarLinksBox = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: theme.spacing(3),
+    // gap: theme.spacing(3),
 
     [theme.breakpoints.down("md")]: {
       display: "none",
@@ -123,7 +133,7 @@ export const Navbar = () => {
               <RestrictedPermission permission={["Admin", "Staff"]}>
                 <CustomMenuIcon onClick={toggleDrawer("left", true)} />
                 <Drawer
-                  anchor='left'
+                  anchor="left"
                   open={mobileMenu["left"]}
                   onClose={toggleDrawer("left", false)}
                 >
@@ -132,27 +142,27 @@ export const Navbar = () => {
               </RestrictedPermission>
 
               <a href={pages.landingPage}>
-                <img src={logo} alt='Logo' />
+                <img src={logo} alt="Logo" />
               </a>
             </Box>
             <RestrictedPermission permission={["Admin", "Staff"]}>
               <NavbarLinksBox>
-                <NavLinkComponent variant='body2' href={pages.landingPage}>
+                <NavLinkComponent variant="body2" href={pages.landingPage}>
                   Trang chủ
                 </NavLinkComponent>
-                <NavLinkComponent variant='body2' href={pages.userListPath}>
+                <NavLinkComponent variant="body2" href={pages.userListPath}>
                   Quản lý người dùng
                 </NavLinkComponent>
                 <RestrictedPermission permission={"Admin"}>
                   {/* Admin */}
                   <NavLinkComponent
-                    variant='body2'
+                    variant="body2"
                     href={pages.categoryListPath}
                   >
                     Tình trạng
                   </NavLinkComponent>
                   <NavLinkComponent
-                    variant='body2'
+                    variant="body2"
                     href={pages.exerciseListPath}
                   >
                     Danh sách bài tập
@@ -160,33 +170,33 @@ export const Navbar = () => {
                 </RestrictedPermission>
                 <RestrictedPermission permission={"Staff"}>
                   {/* Staff */}
-                  <NavLinkComponent variant='body2' href={pages.slotListPath}>
+                  <NavLinkComponent variant="body2" href={pages.slotListPath}>
                     Buổi điều trị
                   </NavLinkComponent>
                   <NavLinkComponent
-                    variant='body2'
+                    variant="body2"
                     href={pages.typeOfSlotListPath}
                   >
                     Loại điều trị
                   </NavLinkComponent>
-                  <NavLinkComponent variant='body2' href={pages.schedulePath}>
+                  <NavLinkComponent variant="body2" href={pages.schedulePath}>
                     Lịch
                   </NavLinkComponent>
                   <NavLinkComponent
-                    variant='body2'
+                    variant="body2"
                     href={pages.bookingDetailPath}
                   >
                     Booking
                   </NavLinkComponent>
                 </RestrictedPermission>
 
-                <NavLinkComponent variant='body2' href={pages.feedbackListPath}>
+                <NavLinkComponent variant="body2" href={pages.feedbackListPath}>
                   Phản hồi
                 </NavLinkComponent>
               </NavbarLinksBox>
             </RestrictedPermission>
             <RestrictedPermission permission={["Member", "Physiotherapist"]}>
-              <NavLinkComponent variant='body2' href={process.env.DOWNLOAD_APP}>
+              <NavLinkComponent variant="body2" href={process.env.DOWNLOAD_APP}>
                 Vui lòng tải ứng dụng Mobile để sử dụng
               </NavLinkComponent>
             </RestrictedPermission>
@@ -200,9 +210,17 @@ export const Navbar = () => {
             }}
           >
             <NavLinkComponent
-              href={`/user/${currentUserID}/edit`}
-              variant='h6'
-              sx={{ fontStyle: "bold", color: "white" }}
+              variant="h6"
+              sx={{
+                fontStyle: "bold",
+                paddingRight: "0",
+                color: "white",
+                "&:hover": {
+                  cursor: "default",
+                  backgroundColor: "#2ea1e2 !important",
+                  color: "white !important",
+                },
+              }}
             >
               Xin chào{" "}
               {role.role === "Member"
@@ -225,9 +243,9 @@ export const Navbar = () => {
       ) : (
         <NavbarContainer>
           <a href={pages.landingPage}>
-            <img src={logo} alt='Logo' />
+            <img src={logo} alt="Logo" />
           </a>
-          <NavLinkComponent variant='body2' href={pages.loginPath}>
+          <NavLinkComponent variant="body2" href={pages.loginPath}>
             Đăng nhập
           </NavLinkComponent>
         </NavbarContainer>
