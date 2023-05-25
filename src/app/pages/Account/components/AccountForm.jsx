@@ -204,7 +204,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   }
                   required={currentUserID === id}
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Họ tên"
+                  label="Họ và Tên"
                   variant="outlined"
                   disabled={shouldHide}
                 />

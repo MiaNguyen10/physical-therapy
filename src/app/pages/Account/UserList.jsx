@@ -117,7 +117,7 @@ const UserList = () => {
   const columns = [
     {
       field: "firstName",
-      headerName: "Họ tên",
+      headerName: "Họ và Tên",
       width: 200,
       headerAlign: "center",
       align: "center",

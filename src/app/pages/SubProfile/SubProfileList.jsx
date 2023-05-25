@@ -102,7 +102,7 @@ const SubProfileList = () => {
   const columns = [
     {
       field: "subName",
-      headerName: "Họ tên",
+      headerName: "Họ và Tên",
       width: 550,
       headerAlign: "center",
       align: "center",
