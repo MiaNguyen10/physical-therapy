@@ -45,6 +45,7 @@ const Login = () => {
   };
 
   if (currentSession) {
+    console.log("there still session");
     navigate(pages.landingPage, { replace: true });
   }
 

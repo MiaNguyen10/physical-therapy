@@ -138,6 +138,7 @@ export default function ChangePasswordPage() {
                 message: "Mật khẩu phải có độ dài từ 6 tới 16 kí tự",
               },
             }}
+            children={undefined}
           />
           <LabelledInput
             title='Nhập lại mật khẩu mới'
@@ -153,6 +154,7 @@ export default function ChangePasswordPage() {
                 message: "Mật khẩu phải có độ dài từ 6 tới 16 kí tự",
               },
             }}
+            children={undefined}
           />
           {successMsg === "" ? (
             <></>

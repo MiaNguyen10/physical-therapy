@@ -11,6 +11,9 @@ import pages from "app/config/pages";
 
 const SERVER_SUCCESS = 204; //* server respond with status
 
+const confirmNewPwdName = "re_new_password";
+const NewPwdName = "new_password";
+
 export default function RecoveryPasswordPage() {
   const [searchParams] = useSearchParams();
   const [email] = useState(searchParams.get("email"));
@@ -34,10 +37,11 @@ export default function RecoveryPasswordPage() {
       setErrorMsg("");
       if (newPwd !== reNewPwd) {
         setError(
-          "re-new-password",
+          confirmNewPwdName,
           { type: "custom", message: "Mật khẩu nhập lại không trùng" },
           { shouldFocus: true }
         );
+
         return false;
       }
 
@@ -101,7 +105,7 @@ export default function RecoveryPasswordPage() {
           <LabelledInput
             title='Mật khẩu mới'
             required={true}
-            name='new_password'
+            name={NewPwdName}
             errors={errors}
             type='password'
             register={register}
@@ -116,7 +120,7 @@ export default function RecoveryPasswordPage() {
           <LabelledInput
             title='Nhập lại mật khẩu mới'
             required={true}
-            name='re_new_password'
+            name={confirmNewPwdName}
             errors={errors}
             type='password'
             register={register}
