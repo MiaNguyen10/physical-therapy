@@ -19,6 +19,7 @@ import { selectUserId } from "cores/reducers/authentication";
 
 const UserList = () => {
   const currentUserID = useSelector(selectUserId);
+  const role = JSON.parse(localStorage.getItem("authentication"));
   const dispatch = useDispatch();
   const userList = useSelector(getUsers);
   const status = useSelector(getUserStatus);
@@ -162,7 +163,7 @@ const UserList = () => {
         const phoneNumberRender = params?.value;
         return (
           <Typography>
-            {phoneNumberRender ? phoneNumberRender : "< Không có >"}
+            {phoneNumberRender ? phoneNumberRender : "- Không có -"}
           </Typography>
         );
       },
@@ -229,7 +230,7 @@ const UserList = () => {
       ),
       renderCell: (params) => {
         const isCurrentUser = params.value === currentUserID;
-        if (params.row.role.name === "Admin") {
+        if (role.role === "Admin") {
           return (
             <>
               <IconButton
@@ -241,7 +242,7 @@ const UserList = () => {
                     sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                   />
                 ) : (
-                  <VisibilityIcon
+                  <EditIcon
                     sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
                   />
                 )}

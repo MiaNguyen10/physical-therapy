@@ -63,9 +63,11 @@ export const makeStyles = () => ({
 
 const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
   const styles = makeStyles();
+  const role = JSON.parse(localStorage.getItem("authentication"));
   const navigate = useNavigate();
   const { id } = useParams();
   const currentUserID = useSelector(selectUserId);
+  const shouldHide = currentUserID !== id && role.role !== 'Admin';
 
   const schema = yup.object({
     firstName: yup
@@ -76,7 +78,10 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
     phoneNumber: yup
       .string()
       .required("Vui lòng điền thông tin")
-      .matches(phoneRegExp, "Độ dài là 10 số, không gồm chữ cái và bắt đầu từ số 0"),
+      .matches(
+        phoneRegExp,
+        "Độ dài là 10 số, không gồm chữ cái và bắt đầu từ số 0"
+      ),
     email: yup
       .string()
       .required("Vui lòng điền thông tin")
@@ -176,7 +181,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
               inputProps={{ required: false }}
               label="Đường link của Hình ảnh"
               variant="outlined"
-              hidden={currentUserID !== id}
+              hidden={shouldHide}
             />
           )}
         />
@@ -201,7 +206,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Họ tên"
                   variant="outlined"
-                  disabled={currentUserID !== id}
+                  disabled={shouldHide}
                 />
               )}
             />
@@ -225,7 +230,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Ngày sinh"
                   variant="outlined"
-                  disabled={currentUserID !== id}
+                  disabled={shouldHide}
                 />
               )}
             />
@@ -267,7 +272,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   label="Số điện thoại"
                   variant="outlined"
                   required={currentUserID === id}
-                  disabled={currentUserID !== id}
+                  disabled={shouldHide}
                 />
               )}
             />
@@ -291,7 +296,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   label="Địa chỉ"
                   variant="outlined"
                   placeholder="Có thể để trống"
-                  disabled={currentUserID !== id}
+                  disabled={shouldHide}
                 />
               )}
             />
@@ -308,8 +313,8 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
                   value={value}
                   variant="outlined"
                   label="Giới tính"
-                  required={currentUserID === id}
-                  disabled={currentUserID !== id}
+                  required
+                  disabled={shouldHide}
                 >
                   {Gender.map((gender, index) => (
                     <MenuItem value={gender} key={index}>

@@ -80,6 +80,10 @@ const SubProfileList = () => {
           subProfile.subName
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
+        const filterRelationshipName =
+          subProfile.subName
+            .toLowerCase()
+            .search(trim(filters.searchSet.toLowerCase())) >= 0;
         // const isFoundSet =
         //   subProfile.subName
         //     .toLowerCase()
@@ -88,7 +92,7 @@ const SubProfileList = () => {
         //   subProfile.description
         //     .toLowerCase()
         //     .search(trim(filters.searchDesc.toLowerCase())) >= 0;
-        return isFoundName;
+        return isFoundName && filterRelationshipName;
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,11 +127,16 @@ const SubProfileList = () => {
         </Typography>
       ),
       renderCell: (params) => {
-        if (params?.row.relationship.relationName === "Tôi") {
-          return <Typography>Chủ tài khoản</Typography>;
-        } else {
-          <Typography>{params?.row.relationship.relationName}</Typography>;
-        }
+        const nameRender = params?.row.relationship.relationName;
+        return (
+          <Typography>
+            {nameRender
+              ? nameRender === "Tôi"
+                ? "Chủ tài khoản"
+                : nameRender
+              : "- Chưa thiết lập -"}
+          </Typography>
+        );
       },
     },
 
