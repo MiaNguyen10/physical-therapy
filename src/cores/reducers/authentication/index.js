@@ -31,8 +31,9 @@ export const authenSlice = createSlice({
   initialState: preloadState ?? initialState,
   reducers: {
     logout(state) {
-      state.access_token = initialState.sessionId;
+      state.access_token = initialState.access_token;
       state.token_type = initialState.token;
+      console.log(state);
     },
   },
   extraReducers: (builder) => {
@@ -42,7 +43,6 @@ export const authenSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = "idle";
-        console.log("fullfiled");
         state.access_token = action.payload.result.access_token;
         state.token_type = action.payload.result.token_type;
         state.firstName = action.payload.result.firstName;
@@ -53,7 +53,6 @@ export const authenSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
-        console.log(action);
         state.errorCode = action.error;
       })
       .addCase(getRole.pending, (state) => {
@@ -75,7 +74,9 @@ export const authenSlice = createSlice({
 export const { logout } = authenSlice.actions;
 export default authenSlice.reducer;
 
-export const selectToken = (state) => state.auth.access_token;
+export const selectToken = (state) => {
+  return state.auth.access_token;
+};
 export const selectState = (state) => {
   if (!state.auth.access_token) {
     return defautAuthState;

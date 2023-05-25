@@ -3,7 +3,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const login = createAsyncThunk(
   "authentication/login",
   async (inputLogin, { rejectWithValue }) => {
-    console.log("im in login method");
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_ENDPOINT}/User/Login`,

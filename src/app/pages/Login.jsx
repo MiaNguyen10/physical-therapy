@@ -18,7 +18,7 @@ import { emailRegExp } from "../../cores/utils/regexFormat";
 import logo2 from "../assets/logo2.jpg";
 import LabelledInput from "../components/Input/LabelledInput";
 import pages from "../config/pages";
-import axios from "axios";
+// import axios from "axios";
 
 const Login = () => {
   const state = useLocation().state;
@@ -45,6 +45,7 @@ const Login = () => {
   };
 
   if (currentSession) {
+    console.log("there still session");
     navigate(pages.landingPage, { replace: true });
   }
 
