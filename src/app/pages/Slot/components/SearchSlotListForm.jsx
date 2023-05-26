@@ -44,9 +44,9 @@ const SearchSlotListForm = ({
   return (
     <Stack
       onSubmit={handleSubmit(onSubmit)}
-      direction="row"
-      component="form"
-      alignItems="center"
+      direction='row'
+      component='form'
+      alignItems='center'
       spacing={3}
       sx={{
         display: "flex",
@@ -55,7 +55,7 @@ const SearchSlotListForm = ({
     >
       <Controller
         control={control}
-        name="searchKey"
+        name='searchKey'
         render={({ field: { onChange, value } }) => (
           <TextField
             sx={{
@@ -63,16 +63,16 @@ const SearchSlotListForm = ({
               width: "380px",
               height: "60px !important",
             }}
-            placeholder="Nhập tên buổi điều trị cần tìm"
-            label="Buổi điều trị"
+            placeholder='Nhập tên buổi điều trị cần tìm'
+            label='Buổi điều trị'
             value={value}
             onChange={onChange}
-            variant="outlined"
+            variant='outlined'
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
+                <InputAdornment position='end'>
                   <IconButton onClick={() => onChange("")}>
-                    <ClearIcon fontSize="small" />
+                    <ClearIcon fontSize='small' />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -84,21 +84,21 @@ const SearchSlotListForm = ({
       <DatePickerInput
         disablePast={false}
         disabled={false}
-        label="Ngày bắt đầu"
+        label='Ngày bắt đầu'
         value={rangeDate.startDate ?? ""}
         onChange={handleStartDateChange}
       />
       <DatePickerInput
         disablePast={false}
         disabled={false}
-        label="Ngày kết thúc"
+        label='Ngày kết thúc'
         value={rangeDate.endDate ?? ""}
         onChange={handleEndDateChange}
       />
 
       <Button
-        type="submit"
-        variant="outlined"
+        type='submit'
+        variant='outlined'
         sx={{
           height: "45px",
           width: "80px",

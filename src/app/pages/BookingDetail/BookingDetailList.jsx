@@ -1,6 +1,6 @@
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import InfoIcon from '@mui/icons-material/Info'
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
   Container,
@@ -8,59 +8,74 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from '@mui/material'
-import DeleteDialog from 'app/components/Dialog/DeleteDialog'
-import { selectToken } from 'cores/reducers/authentication'
+} from "@mui/material";
+import DeleteDialog from "app/components/Dialog/DeleteDialog";
+import { selectToken } from "cores/reducers/authentication";
+import dayjs from "dayjs";
+import "dayjs/locale/th";
 // import { getStatusCategory } from 'cores/reducers/category'
 // import { getCategoryList } from 'cores/thunk/category'
-import React, { useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getBookingDetails,
   getStatusBookingDetails,
   resetStatus,
-} from '../../../cores/reducers/bookingDetail'
+} from "../../../cores/reducers/bookingDetail";
 import {
   deleteBookingDetail,
   getBookingDetailList,
-} from '../../../cores/thunk/bookingDetail'
-import DataGridTable from '../../components/DataGrid/DataGridTable'
-import pages from '../../config/pages'
+} from "../../../cores/thunk/bookingDetail";
+import DataGridTable from "../../components/DataGrid/DataGridTable";
+import pages from "../../config/pages";
+import {
+  getLongTermPaymentStatus,
+  getShortTermPaymentStatus,
+} from "app/constant/payment";
+import SearchBookingListForm, {
+  ALL_STATUS_LONG_TERM,
+  ALL_STATUS_SHORT_TERM,
+} from "./components/SearchBookingListForm";
 
 const BookingDetailList = () => {
-  const dispatch = useDispatch()
-  let bookingDetailList = useSelector(getBookingDetails)
-  const bookingDetailStatus = useSelector(getStatusBookingDetails)
+  const dispatch = useDispatch();
+  let bookingDetailList = useSelector(getBookingDetails);
+  const bookingDetailStatus = useSelector(getStatusBookingDetails);
+
+  const [filters, setFilters] = useState({
+    longTermStatus: undefined,
+    shortTermStatus: undefined,
+  });
+  const [unique, setUnique] = useState(Math.random());
+  const [rangeDate, setRangeDate] = useState({
+    startDate: null,
+    endDate: null,
+  });
   // let categoryList = useSelector(getCategories);
   // const categoryStatus = useSelector(getStatusCategory)
-  const token = useSelector(selectToken)
-  const navigate = useNavigate()
+  const token = useSelector(selectToken);
+  const navigate = useNavigate();
 
-  const [page, setPage] = useState(0)
-  const [refreshKey, setRefreshKey] = useState(0)
-  // const [filters, setFilters] = useState({
-  //   searchKey: '',
-  //   searchCate: '',
-  // })
-
-  const [bookingDetailId, setBookingDetailId] = useState('')
-  const [openDialog, setOpenDialog] = useState(false)
+  const [page, setPage] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [bookingDetailId, setBookingDetailId] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handlePageChange = (page) => {
-    setPage(page)
-  }
+    setPage(page);
+  };
 
   const handleClose = () => {
-    setOpenDialog(false)
-  }
+    setOpenDialog(false);
+  };
 
   const handleDelete = () => {
-    dispatch(deleteBookingDetail({ bookingDetailID: bookingDetailId, token }))
-    setRefreshKey((oldKey) => oldKey + 1)
-    setBookingDetailId('')
-    setOpenDialog(false)
-  }
+    // dispatch(deleteBookingDetail({ bookingDetailID: bookingDetailId, token }));
+    setRefreshKey((oldKey) => oldKey + 1);
+    setBookingDetailId("");
+    setOpenDialog(false);
+  };
   // useEffect(() => {
   //   if (categoryStatus === 'succeeded') {
   //     dispatch(resetStatus)
@@ -74,76 +89,92 @@ const BookingDetailList = () => {
   // }, [])
 
   const rows = useMemo(() => {
-    return bookingDetailList
-    // Array.isArray(bookingDetailList) &&
-    // bookingDetailList.filter((bookingDetail) => {
-    //   // const isFoundName =
-    //   //   bookingDetail.bookingDetailName
-    //   //     .toLowerCase()
-    //   //     .search(trim(filters.searchKey.toLowerCase())) >= 0;
-    //   // const isFoundCate =
-    //   //   bookingDetail.categoryID
-    //   //     .toLowerCase()
-    //   //     .search(trim(filters.searchCate.toLowerCase())) >= 0;
-    //   // return isFoundName && isFoundCate;
-    // }
-  }, [bookingDetailList])
-  console.log(bookingDetailList)
+    if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
+      if (dayjs(rangeDate.startDate).diff(dayjs(rangeDate.endDate)) > 0)
+        return [];
+    }
+    return (
+      Array.isArray(bookingDetailList) &&
+      bookingDetailList.filter((schedule) => {
+        const time = schedule.bookingSchedule.timeBooking;
+        const longtermStatus = schedule.longtermStatus;
+        const shortTermStatus = schedule.shorttermStatus;
+
+        let compareDate = true;
+        //* is set from and to date
+        if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
+          const isValidStartDate =
+            getDifferenceDates(time, rangeDate.startDate) >= 0;
+          const isValidToDate =
+            getDifferenceDates(time, rangeDate.endDate) <= 0;
+
+          compareDate = isValidStartDate && isValidToDate;
+          //* only set from date
+        } else if (rangeDate.startDate !== null) {
+          const isValidStartDate =
+            getDifferenceDates(time, rangeDate.startDate) >= 0;
+
+          compareDate = isValidStartDate;
+          //* only set to date
+        } else if (rangeDate.endDate !== null) {
+          const isValidToDate =
+            getDifferenceDates(time, rangeDate.endDate) <= 0;
+          compareDate = isValidToDate;
+        }
+
+        const matchLongTermStatus =
+          ALL_STATUS_LONG_TERM === filters.longTermStatus
+            ? true
+            : longtermStatus === filters.longTermStatus;
+        const matchShortTermStatus =
+          filters.shortTermStatus === ALL_STATUS_SHORT_TERM
+            ? true
+            : shortTermStatus === filters.shortTermStatus;
+
+        const matchedStatuses = matchLongTermStatus && matchShortTermStatus;
+
+        return compareDate && matchedStatuses;
+      })
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, bookingDetailList, unique]);
 
   const columns = [
     {
-      field: 'firstName',
-      headerName: 'Tên người đặt',
-      width: 200,
-      headerAlign: 'center',
-      align: 'center',
+      field: "timeBooking",
+      headerName: "Ngày đặt",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
       renderCell: (params) => {
-        console.log(params)
-        return (
-          <Typography>
-            {/* {Array.isArray(bookingDetailList) &&
-                bookingDetailList
-                  .filter(
-                    (bookingDetail) =>
-                      bookingDetail.bookingDetailID === params.value
-                  )
-                  .map((x) => x.firstName)} */}
-            {params.row.bookingSchedule.user.firstName}
-          </Typography>
-        )
+        const time = new Date(params.row.bookingSchedule.timeBooking);
+        const options = {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        };
+        const formattedTime = time.toLocaleString("vi", options);
+        return <Typography>{formattedTime}</Typography>;
       },
     },
     {
-      field: 'email',
-      headerName: 'Email',
-      width: 250,
-      headerAlign: 'center',
-      align: 'center',
+      field: "subProfile",
+      headerName: "Bệnh nhân",
+      width: 170,
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
-          {params.colDef.headerName}
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <Typography>{params.row.bookingSchedule.user.email}</Typography>
-      ),
-    },
-    {
-      field: 'subProfile',
-      headerName: 'Tên người được điều chị',
-      width: 200,
-      headerAlign: 'center',
-      align: 'center',
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -152,14 +183,14 @@ const BookingDetailList = () => {
       ),
     },
     {
-      field: 'physio',
-      headerName: 'Người điều trị',
+      field: "physio",
+      headerName: "Người điều trị",
       width: 200,
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -173,46 +204,58 @@ const BookingDetailList = () => {
       ),
     },
     {
-      field: 'longTermStatus',
-      headerName: 'Dài hạn',
-      width: 100,
-      headerAlign: 'center',
-      align: 'center',
+      field: "longTermStatus",
+      headerName: "Dài hạn",
+      width: 170,
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
-      renderCell: (params) => (
-        <Typography>{params.row.longtermStatus}</Typography>
-      ),
+      renderCell: (params) => {
+        const status = getLongTermPaymentStatus(params.row.longtermStatus);
+
+        return (
+          <Typography color={status.color} fontWeight='bold'>
+            {status.status}
+          </Typography>
+        );
+      },
     },
     {
-      field: 'shortTermStatus',
-      headerName: 'Ngắn hạn',
-      width: 100,
-      headerAlign: 'center',
-      align: 'center',
+      field: "shortTermStatus",
+      headerName: "Ngắn hạn",
+      width: 170,
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
-      renderCell: (params) => (
-        <Typography>{params.row.shorttermStatus}</Typography>
-      ),
+      renderCell: (params) => {
+        const status = getShortTermPaymentStatus(params.row.shorttermStatus);
+
+        return (
+          <Typography color={status.color} fontWeight='bold'>
+            {status.status}
+          </Typography>
+        );
+      },
     },
     {
-      field: 'nameOfSlot',
-      headerName: 'Loại điều trị',
-      width: 250,
-      headerAlign: 'center',
-      align: 'center',
+      field: "nameOfSlot",
+      headerName: "Loại điều trị",
+      width: 170,
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -223,14 +266,14 @@ const BookingDetailList = () => {
       ),
     },
     {
-      field: 'price',
-      headerName: 'Giá tiền',
+      field: "price",
+      headerName: "Giá tiền",
       width: 100,
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -241,15 +284,15 @@ const BookingDetailList = () => {
       ),
     },
     {
-      field: 'action',
-      headerName: 'Chỉnh sửa',
+      field: "action",
+      headerName: "Chỉnh sửa",
       width: 200,
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderHeader: (params) => (
-        <Typography sx={{ fontWeight: 'bold', fontSize: '19px' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
           {params.colDef.headerName}
         </Typography>
       ),
@@ -263,7 +306,7 @@ const BookingDetailList = () => {
               sx={{ ml: 1 }}
             >
               <EditIcon
-                sx={{ color: '#008542', cursor: 'pointer', fontSize: 28 }}
+                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
             <IconButton
@@ -274,56 +317,42 @@ const BookingDetailList = () => {
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title="Chi tiết bài tập">
+              <Tooltip title='Chi tiết bài tập'>
                 <InfoIcon
-                  sx={{ color: '#0C5E96', cursor: 'pointer', fontSize: 28 }}
+                  sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
               </Tooltip>
             </IconButton>
-            <IconButton
-              onClick={() => {
-                setBookingDetailId(params?.value)
-                setOpenDialog(true)
-              }}
-            >
-              <DeleteIcon
-                sx={{ color: '#e63307', cursor: 'pointer', fontSize: 28 }}
-              />
-            </IconButton>
           </>
-        )
+        );
       },
     },
-  ]
+  ];
 
   useEffect(() => {
-    if (bookingDetailStatus === 'succeeded') {
-      dispatch(resetStatus)
+    if (bookingDetailStatus === "succeeded") {
+      dispatch(resetStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
-    dispatch(getBookingDetailList(token))
+    dispatch(getBookingDetailList(token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey])
+  }, [refreshKey]);
 
   return (
-    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Stack alignItems="center" spacing={8} sx={{ marginTop: '38px' }}>
-        <Typography variant="h3">DANH SÁCH BOOKING</Typography>
+    <Container maxWidth='lg' fixed sx={{ mb: 3 }}>
+      <Stack alignItems='center' spacing={8} sx={{ marginTop: "38px" }}>
+        <Typography variant='h3'>DANH SÁCH BOOKING</Typography>
+        <SearchBookingListForm
+          onSearch={setFilters}
+          rangeDate={rangeDate}
+          setRangeDate={setRangeDate}
+          setUnique={setUnique}
+        />
         {/* <SearchBookingDetailListFrom onSearch={(data) => setFilters(data)} /> */}
-        <Box>
-          {/* <AddButton
-            desc="Thêm bài tập"
-            url={`${pages.addBookingDetailPath}`}
-            sx={{
-              mt: -6,
-              fontWeight: "bold",
-              boxShadow:
-                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-            }}
-          /> */}
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
           <DataGridTable
             columns={columns}
             rows={rows}
@@ -332,9 +361,9 @@ const BookingDetailList = () => {
             page={page}
             onPageChange={handlePageChange}
             rowCount={rows?.length ?? 0}
-            isLoading={bookingDetailStatus !== 'succeeded'}
+            isLoading={bookingDetailStatus !== "succeeded"}
             pagination
-            paginationMode="client"
+            paginationMode='client'
           />
         </Box>
       </Stack>
@@ -342,10 +371,17 @@ const BookingDetailList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc="Bạn có chắc chắn muốn xóa không?"
+        desc='Bạn có chắc chắn muốn xóa không?'
       />
     </Container>
-  )
+  );
+};
+
+function getDifferenceDates(toBeChecked, timeCheck) {
+  const formatTimeChecked = dayjs(toBeChecked);
+  const formatTimeCheck = dayjs(timeCheck);
+
+  return formatTimeChecked.diff(formatTimeCheck, "day");
 }
 
-export default BookingDetailList
+export default BookingDetailList;
