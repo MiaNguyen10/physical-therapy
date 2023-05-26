@@ -248,21 +248,41 @@ const UserList = () => {
                 )}
               </IconButton>
               <IconButton
-                onClick={() => navigate(`/user/${params.value}/edit`)}
+                onClick={() => {
+                  setOpenDialog(true);
+                  setIdUser(params?.value);
+                  params?.row.banStatus === true
+                    ? setDesc("Bạn có muốn khôi phục tài khoản không?")
+                    : setDesc("Bạn có muốn chặn người dùng này không?");
+                }}
                 sx={{ ml: 1 }}
-                disabled
+                disabled={params?.row.role.name === "Admin"}
               >
-                <ShieldIcon
-                  sx={{
-                    color:
-                      params?.row.role.name === "Admin" ||
-                      params?.row.banStatus === true
-                        ? "#1712116f"
-                        : "#e63307",
-                    cursor: "pointer",
-                    fontSize: 28,
-                  }}
-                />
+                {params?.row.role.name === "Admin" ? (
+                  <ShieldIcon
+                    sx={{
+                      color:
+                        params?.row.role.name === "Admin" ||
+                        params?.row.banStatus === true
+                          ? "#1712116f"
+                          : "#e63307",
+                      cursor: "pointer",
+                      fontSize: 28,
+                    }}
+                  />
+                ) : (
+                  <RemoveCircleIcon
+                    sx={{
+                      color:
+                        params?.row.role.name === "Admin" ||
+                        params?.row.banStatus === true
+                          ? "#1712116f"
+                          : "#e63307",
+                      cursor: "pointer",
+                      fontSize: 28,
+                    }}
+                  />
+                )}
               </IconButton>
             </>
           );
@@ -310,7 +330,7 @@ const UserList = () => {
           );
         }
       },
-    },      
+    },
   ];
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
