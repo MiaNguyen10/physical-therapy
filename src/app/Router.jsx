@@ -42,12 +42,14 @@ import RecoveryPasswordPage from "./pages/RecoverPassword";
 import CategoryExerciseList from "./pages/Category/CategoryExerciseList";
 import ChangePasswordPage from "./pages/ChangePassword";
 import AddMultipleSlots from "./pages/Slot/AddMultipleSlots";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 const Router = () => {
   return (
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
       <Route element={<Layout />}>
+        <Route path={`${pages.dashboardPath}`} element={<Dashboard />} />
         <Route path={pages.resetPassword} element={<ResetPasswordPage />} />
         <Route
           path={pages.recoverPassword}
@@ -157,7 +159,10 @@ const Router = () => {
             <Route element={<RestrictedPermission permission={"Staff"} />}>
               {/* Slot */}
               <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
-              <Route path={`/${pages.addMultipleSlotPath}`} element={<AddMultipleSlots />} />
+              <Route
+                path={`/${pages.addMultipleSlotPath}`}
+                element={<AddMultipleSlots />}
+              />
               <Route path={`/${pages.addSlotPath}`} element={<AddSlot />} />
               <Route path={`/${pages.slotEditPath}`} element={<EditSlot />} />
               {/* Type Of Slot */}

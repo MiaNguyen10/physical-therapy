@@ -1,103 +1,216 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { selectToken } from "cores/reducers/authentication";
-import {
-  getAllFeedback,
-  getFeedbackStatus,
-  resetStatus,
-} from "cores/reducers/feedback";
-import { getFeedbackList } from "cores/thunk/feedback";
-import dayjs from "dayjs";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import "./Dashboard.css";
+import { AreaChart, getRandomInt } from "./components/AreaChart";
+import { Container, Stack } from "@mui/material";
+import DatePickerInput from "app/components/Input/DatePicker";
+import dayjs from "dayjs";
+import { makeStyles } from "../Slot/components/BulkSlotForm";
+import TimePickerInput from "app/components/Input/TimePicker";
+
+const mockup = {
+  total: {
+    user: 62,
+    newUser: 24,
+    booking: 342,
+    newBooking: 117,
+    bookingDataset: [],
+    userDataset: [],
+    timeRange: {
+      startDate: "",
+      endDate: "",
+    },
+  },
+}; // cấu trúc data cần lấy lên từ API
 
 const Dashboard = () => {
+  const styles = makeStyles();
   const dispatch = useDispatch();
-  const feedbackList = useSelector(getAllFeedback);
-  const status = useSelector(getFeedbackStatus);
-  const token = useSelector(selectToken);
+
+  const slotDuration = 1; // by hour
+  const current =
+    dayjs(new Date()).hour() + 3 > 24
+      ? dayjs(new Date()).add(1, "day").set("minute", 0).set("hour", 0)
+      : dayjs(new Date());
+
+  const [dateStart, setDateStart] = useState(null);
+  const [dateEnd, setDateEnd] = useState(
+    current.minute() !== 0
+      ? current.set("m", 0).add(slotDuration, "hour")
+      : current
+  );
 
   useEffect(() => {
-    dispatch(getFeedbackList(token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (status === "succeeded") {
-      dispatch(resetStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const labels = ["January", "February", "March", "April", "May"];
+  const userData = {
+    labels,
+    datasets: [
+      {
+        fill: true,
+        label: "số lượng người dùng",
+        data: labels.map(() => getRandomInt(38, 62)).sort(),
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
+  const bookingData = {
+    labels,
+    datasets: [
+      {
+        fill: true,
+        label: "số lượng booking",
+        data: labels.map(() => getRandomInt(342 - 117, 342)).sort(),
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
 
   return (
-    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Typography variant="h3" textAlign="center" sx={{ m: 5 }}>
-        PHẢN HỒI CỦA NGƯỜI DÙNG
-      </Typography>
-      <Box>
-        <Stack
-          direction="row"
-          justifyContent="flex-start"
-          alignItems="center"
-          spacing={4}
-          sx={{ float: "left", mt: 8 }}
+    <div class="dashboard-heading">
+      <div class="all">
+        <h2
+          style={{
+            paddingTop: "0.75em",
+            textAlign: "center",
+            textTransform: "uppercase",
+          }}
         >
-          {feedbackList
-            ? feedbackList.map((feedback) => (
-                <Card key={feedback.feedbackID}>
-                  <CardContent>
-                    <Typography variant="h5" component="div" textAlign="center">
-                      {feedback.schedule.slot.slotName}
-                    </Typography>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Loại điều trị: {feedback.schedule.typeOfSlot.typeName}
-                    </Typography>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Thời gian:{" "}
-                      {dayjs(feedback.schedule.slot.timeStart).format(
-                        "DD/MM/YYYY HH:mm A "
-                      )}{" "}
-                      -{" "}
-                      {dayjs(feedback.schedule.slot.timeEnd).format(
-                        "DD/MM/YYYY HH:mm A"
-                      )}
-                    </Typography>
-                    {/* <Typography variant="body2" gutterBottom>
-                      Schedule: {feedback.schedule.description}
-                    </Typography> */}
-                    <Typography variant="body2" gutterBottom>
-                      Chuyên viên vật lý trị liệu:{" "}
-                      {`${feedback.schedule.physiotherapistDetail.user.lastName} ${feedback.schedule.physiotherapistDetail.user.firstName}`}
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      Đánh giá: {feedback.comment}
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      Rating star:{" "}
-                    </Typography>
-                    <Rating value={feedback.ratingStar} readOnly />
-                  </CardContent>
-                </Card>
-              ))
-            : null}
-        </Stack>
-      </Box>
-    </Container>
+          Bảng điều khiển
+        </h2>
+        <div class="starter-stats">
+          <div class="blok">
+            <i class="fa fa-money"></i>
+            <div class="no">
+              <p>Tổng số người dùng</p>
+              <p>
+                {mockup.total.user}
+                {mockup.total.newUser > 0 ? (
+                  <span style={{ color: "green", fontSize: "small" }}>
+                    {" "}
+                    (+{mockup.total.newUser})
+                  </span>
+                ) : (
+                  <span style={{ color: "red", fontSize: "small" }}>
+                    {" "}
+                    {mockup.total.newUser}
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div class="blok">
+            <i class="fa fa-money kl"></i>
+            <div class="no">
+              <p>Tổng số booking</p>
+              <p>
+                {mockup.total.booking}
+                {mockup.total.newBooking > 0 ? (
+                  <span style={{ color: "green", fontSize: "small" }}>
+                    {" "}
+                    (+{mockup.total.newBooking})
+                  </span>
+                ) : (
+                  <span style={{ color: "red", fontSize: "small" }}>
+                    {" "}
+                    {mockup.total.newBooking}
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div class="blok">
+            <i class="fa fa-money pl"></i>
+            <div class="no">
+              <p>Longest HODL</p>
+              <p>8 Months</p>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "1em 1.5%",
+            }}
+          >
+            <Stack
+              direction={"row"}
+              spacing={2}
+              alignItems="center"
+              justifyContent="start"
+              sx={{ width: "50%" }}
+            >
+              <Stack
+                direction={"column"}
+                spacing={1}
+                justifyContent="flex-start"
+              >
+                <label required style={{ fontWeight: "bold", top: -25 }}>
+                  Ngày bắt đầu
+                </label>
+                <DatePickerInput
+                  disabled={false}
+                  value={dateStart}
+                  onChange={(value) => {
+                    setDateStart(dayjs(value));
+                  }}
+                  sx={{
+                    ...styles.textFieldStyle,
+                    width: "100%",
+                    backgroundColor: "#fff",
+                  }}
+                  error={""}
+                />
+              </Stack>
+              <Stack direction={"column"} spacing={1} justifyContent="flex-end">
+                <label required style={{ fontWeight: "bold", top: -25 }}>
+                  Ngày kết thúc
+                </label>
+                <DatePickerInput
+                  disabled={false}
+                  value={dateEnd}
+                  onChange={(value) => {
+                    setDateStart(dayjs(value));
+                  }}
+                  sx={{
+                    ...styles.textFieldStyle,
+                    width: "100%",
+                    backgroundColor: "#fff",
+                  }}
+                  error={""}
+                />
+              </Stack>
+            </Stack>
+          </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "0 1.5%",
+              gap: "2em",
+            }}
+          >
+            <div class="gains">
+              <label>Biểu đồ Người dùng</label>
+              <AreaChart data={userData} />
+            </div>
+            <div class="gains">
+              <label>Biểu đồ Booking</label>
+              <AreaChart data={bookingData} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

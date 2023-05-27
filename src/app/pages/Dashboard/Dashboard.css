@@ -1,0 +1,111 @@
+button {
+  background: #14abfa;
+  border: solid 6px #14abfa;
+  border-radius: 3px;
+  color: #ffffff;
+  font-weight: 700;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.2em;
+  margin-left: 6px;
+}
+
+.clear {
+  clear: both;
+}
+
+.dashboard-heading {
+  width: 100%;
+  float: left;
+  background: #ffffff;
+  position: relative;
+  color: #73787c;
+  position: relative;
+}
+
+.dashboard-heading .panel {
+  padding-bottom: 20px;
+}
+
+.btc-price {
+  display: inline-block;
+  position: absolute;
+  right: 20px;
+  top: -8px;
+  color: #12abf7;
+}
+
+.dashboard-heading .all {
+  background: #f2f2f2;
+  width: 100%;
+  min-height: calc(100vh - 4.5em);
+}
+
+.all .starter-stats .blok {
+  background: #ffffff;
+  width: 30.3%;
+  float: left;
+  margin: 20px 1.5%;
+  font-size: 1.1em;
+  font-family: "Source Sans Pro", sans-serif;
+  position: relative;
+  border-radius: 0.25rem;
+}
+
+.blok i {
+  border-radius: 50%;
+  background: #12abf7;
+  padding: 10px;
+  color: white;
+  display: inline-block;
+  position: relative;
+  top: -20px;
+  margin-left: 20px;
+  margin-right: 16px;
+  font-size: 1.2em;
+}
+
+.blok .kl {
+  background: #56df9a;
+}
+
+.blok .pl {
+  background: #e4764a;
+}
+
+.blok .no {
+  display: inline-block;
+}
+
+.blok .no p:first-child {
+  font-weight: 700;
+  font-size: 0.8em;
+  position: relative;
+  top: 12px;
+}
+
+.blok .no p:nth-child(2) {
+  position: relative;
+  top: -0.25em;
+  font-size: 2em;
+  font-weight: 700;
+}
+
+.gains {
+  min-height: 240px;
+  width: 100%;
+  padding: 1em;
+  /* margin: 5px auto; */
+  background: #ffffff;
+}
+.all .starter-stats * {
+  border-radius: 0.25rem;
+}
+
+@media only screen and (max-width: 800px) {
+  .dashboard-heading {
+    width: 100%;
+  }
+  .blok i {
+    display: none;
+  }
+}

@@ -84,16 +84,18 @@ const SearchSlotListForm = ({
       <DatePickerInput
         disablePast={false}
         disabled={false}
-        label='Ngày bắt đầu'
-        value={rangeDate.startDate ?? ""}
+        label="Ngày bắt đầu"
+        value={rangeDate.startDate}
         onChange={handleStartDateChange}
+        sx={{ ...styles.textFieldStyle }}
       />
       <DatePickerInput
         disablePast={false}
         disabled={false}
-        label='Ngày kết thúc'
-        value={rangeDate.endDate ?? ""}
+        label="Ngày kết thúc"
+        value={rangeDate.endDate}
         onChange={handleEndDateChange}
+        sx={{ ...styles.textFieldStyle }}
       />
 
       <Button

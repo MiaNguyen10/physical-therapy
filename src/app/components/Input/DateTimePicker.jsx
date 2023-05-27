@@ -11,11 +11,18 @@ import React from "react";
 
 dayjs.locale("vi");
 
-const DateTimePickerInput = ({ disabled, value, onChange, error, sx }) => {
+const DateTimePickerInput = ({
+  disablePast,
+  disabled,
+  value,
+  onChange,
+  error,
+  sx,
+}) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
       <MobileDateTimePicker
-        disablePast
+        disablePast={disablePast ?? false}
         closeOnSelect
         disabled={disabled}
         format="DD/MM/YYYY HH:mm"

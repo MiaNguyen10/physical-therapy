@@ -1,5 +1,6 @@
 const pages = {
   landingPage: "/",
+  dashboardPath: '/dashboard',
   loginPath: "/login",
   resetPassword: "/reset-password",
   recoverPassword: "/User/ResetPassword",

@@ -23,7 +23,9 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchSlotListFrom from "../Slot/components/SearchSlotListForm";
-dayjs.locale("th");
+import { fstorage } from "cores/store/firebase/config";
+import { ref } from "firebase/storage";
+dayjs.locale("vi");
 
 const SlotList = () => {
   const dispatch = useDispatch();
@@ -70,6 +72,8 @@ const SlotList = () => {
 
   useEffect(() => {
     dispatch(getCategoryList());
+    const iRef = ref(fstorage, 'images');
+    console.log(iRef);
   }, [dispatch]);
 
   const rows = useMemo(() => {

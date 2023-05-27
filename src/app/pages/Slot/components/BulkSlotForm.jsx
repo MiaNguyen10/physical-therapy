@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import DatePickerInput from "app/components/Input/DatePicker";
 import TimePickerInput from "app/components/Input/TimePicker";
-import DateTimePickerInput from "app/components/Input/DateTimePicker";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -21,10 +20,9 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import pages from "../../../config/pages";
 import { getSlots } from "cores/reducers/slot";
-import { useDispatch, useSelector } from "react-redux";
-import typeOfSlot from "cores/reducers/typeOfSlot";
+import { useSelector } from "react-redux";
 
-const makeStyles = () => ({
+export const makeStyles = () => ({
   textFieldStyle: {
     width: "520px",
     ".MuiOutlinedInput-root": {
@@ -40,9 +38,9 @@ const makeStyles = () => ({
         cursor: "default",
       },
     },
-    ".MuiSelect-select": {
-      marginTop: 1,
-    },
+    // ".MuiSelect-select": {
+    //   marginTop: 1,
+    // },
     ".MuiInputLabel-root": {
       zIndex: 0,
       top: "-25px",
@@ -172,7 +170,8 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
           }
         }
     }
-    onFormSubmit({ listCreate });
+    console.log(listCreate);
+    // onFormSubmit({ listCreate });
   };
 
   useEffect(() => {
@@ -187,7 +186,7 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
   useEffect(() => {
     let start = dayjs(dateStart).get("h");
     start >= 23 && (start = 0);
-    let numSlots = (1440 - start * 60) / (slotDuration * 60);
+    let numSlots = (1440 - start * 60) / (slotDuration * 60 + 30);
     console.log(start, numSlots);
     if (numSlots !== 10 && numSlots > 0 && numSlots < 100) {
       let sList = [];
@@ -255,7 +254,11 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
             />
             <FormControl
               required
-              sx={{ width: "24%", marginLeft: "0 !important" }}
+              sx={{
+                ...styles.textFieldStyle,
+                width: "24%",
+                marginLeft: "0 !important",
+              }}
             >
               <InputLabel id="ns-select-label">Số buổi trong ngày</InputLabel>
               <Select
@@ -265,7 +268,10 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
                 value={numberOfSlot}
                 label="Số buổi trong ngày"
                 onChange={handleChangeNumberSlots}
-                sx={{ height: "50px" }}
+                sx={{
+                  marginTop: "0 !important",
+                  height: "50px",
+                }}
               >
                 {slotsInDay.map((item) => (
                   <MenuItem key={item} value={item}>
@@ -276,7 +282,11 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
             </FormControl>
             <FormControl
               required
-              sx={{ width: "24%", marginLeft: "0 !important" }}
+              sx={{
+                ...styles.textFieldStyle,
+                width: "24%",
+                marginLeft: "0 !important",
+              }}
             >
               <InputLabel id="b-select-label">Kiểu thêm</InputLabel>
               <Select
@@ -300,32 +310,6 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
             alignItems="center"
             sx={{ width: "100%" }}
           >
-            {/* <Controller
-              name="timeStart"
-              control={control}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <Stack
-                  direction={"column"}
-                  spacing={2}
-                  justifyContent="flex-start"
-                  sx={{ width: "100%" }}
-                >
-                  <label required style={{ fontWeight: "bold", top: -25 }}>
-                    Ngày bắt đầu
-                  </label>
-                  <DateTimePickerInput
-                    disabled={false}
-                    value={value ?? ""}
-                    onChange={onChange}
-                    sx={styles.textFieldStyle}
-                    error={error}
-                  />
-                </Stack>
-              )}
-            /> */}
             <Container
               spacing={2}
               sx={{
@@ -368,7 +352,6 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
                   disabled={false}
                   value={dateStart ?? ""}
                   onChange={(value) => {
-                    console.log(value)
                     setDateStart(dayjs(value));
                   }}
                   sx={{ ...styles.textFieldStyle, width: "100%" }}
@@ -425,37 +408,6 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
                 />
               </Stack>
             </Container>
-            {/* <Controller
-              name="timeEnd"
-              control={control}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <Stack
-                  direction={"column"}
-                  spacing={2}
-                  justifyContent="flex-start"
-                  sx={{ width: "50%" }}
-                >
-                  <label required style={{ fontWeight: "bold", top: -25 }}>
-                    Ngày kết thúc
-                  </label>
-                  <DateTimePickerInput
-                    disabled={typeOfBulk === "day"}
-                    value={value ?? ""}
-                    onChange={onChange}
-                    sx={styles.textFieldStyle}
-                    error={error || !!formErrors.timeEnd} // <-- show formErrors.timeEnd as well
-                  />
-                  {formErrors.timeEnd && (
-                    <p style={{ color: "#f44336", fontSize: "0.75rem" }}>
-                      {formErrors.timeEnd.message}
-                    </p>
-                  )}
-                </Stack>
-              )}
-            /> */}
           </Stack>
           <Stack
             direction="row"

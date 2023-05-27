@@ -150,6 +150,9 @@ export const Navbar = () => {
                 <NavLinkComponent variant='body2' href={pages.landingPage}>
                   Trang chủ
                 </NavLinkComponent>
+                <NavLinkComponent variant='body2' href={pages.dashboardPath}>
+                  Dashboard
+                </NavLinkComponent>
                 <NavLinkComponent variant='body2' href={pages.userListPath}>
                   Quản lý người dùng
                 </NavLinkComponent>
