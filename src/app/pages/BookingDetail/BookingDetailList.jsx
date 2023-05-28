@@ -89,6 +89,7 @@ const BookingDetailList = () => {
   // }, [])
 
   const rows = useMemo(() => {
+    console.log(bookingDetailList);
     if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
       if (dayjs(rangeDate.startDate).diff(dayjs(rangeDate.endDate)) > 0)
         return [];
@@ -219,7 +220,7 @@ const BookingDetailList = () => {
         const status = getLongTermPaymentStatus(params.row.longtermStatus);
 
         return (
-          <Typography color={status.color} fontWeight='bold'>
+          <Typography color={status.color} fontWeight="bold">
             {status.status}
           </Typography>
         );
@@ -241,7 +242,7 @@ const BookingDetailList = () => {
         const status = getShortTermPaymentStatus(params.row.shorttermStatus);
 
         return (
-          <Typography color={status.color} fontWeight='bold'>
+          <Typography color={status.color} fontWeight="bold">
             {status.status}
           </Typography>
         );
@@ -317,7 +318,7 @@ const BookingDetailList = () => {
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title='Chi tiết bài tập'>
+              <Tooltip title="Chi tiết bài tập">
                 <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
@@ -342,9 +343,9 @@ const BookingDetailList = () => {
   }, [refreshKey]);
 
   return (
-    <Container maxWidth='lg' fixed sx={{ mb: 3 }}>
-      <Stack alignItems='center' spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant='h3'>DANH SÁCH BOOKING</Typography>
+    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
+      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
+        <Typography variant="h3">DANH SÁCH BOOKING</Typography>
         <SearchBookingListForm
           onSearch={setFilters}
           rangeDate={rangeDate}
@@ -363,7 +364,7 @@ const BookingDetailList = () => {
             rowCount={rows?.length ?? 0}
             isLoading={bookingDetailStatus !== "succeeded"}
             pagination
-            paginationMode='client'
+            paginationMode="client"
           />
         </Box>
       </Stack>
@@ -371,7 +372,7 @@ const BookingDetailList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc='Bạn có chắc chắn muốn xóa không?'
+        desc="Bạn có chắc chắn muốn xóa không?"
       />
     </Container>
   );

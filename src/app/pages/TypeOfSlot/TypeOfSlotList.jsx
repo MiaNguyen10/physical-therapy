@@ -171,6 +171,7 @@ const TypeOfSlotList = () => {
             desc="Thêm loại điều trị"
             url={`${pages.addtypeOfSlotPath}`}
             sx={{
+              mr: "5%",
               mt: -6,
               fontWeight: "bold",
               boxShadow:
@@ -178,8 +179,8 @@ const TypeOfSlotList = () => {
             }}
           />
           <DataGridTable
-            sx={{ ml: 10 }}
-            width="1000px"
+            sx={{ ml: "5%" }}
+            width="90%"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.typeOfSlotID}
