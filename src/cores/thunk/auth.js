@@ -16,7 +16,10 @@ export const login = createAsyncThunk(
           }),
         }
       );
-      return await response.json();
+      if (response.status < 400)
+        return await response.json();
+      else
+        return rejectWithValue("Có sự cố xảy ra trong quá trình đăng nhập");
     } catch (e) {
       return rejectWithValue("Tài khoản hoặc mật khẩu không đúng");
     }

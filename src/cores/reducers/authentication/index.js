@@ -43,11 +43,12 @@ export const authenSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = "idle";
-        state.access_token = action.payload.result.access_token;
-        state.token_type = action.payload.result.token_type;
-        state.firstName = action.payload.result.firstName;
-        state.role = action.payload.result.role.name;
-        state.userID = action.payload.result.userID;
+        state.access_token = action.payload.access_token;
+        state.token_type = action.payload.token_type;
+        state.firstName = action.payload.firstName;
+        state.role = action.payload.role.name;
+        state.userID = action.payload.userID;
+        state.expires_in = action.payload.expires_in;
 
         localStorage.setItem("authentication", JSON.stringify(state));
       })

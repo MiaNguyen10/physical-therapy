@@ -35,11 +35,13 @@ const Login = () => {
 
   const submitHandler = async ({ email, password }) => {
     try {
-      await dispatch(login({ email, password })).unwrap();
+      const payload = await dispatch(login({ email, password })).unwrap();
       const destination =
         state && state.from.pathname
           ? state.from.pathname
-          : pages.dashboardPath;
+          : payload?.userID
+          ? pages.dashboardPath
+          : window.location.href;
       navigate(destination, { replace: true });
     } catch (e) {
       setEMessage(e);

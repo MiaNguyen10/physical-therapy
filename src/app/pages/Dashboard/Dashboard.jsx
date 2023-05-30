@@ -71,8 +71,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div class="dashboard-heading">
-      <div class="all">
+    <div className="dashboard-heading">
+      <div className="all">
         <h2
           style={{
             paddingTop: "0.75em",
@@ -82,10 +82,10 @@ const Dashboard = () => {
         >
           Bảng điều khiển
         </h2>
-        <div class="starter-stats">
-          <div class="blok">
-            <i class="fa fa-money"></i>
-            <div class="no">
+        <div className="starter-stats">
+          <div className="blok">
+            <i className="fa fa-money"></i>
+            <div className="no">
               <p>Tổng số người dùng</p>
               <p>
                 {mockup.total.user}
@@ -104,9 +104,9 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div class="blok">
-            <i class="fa fa-money kl"></i>
-            <div class="no">
+          <div className="blok">
+            <i className="fa fa-money kl"></i>
+            <div className="no">
               <p>Tổng số booking</p>
               <p>
                 {mockup.total.booking}
@@ -125,14 +125,14 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div class="blok">
-            <i class="fa fa-money pl"></i>
-            <div class="no">
+          <div className="blok">
+            <i className="fa fa-money pl"></i>
+            <div className="no">
               <p>Longest HODL</p>
               <p>8 Months</p>
             </div>
           </div>
-          <div class="clear"></div>
+          <div className="clear"></div>
           <div
             style={{
               width: "100%",
@@ -199,11 +199,11 @@ const Dashboard = () => {
               gap: "2em",
             }}
           >
-            <div class="gains">
+            <div className="gains">
               <label>Biểu đồ Người dùng</label>
               <AreaChart data={userData} />
             </div>
-            <div class="gains">
+            <div className="gains">
               <label>Biểu đồ Booking</label>
               <AreaChart data={bookingData} />
             </div>
