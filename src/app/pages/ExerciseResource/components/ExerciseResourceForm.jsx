@@ -10,7 +10,9 @@ import {
   TextField,
 } from "@mui/material";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
-import React, { useEffect } from "react";
+import { fstorage } from "cores/store/firebase/config";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ReactPlayer from "react-player";
 import { useNavigate, useParams } from "react-router-dom";
@@ -30,6 +32,8 @@ const ExerciseResourceForm = ({
     imageURL: yup.string().required("Vui lòng đính kèm ảnh"),
     videoURL: yup.string().required("Vui lòng đính kèm video"),
   });
+  const [imageObject, setImageObject] = useState({});
+  const [videoObject, setVideoObject] = useState({});
 
   const {
     handleSubmit,
@@ -37,6 +41,7 @@ const ExerciseResourceForm = ({
     control,
     reset,
     watch,
+    setValue,
   } = useForm({
     mode: "all",
     resolver: yupResolver(schema),
@@ -47,6 +52,57 @@ const ExerciseResourceForm = ({
     },
   });
 
+  const onChooseVideo = (e) => {
+    if (e.target.files[0]) {
+      console.log(e.target.files);
+      if (e.target.files[0].size > 25600000) {
+        //check size in KB
+        alert("Dung lượng video phải nhỏ hơn 25MB");
+      } else {
+        const exts = ['.mp4','.mov','.mkv','.webm','.avi'];
+        let name = (e.target.files[0].name || '').toLowerCase();
+        if (exts.reduce((s, i) => s + name.includes(i), 0) == 0) {
+          //check size in KB
+          alert("Định dạng video không phù hợp!");
+        } else {
+          setVideoObject(e.target.files[0]);
+        }
+      }
+    }
+  };
+  const onUploadVideo = () => {
+    const uploadRef = ref(fstorage, `vid_test/${videoObject.name}`);
+    const uploadTask = uploadBytesResumable(uploadRef, videoObject);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setValue("videoURL", url);
+        });
+        setVideoObject(null);
+      }
+    );
+  };
+
+  const handleUploadImage = (data) => {
+    console.log(data);
+  };
   const onSubmit = (data) => onFormSubmit(data);
 
   useEffect(() => {
@@ -56,6 +112,8 @@ const ExerciseResourceForm = ({
       videoURL: exerciseResourceDetail?.videoURL,
     });
   }, [exerciseResourceDetail, reset]);
+
+  useEffect(() => {}, [videoObject, imageObject]);
 
   return (
     <Container sx={{ width: "100%", display: "flex" }}>
@@ -103,7 +161,7 @@ const ExerciseResourceForm = ({
               name="imageURL"
               render={({ field: { onChange, value } }) => (
                 <TextField
-                  sx={{ ...styles.textFieldStyle, mt:5 }}
+                  sx={{ ...styles.textFieldStyle, mt: 5 }}
                   value={value}
                   onChange={onChange}
                   error={!!formErrors?.imageURL}
@@ -112,6 +170,22 @@ const ExerciseResourceForm = ({
                   inputProps={{ required: true }}
                   label="Hình ảnh"
                   variant="outlined"
+                  InputProps={{
+                    endAdornment: (
+                      <Button
+                        variant="outlined"
+                        component="label"
+                        sx={{ minWidth: 120, padding: "4px 8px" }}
+                      >
+                        Choose File
+                        <input
+                          type="file"
+                          hidden
+                          onChange={handleUploadImage}
+                        />
+                      </Button>
+                    ),
+                  }}
                 />
               )}
             />
@@ -130,18 +204,50 @@ const ExerciseResourceForm = ({
               name="videoURL"
               render={({ field: { onChange, value } }) => (
                 <TextField
-                  sx={{...styles.textFieldStyle, mt: 4, width: '540px' }}
+                  sx={{ ...styles.textFieldStyle, width: "540px" }}
                   value={value}
                   onChange={onChange}
                   error={!!formErrors?.videoURL}
                   helperText={formErrors?.videoURL?.message}
                   required
                   inputProps={{ required: true }}
-                  label="Video"
+                  label="Video URL"
                   variant="outlined"
                 />
               )}
             />
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              spacing={2}
+              sx={{ mt: 5 }}
+            >
+              <TextField
+                sx={{ ...styles.textFieldStyle, width: "540px" }}
+                value={videoObject?.name}
+                label="Video Upload"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <Button
+                      variant="outlined"
+                      component="label"
+                      sx={{ minWidth: 120, padding: "4px 8px" }}
+                    >
+                      Choose File
+                      <input type="file" hidden onChange={onChooseVideo} />
+                    </Button>
+                  ),
+                }}
+              />
+              <Button
+                variant="contained"
+                component="label"
+                onClick={onUploadVideo}
+              >
+                Upload
+              </Button>
+            </Stack>
           </Grid>
         </Grid>
 

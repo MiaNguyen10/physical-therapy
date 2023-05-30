@@ -19,6 +19,7 @@ import { selectUserId } from "cores/reducers/authentication";
 
 const UserList = () => {
   const currentUserID = useSelector(selectUserId);
+  const role = JSON.parse(localStorage.getItem("authentication"));
   const dispatch = useDispatch();
   const userList = useSelector(getUsers);
   const status = useSelector(getUserStatus);
@@ -116,7 +117,7 @@ const UserList = () => {
   const columns = [
     {
       field: "firstName",
-      headerName: "Họ tên",
+      headerName: "Họ và Tên",
       width: 200,
       headerAlign: "center",
       align: "center",
@@ -162,7 +163,7 @@ const UserList = () => {
         const phoneNumberRender = params?.value;
         return (
           <Typography>
-            {phoneNumberRender ? phoneNumberRender : "< Không có >"}
+            {phoneNumberRender ? phoneNumberRender : "- Không có -"}
           </Typography>
         );
       },
@@ -229,7 +230,7 @@ const UserList = () => {
       ),
       renderCell: (params) => {
         const isCurrentUser = params.value === currentUserID;
-        if (params.row.role.name === "Admin") {
+        if (role.role === "Admin") {
           return (
             <>
               <IconButton
@@ -241,27 +242,47 @@ const UserList = () => {
                     sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                   />
                 ) : (
-                  <VisibilityIcon
+                  <EditIcon
                     sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
                   />
                 )}
               </IconButton>
               <IconButton
-                onClick={() => navigate(`/user/${params.value}/edit`)}
+                onClick={() => {
+                  setOpenDialog(true);
+                  setIdUser(params?.value);
+                  params?.row.banStatus === true
+                    ? setDesc("Bạn có muốn khôi phục tài khoản không?")
+                    : setDesc("Bạn có muốn chặn người dùng này không?");
+                }}
                 sx={{ ml: 1 }}
-                disabled
+                disabled={params?.row.role.name === "Admin"}
               >
-                <ShieldIcon
-                  sx={{
-                    color:
-                      params?.row.role.name === "Admin" ||
-                      params?.row.banStatus === true
-                        ? "#1712116f"
-                        : "#e63307",
-                    cursor: "pointer",
-                    fontSize: 28,
-                  }}
-                />
+                {params?.row.role.name === "Admin" ? (
+                  <ShieldIcon
+                    sx={{
+                      color:
+                        params?.row.role.name === "Admin" ||
+                        params?.row.banStatus === true
+                          ? "#1712116f"
+                          : "#e63307",
+                      cursor: "pointer",
+                      fontSize: 28,
+                    }}
+                  />
+                ) : (
+                  <RemoveCircleIcon
+                    sx={{
+                      color:
+                        params?.row.role.name === "Admin" ||
+                        params?.row.banStatus === true
+                          ? "#1712116f"
+                          : "#e63307",
+                      cursor: "pointer",
+                      fontSize: 28,
+                    }}
+                  />
+                )}
               </IconButton>
             </>
           );
@@ -309,7 +330,7 @@ const UserList = () => {
           );
         }
       },
-    },      
+    },
   ];
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>

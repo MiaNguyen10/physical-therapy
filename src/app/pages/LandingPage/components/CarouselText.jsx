@@ -50,7 +50,7 @@ export default function CarouselText() {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      spacing={8}
+      spacing={4}
     >
       <Paper
         square
@@ -68,7 +68,15 @@ export default function CarouselText() {
           {steps[activeStep].label}
         </Typography>
       </Paper>
-      <Box sx={{ height: 255, maxWidth: 450, width: "100%" }}>
+      <Box
+        sx={{
+          height: 255,
+          maxWidth: 540,
+          width: "100%",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
+      >
         {steps[activeStep].description}
       </Box>
       <MobileStepper
@@ -81,7 +89,7 @@ export default function CarouselText() {
             size="small"
             onClick={handleNext}
             disabled={activeStep === maxSteps - 1}
-            sx={{pl:3}}
+            sx={{ pl: 3 }}
           >
             Tiếp theo
             {theme.direction === "rtl" ? (
@@ -96,7 +104,7 @@ export default function CarouselText() {
             size="small"
             onClick={handleBack}
             disabled={activeStep === 0}
-            sx={{pr:3}}
+            sx={{ pr: 3 }}
           >
             {theme.direction === "rtl" ? (
               <KeyboardArrowRight />

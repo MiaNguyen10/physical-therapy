@@ -1,5 +1,5 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { Button, Drawer, Link, styled } from "@mui/material";
+import { Drawer, Link, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import { RestrictedPermission } from "app/middlewares/PermissionProvider";
 import { logout, selectState } from "cores/reducers/authentication";
@@ -11,6 +11,7 @@ import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
 import { selectUserId } from "cores/reducers/authentication";
+import AvatarMenu from "../Avatar";
 
 export const Navbar = () => {
   const currentUserID = useSelector(selectUserId);
@@ -44,18 +45,28 @@ export const Navbar = () => {
     </Box>
   );
 
-  const NavLink = styled(Link)({
+  const NavLinkComponent = styled(Link)({
     fontSize: "18px",
+    height: "80px",
     color: "#fff",
     fontWeight: "bold",
     cursor: "pointer",
+    transition: "0.1s",
+    display: "flex",
+    alignItems: "center",
+    padding: "0 12px",
+    ":hover": {
+      transition: "0.3s ease",
+      backgroundColor: "#fff",
+      color: "#2ea1e2",
+    },
   });
 
   const NavbarLinksBox = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: theme.spacing(3),
+    // gap: theme.spacing(3),
 
     [theme.breakpoints.down("md")]: {
       display: "none",
@@ -95,7 +106,7 @@ export const Navbar = () => {
   }));
 
   const handleLogout = () => {
-    dispatch(logout);
+    dispatch(logout(auth));
     localStorage.removeItem("authentication");
     navigate(`${pages.loginPath}`);
   };
@@ -136,46 +147,60 @@ export const Navbar = () => {
             </Box>
             <RestrictedPermission permission={["Admin", "Staff"]}>
               <NavbarLinksBox>
-                <NavLink variant="body2" href={pages.landingPage}>
+                <NavLinkComponent variant="body2" href={pages.landingPage}>
                   Trang chủ
-                </NavLink>
-                <NavLink variant="body2" href={pages.userListPath}>
+                </NavLinkComponent>
+                <NavLinkComponent variant="body2" href={pages.dashboardPath}>
+                  Dashboard
+                </NavLinkComponent>
+                <NavLinkComponent variant="body2" href={pages.userListPath}>
                   Quản lý người dùng
-                </NavLink>
+                </NavLinkComponent>
                 <RestrictedPermission permission={"Admin"}>
                   {/* Admin */}
-                  <NavLink variant="body2" href={pages.categoryListPath}>
+                  <NavLinkComponent
+                    variant="body2"
+                    href={pages.categoryListPath}
+                  >
                     Tình trạng
-                  </NavLink>
-                  <NavLink variant="body2" href={pages.exerciseListPath}>
+                  </NavLinkComponent>
+                  <NavLinkComponent
+                    variant="body2"
+                    href={pages.exerciseListPath}
+                  >
                     Danh sách bài tập
-                  </NavLink>
+                  </NavLinkComponent>
                 </RestrictedPermission>
                 <RestrictedPermission permission={"Staff"}>
                   {/* Staff */}
-                  <NavLink variant="body2" href={pages.slotListPath}>
+                  <NavLinkComponent variant="body2" href={pages.slotListPath}>
                     Buổi điều trị
-                  </NavLink>
-                  <NavLink variant="body2" href={pages.typeOfSlotListPath}>
+                  </NavLinkComponent>
+                  <NavLinkComponent
+                    variant="body2"
+                    href={pages.typeOfSlotListPath}
+                  >
                     Loại điều trị
-                  </NavLink>
-                  <NavLink variant="body2" href={pages.schedulePath}>
+                  </NavLinkComponent>
+                  <NavLinkComponent variant="body2" href={pages.schedulePath}>
                     Lịch
-                  </NavLink>
-                  <NavLink variant="body2" href={pages.bookingDetailPath}>
-                    Booking
-                  </NavLink>
+                  </NavLinkComponent>
                 </RestrictedPermission>
-
-                <NavLink variant="body2" href={pages.feedbackListPath}>
+                <NavLinkComponent
+                  variant="body2"
+                  href={pages.bookingDetailPath}
+                >
+                  Booking
+                </NavLinkComponent>
+                {/* <NavLinkComponent variant="body2" href={pages.feedbackListPath}>
                   Phản hồi
-                </NavLink>
+                </NavLinkComponent> */}
               </NavbarLinksBox>
             </RestrictedPermission>
             <RestrictedPermission permission={["Member", "Physiotherapist"]}>
-              <NavLink variant="body2" href={process.env.DOWNLOAD_APP}>
+              <NavLinkComponent variant="body2" href={process.env.DOWNLOAD_APP}>
                 Vui lòng tải ứng dụng Mobile để sử dụng
-              </NavLink>
+              </NavLinkComponent>
             </RestrictedPermission>
           </NavbarItem>
           <Box
@@ -186,10 +211,18 @@ export const Navbar = () => {
               gap: "1rem",
             }}
           >
-            <NavLink
-              href={`/user/${currentUserID}/edit`}
+            <NavLinkComponent
               variant="h6"
-              sx={{ fontStyle: "bold", color: "white" }}
+              sx={{
+                fontStyle: "bold",
+                paddingRight: "0",
+                color: "white",
+                "&:hover": {
+                  cursor: "default",
+                  backgroundColor: "#2ea1e2 !important",
+                  color: "white !important",
+                },
+              }}
             >
               Xin chào{" "}
               {role.role === "Member"
@@ -201,28 +234,12 @@ export const Navbar = () => {
                 : role.role === "Admin"
                 ? "Quản trị viên"
                 : role.role}
-              :{" "}
-              <span style={{ fontWeight: "800", fontStyle: "italic" }}>
-                {auth.firstName}
-              </span>
-            </NavLink>
-
-            <Button
-              sx={{
-                fontSize: "18px",
-                color: "#fff",
-                fontWeight: "bold",
-                cursor: "pointer",
-                backgroundColor: "RGB(0, 110, 170)",
-                "&:hover": {
-                  backgroundColor: "rgb(69, 169, 226)",
-                },
-              }}
-              variant="contained"
-              onClick={handleLogout}
-            >
-              Đăng xuất
-            </Button>
+            </NavLinkComponent>
+            <AvatarMenu
+              firstName={auth.firstName}
+              profilePath={`/user/${currentUserID}/edit`}
+              onLogOut={handleLogout}
+            />
           </Box>
         </NavbarContainer>
       ) : (
@@ -230,9 +247,9 @@ export const Navbar = () => {
           <a href={pages.landingPage}>
             <img src={logo} alt="Logo" />
           </a>
-          <NavLink variant="body2" href={pages.loginPath}>
+          <NavLinkComponent variant="body2" href={pages.loginPath}>
             Đăng nhập
-          </NavLink>
+          </NavLinkComponent>
         </NavbarContainer>
       )}
     </>

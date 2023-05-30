@@ -1,9 +1,9 @@
 import { Box, Container, styled, Typography } from "@mui/material";
 import React from "react";
 import DiseaseBox from "./DiseaseBox";
-import respiratory from "../../../assets/respiratory.jpg"
-import nerveDamage from "../../../assets/nerve_damage.jpg"
-import osPain from "../../../assets/osteoarthritis_pain.jpg"
+import respiratory from "../../../assets/respiratory.jpg";
+import nerveDamage from "../../../assets/nerve_damage.jpg";
+import osPain from "../../../assets/osteoarthritis_pain.jpg";
 
 const ReasonToApply = () => {
   const PropertiesBox = styled(Box)(({ theme }) => ({
@@ -22,10 +22,10 @@ const ReasonToApply = () => {
     },
   }));
 
-  const ReasonBox = styled(Box)(({ theme }) =>({
+  const ReasonBox = styled(Box)(({ theme }) => ({
     marginTop: "10px",
     [theme.breakpoints.down("md")]: {
-      marginTop:'20px',
+      marginTop: "20px",
     },
   }));
 
@@ -39,7 +39,8 @@ const ReasonToApply = () => {
             Khi nào cần tập vật lý trị liệu phục hồi chức năng?
           </Typography>
           <Typography sx={{ color: "#5A6473", fontSize: "16px", mt: 1 }}>
-          Điều trị bằng phương pháp vật lý trị liệu được khuyến khích khi bạn đang gặp phải hoặc trải qua những tình trạng như:
+            Điều trị bằng phương pháp vật lý trị liệu được khuyến khích khi bạn
+            đang gặp phải hoặc trải qua những tình trạng như:
           </Typography>
         </PropertiesTextBox>
 
@@ -50,6 +51,7 @@ const ReasonToApply = () => {
               img={disease.img}
               header={disease.header}
               des={disease.des}
+              style={{ borderRadius: "1em" }}
             />
           ))}
         </PropertiesBox>
@@ -62,7 +64,7 @@ export default ReasonToApply;
 
 const DiseaseData = [
   {
-    id:1,
+    id: 1,
     img: nerveDamage,
     header: "Tổn thương về thần kinh – cơ",
     des: "Như chấn thương sọ não, bại não, tổn thương tủy sống hay đột quỵ",
@@ -74,7 +76,7 @@ const DiseaseData = [
     des: "Như gãy xương, thoái hóa cột sống, gai cột sống, vẹo cột sống hoặc tổn thương dây chằng.",
   },
   {
-    id:3,
+    id: 3,
     img: respiratory,
     header: "Gặp vấn đề ở đường hô hấp",
     des: "Như viêm phổi, hen phế quản hoặc tắc nghẽn phổi.",

@@ -20,11 +20,25 @@ const DiseaseBox = ({ img, header, des }) => {
   return (
     <HouseBox>
       <ImgContainer>
-        <img src={img} alt={header} style={{ width: '350px', height:'227px' }} />
+        <img
+          src={img}
+          alt={header}
+          style={{ width: "350px", height: "227px", borderRadius: "1em" }}
+        />
       </ImgContainer>
 
-      <Box sx={{ padding: "1rem", display:'flex', flexDirection:'column', justifyContent:'center' }}>
-        <Typography variant="body2" sx={{ fontWeight: "700", textAlign: 'center' }}>
+      <Box
+        sx={{
+          padding: "1rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          variant="body2"
+          sx={{ fontWeight: "700", textAlign: "center" }}
+        >
           {header}
         </Typography>
         <Typography variant="body2" sx={{ my: 2 }}>

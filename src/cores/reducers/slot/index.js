@@ -39,7 +39,7 @@ const slotSlice = createSlice({
         state.status = "loading";
       })
       .addCase(addSlot.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.status = action.meta.requestStatus === 200 ? "succeeded" : "failed - overlap";
       })
       .addCase(addSlot.rejected, (state, action) => {
         state.status = "failed";

@@ -1,8 +1,5 @@
 import { TextField } from "@mui/material";
-import {
-  LocalizationProvider,
-  MobileDateTimePicker,
-} from "@mui/x-date-pickers";
+import { LocalizationProvider, MobileTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/vi";
@@ -10,14 +7,16 @@ import React from "react";
 
 dayjs.locale("vi");
 
-const TimePickerInput = ({ value, onChange, error, sx }) => {
+const TimePickerInput = ({ disabled, value, onChange, error, sx }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
-      <MobileDateTimePicker
+      <MobileTimePicker
+        // disablePast
+        closeOnSelect
         format="HH:mm"
+        disabled={disabled}
         value={dayjs(value)}
         onChange={onChange}
-        closeOnSelect
         sx={{ ...sx }}
         renderInput={(params) => (
           <TextField

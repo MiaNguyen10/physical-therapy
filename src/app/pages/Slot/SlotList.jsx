@@ -23,7 +23,9 @@ import AddButton from "../../components/Button/AddButton";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
 import SearchSlotListFrom from "../Slot/components/SearchSlotListForm";
-dayjs.locale("th");
+import { fstorage } from "cores/store/firebase/config";
+import { ref } from "firebase/storage";
+dayjs.locale("vi");
 
 const SlotList = () => {
   const dispatch = useDispatch();
@@ -70,39 +72,52 @@ const SlotList = () => {
 
   useEffect(() => {
     dispatch(getCategoryList());
+    const iRef = ref(fstorage, 'images');
+    console.log(iRef);
   }, [dispatch]);
 
   const rows = useMemo(() => {
     if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
-      if (rangeDate.startDate.getTime() > rangeDate.endDate.getTime())
+      if (dayjs(rangeDate.startDate).diff(dayjs(rangeDate.endDate)) > 0)
         return [];
     }
     return (
       Array.isArray(slotList) &&
       slotList.filter((slot) => {
-        const startDateGMT7 = new Date(
-          format(new Date(slot.timeStart), "yyyy-MM-dd")
-        );
+        // const startDateGMT7 = new Date(
+        //   format(new Date(slot.timeStart), "yyyy-MM-dd")
+        // );
 
-        startDateGMT7.setUTCHours(startDateGMT7.getUTCHours() - 7);
-        const startDateGMT0 = new Date(startDateGMT7.getTime());
+        // startDateGMT7.setUTCHours(startDateGMT7.getUTCHours() - 7);
+        // const startDateGMT0 = new Date(startDateGMT7.getTime());
+
         let compareDate = true;
 
-        if (rangeDate.startDate !== null && rangeDate.endDate === null) {
+        if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
           compareDate =
-            startDateGMT0.getTime() >= rangeDate.startDate.getTime();
-        } else if (rangeDate.startDate === null && rangeDate.endDate !== null) {
-          compareDate = startDateGMT0.getTime() <= rangeDate.endDate.getTime();
-        } else if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
+            // startDateGMT0.getTime() >=
+            //   dayjs(rangeDate.startDate).millisecond() &&
+            // startDateGMT0.getTime() <= dayjs(rangeDate.endDate).millisecond();
+            dayjs(slot.timeStart).diff(dayjs(rangeDate.startDate)) >= 0 &&
+            dayjs(slot.timeStart).diff(dayjs(rangeDate.endDate)) <= 0;
+        } else if (rangeDate.startDate !== null) {
           compareDate =
-            startDateGMT0.getTime() >= rangeDate.startDate.getTime() &&
-            startDateGMT0.getTime() <= rangeDate.endDate.getTime();
+            // startDateGMT0.getTime() >= dayjs(rangeDate.startDate).millisecond();
+            dayjs(slot.timeStart).diff(dayjs(rangeDate.startDate)) >= 0;
+        } else if (rangeDate.endDate !== null) {
+          compareDate =
+            // startDateGMT0.getTime() <= dayjs(rangeDate.endDate).millisecond();
+            dayjs(slot.timeStart).diff(dayjs(rangeDate.endDate)) <= 0;
         }
 
-        const isFoundName =
-          slot.slotName
-            .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0;
+        const isFoundName = filters.searchKey
+          ? slot.slotName
+              .toLowerCase()
+              .search(trim(filters.searchKey.toLowerCase())) >= 0
+          : true;
+
+        console.log(compareDate, isFoundName);
+
         return compareDate && isFoundName;
       })
     );
@@ -240,7 +255,7 @@ const SlotList = () => {
 
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
+      <Stack alignItems="space-between" spacing={8} sx={{ marginTop: "38px" }}>
         <Typography variant="h3">DANH SÁCH BUỔI ĐIỀU TRỊ</Typography>
         <SearchSlotListFrom
           onSearch={(data) => setFilters(data)}
@@ -250,8 +265,8 @@ const SlotList = () => {
         />
         <Box>
           <AddButton
-            desc="Thêm buổi điều trị"
-            url={`${pages.addSlotPath}`}
+            desc="Thêm nhiều buổi điều trị"
+            url={`${pages.addMultipleSlotPath}`}
             sx={{
               mt: -6,
               fontWeight: "bold",
@@ -259,8 +274,19 @@ const SlotList = () => {
                 "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
             }}
           />
+          <AddButton
+            desc="Thêm buổi điều trị"
+            url={`${pages.addSlotPath}`}
+            sx={{
+              mx: 5,
+              mt: -6,
+              fontWeight: "bold",
+              boxShadow:
+                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+            }}
+          />
           <DataGridTable
-            width="1200px"
+            width="100%"
             columns={columns}
             rows={rows}
             getRowId={(row) => row.slotID}

@@ -22,6 +22,10 @@ const EditCategory = ({ id, onClose, openModal, setUnique }) => {
   const err = useSelector(state => state.category.error)
 
   const handleFormSubmit = ({ categoryName, description, iconUrl }) => {
+    if (!iconUrl) {
+      // Set a default value for iconUrl
+      iconUrl = "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fcategory.png?alt=media&token=a19e1cae-4701-4cb4-bb3b-d62edd30007a";
+    }
     try {
       dispatch(
         editCategory({
@@ -54,7 +58,7 @@ const EditCategory = ({ id, onClose, openModal, setUnique }) => {
 
   useEffect(() => {
     if (!err) {
-      setDesc("Thêm thông tin thành công");
+      setDesc("Cập nhật thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }

@@ -52,7 +52,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     email: yup
       .string()
       .required("Vui lòng điền thông tin")
-      .matches(emailRegExp, "Vui lòng điền đúng quy cách mail"),
+      .matches(emailRegExp, "Vui lòng điền đúng định dạng Email"),
     address: yup.string().required("Vui lòng điền thông tin"),
     image: yup
       // .required("Vui lòng đính kèm ảnh")
@@ -227,7 +227,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   helperText={formErrors?.firstName?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Họ tên"
+                  label="Họ và Tên"
                   variant="outlined"
                 />
               )}

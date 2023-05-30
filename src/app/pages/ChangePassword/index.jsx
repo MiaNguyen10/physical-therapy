@@ -1,78 +1,88 @@
 import { Box, Button, Container, Link, Stack, Typography } from "@mui/material";
-import axios from "axios";
+import LabelledInput from "app/components/Input/LabelledInput";
+import pages from "app/config/pages";
+import { passwordRegExp6to16 } from "cores/utils/regexFormat";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import KeyIcon from "@mui/icons-material/VpnKey";
-import LabelledInput from "app/components/Input/LabelledInput";
-import { passwordRegExp6to16 } from "cores/utils/regexFormat";
 import BackIcon from "@mui/icons-material/KeyboardBackspace";
-import pages from "app/config/pages";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectState } from "cores/reducers/authentication";
+import { useNavigate } from "react-router-dom";
 
-const SERVER_SUCCESS = 204; //* server respond with status
-
-const confirmNewPwdName = "re_new_password";
-const NewPwdName = "new_password";
-
-export default function RecoveryPasswordPage() {
-  const [searchParams] = useSearchParams();
-  const [email] = useState(searchParams.get("email"));
-  const [token] = useState(searchParams.get("code").replace(/ /g, "+")); //* replace all space in query string with `+`
+const SERVER_SUCCESS = 200;
+export default function ChangePasswordPage() {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const { userID } = useSelector(selectState);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
+    reset,
   } = useForm();
-  const isValidURL = email && token;
+
+  const handleLogout = () => {
+    dispatch(logout);
+    localStorage.removeItem("authentication");
+    navigate(`${pages.loginPath}`);
+  };
 
   async function submitHandler({
+    old_password: oldPwd,
     new_password: newPwd,
     re_new_password: reNewPwd,
   }) {
     try {
-      setErrorMsg("");
       if (newPwd !== reNewPwd) {
-        setError(
-          confirmNewPwdName,
-          { type: "custom", message: "Mật khẩu nhập lại không trùng" },
-          { shouldFocus: true }
-        );
-
+        setError("re_new_password", {
+          type: "custom",
+          message: "Mật khẩu nhập lại không khớp",
+        });
         return false;
       }
 
-      const res = await axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_ENDPOINT}/User/ResetPassword`,
-        data: {
-          email,
-          token,
-          newPassword: newPwd,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const success = res.status === SERVER_SUCCESS;
-      if (success)
-        setSuccessMsg(
-          `Mật khẩu đã thay đổi thành công \r\n` +
-            "Bạn sẽ được chuyển sang trang đăng nhập"
-        );
+      setErrorMsg("");
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
-    } catch (e) {
-      console.log(e);
-      setErrorMsg(e.response.data);
+      const data = {
+        id: userID,
+        oldPassword: oldPwd,
+        newPassword: newPwd,
+      };
+
+      const res = await axios(
+        {
+          method: "POST",
+          url: `${process.env.REACT_APP_API_ENDPOINT}/User/ChangePassword`,
+          data,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const success = SERVER_SUCCESS === res.status;
+
+      if (success) {
+        setSuccessMsg(
+          "Thay đổi mật khẩu thành công. Bạn sẽ quay về trang đăng nhập"
+        );
+        setTimeout(() => {
+          handleLogout();
+        }, 3000);
+      }
+    } catch (error) {
+      setErrorMsg(error.response.data);
+      reset();
     }
   }
-  return isValidURL ? (
+
+  return (
     <Container
       maxWidth='md'
       sx={{
@@ -99,13 +109,10 @@ export default function RecoveryPasswordPage() {
             flexDirection: "column",
           }}
         >
-          <Typography>
-            Email : <span style={{ fontWeight: "bold" }}>{email}</span>
-          </Typography>
           <LabelledInput
-            title='Mật khẩu mới'
+            title='Mật khẩu cũ'
             required={true}
-            name={NewPwdName}
+            name='old_password'
             errors={errors}
             type='password'
             register={register}
@@ -118,9 +125,9 @@ export default function RecoveryPasswordPage() {
             }}
           />
           <LabelledInput
-            title='Nhập lại mật khẩu mới'
+            title='Mật khẩu mới'
             required={true}
-            name={confirmNewPwdName}
+            name='new_password'
             errors={errors}
             type='password'
             register={register}
@@ -131,6 +138,23 @@ export default function RecoveryPasswordPage() {
                 message: "Mật khẩu phải có độ dài từ 6 tới 16 kí tự",
               },
             }}
+            children={undefined}
+          />
+          <LabelledInput
+            title='Nhập lại mật khẩu mới'
+            required={true}
+            name='re_new_password'
+            errors={errors}
+            type='password'
+            register={register}
+            rules={{
+              required: "Vui lòng điền thông tin",
+              pattern: {
+                value: passwordRegExp6to16,
+                message: "Mật khẩu phải có độ dài từ 6 tới 16 kí tự",
+              },
+            }}
+            children={undefined}
           />
           {successMsg === "" ? (
             <></>
@@ -163,7 +187,5 @@ export default function RecoveryPasswordPage() {
         </Box>
       </Stack>
     </Container>
-  ) : (
-    <>Email and Token is not valid</>
   );
 }

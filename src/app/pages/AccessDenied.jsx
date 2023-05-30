@@ -29,7 +29,7 @@ const AccessDenied = () => {
 
       <CenterBox>
         <Typography sx={{ fontSize: 32, fontWeight: 600 }}>
-          Bạn không có quyền vào trang này.
+          Bạn không có quyền truy cập vào trang này.
         </Typography>
       </CenterBox>
     </CenterPage>

@@ -174,7 +174,7 @@ const ExerciseDetailList = () => {
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title="Chi tiết bài tập">
+              <Tooltip title="Tài nguyên bài tập">
                 <SourceIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />

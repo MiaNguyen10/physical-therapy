@@ -15,7 +15,7 @@ export const makeStyles = () => ({
   textFieldStyle: {
     width: '500px',
     '.MuiOutlinedInput-root': {
-      height: 44,
+      height: 45,
       '& fieldset': {
         borderColor: '',
       },
@@ -54,7 +54,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
   const schema = yup.object({
     categoryName: yup.string().required('Vui lòng điền thông tin'),
     description: yup.string().required('Vui lòng điền thông tin'),
-    iconUrl: yup.string().required('Vui lòng đính kèm ảnh'),
+    // iconUrl: yup.string().required('Vui lòng đính kèm ảnh'),
   })
 
   const {
@@ -70,7 +70,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
     defaultValues: {
       categoryName: '',
       description: '',
-      iconUrl: "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fcategory.png?alt=media&token=a19e1cae-4701-4cb4-bb3b-d62edd30007a",
+      iconUrl: '',
     },
   })
 
@@ -130,10 +130,8 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
           <Box
             component="img"
             sx={{
-              height: 300,
-              width: '100%',
-              maxHeight: { xs: 300, md: 167 },
-              maxWidth: { xs: '100%', md: 250 },
+              height: '50%',
+              width: '50%',
             }}
             alt="image"
             src={watch('iconUrl')}
@@ -149,11 +147,12 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
               onChange={onChange}
               error={!!formErrors?.iconUrl}
               helperText={formErrors?.iconUrl?.message}
-              required
-              inputProps={{ required: true }}
+              placeholder="Không bắt buộc điền"
+              // required
+              inputProps={{ required: false }}
               label="Đường link của Icon"
               variant="outlined"
-              hidden
+              // hidden
             />
           )}
         />

@@ -84,7 +84,7 @@ const SearchTypeOfSlotForm = ({ onSearch }) => {
         )}
       /> */}
 
-            <Button
+      <Button
         type="submit"
         variant="outlined"
         sx={{

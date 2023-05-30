@@ -1,8 +1,10 @@
 const pages = {
   landingPage: "/",
+  dashboardPath: '/dashboard',
   loginPath: "/login",
   resetPassword: "/reset-password",
-  recoverPassword: "/recover-password",
+  recoverPassword: "/User/ResetPassword",
+  changePassword: "/change-password",
 
   userListPath: "/user",
   userEditPath: "/user/:id/edit",
@@ -37,6 +39,7 @@ const pages = {
 
   slotListPath: "/slot",
   addSlotPath: "/slot/add",
+  addMultipleSlotPath: '/slot/add-multiple',
   slotEditPath: "/slot/:id/edit",
   scheduleBySlotID: "/slot/:id/schedule",
 

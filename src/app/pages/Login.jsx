@@ -18,6 +18,7 @@ import { emailRegExp } from "../../cores/utils/regexFormat";
 import logo2 from "../assets/logo2.jpg";
 import LabelledInput from "../components/Input/LabelledInput";
 import pages from "../config/pages";
+// import axios from "axios";
 
 const Login = () => {
   const state = useLocation().state;
@@ -34,22 +35,26 @@ const Login = () => {
 
   const submitHandler = async ({ email, password }) => {
     try {
-      await dispatch(login({ email, password })).unwrap();
-
+      const payload = await dispatch(login({ email, password })).unwrap();
       const destination =
-        state && state.from.pathname ? state.from.pathname : pages.landingPage;
+        state && state.from.pathname
+          ? state.from.pathname
+          : payload?.userID
+          ? pages.dashboardPath
+          : window.location.href;
       navigate(destination, { replace: true });
     } catch (e) {
-      setEMessage(e.message);
+      setEMessage(e);
     }
   };
 
   if (currentSession) {
-    navigate(pages.landingPage, { replace: true });
+    console.log("there still session");
+    navigate(pages.dashboardPath, { replace: true });
   }
 
   return (
-    <Grid container component='main' sx={{ height: "100vh" }}>
+    <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
       <Grid
         item
@@ -80,18 +85,18 @@ const Login = () => {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component='h1' variant='h5'>
+          <Typography component="h1" variant="h5">
             Đăng nhập
           </Typography>
           <Box
-            component='form'
+            component="form"
             noValidate
             onSubmit={handleSubmit(submitHandler)}
             sx={{ mt: 1 }}
           >
             <LabelledInput
-              title='Email'
-              name='email'
+              title="Email"
+              name="email"
               errors={errors}
               register={register}
               rules={{
@@ -103,9 +108,9 @@ const Login = () => {
               }}
             />
             <LabelledInput
-              title='Mật khẩu'
-              name='password'
-              type='password'
+              title="Mật khẩu"
+              name="password"
+              type="password"
               errors={errors}
               register={register}
               rules={{
@@ -122,22 +127,22 @@ const Login = () => {
               {eMessage}{" "}
             </Typography>
             <Button
-              type='submit'
+              type="submit"
               fullWidth
-              variant='contained'
+              variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Đăng nhập
             </Button>
-            <Grid container justifyContent='space-between'>
-              <Grid item xs justifyContent='space-between'>
-                <Link href='/' variant='body2' sx={{ fontStyle: "italic" }}>
+            <Grid container justifyContent="space-between">
+              <Grid item xs justifyContent="space-between">
+                <Link href="/" variant="body2">
                   Trở về trang chủ
                 </Link>
               </Grid>
               <Grid item>
-                <Link href={pages.resetPassword} variant='body2'>
-                  Quên mật khẩu ?
+                <Link href={pages.resetPassword} variant="body2">
+                  Quên mật khẩu?
                 </Link>
               </Grid>
             </Grid>

@@ -22,6 +22,7 @@ const EditExercise = () => {
   const err = useSelector((state) => state.exercise.error);
 
   const [data, setData] = useState(null);
+  console.log("🚀 ~ file: EditExercise.jsx:25 ~ EditExercise ~ data:", data)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,12 +50,18 @@ const EditExercise = () => {
     exerciseName,
     categoryID,
     exerciseTimePerWeek,
+    iconUrl,
   }) => {
+    if (!iconUrl) {
+      // Set a default value for iconUrl
+      iconUrl = "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/exercise%2Fdefault.png?alt=media&token=8adfd8ce-aea7-4248-92da-a63403e54f91&_gl=1*6v4lvz*_ga*OTY4MjcyNzY2LjE2ODQ1NjA4MzQ.*_ga_CW55HF8NVT*MTY4NTQ0NDY3Ny4zLjEuMTY4NTQ0NDcyNy4wLjAuMA..";
+    }
     const excercise = {
       exerciseID: id,
       exerciseName: exerciseName,
       categoryID: categoryID,
       exerciseTimePerWeek: exerciseTimePerWeek,
+      iconUrl: iconUrl,
     };
     try {
       dispatch(editExercise({ excercise, token })).unwrap();
@@ -72,7 +79,7 @@ const EditExercise = () => {
 
   useEffect(() => {
     if (!err) {
-      setDesc("Thêm thông tin thành công");
+      setDesc("Cập nhật thông tin thành công");
     } else {
       setDesc("Lỗi, vui lòng nhập lại");
     }
@@ -92,6 +99,7 @@ const EditExercise = () => {
             exerciseName: data?.exerciseName,
             categoryID: data?.categoryID,
             exerciseTimePerWeek: data?.exerciseTimePerWeek,
+            iconUrl: data?.iconUrl,
             flag: data?.flag,
             status: data?.status,
           }}

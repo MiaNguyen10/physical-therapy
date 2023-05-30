@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Backdrop,
+  Box,
   Button,
   CircularProgress,
   Container,
@@ -72,7 +73,7 @@ const ExerciseForm = ({
       .typeError("Vui lòng điền số lượng thời gian tập luyện trong tuần")
       .required("Vui lòng điền thông tin")
       .min(1, "Số lượng thời gian tập luyện trong tuần phải lớn hơn 0")
-      .max(100, "Số lượng thời gian tập luyện trong tuần phải nhỏ hơn 100")
+      .max(100, "Số lượng thời gian tập luyện trong tuần phải nhỏ hơn 100"),
   });
 
   const {
@@ -80,6 +81,7 @@ const ExerciseForm = ({
     formState: { errors: formErrors },
     control,
     reset,
+    watch,
   } = useForm({
     mode: "all",
     resolver: yupResolver(schema),
@@ -87,6 +89,7 @@ const ExerciseForm = ({
       exerciseName: "",
       categoryID: "",
       exerciseTimePerWeek: "",
+      iconUrl: "",
       flag: true,
       status: true,
     },
@@ -103,6 +106,7 @@ const ExerciseForm = ({
       exerciseTimePerWeek: exerciseDetail?.exerciseTimePerWeek,
       status: exerciseDetail?.status,
       flag: exerciseDetail?.flag,
+      iconUrl: exerciseDetail?.iconUrl,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exerciseDetail]);
@@ -182,6 +186,37 @@ const ExerciseForm = ({
                   </MenuItem>
                 ))}
               </TextField>
+            )}
+          />
+
+          {watch("iconUrl") ? (
+            <Box
+              component="img"
+              sx={{
+                height: "50%",
+                width: "50%",
+              }}
+              alt="image"
+              src={watch("iconUrl")}
+            />
+          ) : null}
+          <Controller
+            control={control}
+            name="iconUrl"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                sx={styles.textFieldStyle}
+                value={value}
+                onChange={onChange}
+                error={!!formErrors?.iconUrl}
+                helperText={formErrors?.iconUrl?.message}
+                // required
+                placeholder="Không bắt buộc điền"
+                inputProps={{ required: false }}
+                label="Đường link của Icon"
+                variant="outlined"
+                // hidden
+              />
             )}
           />
 

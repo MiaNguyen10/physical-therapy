@@ -17,6 +17,10 @@ const AddCategory = ({ onClose, openModal, setUnique }) => {
 
   const handleFormSubmit = ({ categoryName, description, iconUrl }) => {
     try {
+      if (!iconUrl) {
+        // Set a default value for iconUrl
+        iconUrl = "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2Fcategory.png?alt=media&token=a19e1cae-4701-4cb4-bb3b-d62edd30007a";
+      }
       dispatch(
         addCategory({
           categoryName: categoryName,
