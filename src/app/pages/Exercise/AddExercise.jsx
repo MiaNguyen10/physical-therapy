@@ -24,11 +24,17 @@ const AddExercise = () => {
     exerciseName,
     exerciseTimePerWeek,
     categoryID,
+    iconUrl,
   }) => {
+    if (!iconUrl) {
+      // Set a default value for iconUrl
+      iconUrl = "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/exercise%2Fdefault.png?alt=media&token=8adfd8ce-aea7-4248-92da-a63403e54f91&_gl=1*6v4lvz*_ga*OTY4MjcyNzY2LjE2ODQ1NjA4MzQ.*_ga_CW55HF8NVT*MTY4NTQ0NDY3Ny4zLjEuMTY4NTQ0NDcyNy4wLjAuMA..";
+    }
     const excercise = {
       exerciseName: exerciseName,
       categoryID: categoryID,
       exerciseTimePerWeek: exerciseTimePerWeek,
+      iconUrl: iconUrl,
       flag: true,
       status: true,
       isDeleted: false,

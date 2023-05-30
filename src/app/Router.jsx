@@ -95,6 +95,11 @@ const Router = () => {
               element={<FeedbackList />}
             />
 
+            <Route
+              path={`/${pages.bookingDetailPath}`}
+              element={<BookingDetailList />}
+            />
+
             {/* Admin */}
             <Route element={<RestrictedPermission permission={"Admin"} />}>
               {/* Category */}
@@ -184,10 +189,6 @@ const Router = () => {
               <Route
                 path={`/${pages.scheduleBySlotID}`}
                 element={<ScheduleBySlot />}
-              />
-              <Route
-                path={`/${pages.bookingDetailPath}`}
-                element={<BookingDetailList />}
               />
             </Route>
           </Route>

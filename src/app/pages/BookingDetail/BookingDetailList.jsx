@@ -43,6 +43,10 @@ const BookingDetailList = () => {
   let bookingDetailList = useSelector(getBookingDetails);
   const bookingDetailStatus = useSelector(getStatusBookingDetails);
 
+  const fetchBookingDetailList = () => {
+    dispatch(getBookingDetailList(token));
+  };
+
   const [filters, setFilters] = useState({
     longTermStatus: undefined,
     shortTermStatus: undefined,
@@ -61,6 +65,11 @@ const BookingDetailList = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [bookingDetailId, setBookingDetailId] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    fetchBookingDetailList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey, filters]);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -145,7 +154,7 @@ const BookingDetailList = () => {
     {
       field: "timeBooking",
       headerName: "Ngày đặt",
-      width: 150,
+      width: 250,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -204,31 +213,53 @@ const BookingDetailList = () => {
         </Typography>
       ),
     },
-    {
-      field: "longTermStatus",
-      headerName: "Dài hạn",
-      width: 170,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-          {params.colDef.headerName}
-        </Typography>
-      ),
-      renderCell: (params) => {
-        const status = getLongTermPaymentStatus(params.row.longtermStatus);
+    // {
+    //   field: "longTermStatus",
+    //   headerName: "Dài hạn",
+    //   width: 170,
+    //   headerAlign: "center",
+    //   align: "center",
+    //   disableColumnMenu: true,
+    //   renderHeader: (params) => (
+    //     <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+    //       {params.colDef.headerName}
+    //     </Typography>
+    //   ),
+    //   renderCell: (params) => {
+    //     const status = getLongTermPaymentStatus(params.row.longtermStatus);
 
-        return (
-          <Typography color={status.color} fontWeight="bold">
-            {status.status}
-          </Typography>
-        );
-      },
-    },
+    //     return (
+    //       <Typography color={status.color} fontWeight="bold">
+    //         {status.status}
+    //       </Typography>
+    //     );
+    //   },
+    // },
+    // {
+    //   field: "shortTermStatus",
+    //   headerName: "Ngắn hạn",
+    //   width: 170,
+    //   headerAlign: "center",
+    //   align: "center",
+    //   disableColumnMenu: true,
+    //   renderHeader: (params) => (
+    //     <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+    //       {params.colDef.headerName}
+    //     </Typography>
+    //   ),
+    //   renderCell: (params) => {
+    //     const status = getShortTermPaymentStatus(params.row.shorttermStatus);
+
+    //     return (
+    //       <Typography color={status.color} fontWeight="bold">
+    //         {status.status}
+    //       </Typography>
+    //     );
+    //   },
+    // },
     {
-      field: "shortTermStatus",
-      headerName: "Ngắn hạn",
+      field: "status",
+      headerName: "Trạng thái",
       width: 170,
       headerAlign: "center",
       align: "center",
@@ -239,7 +270,15 @@ const BookingDetailList = () => {
         </Typography>
       ),
       renderCell: (params) => {
-        const status = getShortTermPaymentStatus(params.row.shorttermStatus);
+        const typeofslot =
+          params.row.bookingSchedule.schedule.typeOfSlot.typeName;
+        let status;
+
+        if (typeofslot === "Trị liệu dài hạn") {
+          status = getLongTermPaymentStatus(params.row.longtermStatus);
+        } else {
+          status = getShortTermPaymentStatus(params.row.shorttermStatus);
+        }
 
         return (
           <Typography color={status.color} fontWeight="bold">
