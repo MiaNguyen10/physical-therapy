@@ -11,7 +11,12 @@ import {
 } from "@mui/material";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import { fstorage } from "cores/store/firebase/config";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ReactPlayer from "react-player";
@@ -55,14 +60,13 @@ const ExerciseResourceForm = ({
   const onChooseVideo = (e) => {
     if (e.target.files[0]) {
       console.log(e.target.files);
-      if (e.target.files[0].size > 25600000) {
+      if (e.target.files[0].size > 51200000) {
         //check size in KB
-        alert("Dung lượng video phải nhỏ hơn 25MB");
+        alert("Dung lượng video phải nhỏ hơn 50MB");
       } else {
-        const exts = ['.mp4','.mov','.mkv','.webm','.avi'];
-        let name = (e.target.files[0].name || '').toLowerCase();
+        const exts = [".mp4", ".mov", ".mkv", ".webm", ".avi"];
+        let name = (e.target.files[0].name || "").toLowerCase();
         if (exts.reduce((s, i) => s + name.includes(i), 0) == 0) {
-          //check size in KB
           alert("Định dạng video không phù hợp!");
         } else {
           setVideoObject(e.target.files[0]);
@@ -71,14 +75,17 @@ const ExerciseResourceForm = ({
     }
   };
   const onUploadVideo = () => {
-    const uploadRef = ref(fstorage, `vid_test/${videoObject.name}`);
+    const uploadRef = ref(
+      fstorage,
+      `exerciseResource/video/${videoObject.name}`
+    );
     const uploadTask = uploadBytesResumable(uploadRef, videoObject);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
+        // console.log("Upload is " + progress + "% done");
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -95,15 +102,48 @@ const ExerciseResourceForm = ({
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setValue("videoURL", url);
         });
-        setVideoObject(null);
       }
     );
   };
 
-  const handleUploadImage = (data) => {
-    console.log(data);
+  const onChooseImage = (e) => {
+    if (e.target.files[0]) {
+      console.log(e.target.files);
+      if (e.target.files[0].size > 8192000) {
+        //check size in KB
+        alert("Dung lượng hình ảnh phải nhỏ hơn 8MB");
+      } else {
+        const exts = [".jpg", ".png", ".jpeg", ".webp", ".bmp"];
+        let name = (e.target.files[0].name || "").toLowerCase();
+        if (exts.reduce((s, i) => s + name.includes(i), 0) == 0) {
+          alert("Định dạng hình ảnh không phù hợp!");
+        } else {
+          setImageObject(e.target.files[0]);
+          handleUploadImage(e.target.files[0]);
+        }
+      }
+    }
   };
-  const onSubmit = (data) => onFormSubmit(data);
+  const handleUploadImage = (data) => {
+    let splited = data.name.split(".");
+    let ext = splited[splited.length - 1];
+    const uploadRef = ref(fstorage, `exerciseResource/images/${data.name}`);
+    const uploadTask = uploadBytes(uploadRef, imageObject ?? data);
+    uploadTask.then((snapshot) => {
+      if (snapshot) {
+        getDownloadURL(snapshot.ref).then((url) => {
+          setValue("imageURL", url);
+        });
+      } else {
+        alert("Không thể tải lên hình!");
+      }
+    });
+  };
+  const onSubmit = (data) => {
+    setImageObject(null);
+    setVideoObject(null);
+    onFormSubmit(data);
+  };
 
   useEffect(() => {
     reset({
@@ -178,11 +218,7 @@ const ExerciseResourceForm = ({
                         sx={{ minWidth: 120, padding: "4px 8px" }}
                       >
                         Choose File
-                        <input
-                          type="file"
-                          hidden
-                          onChange={handleUploadImage}
-                        />
+                        <input type="file" hidden onChange={onChooseImage} />
                       </Button>
                     ),
                   }}
@@ -225,7 +261,7 @@ const ExerciseResourceForm = ({
               <TextField
                 sx={{ ...styles.textFieldStyle, width: "540px" }}
                 value={videoObject?.name}
-                label="Video Upload"
+                label="Tải lên Video"
                 variant="outlined"
                 InputProps={{
                   endAdornment: (

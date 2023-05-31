@@ -12,10 +12,13 @@ const mockup = {
   total: {
     user: 62,
     newUser: 24,
+    userDataset: [],
     booking: 342,
     newBooking: 117,
     bookingDataset: [],
-    userDataset: [],
+    slots: 486,
+    newSlots: 207,
+    slotDataset: [],
     timeRange: {
       startDate: "",
       endDate: "",
@@ -128,8 +131,21 @@ const Dashboard = () => {
           <div className="blok">
             <i className="fa fa-money pl"></i>
             <div className="no">
-              <p>Longest HODL</p>
-              <p>8 Months</p>
+              <p>Tổng số buổi điều trị</p>
+              <p>
+                {mockup.total.slots}
+                {mockup.total.newSlots > 0 ? (
+                  <span style={{ color: "green", fontSize: "small" }}>
+                    {" "}
+                    (+{mockup.total.newSlots})
+                  </span>
+                ) : (
+                  <span style={{ color: "red", fontSize: "small" }}>
+                    {" "}
+                    {mockup.total.newSlots}
+                  </span>
+                )}
+              </p>
             </div>
           </div>
           <div className="clear"></div>

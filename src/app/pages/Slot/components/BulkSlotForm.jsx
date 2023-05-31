@@ -72,7 +72,8 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
   const slotList = useSelector(getSlots);
   const [typeOfBulk, setTypeOfBulk] = useState("day");
   const [numberOfSlot, setNumberOfSlot] = useState(1);
-  const slotDuration = 1; // by hour
+  const slotDuration = 1; // in hour
+  const slotGap = 0.5; // in hour
   const [slotsInDay, setSlotsInDay] = useState([1]);
   const current =
     dayjs(new Date()).hour() + 3 > 24
@@ -84,7 +85,9 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
       ? current.set("m", 0).add(slotDuration, "hour")
       : current
   );
-  const [dateEnd, setDateEnd] = useState(dateStart.add(slotDuration, "hour"));
+  const [dateEnd, setDateEnd] = useState(
+    dateStart.add(slotDuration + slotGap, "hour")
+  );
 
   const schema = yup.object({
     slotName: yup.string().required("Vui lòng điền thông tin"),
@@ -125,8 +128,11 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
       case "day":
         index = 0;
         for (let s = 0; s < numberOfSlot; s++) {
-          const start = dayjs(dateStart).add(slotDuration * s, "hours");
-          const end = dayjs(dateStart).add(slotDuration * (s + 1), "hours");
+          const start = dayjs(dateStart).add(
+            (slotDuration + slotGap) * s,
+            "hours"
+          );
+          const end = dayjs(start).add(1, "hours");
           const name = `${data.slotName} (${start.format(
             "DD/MM/YYYY - HH:mm"
           )})`;
@@ -150,8 +156,11 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         for (let d = 0; d < 7; d++) {
           const tmpDate = dateStart.add(d, "days");
           for (let s = 0; s < numberOfSlot; s++) {
-            const start = dayjs(tmpDate).add(slotDuration * s, "hours");
-            const end = dayjs(tmpDate).add(slotDuration * (s + 1), "hours");
+            const start = dayjs(tmpDate).add(
+              (slotDuration + slotGap) * s,
+              "hours"
+            );
+            const end = dayjs(start).add(1, "hours");
             const name = `${data.slotName} (${start.format(
               "DD/MM/YYYY - HH:mm"
             )})`;
@@ -162,8 +171,8 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
               timeEnd: end,
               available: true,
               isDeleted: false,
-              dateCreated: new Date(),
-              dateUpdated: new Date(),
+              dateCreated: new Date().toISOString(),
+              dateUpdated: new Date().toISOString(),
               status: "pending",
             });
             index++;
@@ -171,7 +180,7 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         }
     }
     console.log(listCreate);
-    // onFormSubmit({ listCreate });
+    onFormSubmit({ listCreate });
   };
 
   useEffect(() => {
@@ -186,29 +195,36 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
   useEffect(() => {
     let start = dayjs(dateStart).get("h");
     start >= 23 && (start = 0);
-    let numSlots = (1440 - start * 60) / (slotDuration * 60 + 30);
+    let numSlots = (1440 - start * 60) / ((slotDuration + slotGap) * 60);
     console.log(start, numSlots);
-    if (numSlots !== 10 && numSlots > 0 && numSlots < 100) {
+    if (numSlots > 0 && numSlots < 100) {
       let sList = [];
       for (let i = 0; i < numSlots; i++) {
         sList.push(i + 1);
       }
       setSlotsInDay(sList);
       setNumberOfSlot(1);
-      //HERE
     }
   }, [slotDuration, reset, control, slotDetail, getValues, dateStart]);
 
   useEffect(() => {
     switch (typeOfBulk) {
       case "day":
-        setDateEnd(dateStart.add((numberOfSlot || 0) * slotDuration, "hours"));
+        setDateEnd(
+          dateStart.add(
+            (numberOfSlot || 0) * (slotDuration + slotGap) - slotGap,
+            "hours"
+          )
+        );
         break;
       case "week":
         setDateEnd(
           dateStart
             .add(1, "week")
-            .add((numberOfSlot || 0) * slotDuration, "hours")
+            .add(
+              (numberOfSlot || 0) * (slotDuration + slotGap) - slotGap,
+              "hours"
+            )
         );
     }
   }, [dateStart, numberOfSlot, typeOfBulk]);
