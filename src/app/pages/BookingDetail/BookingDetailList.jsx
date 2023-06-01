@@ -29,14 +29,16 @@ import {
 } from "../../../cores/thunk/bookingDetail";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import pages from "../../config/pages";
+import { getPaymentStatus } from "app/constant/payment";
+import colors from "app/constant/color";
 import {
-  getLongTermPaymentStatus,
-  getShortTermPaymentStatus,
-} from "app/constant/payment";
-import SearchBookingListForm, {
-  ALL_STATUS_LONG_TERM,
-  ALL_STATUS_SHORT_TERM,
-} from "./components/SearchBookingListForm";
+  ALL_TYPE_OF_SLOT,
+  STATUS_ALL,
+  getTypeOfSlot,
+  longTermID,
+} from "app/constant/bookingDetail";
+import SearchBookingListForm from "./components/SearchBookingListForm";
+import SlotNameTag from "./components/slotNameTag";
 
 const BookingDetailList = () => {
   const dispatch = useDispatch();
@@ -48,13 +50,13 @@ const BookingDetailList = () => {
   };
 
   const [filters, setFilters] = useState({
-    longTermStatus: undefined,
-    shortTermStatus: undefined,
+    status: STATUS_ALL,
+    typeOfSlot: ALL_TYPE_OF_SLOT,
   });
   const [unique, setUnique] = useState(Math.random());
   const [rangeDate, setRangeDate] = useState({
-    startDate: null,
-    endDate: null,
+    startDate: dayjs(),
+    endDate: dayjs(),
   });
   // let categoryList = useSelector(getCategories);
   // const categoryStatus = useSelector(getStatusCategory)
@@ -69,7 +71,7 @@ const BookingDetailList = () => {
   useEffect(() => {
     fetchBookingDetailList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey, filters]);
+  }, [refreshKey, filters.status, filters.typeOfSlot]);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -98,7 +100,6 @@ const BookingDetailList = () => {
   // }, [])
 
   const rows = useMemo(() => {
-    console.log(bookingDetailList);
     if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
       if (dayjs(rangeDate.startDate).diff(dayjs(rangeDate.endDate)) > 0)
         return [];
@@ -107,11 +108,11 @@ const BookingDetailList = () => {
       Array.isArray(bookingDetailList) &&
       bookingDetailList.filter((schedule) => {
         const time = schedule.bookingSchedule.timeBooking;
-        const longtermStatus = schedule.longtermStatus;
-        const shortTermStatus = schedule.shorttermStatus;
+        const typeOfSlotID = schedule.longtermStatus;
+        const paymentStatus = schedule.shorttermStatus;
 
         let compareDate = true;
-        //* is set from and to date
+        //*  set both from and to date
         if (rangeDate.endDate !== null && rangeDate.startDate !== null) {
           const isValidStartDate =
             getDifferenceDates(time, rangeDate.startDate) >= 0;
@@ -132,23 +133,31 @@ const BookingDetailList = () => {
           compareDate = isValidToDate;
         }
 
-        const matchLongTermStatus =
-          ALL_STATUS_LONG_TERM === filters.longTermStatus
+        const isMatchTypeOfSlotID =
+          ALL_TYPE_OF_SLOT === filters.typeOfSlot ||
+          filters.typeOfSlot === undefined
             ? true
-            : longtermStatus === filters.longTermStatus;
-        const matchShortTermStatus =
-          filters.shortTermStatus === ALL_STATUS_SHORT_TERM
+            : typeOfSlotID === filters.typeOfSlot;
+
+        const isMatchedPaymentStatus =
+          filters.status === STATUS_ALL || filters.status === undefined
             ? true
-            : shortTermStatus === filters.shortTermStatus;
+            : paymentStatus === filters.status;
 
-        const matchedStatuses = matchLongTermStatus && matchShortTermStatus;
+        const isMatchedFilters = isMatchedPaymentStatus && isMatchTypeOfSlotID;
 
-        return compareDate && matchedStatuses;
+        return compareDate && isMatchedFilters;
       })
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, bookingDetailList, unique]);
+  }, [
+    filters.status,
+    filters.typeOfSlot,
+    bookingDetailList,
+    unique,
+    rangeDate,
+  ]);
 
   const columns = [
     {
@@ -213,50 +222,6 @@ const BookingDetailList = () => {
         </Typography>
       ),
     },
-    // {
-    //   field: "longTermStatus",
-    //   headerName: "Dài hạn",
-    //   width: 170,
-    //   headerAlign: "center",
-    //   align: "center",
-    //   disableColumnMenu: true,
-    //   renderHeader: (params) => (
-    //     <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-    //       {params.colDef.headerName}
-    //     </Typography>
-    //   ),
-    //   renderCell: (params) => {
-    //     const status = getLongTermPaymentStatus(params.row.longtermStatus);
-
-    //     return (
-    //       <Typography color={status.color} fontWeight="bold">
-    //         {status.status}
-    //       </Typography>
-    //     );
-    //   },
-    // },
-    // {
-    //   field: "shortTermStatus",
-    //   headerName: "Ngắn hạn",
-    //   width: 170,
-    //   headerAlign: "center",
-    //   align: "center",
-    //   disableColumnMenu: true,
-    //   renderHeader: (params) => (
-    //     <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-    //       {params.colDef.headerName}
-    //     </Typography>
-    //   ),
-    //   renderCell: (params) => {
-    //     const status = getShortTermPaymentStatus(params.row.shorttermStatus);
-
-    //     return (
-    //       <Typography color={status.color} fontWeight="bold">
-    //         {status.status}
-    //       </Typography>
-    //     );
-    //   },
-    // },
     {
       field: "status",
       headerName: "Trạng thái",
@@ -270,18 +235,9 @@ const BookingDetailList = () => {
         </Typography>
       ),
       renderCell: (params) => {
-        const typeofslot =
-          params.row.bookingSchedule.schedule.typeOfSlot.typeName;
-        let status;
-
-        if (typeofslot === "Trị liệu dài hạn") {
-          status = getLongTermPaymentStatus(params.row.longtermStatus);
-        } else {
-          status = getShortTermPaymentStatus(params.row.shorttermStatus);
-        }
-
+        const status = getPaymentStatus(params.row.shorttermStatus);
         return (
-          <Typography color={status.color} fontWeight="bold">
+          <Typography color={status.color} fontWeight='bold'>
             {status.status}
           </Typography>
         );
@@ -299,11 +255,20 @@ const BookingDetailList = () => {
           {params.colDef.headerName}
         </Typography>
       ),
-      renderCell: (params) => (
-        <Typography>
-          {params.row.bookingSchedule.schedule.typeOfSlot.typeName}
-        </Typography>
-      ),
+      renderCell: (params) => {
+        const { id, slot } = getTypeOfSlot(params.row.longtermStatus);
+
+        return (
+          <SlotNameTag
+            bgColor={`${
+              id === longTermID ? colors.pastelYellow : colors.pastelGreen
+            }`}
+            slotName={slot}
+          >
+            {slot}
+          </SlotNameTag>
+        );
+      },
     },
     {
       field: "price",
@@ -357,7 +322,7 @@ const BookingDetailList = () => {
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title="Chi tiết bài tập">
+              <Tooltip title='Chi tiết bài tập'>
                 <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
@@ -382,9 +347,9 @@ const BookingDetailList = () => {
   }, [refreshKey]);
 
   return (
-    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH SÁCH BOOKING</Typography>
+    <Container maxWidth='lg' fixed sx={{ mb: 3 }}>
+      <Stack alignItems='center' spacing={8} sx={{ marginTop: "38px" }}>
+        <Typography variant='h3'>DANH SÁCH BOOKING</Typography>
         <SearchBookingListForm
           onSearch={setFilters}
           rangeDate={rangeDate}
@@ -403,7 +368,7 @@ const BookingDetailList = () => {
             rowCount={rows?.length ?? 0}
             isLoading={bookingDetailStatus !== "succeeded"}
             pagination
-            paginationMode="client"
+            paginationMode='client'
           />
         </Box>
       </Stack>
@@ -411,7 +376,7 @@ const BookingDetailList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc="Bạn có chắc chắn muốn xóa không?"
+        desc='Bạn có chắc chắn muốn xóa không?'
       />
     </Container>
   );

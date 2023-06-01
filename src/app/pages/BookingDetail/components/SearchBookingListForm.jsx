@@ -1,27 +1,35 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import { Button, MenuItem, Stack, TextField } from "@mui/material";
 import DatePickerInput from "app/components/Input/DatePicker";
-import { longTermStatuses, shortTermStatuses } from "app/constant/payment";
+import {
+  STATUS_ALL,
+  ALL_TYPE_OF_SLOT,
+  TypeOfSLotList,
+} from "app/constant/bookingDetail";
+import { paymentStatuses } from "app/constant/payment";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import {
+  FILTER_STATUS_FIELD,
+  FILTER_TYPE_OF_SLOT_FIELD,
+} from "../BookingDetailList";
 
-export const ALL_STATUS_SHORT_TERM = -1;
-export const ALL_STATUS_LONG_TERM = -2;
 const SearchBookingListForm = ({
   onSearch,
   rangeDate,
   setRangeDate,
   setUnique,
 }) => {
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control, getValues } = useForm({
     defaultValues: {
-      longTermStatus: ALL_STATUS_LONG_TERM,
-      shortTermStatus: ALL_STATUS_SHORT_TERM,
+      status: STATUS_ALL,
+      typeOfSlot: ALL_TYPE_OF_SLOT,
     },
   });
   const styles = makeStyles();
-
+  const [statusState, setStatusState] = useState(-1);
+  const [typeOfSlotState, setTypeOfSlotState] = useState(-1);
   const handleStartDateChange = (value) => {
     if (value.toString() !== "Invalid Date")
       setRangeDate((prev) => ({ ...prev, startDate: value }));
@@ -35,9 +43,18 @@ const SearchBookingListForm = ({
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     onSearch(data);
     setUnique(Math.random());
+  };
+
+  const handleSelectStatus = (status) => {
+    setStatusState(status);
+    onSearch({ status, typeOfSlot: typeOfSlotState });
+  };
+
+  const handleSelectTypeOfSlot = (typeOfSlot) => {
+    setTypeOfSlotState(typeOfSlot);
+    onSearch({ typeOfSlot, status: statusState });
   };
 
   return (
@@ -72,7 +89,7 @@ const SearchBookingListForm = ({
       />
       <Controller
         control={control}
-        name='longTermStatus'
+        name='status'
         render={({ field: { onChange, value } }) => {
           return (
             <TextField
@@ -81,14 +98,20 @@ const SearchBookingListForm = ({
                 width: "180px",
               }}
               select
-              onChange={onChange}
+              onChange={(val) => {
+                const itemValue = val.target.value;
+                onChange(itemValue);
+                handleSelectStatus(itemValue);
+              }}
               value={value}
               variant='outlined'
-              label='Trạng thái Dài hạn'
+              label='Trạng thái'
             >
-              <MenuItem value={ALL_STATUS_LONG_TERM}>Tất cả</MenuItem>
-              {longTermStatuses.map(({ id, status }) => (
-                <MenuItem value={id} key={status}>
+              <MenuItem value={STATUS_ALL} onClick={handleSelectStatus}>
+                Tất cả
+              </MenuItem>
+              {paymentStatuses.map(({ id, status }) => (
+                <MenuItem value={id} key={status} onClick={handleSelectStatus}>
                   {status}
                 </MenuItem>
               ))}
@@ -98,7 +121,7 @@ const SearchBookingListForm = ({
       />
       <Controller
         control={control}
-        name='shortTermStatus'
+        name='typeOfSlot'
         render={({ field: { onChange, value } }) => {
           return (
             <TextField
@@ -107,15 +130,19 @@ const SearchBookingListForm = ({
                 width: "180px",
               }}
               select
-              onChange={onChange}
+              onChange={(val) => {
+                const itemValue = val.target.value;
+                onChange(itemValue);
+                handleSelectTypeOfSlot(itemValue);
+              }}
               value={value}
               variant='outlined'
-              label='Trạng thái Ngắn hạn'
+              label='Loại trị liệu'
             >
-              <MenuItem value={ALL_STATUS_SHORT_TERM}>Tất cả</MenuItem>
-              {shortTermStatuses.map(({ id, status }) => (
-                <MenuItem value={id} key={status}>
-                  {status}
+              <MenuItem value={ALL_TYPE_OF_SLOT}>Tất cả</MenuItem>
+              {TypeOfSLotList.map(({ id, slot }) => (
+                <MenuItem value={id} key={slot}>
+                  {slot}
                 </MenuItem>
               ))}
             </TextField>

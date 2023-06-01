@@ -17,11 +17,11 @@ const DatePickerInput = ({
   label,
 }) => {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='vi'>
       <DatePicker
-        disablePast={disablePast?? false}
+        disablePast={disablePast ?? false}
         closeOnSelect
-        format="DD/MM/YYYY"
+        format='DD/MM/YYYY'
         value={value}
         disabled={disabled}
         onChange={onChange}

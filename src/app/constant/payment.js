@@ -4,11 +4,11 @@ const errorStatus = {
   status: "Unknown status",
 };
 
-export const shortTermStatuses = [
+export const paymentStatuses = [
   {
     id: 0,
     color: color.error,
-    status: "Chưa trả tiền",
+    status: "Chưa thanh toán",
   },
   {
     id: 1,
@@ -21,42 +21,20 @@ export const shortTermStatuses = [
     color: color.secondary,
     status: "Đã hoàn thành",
   },
-];
-
-export const longTermStatuses = [
   {
-    id: -1,
+    id: 4,
     color: color.warning,
-    status: "Chưa đăng kí",
+    status: "Y/C đăng kí dài hạn",
   },
   {
-    id: 0,
+    id: 5,
     color: color.error,
-    status: "Chưa trả tiền",
-  },
-  {
-    id: 1,
-    color: color.success,
-    status: "Đã thanh toán",
-  },
-  { id: 2, color: color.primary, status: "Tham gia" },
-  {
-    id: 3,
-    color: color.secondary,
-    status: "Đã hoàn thành",
+    status: "Thanh toán thất bại",
   },
 ];
 
-export const getShortTermPaymentStatus = (toGetStatusId) => {
-  const stat = shortTermStatuses.find(({ id }) => id === toGetStatusId);
-
-  if (!stat) return errorStatus;
-
-  return stat;
-};
-
-export const getLongTermPaymentStatus = (toGetStatusId) => {
-  const stat = longTermStatuses.find(({ id }) => id === toGetStatusId);
+export const getPaymentStatus = (toGetStatusId) => {
+  const stat = paymentStatuses.find(({ id }) => id === toGetStatusId);
 
   if (!stat) return errorStatus;
 
