@@ -13,7 +13,7 @@ export const getCategoryList = createAsyncThunk(
 export const getCategoryExerciseList = createAsyncThunk(
   "category/getCategoryExerciseList",
   async (data) => {
-    const { id, token } = data
+    const { id, token } = data;
     const response = await fetch(
       `${process.env.REACT_APP_API_ENDPOINT}/Exercise/GetByCategoryId/${id}`,
       {

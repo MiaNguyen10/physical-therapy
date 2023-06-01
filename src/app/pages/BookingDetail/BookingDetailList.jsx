@@ -43,6 +43,7 @@ import SlotNameTag from "./components/slotNameTag";
 const BookingDetailList = () => {
   const dispatch = useDispatch();
   let bookingDetailList = useSelector(getBookingDetails);
+  console.log("🚀 ~ file: BookingDetailList.jsx:46 ~ BookingDetailList ~ bookingDetailList:", bookingDetailList)
   const bookingDetailStatus = useSelector(getStatusBookingDetails);
 
   const fetchBookingDetailList = () => {
@@ -186,22 +187,6 @@ const BookingDetailList = () => {
       },
     },
     {
-      field: "subProfile",
-      headerName: "Bệnh nhân",
-      width: 170,
-      headerAlign: "center",
-      align: "center",
-      disableColumnMenu: true,
-      renderHeader: (params) => (
-        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-          {params.colDef.headerName}
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <Typography>{params.row.bookingSchedule.subProfile.subName}</Typography>
-      ),
-    },
-    {
       field: "physio",
       headerName: "Người điều trị",
       width: 200,
@@ -223,6 +208,23 @@ const BookingDetailList = () => {
       ),
     },
     {
+      field: "subProfile",
+      headerName: "Người đặt",
+      width: 170,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      renderHeader: (params) => (
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography>{params.row.bookingSchedule.subProfile.subName}</Typography>
+      ),
+    },
+
+    {
       field: "status",
       headerName: "Trạng thái",
       width: 170,
@@ -237,7 +239,7 @@ const BookingDetailList = () => {
       renderCell: (params) => {
         const status = getPaymentStatus(params.row.shorttermStatus);
         return (
-          <Typography color={status.color} fontWeight='bold'>
+          <Typography color={status.color} fontWeight="bold">
             {status.status}
           </Typography>
         );
@@ -284,9 +286,13 @@ const BookingDetailList = () => {
       ),
       renderCell: (params) => (
         <Typography>
-          {params.row.bookingSchedule.schedule.typeOfSlot.price}
+          {params.row.bookingSchedule.schedule.typeOfSlot.price.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+          })}
         </Typography>
       ),
+      
     },
     {
       field: "action",
@@ -322,7 +328,7 @@ const BookingDetailList = () => {
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title='Chi tiết bài tập'>
+              <Tooltip title="Chi tiết bài tập">
                 <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
@@ -347,9 +353,9 @@ const BookingDetailList = () => {
   }, [refreshKey]);
 
   return (
-    <Container maxWidth='lg' fixed sx={{ mb: 3 }}>
-      <Stack alignItems='center' spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant='h3'>DANH SÁCH BOOKING</Typography>
+    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
+      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
+        <Typography variant="h3">DANH SÁCH BOOKING</Typography>
         <SearchBookingListForm
           onSearch={setFilters}
           rangeDate={rangeDate}
@@ -368,7 +374,7 @@ const BookingDetailList = () => {
             rowCount={rows?.length ?? 0}
             isLoading={bookingDetailStatus !== "succeeded"}
             pagination
-            paginationMode='client'
+            paginationMode="client"
           />
         </Box>
       </Stack>
@@ -376,7 +382,7 @@ const BookingDetailList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc='Bạn có chắc chắn muốn xóa không?'
+        desc="Bạn có chắc chắn muốn xóa không?"
       />
     </Container>
   );

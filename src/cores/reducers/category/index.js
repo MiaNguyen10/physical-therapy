@@ -13,6 +13,8 @@ const initialState = {
   error: "",
   categories: [],
   categoryDetail: {},
+  categorieExercises: [],
+  categoryExerciseDetail: {},
 };
 
 const categorySlice = createSlice({
@@ -41,7 +43,7 @@ const categorySlice = createSlice({
       })
       .addCase(getCategoryExerciseList.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.categories = action.payload;
+        state.categorieExercises = action.payload;
       })
       .addCase(getCategoryExerciseList.rejected, (state, action) => {
         state.status = "failed";
@@ -90,4 +92,4 @@ export default categorySlice.reducer;
 export const getCategories = (state) => state.category.categories;
 export const getCategory = (state) => state.category.categoryDetail;
 export const getStatusCategory = (state) => state.category.status;
-export const getCategoryExercise = (state) => state.category.categories;
+export const getCategoryExercise = (state) => state.category.categorieExercises;

@@ -11,14 +11,14 @@ import {
 } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectToken } from "cores/reducers/authentication";
-import { getCategories, getStatusCategory } from "cores/reducers/category";
-import { getCategoryList } from "cores/thunk/category";
+import { getCategories, getCategoryExercise, getStatusCategory } from "cores/reducers/category";
+import { getCategoryExerciseList, getCategoryList } from "cores/thunk/category";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
-  getExercises,
+  // getExercises,
   getStatusExercises,
   resetStatus,
 } from "../../../cores/reducers/exercise";
@@ -30,7 +30,8 @@ import SearchExerciseListFrom from "../Exercise/components/SearchExerciseListFor
 
 const ExerciseList = () => {
   const dispatch = useDispatch();
-  let exerciseList = useSelector(getExercises);
+  const { id } = useParams();
+  let exerciseList = useSelector(getCategoryExercise);
   const exerciseStatus = useSelector(getStatusExercises);
   let categoryList = useSelector(getCategories);
   const categoryStatus = useSelector(getStatusCategory);
@@ -69,7 +70,7 @@ const ExerciseList = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getCategoryList());
+    dispatch(getCategoryExerciseList({ id: id, token }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -82,7 +83,7 @@ const ExerciseList = () => {
             .toLowerCase()
             .search(trim(filters.searchKey.toLowerCase())) >= 0;
         const isFoundCate =
-          exercise.categoryID
+          exercise.category.categoryName
             .toLowerCase()
             .search(trim(filters.searchCate.toLowerCase())) >= 0;
         return isFoundName && isFoundCate;
@@ -106,7 +107,7 @@ const ExerciseList = () => {
       renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     },
     {
-      field: "categoryID",
+      field: "categoryName",
       headerName: "Tình trạng",
       width: 350,
       headerAlign: "center",
@@ -119,10 +120,11 @@ const ExerciseList = () => {
       ),
       renderCell: (params) => (
         <Typography>
-          {Array.isArray(categoryList) &&
+          {/* {Array.isArray(categoryList) &&
             categoryList
               .filter((category) => category.categoryID === params.value)
-              .map((x) => x.categoryName)}
+              .map((x) => x.categoryName)} */}
+              {params?.row.category.categoryName ?? "-"}
         </Typography>
       ),
     },
