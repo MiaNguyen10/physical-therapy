@@ -8,9 +8,10 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: "Roboto",
     button: {
-      textTransform: 'none'
-    }
+      textTransform: "none",
+    },
   },
   components: {
     MuiLink: {

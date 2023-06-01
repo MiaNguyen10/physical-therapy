@@ -1,4 +1,3 @@
-import ClearIcon from "@mui/icons-material/Clear";
 import { Button, MenuItem, Stack, TextField } from "@mui/material";
 import DatePickerInput from "app/components/Input/DatePicker";
 import {
@@ -10,10 +9,6 @@ import { paymentStatuses } from "app/constant/payment";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import {
-  FILTER_STATUS_FIELD,
-  FILTER_TYPE_OF_SLOT_FIELD,
-} from "../BookingDetailList";
 
 const SearchBookingListForm = ({
   onSearch,
@@ -30,6 +25,7 @@ const SearchBookingListForm = ({
   const styles = makeStyles();
   const [statusState, setStatusState] = useState(-1);
   const [typeOfSlotState, setTypeOfSlotState] = useState(-1);
+
   const handleStartDateChange = (value) => {
     if (value.toString() !== "Invalid Date")
       setRangeDate((prev) => ({ ...prev, startDate: value }));

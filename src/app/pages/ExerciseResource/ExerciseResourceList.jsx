@@ -5,6 +5,7 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
+  CardHeader,
   CardMedia,
   Container,
   Stack,
@@ -25,6 +26,7 @@ import {
 } from "../../../cores/thunk/exerciseResource";
 import AddButton from "../../components/Button/AddButton";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
+import Grid from "@mui/material/Unstable_Grid2";
 
 const ExerciseResourceList = () => {
   const { id, idDetail } = useParams();
@@ -156,21 +158,25 @@ const ExerciseResourceList = () => {
   }, [refreshKey]);
 
   return (
-    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Typography variant="h3" textAlign="center" sx={{ m: 5 }}>
+    <Container
+      maxWidth='lg'
+      fixed
+      sx={{ mb: 3, display: "flex", flexDirection: "column" }}
+    >
+      <Typography variant='h4' textAlign='center' sx={{ m: 5 }}>
         DANH SÁCH TÀI NGUYÊN BÀI TẬP
       </Typography>
 
       <Stack
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="flex-end"
+        direction='row'
+        justifyContent='flex-end'
+        alignItems='flex-end'
         spacing={2}
-        sx={{ float: "right" }}
+        sx={{ paddingY: "20px" }}
       >
         <Button
-          variant="outlined"
-          color="primary"
+          variant='outlined'
+          color='primary'
           onClick={() => navigate(`/exercise/${id}/exerciseDetailList`)}
           sx={{
             fontWeight: "bold",
@@ -185,7 +191,7 @@ const ExerciseResourceList = () => {
         </Button>
 
         <AddButton
-          desc="Thêm tài nguyên bài tập"
+          desc='Thêm tài nguyên bài tập'
           url={`/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`}
           sx={{
             mt: -6,
@@ -198,73 +204,106 @@ const ExerciseResourceList = () => {
         />
       </Stack>
       <Box>
-        <Stack
-          direction="row"
-          justifyContent="flex-start"
-          alignItems="center"
-          spacing={2}
-          sx={{ float: "left", mt: 8 }}
-        >
+        <Grid container wrap='wrap' rowSpacing={2}>
           {exerciseResourceList
             ? exerciseResourceList.map((exerciseResource) => (
-                <Card
-                  sx={{ maxWidth: 345 }}
+                <Grid
+                  component={Stack}
+                  justifyContent='center'
+                  alignItems='center'
+                  md={6}
+                  lg={4}
+                  sx={6}
                   key={exerciseResource.exerciseResourceID}
                 >
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        height: "auto",
-                        width: 345,
-                        maxHeight: { xs: "auto", md: 167 },
-                        maxwidth: { xs: 345, md: 212 },
-                      }}
-                      alt="User image"
-                      src={exerciseResource.imageURL}
-                    />
-                    <CardContent sx={{ paddingBottom: 0 }}>
-                      <Typography gutterBottom variant="h5" component="div" >
-                        {exerciseResource.resourceName}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions sx={{ paddingTop: 0, display: "flex", justifyContent: "center", gap: "50px" }}>
-                    <Button
-                      size="small"
+                  <Card
+                    sx={{
+                      minWidth: 300,
+                      maxWidth: 300,
+                      minHeight: 250,
+                      borderRadius: "10px",
+                    }}
+                    elevation={5}
+                  >
+                    <CardActionArea
                       onClick={() =>
                         navigate(
                           `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${exerciseResource.exerciseResourceID}/edit`
                         )
                       }
+                    >
+                      <CardMedia
+                        component='img'
+                        width={180}
+                        height={300}
+                        loading='lazy'
+                        sx={{
+                          height: "auto",
+                          width: "100%",
+                          minHeight: 300,
+                          maxHeight: { xs: "auto", md: 180 },
+                          objectFit: "contain",
+                          mb: "3px",
+                        }}
+                        alt='User image'
+                        src={exerciseResource.imageURL}
+                      />
+                      <CardContent sx={{ padding: 0, minHeight: "70px" }}>
+                        <Typography
+                          variant='h6'
+                          component='div'
+                          textAlign='center'
+                          textTransform='capitalize'
+                          fontWeight='500'
+                        >
+                          {exerciseResource.resourceName}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions
                       sx={{
-                        fontWeight: "bold",
-                        fontSize: "1.2rem", // change this value to increase or decrease the font size
-                        padding: "10px 32px", // change this value to increase or decrease the padding
+                        paddingTop: 0,
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "50px",
                       }}
                     >
-                      Sửa
-                    </Button>
-                    <Button
-                      size="small"
-                      onClick={() => {
-                        setResourceId(exerciseResource?.exerciseResourceID);
-                        setOpenDialog(true);
-                      }}
-                      sx={{
-                        fontWeight: "bold",
-                        fontSize: "1.2rem", // change this value to increase or decrease the font size
-                        padding: "10px 32px", // change this value to increase or decrease the padding
-                        color: "red",
-                      }}
-                    >
-                      Xóa
-                    </Button>
-                  </CardActions>
-                </Card>
+                      <Button
+                        size='small'
+                        onClick={() =>
+                          navigate(
+                            `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/${exerciseResource.exerciseResourceID}/edit`
+                          )
+                        }
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "1.2rem", // change this value to increase or decrease the font size
+                          padding: "10px 32px", // change this value to increase or decrease the padding
+                        }}
+                      >
+                        Sửa
+                      </Button>
+                      <Button
+                        size='small'
+                        onClick={() => {
+                          setResourceId(exerciseResource?.exerciseResourceID);
+                          setOpenDialog(true);
+                        }}
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "1.2rem", // change this value to increase or decrease the font size
+                          padding: "10px 32px", // change this value to increase or decrease the padding
+                          color: "red",
+                        }}
+                      >
+                        Xóa
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
               ))
             : null}
-        </Stack>
+        </Grid>
 
         {/* <DataGridTable
             columns={columns}
@@ -283,7 +322,7 @@ const ExerciseResourceList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc="Bạn có chắc chắn muốn xóa không?"
+        desc='Bạn có chắc chắn muốn xóa không?'
       />
     </Container>
   );
