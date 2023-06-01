@@ -72,7 +72,7 @@ const SlotList = () => {
 
   useEffect(() => {
     dispatch(getCategoryList());
-    const iRef = ref(fstorage, 'images');
+    const iRef = ref(fstorage, "images");
     console.log(iRef);
   }, [dispatch]);
 
@@ -113,7 +113,7 @@ const SlotList = () => {
         const isFoundName = filters.searchKey
           ? slot.slotName
               .toLowerCase()
-              .search(trim(filters.searchKey.toLowerCase())) >= 0
+              .includes(trim(filters.searchKey.toLowerCase()))
           : true;
 
         console.log(compareDate, isFoundName);

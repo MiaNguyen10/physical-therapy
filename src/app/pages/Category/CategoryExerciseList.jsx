@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
   Container,
@@ -11,7 +11,11 @@ import {
 } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { selectToken } from "cores/reducers/authentication";
-import { getCategories, getCategoryExercise, getStatusCategory } from "cores/reducers/category";
+import {
+  getCategories,
+  getCategoryExercise,
+  getStatusCategory,
+} from "cores/reducers/category";
 import { getCategoryExerciseList, getCategoryList } from "cores/thunk/category";
 import { trim } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
@@ -78,14 +82,12 @@ const ExerciseList = () => {
     return (
       Array.isArray(exerciseList) &&
       exerciseList.filter((exercise) => {
-        const isFoundName =
-          exercise.exerciseName
-            .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundCate =
-          exercise.category.categoryName
-            .toLowerCase()
-            .search(trim(filters.searchCate.toLowerCase())) >= 0;
+        const isFoundName = exercise.exerciseName
+          .toLowerCase()
+          .includes(trim(filters.searchKey.toLowerCase()));
+        const isFoundCate = exercise.category.categoryName
+          .toLowerCase()
+          .includes(trim(filters.searchCate.toLowerCase()));
         return isFoundName && isFoundCate;
       })
     );
@@ -124,7 +126,7 @@ const ExerciseList = () => {
             categoryList
               .filter((category) => category.categoryID === params.value)
               .map((x) => x.categoryName)} */}
-              {params?.row.category.categoryName ?? "-"}
+          {params?.row.category.categoryName ?? "-"}
         </Typography>
       ),
     },

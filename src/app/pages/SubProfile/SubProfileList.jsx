@@ -76,22 +76,20 @@ const SubProfileList = () => {
     return (
       Array.isArray(subProfileList) &&
       subProfileList.filter((subProfile) => {
-        const isFoundName =
-          subProfile.subName
-            .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const filterRelationshipName =
-          subProfile.subName
-            .toLowerCase()
-            .search(trim(filters.searchSet.toLowerCase())) >= 0;
+        const isFoundName = subProfile.subName
+          .toLowerCase()
+          .includes(trim(filters.searchKey.toLowerCase()));
+        const filterRelationshipName = subProfile.subName
+          .toLowerCase()
+          .includes(trim(filters.searchSet.toLowerCase()));
         // const isFoundSet =
         //   subProfile.subName
         //     .toLowerCase()
-        //     .search(trim(filters.searchSet.toLowerCase())) >= 0;
+        //     .includes(trim(filters.searchSet.toLowerCase()));
         // const isFoundDesc =
         //   subProfile.description
         //     .toLowerCase()
-        //     .search(trim(filters.searchDesc.toLowerCase())) >= 0;
+        //     .includes(trim(filters.searchDesc.toLowerCase()));
         return isFoundName && filterRelationshipName;
       })
     );

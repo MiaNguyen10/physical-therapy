@@ -1,7 +1,14 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import InfoIcon from '@mui/icons-material/Info';
-import { Box, Container, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+import {
+  Box,
+  Container,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import OpenModalButton from "app/components/Button/OpenModalButton";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
 import { trim } from "lodash";
@@ -73,14 +80,12 @@ const CategotyList = () => {
     return (
       Array.isArray(categoryList) &&
       categoryList.filter((category) => {
-        const isFoundName =
-          category.categoryName
-            .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundDesc =
-          category.description
-            .toLowerCase()
-            .search(trim(filters.searchDesc.toLowerCase())) >= 0;
+        const isFoundName = category.categoryName
+          .toLowerCase()
+          .includes(trim(filters.searchKey.toLowerCase()));
+        const isFoundDesc = category.description
+          .toLowerCase()
+          .includes(trim(filters.searchDesc.toLowerCase()));
         return isFoundName && isFoundDesc;
       })
     );
@@ -139,9 +144,7 @@ const CategotyList = () => {
               />
             </IconButton>
             <IconButton
-              onClick={() =>
-                navigate(`/category/${params?.value}/exercise`)
-              }
+              onClick={() => navigate(`/category/${params?.value}/exercise`)}
               sx={{ ml: 1, mr: 1 }}
             >
               <Tooltip title="Các bài tập">

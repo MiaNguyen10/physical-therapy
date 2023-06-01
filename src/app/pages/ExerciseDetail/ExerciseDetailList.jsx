@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import SourceIcon from '@mui/icons-material/Source';
+import SourceIcon from "@mui/icons-material/Source";
 import {
   Box,
   Button,
@@ -77,18 +77,15 @@ const ExerciseDetailList = () => {
     return (
       Array.isArray(exerciseDetailList) &&
       exerciseDetailList.filter((exerciseDetail) => {
-        const isFoundName =
-          exerciseDetail.detailName
-            .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0;
-        const isFoundSet =
-          exerciseDetail.set
-            .toLowerCase()
-            .search(trim(filters.searchSet.toLowerCase())) >= 0;
-        const isFoundDesc =
-          exerciseDetail.description
-            .toLowerCase()
-            .search(trim(filters.searchDesc.toLowerCase())) >= 0;
+        const isFoundName = exerciseDetail.detailName
+          .toLowerCase()
+          .includes(trim(filters.searchKey.toLowerCase()));
+        const isFoundSet = exerciseDetail.set
+          .toLowerCase()
+          .includes(trim(filters.searchSet.toLowerCase()));
+        const isFoundDesc = exerciseDetail.description
+          .toLowerCase()
+          .includes(trim(filters.searchDesc.toLowerCase()));
         return isFoundName && isFoundDesc && isFoundSet;
       })
     );

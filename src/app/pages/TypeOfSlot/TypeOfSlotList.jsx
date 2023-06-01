@@ -64,10 +64,9 @@ const TypeOfSlotList = () => {
     return (
       Array.isArray(typeOfSlotList) &&
       typeOfSlotList.filter((type) => {
-        const isFoundName =
-          type.typeName
-            .toLowerCase()
-            .search(trim(filters.searchKey.toLowerCase())) >= 0;
+        const isFoundName = type.typeName
+          .toLowerCase()
+          .includes(trim(filters.searchKey.toLowerCase()));
 
         return isFoundName;
       })

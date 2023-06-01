@@ -97,12 +97,12 @@ const UserList = () => {
       const isFoundNameOrEmail =
         user?.email
           .toLowerCase()
-          .search(trim(filters.searchKey.toLowerCase())) >= 0 ||
+          .includes(trim(filters.searchKey.toLowerCase())) ||
         user?.firstName
           .toLowerCase()
-          .search(trim(filters.searchKey.toLowerCase())) >= 0;
+          .includes(trim(filters.searchKey.toLowerCase()));
       const isFoundPhoneNumb =
-        user?.phoneNumber.search(trim(filters.searchPhone)) >= 0;
+        user?.phoneNumber.includes(trim(filters.searchPhone));
       const isFoundRole =
         filters.role === "Tất cả" ? true : user?.role?.name === role;
       const isFoundBanded =
