@@ -187,8 +187,8 @@ const BookingDetailList = () => {
     },
     {
       field: "physio",
-      headerName: "Người điều trị",
-      width: 200,
+      headerName: "Chuyên viên",
+      width: 170,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -208,8 +208,8 @@ const BookingDetailList = () => {
     },
     {
       field: "subProfile",
-      headerName: "Người đặt",
-      width: 170,
+      headerName: "Người được điều trị",
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -238,7 +238,7 @@ const BookingDetailList = () => {
       renderCell: (params) => {
         const status = getPaymentStatus(params.row.shorttermStatus);
         return (
-          <Typography color={status.color} fontWeight='bold'>
+          <Typography color={status.color} fontWeight="bold">
             {status.status}
           </Typography>
         );
@@ -329,7 +329,7 @@ const BookingDetailList = () => {
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title='Chi tiết bài tập'>
+              <Tooltip title="Chi tiết bài tập">
                 <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
@@ -354,9 +354,9 @@ const BookingDetailList = () => {
   }, [refreshKey]);
 
   return (
-    <Container maxWidth='lg' fixed sx={{ mb: 3 }}>
-      <Stack alignItems='center' spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant='h3'>DANH SÁCH BOOKING</Typography>
+    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
+      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
+        <Typography variant="h3">DANH SÁCH LỊCH ĐẶT HẸN</Typography>
         <SearchBookingListForm
           onSearch={setFilters}
           rangeDate={rangeDate}
@@ -375,7 +375,7 @@ const BookingDetailList = () => {
             rowCount={rows?.length ?? 0}
             isLoading={bookingDetailStatus !== "succeeded"}
             pagination
-            paginationMode='client'
+            paginationMode="client"
           />
         </Box>
       </Stack>
@@ -383,7 +383,7 @@ const BookingDetailList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc='Bạn có chắc chắn muốn xóa không?'
+        desc="Bạn có chắc chắn muốn xóa không?"
       />
     </Container>
   );

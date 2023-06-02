@@ -11,7 +11,46 @@ import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { makeStyles } from "./AccountForm";
+
+export const makeStyles = () => ({
+  textFieldStyle: {
+    width: "500px",
+    ".MuiOutlinedInput-root": {
+      height: 44,
+      "& fieldset": {
+        borderColor: "",
+      },
+    },
+    ".MuiSelect-select": {
+      marginTop: 1,
+    },
+    ".MuiInputLabel-root": {
+      zIndex: 0,
+      top: "-25px",
+      fontSize: "16px",
+      fontWeight: 700,
+      color: "#333333",
+      WebkitTransform: "none",
+      span: {
+        color: "#D93A39",
+      },
+      "&.Mui-focused": {
+        color: "#333333",
+      },
+      "&.Mui-error": {
+        color: "#333333",
+      },
+    },
+    ".MuiOutlinedInput-notchedOutline": {
+      legend: {
+        maxWidth: 0,
+      },
+    },
+    // ".MuiContainer-root": {
+    //   paddingTop: 0,
+    // },
+  },
+});
 
 const PhysioForm = ({physioDetail, onFormSubmit, isLoading, id }) => {
   const styles = makeStyles();
