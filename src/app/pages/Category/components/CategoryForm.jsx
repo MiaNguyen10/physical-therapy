@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Backdrop,
   Box,
@@ -6,56 +6,57 @@ import {
   CircularProgress,
   Stack,
   TextField,
-} from '@mui/material'
-import React, { useEffect } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import * as yup from 'yup'
+} from "@mui/material";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
 
 export const makeStyles = () => ({
   textFieldStyle: {
-    width: '500px',
-    '.MuiOutlinedInput-root': {
+    width: "500px",
+    ".MuiOutlinedInput-root": {
       height: 45,
-      '& fieldset': {
-        borderColor: '',
+      "& fieldset": {
+        borderColor: "",
       },
     },
-    '.MuiSelect-select': {
+    ".MuiSelect-select": {
       marginTop: 1,
     },
-    '.MuiInputLabel-root': {
+    "MuiBox-root": { flexWrap: "wrap" },
+    ".MuiInputLabel-root": {
       zIndex: 0,
-      top: '-25px',
-      fontSize: '16px',
+      top: "-25px",
+      fontSize: "16px",
       fontWeight: 700,
-      color: '#333333',
-      WebkitTransform: 'none',
+      color: "#333333",
+      WebkitTransform: "none",
       span: {
-        color: '#D93A39',
+        color: "#D93A39",
       },
-      '&.Mui-focused': {
-        color: '#333333',
+      "&.Mui-focused": {
+        color: "#333333",
       },
-      '&.Mui-error': {
-        color: '#333333',
+      "&.Mui-error": {
+        color: "#333333",
       },
     },
-    '.MuiOutlinedInput-notchedOutline': {
+    ".MuiOutlinedInput-notchedOutline": {
       legend: {
         maxWidth: 0,
       },
     },
   },
-})
+});
 
 const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
-  const styles = makeStyles()
+  const styles = makeStyles();
 
   const schema = yup.object({
-    categoryName: yup.string().required('Vui lòng điền thông tin'),
-    description: yup.string().required('Vui lòng điền thông tin'),
+    categoryName: yup.string().required("Vui lòng điền thông tin"),
+    description: yup.string().required("Vui lòng điền thông tin"),
     // iconUrl: yup.string().required('Vui lòng đính kèm ảnh'),
-  })
+  });
 
   const {
     handleSubmit,
@@ -65,24 +66,24 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
     getValues,
     watch,
   } = useForm({
-    mode: 'all',
+    mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
-      categoryName: '',
-      description: '',
-      iconUrl: '',
+      categoryName: "",
+      description: "",
+      iconUrl: "",
     },
-  })
+  });
 
-  const onSubmit = (data) => onFormSubmit(data)
+  const onSubmit = (data) => onFormSubmit(data);
 
   useEffect(() => {
     reset({
       categoryName: categoryDetail?.categoryName,
       description: categoryDetail?.description,
       iconUrl: categoryDetail?.iconUrl,
-    })
-  }, [categoryDetail, reset, getValues])
+    });
+  }, [categoryDetail, reset, getValues]);
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -126,15 +127,15 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
           )}
         />
 
-        {watch('iconUrl') ? (
+        {watch("iconUrl") ? (
           <Box
             component="img"
             sx={{
-              height: '50%',
-              width: '50%',
+              height: "50%",
+              width: "50%",
             }}
             alt="image"
-            src={watch('iconUrl')}
+            src={watch("iconUrl")}
           />
         ) : null}
         <Controller
@@ -161,7 +162,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
           direction="row"
           justifyContent="flex-end"
           spacing={2}
-          sx={{ width: '100%' }}
+          sx={{ width: "100%" }}
         >
           <Button variant="outlined" onClick={onClose} disabled={isLoading}>
             Hủy bỏ
@@ -172,7 +173,7 @@ const CategoryForm = ({ categoryDetail, onFormSubmit, isLoading, onClose }) => {
         </Stack>
       </Stack>
     </Box>
-  )
-}
+  );
+};
 
-export default CategoryForm
+export default CategoryForm;

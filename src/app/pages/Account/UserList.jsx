@@ -334,7 +334,7 @@ const UserList = () => {
   ];
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
-      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
+      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px", flexWrap: "wrap", }}>
         <Typography variant="h3" alignItems="center">
           DANH SÁCH NGƯỜI DÙNG
         </Typography>

@@ -8,6 +8,7 @@ import osPain from "../../../assets/osteoarthritis_pain.jpg";
 const ReasonToApply = () => {
   const PropertiesBox = styled(Box)(({ theme }) => ({
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "space-between",
     marginTop: theme.spacing(5),
     [theme.breakpoints.down("md")]: {
