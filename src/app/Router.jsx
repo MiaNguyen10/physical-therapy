@@ -51,7 +51,6 @@ const Router = () => {
     <Routes>
       <Route path={`/${pages.loginPath}`} element={<Login />} />
       <Route element={<Layout />}>
-        <Route path={`${pages.dashboardPath}`} element={<Dashboard />} />
         <Route path={pages.resetPassword} element={<ResetPasswordPage />} />
         <Route
           path={pages.recoverPassword}
@@ -61,6 +60,8 @@ const Router = () => {
           <Route
             element={<RestrictedPermission permission={["Admin", "Staff"]} />}
           >
+            {" "}
+            <Route path={`${pages.dashboardPath}`} element={<Dashboard />} />
             {/* User */}
             <Route path={`/${pages.userListPath}`} element={<UserList />} />
             <Route path={`/${pages.addUserPath}`} element={<AddAccount />} />
@@ -83,7 +84,6 @@ const Router = () => {
               path={`/${pages.subProfileAddPath}`}
               element={<AddSubProfile />}
             />
-
             {/* Physiotherapist */}
             <Route path={`${pages.physioPath}`} element={<Physiotherapist />} />
             <Route
@@ -94,15 +94,12 @@ const Router = () => {
               path={`${pages.medicalRecordPath}`}
               element={<MedicalRecord />}
             />
-
             {/* Feedback */}
             <Route path={`${pages.feedbackListPath}`} />
-
             <Route path={`${pages.bookingDetailPath}`}>
               <Route index={true} element={<BookingDetailList />} />
-              <Route path=':id' element={<DetailPage />} />
+              <Route path=":id" element={<DetailPage />} />
             </Route>
-
             {/* Admin */}
             <Route element={<RestrictedPermission permission={"Admin"} />}>
               {/* Category */}
@@ -162,7 +159,6 @@ const Router = () => {
                 element={<EditExerciseResource />}
               />
             </Route>
-
             {/* Staff */}
             <Route element={<RestrictedPermission permission={"Staff"} />}>
               {/* Slot */}

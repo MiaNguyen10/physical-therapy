@@ -1,6 +1,6 @@
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
   // Button,
@@ -181,36 +181,18 @@ const SubProfileList = () => {
             </IconButton> */}
             <IconButton
               onClick={() =>
-                navigate(`/user/${id}/subProfile/${params?.value}/medicalRecord`)
+                navigate(
+                  `/user/${id}/subProfile/${params?.value}/medicalRecord`
+                )
               }
               sx={{ ml: 1, mr: 1 }}
             >
               <Tooltip title="Hồ sơ bệnh án">
-                <VisibilityIcon
+                <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
               </Tooltip>
             </IconButton>
-            {/* <IconButton
-              onClick={() => {
-                setDetailId(params?.value);
-                setOpenDialog(true);
-              }}
-              disabled={
-                params?.row.relationship.relationName === "Tôi"
-              }
-            >
-              <DeleteIcon
-                sx={{
-                  color:
-                    params?.row.relationship.relationName === "Tôi"
-                      ? "#1712116f"
-                      : "#e63307",
-                  cursor: "pointer",
-                  fontSize: 28,
-                }}
-              />
-            </IconButton> */}
           </>
         );
       },

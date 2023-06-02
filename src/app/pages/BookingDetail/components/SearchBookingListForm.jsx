@@ -9,6 +9,7 @@ import { paymentStatuses } from "app/constant/payment";
 import { makeStyles } from "app/pages/Category/components/CategoryForm";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 const SearchBookingListForm = ({
   onSearch,
@@ -56,9 +57,9 @@ const SearchBookingListForm = ({
   return (
     <Stack
       onSubmit={handleSubmit(onSubmit)}
-      direction='row'
-      component='form'
-      alignItems='center'
+      direction="row"
+      component="form"
+      alignItems="center"
       spacing={3}
       sx={{
         display: "flex",
@@ -68,7 +69,7 @@ const SearchBookingListForm = ({
       <DatePickerInput
         disablePast={false}
         disabled={false}
-        label='Từ ngày'
+        label="Từ ngày"
         value={rangeDate.startDate ?? ""}
         onChange={handleStartDateChange}
         sx={undefined}
@@ -77,7 +78,7 @@ const SearchBookingListForm = ({
       <DatePickerInput
         disablePast={false}
         disabled={false}
-        label='Đến ngày'
+        label="Đến ngày"
         value={rangeDate.endDate ?? ""}
         onChange={handleEndDateChange}
         sx={undefined}
@@ -85,7 +86,7 @@ const SearchBookingListForm = ({
       />
       <Controller
         control={control}
-        name='status'
+        name="status"
         render={({ field: { onChange, value } }) => {
           return (
             <TextField
@@ -100,8 +101,8 @@ const SearchBookingListForm = ({
                 handleSelectStatus(itemValue);
               }}
               value={value}
-              variant='outlined'
-              label='Trạng thái'
+              variant="outlined"
+              label="Trạng thái"
             >
               <MenuItem value={STATUS_ALL} onClick={handleSelectStatus}>
                 Tất cả
@@ -117,7 +118,7 @@ const SearchBookingListForm = ({
       />
       <Controller
         control={control}
-        name='typeOfSlot'
+        name="typeOfSlot"
         render={({ field: { onChange, value } }) => {
           return (
             <TextField
@@ -132,8 +133,8 @@ const SearchBookingListForm = ({
                 handleSelectTypeOfSlot(itemValue);
               }}
               value={value}
-              variant='outlined'
-              label='Loại trị liệu'
+              variant="outlined"
+              label="Loại trị liệu"
             >
               <MenuItem value={ALL_TYPE_OF_SLOT}>Tất cả</MenuItem>
               {TypeOfSLotList.map(({ id, slot }) => (
@@ -146,8 +147,8 @@ const SearchBookingListForm = ({
         }}
       />
       <Button
-        type='submit'
-        variant='outlined'
+        type="submit"
+        variant="outlined"
         sx={{
           height: "45px",
           width: "80px",
@@ -161,6 +162,23 @@ const SearchBookingListForm = ({
       >
         Tìm
       </Button>
+      <Link to="https://sandbox.vnpayment.vn/merchantv2/">
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            height: "45px",
+            width: "250px",
+            fontWeight: "bold",
+            boxShadow:
+              "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+            fontSize: "1.2rem", // change this value to increase or decrease the font size
+            padding: "10px 32px", // change this value to increase or decrease the padding
+          }}
+        >
+          Quản lí VNPAY
+        </Button>
+      </Link>
     </Stack>
   );
 };

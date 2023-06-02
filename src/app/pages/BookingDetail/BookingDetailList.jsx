@@ -1,5 +1,5 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
@@ -39,6 +39,7 @@ import {
 } from "app/constant/bookingDetail";
 import SearchBookingListForm from "./components/SearchBookingListForm";
 import SlotNameTag from "./components/slotNameTag";
+import AddButton from "app/components/Button/AddButton";
 
 const BookingDetailList = () => {
   const dispatch = useDispatch();
@@ -238,7 +239,7 @@ const BookingDetailList = () => {
       renderCell: (params) => {
         const status = getPaymentStatus(params.row.shorttermStatus);
         return (
-          <Typography color={status.color} fontWeight='bold'>
+          <Typography color={status.color} fontWeight="bold">
             {status.status}
           </Typography>
         );
@@ -292,7 +293,7 @@ const BookingDetailList = () => {
     },
     {
       field: "action",
-      headerName: "Chỉnh sửa",
+      headerName: "Chi tiết",
       width: 200,
       headerAlign: "center",
       align: "center",
@@ -306,7 +307,7 @@ const BookingDetailList = () => {
       renderCell: (params) => {
         return (
           <>
-            <IconButton
+            {/* <IconButton
               onClick={() =>
                 navigate(`${pages.bookingDetailListPath}/${params?.value}/edit`)
               }
@@ -315,14 +316,14 @@ const BookingDetailList = () => {
               <EditIcon
                 sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
               />
-            </IconButton>
+            </IconButton> */}
             <IconButton
               onClick={() =>
                 navigate(`/bookingDetail/${params.row.bookingDetailID}`)
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title='Xem thêm chi tiết'>
+              <Tooltip title="Xem thêm chi tiết">
                 <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />
@@ -347,9 +348,9 @@ const BookingDetailList = () => {
   }, [refreshKey]);
 
   return (
-    <Container maxWidth='lg' fixed sx={{ mb: 3 }}>
-      <Stack alignItems='center' spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant='h3'>DANH SÁCH LỊCH ĐẶT HẸN</Typography>
+    <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
+      <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
+        <Typography variant="h3">DANH SÁCH LỊCH ĐẶT HẸN</Typography>
         <SearchBookingListForm
           onSearch={setFilters}
           rangeDate={rangeDate}
@@ -368,7 +369,7 @@ const BookingDetailList = () => {
             rowCount={rows?.length ?? 0}
             isLoading={bookingDetailStatus !== "succeeded"}
             pagination
-            paginationMode='client'
+            paginationMode="client"
           />
         </Box>
       </Stack>
@@ -376,7 +377,7 @@ const BookingDetailList = () => {
         open={openDialog}
         handleClose={handleClose}
         handleDelete={handleDelete}
-        desc='Bạn có chắc chắn muốn xóa không?'
+        desc="Bạn có chắc chắn muốn xóa không?"
       />
     </Container>
   );

@@ -63,7 +63,7 @@ const SearchExerciseListDetailForm = ({ onSearch }) => {
               width: "380px",
             }}
             placeholder="Nhập để tìm tên có mối quan hệ với chủ tài khoản"
-            label="Tên"
+            label="Họ và Tên"
             value={value}
             onChange={onChange}
             variant="outlined"

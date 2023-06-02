@@ -145,7 +145,7 @@ const Schedule = () => {
         name: "physiotherapist",
         editorType: "dxTextBox",
         editorOptions: {
-          value: `${physiotherapist?.user?.firstName} ${physiotherapist?.user?.lastName}`,
+          value: `${physiotherapist?.user?.firstName}`,
           readOnly: true,
         },
       },
