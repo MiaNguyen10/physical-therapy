@@ -257,15 +257,10 @@ const BookingDetailList = () => {
         </Typography>
       ),
       renderCell: (params) => {
-        const { id, slot } = getTypeOfSlot(params.row.longtermStatus);
+        const { id, slot, color } = getTypeOfSlot(params.row.longtermStatus);
 
         return (
-          <SlotNameTag
-            bgColor={`${
-              id === longTermID ? colors.pastelYellow : colors.pastelGreen
-            }`}
-            slotName={slot}
-          >
+          <SlotNameTag bgColor={`${color}`} slotName={slot}>
             {slot}
           </SlotNameTag>
         );
@@ -323,13 +318,11 @@ const BookingDetailList = () => {
             </IconButton>
             <IconButton
               onClick={() =>
-                navigate(
-                  `/bookingDetail/${params?.value}/bookingDetailDetailList`
-                )
+                navigate(`/bookingDetail/${params.row.bookingDetailID}`)
               }
               sx={{ ml: 1, mr: 1 }}
             >
-              <Tooltip title='Chi tiết bài tập'>
+              <Tooltip title='Xem thêm chi tiết'>
                 <InfoIcon
                   sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
                 />

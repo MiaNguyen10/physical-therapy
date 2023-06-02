@@ -43,6 +43,7 @@ import CategoryExerciseList from "./pages/Category/CategoryExerciseList";
 import ChangePasswordPage from "./pages/ChangePassword";
 import AddMultipleSlots from "./pages/Slot/AddMultipleSlots";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import DetailPage from "./pages/BookingDetail/DetailPage";
 
 const Router = () => {
   return (
@@ -90,15 +91,12 @@ const Router = () => {
             />
 
             {/* Feedback */}
-            <Route
-              path={`${pages.feedbackListPath}`}
-              element={<FeedbackList />}
-            />
+            <Route path={`${pages.feedbackListPath}`} />
 
-            <Route
-              path={`/${pages.bookingDetailPath}`}
-              element={<BookingDetailList />}
-            />
+            <Route path={`${pages.bookingDetailPath}`}>
+              <Route index={true} element={<BookingDetailList />} />
+              <Route path=':id' element={<DetailPage />} />
+            </Route>
 
             {/* Admin */}
             <Route element={<RestrictedPermission permission={"Admin"} />}>

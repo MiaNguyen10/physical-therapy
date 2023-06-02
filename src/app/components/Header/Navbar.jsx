@@ -11,7 +11,7 @@ import logo from "../../assets/logo.png";
 import pages from "../../config/pages";
 import NestedListItem from "./NestedListItem";
 import { selectUserId } from "cores/reducers/authentication";
-import AvatarMenu from "../Avatar";
+import AvatarMenu from "../NavAvatar";
 
 export const Navbar = () => {
   const currentUserID = useSelector(selectUserId);
