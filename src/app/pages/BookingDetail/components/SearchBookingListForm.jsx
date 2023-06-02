@@ -166,6 +166,7 @@ const SearchBookingListForm = ({
         <Button
           type="submit"
           variant="contained"
+          href="https://sandbox.vnpayment.vn/merchantv2/"
           sx={{
             height: "45px",
             width: "250px",
