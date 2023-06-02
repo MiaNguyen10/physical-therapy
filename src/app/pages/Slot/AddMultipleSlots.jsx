@@ -115,9 +115,15 @@ const AddMultipleSlots = () => {
     setViewList(tempList);
     for (const slot of tempList) {
       try {
-        await dispatch(addSlot({ slot, token })).unwrap();
+        const response = await dispatch(addSlot({ slot, token })).unwrap();
         tempList = tempList.map((s) =>
-          s.index === slot.index ? { ...s, status: "succeed" } : s
+          s.index === slot.index
+            ? {
+                ...s,
+                status:
+                  response?.slotName === slot?.slotName ? "succeed" : "failed",
+              }
+            : s
         );
       } catch (err) {
         // eslint-disable-next-line no-empty
@@ -130,9 +136,6 @@ const AddMultipleSlots = () => {
       }
     }
     setSlotStatus(true);
-    // if (slotStatus) {
-    //   setOpen(true);
-    // }
   };
 
   const rows = useMemo(() => {
