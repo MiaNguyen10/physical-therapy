@@ -187,8 +187,8 @@ const BookingDetailList = () => {
     },
     {
       field: "physio",
-      headerName: "Người điều trị",
-      width: 200,
+      headerName: "Chuyên viên",
+      width: 170,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -208,8 +208,8 @@ const BookingDetailList = () => {
     },
     {
       field: "subProfile",
-      headerName: "Người đặt",
-      width: 170,
+      headerName: "Người được điều trị",
+      width: 200,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -349,7 +349,7 @@ const BookingDetailList = () => {
   return (
     <Container maxWidth='lg' fixed sx={{ mb: 3 }}>
       <Stack alignItems='center' spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant='h3'>DANH SÁCH BOOKING</Typography>
+        <Typography variant='h3'>DANH SÁCH LỊCH ĐẶT HẸN</Typography>
         <SearchBookingListForm
           onSearch={setFilters}
           rangeDate={rangeDate}

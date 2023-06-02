@@ -89,6 +89,7 @@ const AddAccount = () => {
 
         if (id) {
           navigate(`/user/${id}/physiotherapist/add`);
+          setOpen(true);
         } else {
           setOpen(true);
         }

@@ -15,6 +15,8 @@ const pages = {
   subProfilePath: "/user/:id/subProfile",
   addSubProfilePath: "/user/:id/subProfile/add",
 
+  medicalRecordPath: "/user/:id/subProfile/:idSub/medicalRecord",
+
   categoryListPath: "/category",
   addCategoryPath: "/category/add",
   categoryEditPath: "/category/:id/edit",

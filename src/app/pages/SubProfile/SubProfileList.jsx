@@ -1,13 +1,13 @@
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import EditIcon from "@mui/icons-material/Edit";
-// import SourceIcon from "@mui/icons-material/Source";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   Box,
   // Button,
   Container,
-  // IconButton,
+  IconButton,
   Stack,
-  // Tooltip,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
@@ -26,12 +26,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 // import AddButton from "../../components/Button/AddButton";
+import { useNavigate } from "react-router-dom";
 import DataGridTable from "../../components/DataGrid/DataGridTable";
 import SearchExerciseListDetailForm from "./components/SearchSubProfileForm";
 
 const SubProfileList = () => {
   const { id } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   let subProfileList = useSelector(getSubProfilesList);
   const status = useSelector(getStatus);
@@ -101,7 +102,7 @@ const SubProfileList = () => {
     {
       field: "subName",
       headerName: "Họ và Tên",
-      width: 550,
+      width: 450,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -115,7 +116,7 @@ const SubProfileList = () => {
     {
       field: "relationName",
       headerName: "Mối quan hệ",
-      width: 350,
+      width: 250,
       headerAlign: "center",
       align: "center",
       disableColumnMenu: true,
@@ -152,70 +153,68 @@ const SubProfileList = () => {
     //   ),
     //   renderCell: (params) => <Typography>{params?.value ?? "-"}</Typography>,
     // },
-    // {
-    //   field: "profileID",
-    //   headerName: "Chỉnh sửa",
-    //   width: 200,
-    //   headerAlign: "center",
-    //   align: "center",
-    //   disableColumnMenu: true,
-    //   sortable: false,
-    //   renderHeader: (params) => (
-    //     <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-    //       {params.colDef.headerName}
-    //     </Typography>
-    //   ),
-    //   renderCell: (params) => {
-    //     return (
-    //       <>
-    //         {/* <IconButton
-    //           onClick={() =>
-    //             navigate(`/user/${id}/subProfileList/${params?.value}/edit`)
-    //           }
-    //           sx={{ ml: 1 }}
-    //         >
-    //           <EditIcon
-    //             sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
-    //           />
-    //         </IconButton>
-    //         <IconButton
-    //           onClick={() =>
-    //             navigate(
-    //               `/user/${id}/subProfileList/${params?.value}/userResource`
-    //             )
-    //           }
-    //           sx={{ ml: 1, mr: 1 }}
-    //         >
-    //           <Tooltip title="Chi tiết mối quan hệ">
-    //             <SourceIcon
-    //               sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
-    //             />
-    //           </Tooltip>
-    //         </IconButton>
-    //         <IconButton
-    //           onClick={() => {
-    //             setDetailId(params?.value);
-    //             setOpenDialog(true);
-    //           }}
-    //           disabled={
-    //             params?.row.relationship.relationName === "Tôi"
-    //           }
-    //         >
-    //           <DeleteIcon
-    //             sx={{
-    //               color:
-    //                 params?.row.relationship.relationName === "Tôi"
-    //                   ? "#1712116f"
-    //                   : "#e63307",
-    //               cursor: "pointer",
-    //               fontSize: 28,
-    //             }}
-    //           />
-    //         </IconButton> */}
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      field: "profileID",
+      headerName: "Hồ sơ bệnh án",
+      width: 250,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+      sortable: false,
+      renderHeader: (params) => (
+        <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+          {params.colDef.headerName}
+        </Typography>
+      ),
+      renderCell: (params) => {
+        return (
+          <>
+            {/* <IconButton
+              onClick={() =>
+                navigate(`/user/${id}/subProfileList/${params?.value}/edit`)
+              }
+              sx={{ ml: 1 }}
+            >
+              <EditIcon
+                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
+              />
+            </IconButton> */}
+            <IconButton
+              onClick={() =>
+                navigate(`/user/${id}/subProfile/${params?.value}/medicalRecord`)
+              }
+              sx={{ ml: 1, mr: 1 }}
+            >
+              <Tooltip title="Hồ sơ bệnh án">
+                <VisibilityIcon
+                  sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
+                />
+              </Tooltip>
+            </IconButton>
+            {/* <IconButton
+              onClick={() => {
+                setDetailId(params?.value);
+                setOpenDialog(true);
+              }}
+              disabled={
+                params?.row.relationship.relationName === "Tôi"
+              }
+            >
+              <DeleteIcon
+                sx={{
+                  color:
+                    params?.row.relationship.relationName === "Tôi"
+                      ? "#1712116f"
+                      : "#e63307",
+                  cursor: "pointer",
+                  fontSize: 28,
+                }}
+              />
+            </IconButton> */}
+          </>
+        );
+      },
+    },
   ];
 
   useEffect(() => {

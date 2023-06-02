@@ -43,6 +43,7 @@ import CategoryExerciseList from "./pages/Category/CategoryExerciseList";
 import ChangePasswordPage from "./pages/ChangePassword";
 import AddMultipleSlots from "./pages/Slot/AddMultipleSlots";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import MedicalRecord from "./pages/SubProfile/MedicalRecord";
 import DetailPage from "./pages/BookingDetail/DetailPage";
 
 const Router = () => {
@@ -88,6 +89,10 @@ const Router = () => {
             <Route
               path={`${pages.addPhysioPath}`}
               element={<AddPhysiotherapist />}
+            />
+            <Route
+              path={`${pages.medicalRecordPath}`}
+              element={<MedicalRecord />}
             />
 
             {/* Feedback */}

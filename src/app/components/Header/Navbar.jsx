@@ -190,7 +190,7 @@ export const Navbar = () => {
                   variant='body2'
                   href={pages.bookingDetailPath}
                 >
-                  Booking
+                  Lịch đặt hẹn
                 </NavLinkComponent>
                 {/* <NavLinkComponent variant="body2" href={pages.feedbackListPath}>
                   Phản hồi
