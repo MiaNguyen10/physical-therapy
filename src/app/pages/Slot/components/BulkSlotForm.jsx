@@ -128,10 +128,9 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
       case "day":
         index = 0;
         for (let s = 0; s < numberOfSlot; s++) {
-          const start = dayjs(dateStart).add(
-            (slotDuration + slotGap) * s,
-            "hours"
-          );
+          const start = dayjs(dateStart)
+            .add((slotDuration + slotGap) * s, "hours")
+            .add(7, "h");
           const end = dayjs(start).add(1, "hours");
           const name = `${data.slotName} (${start.format(
             "DD/MM/YYYY - HH:mm"
@@ -156,10 +155,9 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         for (let d = 0; d < 7; d++) {
           const tmpDate = dateStart.add(d, "days");
           for (let s = 0; s < numberOfSlot; s++) {
-            const start = dayjs(tmpDate).add(
-              (slotDuration + slotGap) * s,
-              "hours"
-            );
+            const start = dayjs(tmpDate)
+              .add((slotDuration + slotGap) * s, "hours")
+              .add(20, "h");
             const end = dayjs(start).add(1, "hours");
             const name = `${data.slotName} (${start.format(
               "DD/MM/YYYY - HH:mm"

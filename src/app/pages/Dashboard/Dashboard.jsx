@@ -7,6 +7,13 @@ import DatePickerInput from "app/components/Input/DatePicker";
 import dayjs from "dayjs";
 import { makeStyles } from "../Slot/components/BulkSlotForm";
 import TimePickerInput from "app/components/Input/TimePicker";
+import { getSlotList } from "cores/thunk/slot";
+import { selectToken } from "cores/reducers/authentication";
+import { getSlots } from "cores/reducers/slot";
+import { getUsers } from "cores/reducers/user";
+import { getUserList } from "cores/thunk/user";
+import { getFeedbackList } from "cores/thunk/feedback";
+import { getAllFeedback } from "cores/reducers/feedback";
 
 const mockup = {
   total: {
@@ -29,6 +36,11 @@ const mockup = {
 const Dashboard = () => {
   const styles = makeStyles();
   const dispatch = useDispatch();
+  const token = useSelector(selectToken);
+  let slotList = useSelector(getSlots);
+  const userList = useSelector(getUsers);
+  const feedbackList = useSelector(getAllFeedback);
+  const [reload, setReload] = useState(false);
 
   const slotDuration = 1; // by hour
   const current =
@@ -43,9 +55,19 @@ const Dashboard = () => {
       : current
   );
 
+  const getAllData = async () => {
+    dispatch(getSlotList(token));
+    dispatch(getUserList(token));
+    dispatch(getFeedbackList(token));
+  };
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getAllData();
+  }, [reload]);
+
+  useEffect(() => {
+    console.log(slotList, userList, feedbackList);
+  }, [slotList, userList, feedbackList]);
 
   const labels = ["January", "February", "March", "April", "May"];
   const userData = {
