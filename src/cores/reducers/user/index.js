@@ -8,7 +8,8 @@ import {
   editUser,
   getUserDetail,
   getUserList,
-  unBanUser
+  unBanUser,
+  fetchUserStatistic,
 } from "../../thunk/user";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   users: [],
   userDetail: {},
   userID: "",
+  statistic: {},
 };
 
 const userSlice = createSlice({
@@ -115,7 +117,19 @@ const userSlice = createSlice({
       .addCase(unBanUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(fetchUserStatistic.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchUserStatistic.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.statistic = action.payload;
+      })
+      .addCase(fetchUserStatistic.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
+      
   },
 });
 
@@ -124,3 +138,4 @@ export default userSlice.reducer;
 export const getUsers = (state) => state.user.users;
 export const getUser = (state) => state.user.userDetail;
 export const getUserStatus = (state) => state.user.status;
+export const getUserStatistic = (state) => state.user.statistic;

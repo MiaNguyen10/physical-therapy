@@ -143,3 +143,21 @@ export const unBanUser = createAsyncThunk("user/unBanUser", async (data) => {
   );
   return await response.json();
 });
+
+export const fetchUserStatistic = createAsyncThunk(
+  "user/Statistic",
+  async (data) => {
+    const { start, end, token } = data;
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/User/Statistic?start=${start}&end=${end}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return await response.json();
+  }
+);

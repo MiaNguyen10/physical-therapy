@@ -6,32 +6,28 @@ import { Container, Stack } from "@mui/material";
 import DatePickerInput from "app/components/Input/DatePicker";
 import dayjs from "dayjs";
 import { makeStyles } from "../Slot/components/BulkSlotForm";
-import TimePickerInput from "app/components/Input/TimePicker";
 import { getSlotList } from "cores/thunk/slot";
 import { selectToken } from "cores/reducers/authentication";
 import { getSlots } from "cores/reducers/slot";
-import { getUsers } from "cores/reducers/user";
-import { getUserList } from "cores/thunk/user";
+import { getUserStatistic, getUsers } from "cores/reducers/user";
+import { fetchUserStatistic, getUserList } from "cores/thunk/user";
 import { getFeedbackList } from "cores/thunk/feedback";
 import { getAllFeedback } from "cores/reducers/feedback";
 
-const mockup = {
-  total: {
-    user: 62,
-    newUser: 24,
-    userDataset: [],
-    booking: 342,
-    newBooking: 117,
-    bookingDataset: [],
-    slots: 486,
-    newSlots: 207,
-    slotDataset: [],
-    timeRange: {
-      startDate: "",
-      endDate: "",
-    },
-  },
-}; // cấu trúc data cần lấy lên từ API
+const labels = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 const Dashboard = () => {
   const styles = makeStyles();
@@ -40,7 +36,12 @@ const Dashboard = () => {
   let slotList = useSelector(getSlots);
   const userList = useSelector(getUsers);
   const feedbackList = useSelector(getAllFeedback);
+  const statistic = useSelector(getUserStatistic);
   const [reload, setReload] = useState(false);
+  const [listLabel, setListLabel] = useState(
+    labels
+    // .slice(0, new Date().getMonth())
+  );
 
   const slotDuration = 1; // by hour
   const current =
@@ -48,7 +49,9 @@ const Dashboard = () => {
       ? dayjs(new Date()).add(1, "day").set("minute", 0).set("hour", 0)
       : dayjs(new Date());
 
-  const [dateStart, setDateStart] = useState(null);
+  const [dateStart, setDateStart] = useState(
+    dayjs(new Date(current.year(), 1, 1))
+  );
   const [dateEnd, setDateEnd] = useState(
     current.minute() !== 0
       ? current.set("m", 0).add(slotDuration, "hour")
@@ -56,9 +59,17 @@ const Dashboard = () => {
   );
 
   const getAllData = async () => {
+    const currentDay = new Date();
     dispatch(getSlotList(token));
     dispatch(getUserList(token));
     dispatch(getFeedbackList(token));
+    dispatch(
+      fetchUserStatistic({
+        start: new Date(new Date().getFullYear(), 1, 1).toISOString(),
+        end: new Date().toISOString(),
+        token: token,
+      })
+    );
   };
 
   useEffect(() => {
@@ -66,34 +77,8 @@ const Dashboard = () => {
   }, [reload]);
 
   useEffect(() => {
-    console.log(slotList, userList, feedbackList);
-  }, [slotList, userList, feedbackList]);
-
-  const labels = ["January", "February", "March", "April", "May"];
-  const userData = {
-    labels,
-    datasets: [
-      {
-        fill: true,
-        label: "số lượng người dùng",
-        data: labels.map(() => getRandomInt(38, 62)).sort(),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
-  };
-  const bookingData = {
-    labels,
-    datasets: [
-      {
-        fill: true,
-        label: "số lượng booking",
-        data: labels.map(() => getRandomInt(342 - 117, 342)).sort(),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
-  };
+    console.log(slotList, userList, feedbackList, statistic);
+  }, [slotList, userList, feedbackList, statistic]);
 
   return (
     <div className="dashboard-heading">
@@ -113,16 +98,16 @@ const Dashboard = () => {
             <div className="no">
               <p>Tổng số người dùng</p>
               <p>
-                {mockup.total.user}
-                {mockup.total.newUser > 0 ? (
+                {statistic.user}
+                {statistic.newUser > 0 ? (
                   <span style={{ color: "green", fontSize: "small" }}>
                     {" "}
-                    (+{mockup.total.newUser})
+                    (+{statistic.newUser})
                   </span>
                 ) : (
                   <span style={{ color: "red", fontSize: "small" }}>
                     {" "}
-                    {mockup.total.newUser}
+                    {statistic.newUser}
                   </span>
                 )}
               </p>
@@ -134,16 +119,16 @@ const Dashboard = () => {
             <div className="no">
               <p>Tổng số booking</p>
               <p>
-                {mockup.total.booking}
-                {mockup.total.newBooking > 0 ? (
+                {statistic.booking}
+                {statistic.newBooking > 0 ? (
                   <span style={{ color: "green", fontSize: "small" }}>
                     {" "}
-                    (+{mockup.total.newBooking})
+                    (+{statistic.newBooking})
                   </span>
                 ) : (
                   <span style={{ color: "red", fontSize: "small" }}>
                     {" "}
-                    {mockup.total.newBooking}
+                    {statistic.newBooking}
                   </span>
                 )}
               </p>
@@ -155,23 +140,23 @@ const Dashboard = () => {
             <div className="no">
               <p>Tổng số buổi trị liệu</p>
               <p>
-                {mockup.total.slots}
-                {mockup.total.newSlots > 0 ? (
+                {statistic.slots}
+                {statistic.newSlots > 0 ? (
                   <span style={{ color: "green", fontSize: "small" }}>
                     {" "}
-                    (+{mockup.total.newSlots})
+                    (+{statistic.newSlots})
                   </span>
                 ) : (
                   <span style={{ color: "red", fontSize: "small" }}>
                     {" "}
-                    {mockup.total.newSlots}
+                    {statistic.newSlots}
                   </span>
                 )}
               </p>
             </div>
           </div>
           <div className="clear"></div>
-          <div
+          {/* <div
             style={{
               width: "100%",
               display: "flex",
@@ -195,6 +180,7 @@ const Dashboard = () => {
                   Ngày bắt đầu
                 </label>
                 <DatePickerInput
+                  disablePast={false}
                   disabled={false}
                   value={dateStart}
                   onChange={(value) => {
@@ -227,7 +213,7 @@ const Dashboard = () => {
                 />
               </Stack>
             </Stack>
-          </div>
+          </div> */}
           <div
             style={{
               width: "100%",
@@ -239,11 +225,37 @@ const Dashboard = () => {
           >
             <div className="gains">
               <label>Biểu đồ Người dùng</label>
-              <AreaChart data={userData} />
+              <AreaChart
+                data={{
+                  labels: listLabel,
+                  datasets: [
+                    {
+                      fill: true,
+                      label: "số lượng người dùng",
+                      data: statistic.userDataset.map((u) => u.total),
+                      borderColor: "rgb(53, 162, 235)",
+                      backgroundColor: "rgba(53, 162, 235, 0.5)",
+                    },
+                  ],
+                }}
+              />
             </div>
             <div className="gains">
               <label>Biểu đồ Booking</label>
-              <AreaChart data={bookingData} />
+              <AreaChart
+                data={{
+                  labels: listLabel,
+                  datasets: [
+                    {
+                      fill: true,
+                      label: "số lượng booking",
+                      data: statistic.bookingDataset.map((b) => b.total),
+                      borderColor: "rgb(53, 162, 235)",
+                      backgroundColor: "rgba(53, 162, 235, 0.5)",
+                    },
+                  ],
+                }}
+              />
             </div>
           </div>
         </div>
