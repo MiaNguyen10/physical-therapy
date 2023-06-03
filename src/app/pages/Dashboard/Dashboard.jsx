@@ -47,7 +47,7 @@ const Dashboard = () => {
       : dayjs(new Date());
 
   const [dateStart, setDateStart] = useState(
-    dayjs(new Date(current.year(), 1, 1))
+    dayjs(new Date(current.year(), 0, 1))
   );
   const [dateEnd, setDateEnd] = useState(
     current.minute() !== 0
@@ -58,7 +58,7 @@ const Dashboard = () => {
   const getAllData = async () => {
     dispatch(
       fetchUserStatistic({
-        start: new Date(new Date().getFullYear(), 1, 1).toISOString(),
+        start: new Date(new Date().getFullYear(), 0, 1).toISOString(),
         end: new Date().toISOString(),
         token: token,
       })
@@ -220,7 +220,7 @@ const Dashboard = () => {
                   datasets: [
                     {
                       fill: true,
-                      label: "số lượng người dùng",
+                      label: "số người dùng mới",
                       data: statistic?.userDataset?.map((u) => u?.total),
                       borderColor: "rgb(53, 162, 235)",
                       backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -237,7 +237,7 @@ const Dashboard = () => {
                   datasets: [
                     {
                       fill: true,
-                      label: "số lượng booking",
+                      label: "số lượt booking",
                       data: statistic?.bookingDataset?.map((b) => b?.total),
                       borderColor: "rgb(53, 162, 235)",
                       backgroundColor: "rgba(53, 162, 235, 0.5)",
