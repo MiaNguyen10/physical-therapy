@@ -85,7 +85,7 @@ const EditSlot = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">SỬA BUỔI ĐIỀU TRỊ</Typography>
+        <Typography variant="h3">SỬA BUỔI TRỊ LIỆU</Typography>
         <SlotForm
           slotDetail={{
             slotName: slotDetail?.slotName,

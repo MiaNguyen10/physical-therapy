@@ -121,7 +121,7 @@ const PhysioForm = ({ physioDetail, onFormSubmit, isLoading, id }) => {
                   helperText={formErrors?.skill?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Kĩ năng điều trị"
+                  label="Kĩ năng trị liệu"
                   variant="outlined"
                 />
               )}

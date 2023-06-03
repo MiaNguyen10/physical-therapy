@@ -171,19 +171,19 @@ export const Navbar = () => {
                     Danh sách bài tập
                   </NavLinkComponent>
                   <NavLinkComponent variant="body2" href={pages.slotListPath}>
-                    Buổi điều trị
+                    Buổi trị liệu
                   </NavLinkComponent>
                 </RestrictedPermission>
                 <RestrictedPermission permission={"Staff"}>
                   {/* Staff */}
                   <NavLinkComponent variant="body2" href={pages.slotListPath}>
-                    Buổi điều trị
+                    Buổi trị liệu
                   </NavLinkComponent>
                   <NavLinkComponent
                     variant="body2"
                     href={pages.typeOfSlotListPath}
                   >
-                    Loại điều trị
+                    Loại trị liệu
                   </NavLinkComponent>
                   <NavLinkComponent variant="body2" href={pages.schedulePath}>
                     Lịch

@@ -61,22 +61,20 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
 
   const schema = yup.object({
     slotName: yup.string().required("Vui lòng điền thông tin"),
-    timeStart: yup
-      .string()
-      .required("Vui lòng điền thông tin"),
-      // .test(
-      //   "is-valid-start-time",
-      //   "Thời gian bắt đầu phải từ 5 giờ sáng đến 11 giờ tối",
-      //   function (value) {
-      //     const startTime = dayjs(value, "HH:mm");
-      //     const startBoundary = dayjs("05:00", "HH:mm");
-      //     const endBoundary = dayjs("23:00", "HH:mm");
-      //     return (
-      //       startTime.isSameOrAfter(startBoundary) &&
-      //       startTime.isSameOrBefore(endBoundary)
-      //     );
-      //   }
-      // ),
+    timeStart: yup.string().required("Vui lòng điền thông tin"),
+    // .test(
+    //   "is-valid-start-time",
+    //   "Thời gian bắt đầu phải từ 5 giờ sáng đến 11 giờ tối",
+    //   function (value) {
+    //     const startTime = dayjs(value, "HH:mm");
+    //     const startBoundary = dayjs("05:00", "HH:mm");
+    //     const endBoundary = dayjs("23:00", "HH:mm");
+    //     return (
+    //       startTime.isSameOrAfter(startBoundary) &&
+    //       startTime.isSameOrBefore(endBoundary)
+    //     );
+    //   }
+    // ),
     timeEnd: yup
       .string()
       .required("Vui lòng điền thông tin")
@@ -182,7 +180,7 @@ const SlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.slotName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Tên buổi điều trị"
+                label="Tên buổi trị liệu"
                 variant="outlined"
               />
             )}

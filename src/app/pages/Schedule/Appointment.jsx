@@ -17,9 +17,9 @@ export default function Appointment(model) {
         Chuyên môn: {targetedAppointmentData.physiotherapistDetail.specialize}
       </div>
       <div>
-        Kĩ năng điều trị: {targetedAppointmentData.physiotherapistDetail.skill}
+        Kĩ năng trị liệu: {targetedAppointmentData.physiotherapistDetail.skill}
       </div>
-      <div>Loại điều trị: {targetedAppointmentData.typeOfSlot?.typeName}</div>
+      <div>Loại trị liệu: {targetedAppointmentData.typeOfSlot?.typeName}</div>
       <div>
         {formatDate(targetedAppointmentData.displayStartDate, "shortTime")}
         {" - "}

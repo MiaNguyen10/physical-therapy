@@ -64,7 +64,7 @@ const AddSlot = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">THÊM BUỔI ĐIỀU TRỊ</Typography>
+        <Typography variant="h3">THÊM BUỔI TRỊ LIỆU</Typography>
         <SlotForm
           onFormSubmit={handleFormSubmit}
           isLoading={slotStatus === "loading"}

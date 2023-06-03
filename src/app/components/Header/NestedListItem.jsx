@@ -5,8 +5,8 @@ import EventIcon from "@mui/icons-material/Event";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import HomeIcon from "@mui/icons-material/Home";
 import TextsmsIcon from "@mui/icons-material/Textsms";
-import AddIcCallIcon from '@mui/icons-material/AddIcCall';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import AddIcCallIcon from "@mui/icons-material/AddIcCall";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import {
   List,
   ListItemButton,
@@ -57,14 +57,14 @@ const NestedListItem = () => {
           <ListItemIcon>
             <EventIcon />
           </ListItemIcon>
-          <ListItemText primary="Buổi điều trị" />
+          <ListItemText primary="Buổi trị liệu" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate(`${pages.typeOfSlotListPath}`)}>
           <ListItemIcon>
             <AddIcCallIcon />
           </ListItemIcon>
-          <ListItemText primary="Loại điều trị" />
+          <ListItemText primary="Loại trị liệu" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate(`${pages.schedulePath}`)}>

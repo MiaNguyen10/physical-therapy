@@ -79,30 +79,30 @@ export default function DetailPage() {
   }, []);
 
   return (
-    <Container fixed maxWidth='md' sx={{ minHeight: "100vh" }}>
-      <Stack alignItems='center' sx={{ padding: 3 }}>
+    <Container fixed maxWidth="md" sx={{ minHeight: "100vh" }}>
+      <Stack alignItems="center" sx={{ padding: 3 }}>
         <UserAvatar url={detail.imageUrl} userName={detail.patientName} />
-        <Typography variant='h5' textTransform='capitalize' gutterBottom>
+        <Typography variant="h5" textTransform="capitalize" gutterBottom>
           Chi tiết lịch
         </Typography>
-        <Grid container flexWrap='wrap' sx={{ paddingY: 4 }} rowSpacing={3}>
-          <InfoField label='Ngày đặt' content={detail.createDate} />
+        <Grid container flexWrap="wrap" sx={{ paddingY: 4 }} rowSpacing={3}>
+          <InfoField label="Ngày đặt" content={detail.createDate} />
           <InfoField
-            label='Chuyên viên điều trị'
+            label="Chuyên viên điều trị"
             content={detail.therapistName}
           />
           <InfoField
-            label='Trạng thái'
+            label="Trạng thái"
             content={detail.status.status}
             textColor={detail.status.color}
             sx={{ fontWeight: "bold" }}
           />
           <InfoField
-            label='Loại điều trị'
+            label="Loại trị liệu"
             content={detail.typeOfSlot.slot}
             borderColor={detail.typeOfSlot.color}
           />
-          <InfoField content='Test' />
+          <InfoField content="Test" />
         </Grid>
       </Stack>
     </Container>

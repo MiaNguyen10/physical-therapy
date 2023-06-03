@@ -153,7 +153,7 @@ const Dashboard = () => {
           <div className="blok">
             <i className="fa fa-money pl"></i>
             <div className="no">
-              <p>Tổng số buổi điều trị</p>
+              <p>Tổng số buổi trị liệu</p>
               <p>
                 {mockup.total.slots}
                 {mockup.total.newSlots > 0 ? (

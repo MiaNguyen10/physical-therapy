@@ -40,8 +40,8 @@ const SearchTypeOfSlotForm = ({ onSearch }) => {
               ...styles.textFieldStyle,
               width: "380px",
             }}
-            placeholder="Nhập loại điều trị cần tìm"
-            label="Loại điều trị"
+            placeholder="Nhập loại trị liệu cần tìm"
+            label="Loại trị liệu"
             value={value}
             onChange={onChange}
             variant="outlined"

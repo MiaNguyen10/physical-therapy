@@ -25,7 +25,7 @@ const AddMultipleSlots = () => {
   const columns = [
     {
       field: "slotName",
-      headerName: "Tên buổi điều trị",
+      headerName: "Tên buổi trị liệu",
       headerAlign: "center",
       align: "center",
       minWidth: 320,
@@ -172,7 +172,7 @@ const AddMultipleSlots = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">THÊM NHIỀU BUỔI ĐIỀU TRỊ</Typography>
+        <Typography variant="h3">THÊM NHIỀU BUỔI TRỊ LIỆU</Typography>
         <BulkSlotForm
           onFormSubmit={handleFormSubmit}
           isLoading={slotStatus === "loading"}

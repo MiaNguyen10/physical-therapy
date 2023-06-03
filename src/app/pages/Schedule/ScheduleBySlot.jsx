@@ -132,7 +132,7 @@ const ScheduleBySlot = () => {
     form.option("items", [
       {
         label: {
-          text: "Tên buổi điều trị",
+          text: "Tên buổi trị liệu",
         },
         name: "slotName",
         editorType: "dxTextBox",
@@ -188,7 +188,7 @@ const ScheduleBySlot = () => {
       },
       {
         label: {
-          text: "Loại điều trị",
+          text: "Loại trị liệu",
         },
         editorType: "dxSelectBox",
         dataField: "typeOfSlotID",
@@ -235,7 +235,7 @@ const ScheduleBySlot = () => {
             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
         }}
       >
-        Quay về buổi điều trị
+        Quay về buổi trị liệu
       </Button>
       <Scheduler
         timeZone="Asia/Ho_Chi_Minh"

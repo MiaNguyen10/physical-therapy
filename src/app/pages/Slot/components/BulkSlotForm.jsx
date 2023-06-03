@@ -257,7 +257,7 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
                   helperText={formErrors?.slotName?.message}
                   required
                   inputProps={{ required: false, maxLength: 255 }}
-                  label="Mẫu tên cho buổi điều trị"
+                  label="Mẫu tên cho buổi trị liệu"
                   placeholder={'Tên cho từng buổi: "Mẫu tên (ngày - giờ)"'}
                   variant="outlined"
                 />

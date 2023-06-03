@@ -23,7 +23,7 @@ const AddTypeOfSlot = () => {
       price: price,
       isDeleted: false,
     };
-    console.log(input)
+    console.log(input);
     try {
       dispatch(addTypeOfSlot({ input, token })).unwrap();
       setOpen(true);
@@ -55,7 +55,7 @@ const AddTypeOfSlot = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">THÊM LOẠI ĐIỀU TRỊ</Typography>
+        <Typography variant="h3">THÊM LOẠI TRỊ LIỆU</Typography>
         <TypeOfSlotForm
           onFormSubmit={handleFormSubmit}
           isLoading={status === "loading"}

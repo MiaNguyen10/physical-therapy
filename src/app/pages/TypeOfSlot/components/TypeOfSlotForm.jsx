@@ -72,7 +72,7 @@ const TypeOfSlotForm = ({ typeOfSlotDetail, onFormSubmit, isLoading }) => {
                 helperText={formErrors?.typeName?.message}
                 required
                 inputProps={{ required: false, maxLength: 255 }}
-                label="Tên loại điều trị"
+                label="Tên loại trị liệu"
                 variant="outlined"
                 disabled={isTrilieu}
               />

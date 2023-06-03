@@ -77,7 +77,7 @@ const TypeOfSlotList = () => {
   const columns = [
     {
       field: "typeName",
-      headerName: "Tên loại điều trị",
+      headerName: "Tên loại trị liệu",
       width: 450,
       headerAlign: "center",
       align: "center",
@@ -163,11 +163,11 @@ const TypeOfSlotList = () => {
   return (
     <Container maxWidth="lg" fixed sx={{ mb: 3 }}>
       <Stack alignItems="center" spacing={8} sx={{ marginTop: "38px" }}>
-        <Typography variant="h3">DANH SÁCH LOẠI ĐIỀU TRỊ</Typography>
+        <Typography variant="h3">DANH SÁCH LOẠI TRỊ LIỆU</Typography>
         <SearchTypeOfSlotForm onSearch={(data) => setFilters(data)} />
         <Box>
           <AddButton
-            desc="Thêm loại điều trị"
+            desc="Thêm loại trị liệu"
             url={`${pages.addtypeOfSlotPath}`}
             sx={{
               mr: "5%",

@@ -247,7 +247,7 @@ const BookingDetailList = () => {
     },
     {
       field: "nameOfSlot",
-      headerName: "Loại điều trị",
+      headerName: "Loại trị liệu",
       width: 170,
       headerAlign: "center",
       align: "center",
