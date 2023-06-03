@@ -3,7 +3,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import DeleteDialog from "app/components/Dialog/DeleteDialog";
-import { selectToken } from "cores/reducers/authentication";
+import { selectState, selectToken } from "cores/reducers/authentication";
 import { getStatusCategory } from "cores/reducers/category";
 import { getCategoryList } from "cores/thunk/category";
 import { format } from "date-fns";
@@ -34,6 +34,7 @@ const SlotList = () => {
   const categoryStatus = useSelector(getStatusCategory);
   const token = useSelector(selectToken);
   const navigate = useNavigate();
+  const auth = useSelector(selectState);
   const [page, setPage] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
@@ -207,16 +208,18 @@ const SlotList = () => {
       renderCell: (params) => {
         return (
           <>
-            <IconButton
-              onClick={() =>
-                navigate(`${pages.slotListPath}/${params.value}/edit`)
-              }
-              sx={{ ml: 1 }}
-            >
-              <EditIcon
-                sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
-              />
-            </IconButton>
+            {auth.role === "Staff" && (
+              <IconButton
+                onClick={() =>
+                  navigate(`${pages.slotListPath}/${params.value}/edit`)
+                }
+                sx={{ ml: 1 }}
+              >
+                <EditIcon
+                  sx={{ color: "#008542", cursor: "pointer", fontSize: 28 }}
+                />
+              </IconButton>
+            )}
             <IconButton
               onClick={() => navigate(`/slot/${params.value}/schedule`)}
               sx={{ ml: 1, mr: 1 }}
@@ -225,16 +228,18 @@ const SlotList = () => {
                 sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
               />
             </IconButton>
-            <IconButton
-              onClick={() => {
-                setSlotId(params?.value);
-                setOpenDialog(true);
-              }}
-            >
-              <DeleteIcon
-                sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
-              />
-            </IconButton>
+            {auth.role === "Staff" && (
+              <IconButton
+                onClick={() => {
+                  setSlotId(params?.value);
+                  setOpenDialog(true);
+                }}
+              >
+                <DeleteIcon
+                  sx={{ color: "#e63307", cursor: "pointer", fontSize: 28 }}
+                />
+              </IconButton>
+            )}
           </>
         );
       },
@@ -264,27 +269,31 @@ const SlotList = () => {
           setUnique={setUnique}
         />
         <Box>
-          <AddButton
-            desc="Thêm nhiều buổi điều trị"
-            url={`${pages.addMultipleSlotPath}`}
-            sx={{
-              mt: -6,
-              fontWeight: "bold",
-              boxShadow:
-                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-            }}
-          />
-          <AddButton
-            desc="Thêm buổi điều trị"
-            url={`${pages.addSlotPath}`}
-            sx={{
-              mx: 5,
-              mt: -6,
-              fontWeight: "bold",
-              boxShadow:
-                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-            }}
-          />
+          {auth.role === "Staff" && (
+            <>
+              <AddButton
+                desc="Thêm nhiều buổi điều trị"
+                url={`${pages.addMultipleSlotPath}`}
+                sx={{
+                  mt: -6,
+                  fontWeight: "bold",
+                  boxShadow:
+                    "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+                }}
+              />
+              <AddButton
+                desc="Thêm buổi điều trị"
+                url={`${pages.addSlotPath}`}
+                sx={{
+                  mx: 5,
+                  mt: -6,
+                  fontWeight: "bold",
+                  boxShadow:
+                    "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+                }}
+              />
+            </>
+          )}
           <DataGridTable
             width="100%"
             columns={columns}

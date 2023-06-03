@@ -67,7 +67,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const currentUserID = useSelector(selectUserId);
-  const shouldHide = currentUserID !== id && role.role !== 'Admin';
+  const shouldHide = currentUserID !== id && role.role !== "Admin";
 
   const schema = yup.object({
     firstName: yup
@@ -117,7 +117,7 @@ const AccountForm = ({ userDetail, onFormSubmit, isLoading }) => {
       firstName: "",
       email: "",
       phoneNumber: "",
-      address: "",
+      address: "Chưa có",
       dob: "2000-01-01",
       image:
         "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2FavatarIcon.png?alt=media&token=790e190a-1559-4272-b4c8-213fbc0d7f89",

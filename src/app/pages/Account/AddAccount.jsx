@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserForm from "./components/UserForm";
-import { addSubProfile } from "cores/thunk/subProfile";
+import { addMedicalRecord, addSubProfile } from "cores/thunk/subProfile";
 
 const AddAccount = () => {
   const dispatch = useDispatch();
@@ -66,6 +66,15 @@ const AddAccount = () => {
       userID: id,
       relationId: "33bcf935-d751-4c98-b835-9f23ae881386",
     };
+
+    const medicalRecord = {
+      isDeleted: false,
+      problem: "string",
+      difficult: "Chưa có",
+      injury: "Chưa có",
+      curing: "Chưa có",
+      medicine: "Chưa có",
+    };
     // try {
     //   dispatch(addUser({ user, token }))
     //     .unwrap()
@@ -85,7 +94,11 @@ const AddAccount = () => {
         dispatch(addStaff({ user, token })).unwrap();
         setOpen(true);
       } else if (role === "Chuyên viên vật lý trị liệu") {
-        dispatch(addPhysiotherapist({ user, token })).unwrap();
+        dispatch(addPhysiotherapist({ user, token }))
+          .unwrap()
+          .then((addedPhsyio) => {
+            navigate(`/user/${addedPhsyio}/physiotherapist/add`);
+          });
 
         if (id) {
           navigate(`/user/${id}/physiotherapist/add`);
@@ -104,7 +117,17 @@ const AddAccount = () => {
                 userID: addedUser,
                 subName: firstName,
               })
-            ).unwrap();
+            )
+              .unwrap()
+              .then((addedSubProfile) => {
+                dispatch(
+                  addMedicalRecord({
+                    medicalRecord,
+                    token,
+                    subProfileID: addedSubProfile,
+                  })
+                ).unwrap();
+              });
           });
 
         // else {
@@ -122,7 +145,17 @@ const AddAccount = () => {
         if (id) {
           dispatch(
             addSubProfile({ subProfile, token, userId: id, subName: firstName })
-          ).unwrap();
+          )
+            .unwrap()
+            .then((addedSubProfile) => {
+              dispatch(
+                addMedicalRecord({
+                  medicalRecord,
+                  token,
+                  subProfileID: addedSubProfile,
+                })
+              ).unwrap();
+            });
           navigate(`/user/${id}/subProfile/add`);
         } else {
           setOpen(true);

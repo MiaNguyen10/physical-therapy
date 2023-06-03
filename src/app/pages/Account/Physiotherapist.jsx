@@ -16,7 +16,7 @@ const Physiotherapist = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [desc, setDesc] = useState("");
-  const error = useSelector(state => state.physio.error)
+  const error = useSelector((state) => state.physio.error);
 
   const [physioDetail, setPhysioDetail] = useState(null);
 
@@ -53,7 +53,7 @@ const Physiotherapist = () => {
         isDeleted: false,
       };
       dispatch(editPhysio({ input, token })).unwrap();
-      setPhysioDetail(input)
+      setPhysioDetail(input);
       setOpen(true);
     } catch (err) {
       // eslint-disable-next-line no-empty

@@ -48,7 +48,10 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
     phoneNumber: yup
       .string()
       .required("Vui lòng điền thông tin")
-      .matches(phoneRegExp, "Độ dài là 10 số, không gồm chữ cái và bắt đầu từ số 0"),
+      .matches(
+        phoneRegExp,
+        "Độ dài là 10 số, không gồm chữ cái và bắt đầu từ số 0"
+      ),
     email: yup
       .string()
       .required("Vui lòng điền thông tin")
@@ -84,7 +87,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
       firstName: "",
       email: "",
       phoneNumber: "",
-      address: "",
+      address: "Chưa có",
       dob: "2000-01-01",
       image:
         "https://firebasestorage.googleapis.com/v0/b/healthcaresystem-98b8d.appspot.com/o/icon%2FavatarIcon.png?alt=media&token=790e190a-1559-4272-b4c8-213fbc0d7f89",
@@ -187,7 +190,7 @@ const UserForm = ({ onFormSubmit, isLoading }) => {
                   onChange={onChange}
                   error={!!formErrors?.password}
                   helperText={formErrors?.password?.message}
-                  // required
+                  required
                   inputProps={{ required: false, maxLength: 255 }}
                   label="Mật khẩu"
                   variant="outlined"

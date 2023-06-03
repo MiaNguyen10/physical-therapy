@@ -75,6 +75,28 @@ export const addSubProfile = createAsyncThunk(
   }
 );
 
+export const addMedicalRecord = createAsyncThunk(
+  "subProfile/addSubProfile",
+  async (data) => {
+    const { medicalRecord, token, subProfileID } = data;
+    const response = await fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/MedicalRecord/Create`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...medicalRecord,
+          subProfileID: subProfileID,
+        }),
+      }
+    );
+    return await response.json();
+  }
+);
+
 export const getSubProfileListByID = createAsyncThunk(
   "subProfile/getSubProfileListByID",
   async (data) => {

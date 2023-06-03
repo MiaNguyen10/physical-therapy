@@ -281,13 +281,18 @@ const BookingDetailList = () => {
       ),
       renderCell: (params) => (
         <Typography>
-          {params.row.bookingSchedule.schedule.typeOfSlot.price.toLocaleString(
-            "vi-VN",
-            {
-              style: "currency",
-              currency: "VND",
-            }
-          )}
+          {params.row.paymentMoney
+            ? params.row.paymentMoney.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })
+            : params.row.bookingSchedule.schedule.typeOfSlot.price.toLocaleString(
+                "vi-VN",
+                {
+                  style: "currency",
+                  currency: "VND",
+                }
+              )}
         </Typography>
       ),
     },

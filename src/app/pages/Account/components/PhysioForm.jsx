@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-    Backdrop,
-    Button,
-    CircularProgress,
-    Container,
-    Stack,
-    TextField
+  Backdrop,
+  Button,
+  CircularProgress,
+  Container,
+  Stack,
+  TextField,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -52,10 +52,9 @@ export const makeStyles = () => ({
   },
 });
 
-const PhysioForm = ({physioDetail, onFormSubmit, isLoading, id }) => {
+const PhysioForm = ({ physioDetail, onFormSubmit, isLoading, id }) => {
   const styles = makeStyles();
   const navigate = useNavigate();
-
 
   const schema = yup.object({
     specialize: yup.string().required("Vui lòng điền thông tin"),
@@ -71,8 +70,8 @@ const PhysioForm = ({physioDetail, onFormSubmit, isLoading, id }) => {
     mode: "all",
     resolver: yupResolver(schema),
     defaultValues: {
-      specialize: "",
-      skill: "",
+      specialize: "Chưa có",
+      skill: "Chưa có",
     },
   });
 

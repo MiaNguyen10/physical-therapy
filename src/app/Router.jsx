@@ -71,6 +71,8 @@ const Router = () => {
               path={pages.changePassword}
               element={<ChangePasswordPage />}
             />
+            {/* Slot */}
+            <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
             {/* SubProfile */}
             <Route
               path={`/${pages.subProfileListPath}`}
@@ -162,7 +164,7 @@ const Router = () => {
             {/* Staff */}
             <Route element={<RestrictedPermission permission={"Staff"} />}>
               {/* Slot */}
-              <Route path={`/${pages.slotListPath}`} element={<SlotList />} />
+
               <Route
                 path={`/${pages.addMultipleSlotPath}`}
                 element={<AddMultipleSlots />}
