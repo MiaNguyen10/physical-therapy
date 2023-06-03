@@ -74,6 +74,7 @@ const CategotyList = () => {
     setRefreshKey((oldKey) => oldKey + 1);
     setCategoryId("");
     setOpenDialog(false);
+    setUnique(Math.random());
   };
 
   const rows = useMemo(() => {

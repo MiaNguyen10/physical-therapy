@@ -202,7 +202,7 @@ const SlotList = () => {
       sortable: false,
       renderHeader: (params) => (
         <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
-          {params.colDef.headerName}
+          {auth.role === "Staff" ? params.colDef.headerName : ""}
         </Typography>
       ),
       renderCell: (params) => {
@@ -220,14 +220,16 @@ const SlotList = () => {
                 />
               </IconButton>
             )}
-            <IconButton
-              onClick={() => navigate(`/slot/${params.value}/schedule`)}
-              sx={{ ml: 1, mr: 1 }}
-            >
-              <CalendarMonthIcon
-                sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
-              />
-            </IconButton>
+            {auth.role === "Staff" && (
+              <IconButton
+                onClick={() => navigate(`/slot/${params.value}/schedule`)}
+                sx={{ ml: 1, mr: 1 }}
+              >
+                <CalendarMonthIcon
+                  sx={{ color: "#0C5E96", cursor: "pointer", fontSize: 28 }}
+                />
+              </IconButton>
+            )}
             {auth.role === "Staff" && (
               <IconButton
                 onClick={() => {

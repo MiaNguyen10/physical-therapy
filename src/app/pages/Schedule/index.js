@@ -25,6 +25,7 @@ const Schedule = () => {
   const token = useSelector(selectToken);
   const listTypeOfSlot = useSelector(getList);
   const status = useSelector(getStatus);
+  const [uniqueId, setUniqueId] = useState(-1);
 
   useEffect(() => {
     dispatch(getTypeOfSlotList(token));
@@ -79,7 +80,7 @@ const Schedule = () => {
       );
       setAppointmentList(filterData);
     });
-  }, []);
+  }, [uniqueId]);
 
   const onAppointmentFormOpening = (e) => {
     const filteredListTypeOfSlot = listTypeOfSlot.filter(
@@ -173,8 +174,10 @@ const Schedule = () => {
       description: e.appointmentData.description,
       physioBookingStatus: false,
     };
+    console.log("🚀 ~ file: index.js:176 ~ onAppointmentUpdated ~ input.e.appointmentData:", e.appointmentData)
     try {
       await dispatch(editSchedule({ input, token })).unwrap();
+      setUniqueId(Math.random())
       // Reload the page
       // window.location.reload();
     } catch (err) {
