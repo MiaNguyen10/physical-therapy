@@ -126,9 +126,9 @@ const ExerciseResourceForm = ({
   };
   const handleUploadImage = (data) => {
     let splited = data.name.split(".");
-    let ext = splited[splited.length - 1];
+    // let ext = splited[splited.length - 1];
     const uploadRef = ref(fstorage, `exerciseResource/images/${data.name}`);
-    const uploadTask = uploadBytes(uploadRef, imageObject ?? data);
+    const uploadTask = uploadBytes(uploadRef, data);
     uploadTask.then((snapshot) => {
       if (snapshot) {
         getDownloadURL(snapshot.ref).then((url) => {
@@ -139,6 +139,7 @@ const ExerciseResourceForm = ({
       }
     });
   };
+  
   const onSubmit = (data) => {
     setImageObject(null);
     setVideoObject(null);
