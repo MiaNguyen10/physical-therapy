@@ -174,10 +174,9 @@ const Schedule = () => {
       description: e.appointmentData.description,
       physioBookingStatus: false,
     };
-    console.log("🚀 ~ file: index.js:176 ~ onAppointmentUpdated ~ input.e.appointmentData:", e.appointmentData)
     try {
       await dispatch(editSchedule({ input, token })).unwrap();
-      setUniqueId(Math.random())
+      setUniqueId(Math.random());
       // Reload the page
       // window.location.reload();
     } catch (err) {
