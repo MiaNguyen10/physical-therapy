@@ -16,8 +16,9 @@ const AddExerciseDetail = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [desc, setDesc] = useState("");
+  const [idDetail, setIdDetail] = useState("");
 
-  const handleFormSubmit = ({ detailName, set, description }) => {
+  const handleFormSubmit = async ({ detailName, set, description }) => {
     const excerciseDetail = {
       exerciseID: id,
       detailName: detailName,
@@ -26,7 +27,10 @@ const AddExerciseDetail = () => {
       isDeleted: false,
     };
     try {
-      dispatch(addExerciseDetail({ excerciseDetail, token })).unwrap();
+      const resp = await dispatch(
+        addExerciseDetail({ excerciseDetail, token })
+      ).unwrap();
+      setIdDetail(resp.exerciseDetailID);
       setOpen(true);
     } catch (err) {
       console.log(err);
@@ -44,7 +48,9 @@ const AddExerciseDetail = () => {
   const handleClose = () => {
     if (exerciseDetailStatus === "succeeded") {
       setOpen(false);
-      navigate(`/exercise/${id}/exerciseDetailList`);
+      navigate(
+        `/exercise/${id}/exerciseDetailList/${idDetail}/exerciseResource/add`
+      );
     } else {
       setOpen(false);
       navigate(`/exercise/${id}/exerciseDetailList/add`);
@@ -61,11 +67,7 @@ const AddExerciseDetail = () => {
           isLoading={exerciseDetailStatus === "loading"}
         />
       </Stack>
-      <ConfirmDialog
-        open={open}
-        handleClose={handleClose}
-        desc={desc}
-      />
+      <ConfirmDialog open={open} handleClose={handleClose} desc={desc} />
     </Container>
   );
 };

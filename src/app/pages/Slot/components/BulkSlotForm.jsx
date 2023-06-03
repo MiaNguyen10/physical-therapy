@@ -128,13 +128,11 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
       case "day":
         index = 0;
         for (let s = 0; s < numberOfSlot; s++) {
-          const start = dayjs(dateStart)
-            .add((slotDuration + slotGap) * s, "hours")
-            .add(7, "h");
-          const end = dayjs(start).add(1, "hours");
-          const name = `${data.slotName} (${start.format(
-            "DD/MM/YYYY - HH:mm"
-          )})`;
+          let start = dayjs(dateStart).add((slotDuration + slotGap) * s, "h");
+          let name = `${data.slotName} (${start.format("DD/MM/YYYY - HH:mm")})`;
+          start = start.add(7, "h");
+          let end = dayjs(start).add(1, "h");
+
           listCreate.push({
             index: index,
             slotName: name,
@@ -150,23 +148,22 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
         }
         break;
       case "week":
-        // let numberDate = dateEnd.diff(dateStart) / (1000 * 60 * 60 * 24);
         index = 0;
         for (let d = 0; d < 7; d++) {
           const tmpDate = dateStart.add(d, "days");
           for (let s = 0; s < numberOfSlot; s++) {
-            const start = dayjs(tmpDate)
-              .add((slotDuration + slotGap) * s, "hours")
-              .add(20, "h");
-            const end = dayjs(start).add(1, "hours");
-            const name = `${data.slotName} (${start.format(
+            let start = dayjs(tmpDate).add((slotDuration + slotGap) * s, "h");
+            let name = `${data.slotName} (${start.format(
               "DD/MM/YYYY - HH:mm"
             )})`;
+            start = start.add(7, "h");
+            let end = dayjs(start).add(1, "h");
+
             listCreate.push({
               index: index,
               slotName: name,
-              timeStart: start,
-              timeEnd: end,
+              timeStart: start.toISOString(),
+              timeEnd: end.toISOString(),
               available: true,
               isDeleted: false,
               dateCreated: new Date().toISOString(),
@@ -177,7 +174,7 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
           }
         }
     }
-    console.log(listCreate);
+    // console.log(listCreate);
     onFormSubmit({ listCreate });
   };
 

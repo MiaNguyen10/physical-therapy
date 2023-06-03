@@ -139,7 +139,16 @@ const AddMultipleSlots = () => {
   };
 
   const rows = useMemo(() => {
-    return Array.isArray(viewList) && viewList;
+    return (
+      Array.isArray(viewList) &&
+      viewList.map((i) => {
+        return {
+          ...i,
+          timeStart: dayjs(i.timeStart).subtract(7, "hours").toISOString(),
+          timeEnd: dayjs(i.timeEnd).subtract(7, "hours").toISOString(),
+        };
+      })
+    );
   }, [viewList]);
 
   useEffect(() => {
