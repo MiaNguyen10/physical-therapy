@@ -215,7 +215,7 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
       case "week":
         setDateEnd(
           dateStart
-            .add(1, "week")
+            .add(6, "days")
             .add(
               (numberOfSlot || 0) * (slotDuration + slotGap) - slotGap,
               "hours"
