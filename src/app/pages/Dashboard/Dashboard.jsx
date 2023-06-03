@@ -30,12 +30,9 @@ const labels = [
 ];
 
 const Dashboard = () => {
-  const styles = makeStyles();
+  // const styles = makeStyles();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
-  let slotList = useSelector(getSlots);
-  const userList = useSelector(getUsers);
-  const feedbackList = useSelector(getAllFeedback);
   const statistic = useSelector(getUserStatistic);
   const [reload, setReload] = useState(false);
   const [listLabel, setListLabel] = useState(
@@ -59,10 +56,6 @@ const Dashboard = () => {
   );
 
   const getAllData = async () => {
-    const currentDay = new Date();
-    dispatch(getSlotList(token));
-    dispatch(getUserList(token));
-    dispatch(getFeedbackList(token));
     dispatch(
       fetchUserStatistic({
         start: new Date(new Date().getFullYear(), 1, 1).toISOString(),
@@ -75,10 +68,6 @@ const Dashboard = () => {
   useEffect(() => {
     getAllData();
   }, [reload]);
-
-  useEffect(() => {
-    console.log(slotList, userList, feedbackList, statistic);
-  }, [slotList, userList, feedbackList, statistic]);
 
   return (
     <div className="dashboard-heading">
@@ -232,7 +221,7 @@ const Dashboard = () => {
                     {
                       fill: true,
                       label: "số lượng người dùng",
-                      data: statistic.userDataset.map((u) => u.total),
+                      data: statistic?.userDataset?.map((u) => u?.total),
                       borderColor: "rgb(53, 162, 235)",
                       backgroundColor: "rgba(53, 162, 235, 0.5)",
                     },
@@ -249,7 +238,7 @@ const Dashboard = () => {
                     {
                       fill: true,
                       label: "số lượng booking",
-                      data: statistic.bookingDataset.map((b) => b.total),
+                      data: statistic?.bookingDataset?.map((b) => b?.total),
                       borderColor: "rgb(53, 162, 235)",
                       backgroundColor: "rgba(53, 162, 235, 0.5)",
                     },
