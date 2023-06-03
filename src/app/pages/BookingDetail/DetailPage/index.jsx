@@ -11,8 +11,6 @@ import { getTypeOfSlot } from "app/constant/bookingDetail";
 import { getPaymentStatus } from "app/constant/payment";
 import SectionTitle from "./components/SectionTitle";
 
-const LONG_TEXT_NUMBER = 20;
-
 const scheduleInitState = {
   imageUrl: undefined,
   createDate: undefined,
@@ -157,8 +155,8 @@ export default function DetailPage() {
 
   return (
     <Container fixed sx={{ minHeight: "100vh" }}>
-      <Grid container columnSpacing={2} justifyContent='center'>
-        <Grid xs={7}>
+      <Grid container columnSpacing={2} justifyContent='center' flexWrap='wrap'>
+        <Grid xs={12} sm={6}>
           <Stack
             alignItems='center'
             sx={{
@@ -176,29 +174,31 @@ export default function DetailPage() {
               relationship={detail.patient.relationship}
               isNotOwner={detail.patient.isNotOwner}
             />
-            <Grid container flexWrap='wrap' sx={{ padding: 4 }} rowSpacing={3}>
+            <Grid
+              container
+              flexWrap='wrap'
+              sx={{ padding: 4 }}
+              rowSpacing={3}
+              columnSpacing={2}
+            >
               <InfoField
-                xs={4}
+                xs={12}
                 label='Tình trạng'
                 content={detail.patient.problem}
               />
               <InfoField
-                xs={4}
                 label='Thuốc đang sử dụng'
                 content={detail.patient.medicine}
               />
               <InfoField
-                xs={4}
                 label='Gặp khó khăn'
                 content={detail.patient.difficult}
               />
               <InfoField
-                xs={4}
                 label='Vị trí chấn thương'
                 content={detail.patient.injury}
               />
               <InfoField
-                xs={4}
                 label='P/p chữa bệnh'
                 content={detail.patient.curing}
               />
@@ -206,7 +206,7 @@ export default function DetailPage() {
           </Stack>
         </Grid>
         <Divider orientation='vertical' flexItem absolute />
-        <Grid xs={5}>
+        <Grid xs={12} sm={6}>
           <Stack
             alignItems='center'
             sx={{
@@ -225,7 +225,13 @@ export default function DetailPage() {
               <strong>Email: </strong>
               {detail.schedule.therapist.email}
             </Typography>
-            <Grid container flexWrap='wrap' sx={{ padding: 4 }} rowSpacing={3}>
+            <Grid
+              container
+              flexWrap='wrap'
+              sx={{ padding: 4 }}
+              rowSpacing={3}
+              columnSpacing={2}
+            >
               <InfoField
                 xs={12}
                 width='100%'
@@ -245,14 +251,14 @@ export default function DetailPage() {
                 content={detail.schedule.createDate}
               />
               <InfoField
+                label='Loại trị liệu'
+                content={detail.schedule.typeOfSlot}
+              />
+              <InfoField
                 label='Trạng thái'
                 content={detail.schedule.status.status}
                 textColor={detail.schedule.status.color}
                 sx={{ fontWeight: "bold" }}
-              />
-              <InfoField
-                label='Loại trị liệu'
-                content={detail.schedule.typeOfSlot}
               />
             </Grid>
           </Stack>

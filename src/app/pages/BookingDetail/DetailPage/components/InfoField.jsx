@@ -19,16 +19,25 @@ export default function InfoField({
   borderColor = colors.primary,
   sx = undefined,
   xs = 6,
-  width = "95%",
+  width = "100%",
 }) {
   return (
-    <Grid xs={content.length >= LONG_TEXT_NUMBER ? 12 : xs}>
+    // <Grid xs={content.length >= LONG_TEXT_NUMBER ? 12 : xs}>
+    <Grid xs={xs}>
       <Tooltip title={content} placement='top-start'>
         <FormControl sx={{ width: "100%" }}>
-          <InputLabel htmlFor={content} sx={{ color: `${colors.primary}` }}>
+          <InputLabel
+            htmlFor={content}
+            sx={{
+              color: `${colors.primary}`,
+              fontWeight: "bold",
+            }}
+          >
             {label}
           </InputLabel>
           <OutlinedInput
+            multiline={true}
+            minRows={1}
             disabled
             id={content}
             value={content === "" ? NULL_CONTENT : content}
