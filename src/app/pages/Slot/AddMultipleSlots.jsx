@@ -51,8 +51,7 @@ const AddMultipleSlots = () => {
       ),
       renderCell: (params) => (
         <Typography>
-          {dayjs(params?.value).subtract(7, "h").format("DD-MM-YYYY HH:mm A") ??
-            "-"}
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm A") ?? "-"}
         </Typography>
       ),
     },
@@ -70,8 +69,7 @@ const AddMultipleSlots = () => {
       ),
       renderCell: (params) => (
         <Typography>
-          {dayjs(params?.value).subtract(7, "h").format("DD-MM-YYYY HH:mm A") ??
-            "-"}
+          {dayjs(params?.value).format("DD-MM-YYYY HH:mm A") ?? "-"}
         </Typography>
       ),
     },
