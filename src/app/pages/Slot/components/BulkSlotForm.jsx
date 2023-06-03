@@ -132,7 +132,7 @@ const BulkSlotForm = ({ slotDetail, onFormSubmit, isLoading }) => {
             .add((slotDuration + slotGap) * s, "hours")
             .add(7, "h");
           const end = dayjs(start).add(1, "hours");
-          const name = `${data.slotName} (${start.subtract(7, "h").format(
+          const name = `${data.slotName} (${start.format(
             "DD/MM/YYYY - HH:mm"
           )})`;
           listCreate.push({
