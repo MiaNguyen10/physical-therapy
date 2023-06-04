@@ -1,7 +1,7 @@
 import { styled, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React from "react";
-import homeIllustration from "../../../assets/qrcode.png";
+import homeIllustration from "../../../assets/qrcode_drive.google.com.png";
 import CustomButton from "./CustomButton";
 
 const DownloadApp = () => {
@@ -42,7 +42,12 @@ const DownloadApp = () => {
           <Typography
             sx={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 2 }}
           >
-            - Ứng dụng dành cho chuyên viên và người dùng
+            - Ứng dụng chỉ dành cho chuyên viên và người dùng
+          </Typography>
+          <Typography
+            sx={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 2 }}
+          >
+            - Ứng dụng hỗ trợ đặt lịch hẹn cho người dùng và chuyên viên
           </Typography>
           <Typography
             sx={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 2 }}
@@ -54,9 +59,9 @@ const DownloadApp = () => {
           <CustomButton
             backgroundColor="#fff"
             color="#17275F"
-            buttonText="Nhấn để tải ứng dụng"
+            buttonText="Nhấn vào đây để tải ứng dụng HEH"
             // href={process.env.DOWNLOAD_APP}
-            href="https://drive.google.com/file/d/1SPX55gpP53VjwPBEae723mTUf_UtzzPU/view?usp=sharing"
+            href="https://drive.google.com/file/d/1nNgXYQxk2wT_g_cWEnpb3N8l7TRLCeGi/view?usp=drivesdk"
             getStartedBtn={true}
           />
         </Box>

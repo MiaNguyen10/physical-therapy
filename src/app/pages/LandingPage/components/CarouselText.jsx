@@ -11,6 +11,13 @@ import * as React from "react";
 
 const steps = [
   {
+    label: "Vai trò của vật lý trị liệu",
+    description: `Hỗ trợ giảm đau, giúp người bệnh giảm dần việc dùng thuốc điều trị để tránh các tác động bất lợi cho sức khỏe.
+    Tránh nguy cơ phẫu thuật đau đớn.
+    Cải thiện và phục hồi khả năng vận động sau chấn thương, bại liệt hay sau phẫu thuật, để người bệnh sớm trở lại sinh hoạt bình thường.
+    Thường xuyên thực hiện các phương pháp vật lý trị liệu còn giúp phòng ngừa nhiều vấn đề sức khỏe liên quan đến tuổi tác.`,
+  },
+  {
     label: "Các hình thức vật lý trị liệu",
     description: `Về cơ bản, vật lý trị liệu được phân thành hai loại, đó là vật lý trị liệu chủ động và vật lý trị liệu bị động`,
   },

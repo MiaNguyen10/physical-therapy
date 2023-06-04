@@ -100,7 +100,7 @@ const Company = () => {
             textAlign: "center",
           }}
         >
-          Vật lý trị liệu phục hồi chức năng cùng Physiotherapy Company
+          Vật lý trị liệu phục hồi chức năng cùng Health Care and Healing System
         </Typography>
 
         <CustomBox>
@@ -113,10 +113,10 @@ const Company = () => {
               textAlign: "center",
             }}
           >
-            Physiotherapy là nền tảng ứng dụng cung cấp cho bạn những bài tập
+            Health Care and Healing System (HEH) là nền tảng ứng dụng cung cấp cho bạn những bài tập
             Vật lý trị liệu – Phục hồi chức năng mới nhất, được nhiều bệnh nhân
             trong và ngoài nước tin tưởng tìm đến. Ưu điểm nổi bật khi trải
-            nghiệm Physiotherapy app là
+            nghiệm hệ thống của chúng tôi là
           </Typography>
         </CustomBox>
 
